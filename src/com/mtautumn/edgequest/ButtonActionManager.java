@@ -1,3 +1,7 @@
+/*This class continually checks the buttonActionQueue for new button actions to
+ * run. If there is a new button action in the queue, the action gets executed
+ * according to a switch statement.
+ */
 package com.mtautumn.edgequest;
 
 import java.io.IOException;
@@ -24,40 +28,38 @@ public class ButtonActionManager extends Thread {
 	private void runButtonActions() {
 		int size = dataManager.system.buttonActionQueue.size();
 		if (size > 0) {
-			runButtonAction(dataManager.system.buttonActionQueue.get(size - 1), size - 1);
+			try {
+				runButtonAction(dataManager.system.buttonActionQueue.get(size - 1), size - 1);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
-	private void runButtonAction(int id, int index) {
+	private void runButtonAction(String name, int index) {
 		dataManager.system.buttonActionQueue.remove(index);
-		switch (id) {
-		case 1: //New Game
+		switch (name) {
+		case "newGame": //New Game
 			try {
 				long seed = Long.parseLong(getInputText("Enter a Seed Number:"));
 				dataManager.savable.seed = seed;
-				dataManager.terrainManager.terrainGenerator.clearCache();
-				dataManager.savable.playerStructuresMap.clear();
-				dataManager.savable.map.clear();
-				dataManager.savable.lightMap.clear();
-				dataManager.savable.footPrints.clear();
-				dataManager.system.blockGenerationLastTick = true;
-				dataManager.system.isGameOnLaunchScreen = false;
-				dataManager.system.isLaunchScreenLoaded = false;
+				dataManager.newGame();
 			} catch (Exception e) {
 				setNoticeText("Seeds should be whole numbers");
 			}
 			break;
-		case 2: //load game
+		case "loadGame": //load game
 			try {
 				GameSaves.loadGame(getInputText("Enter a File Name:"), dataManager);
 				dataManager.system.isGameOnLaunchScreen = false;
 				dataManager.system.isLaunchScreenLoaded = false;
+				dataManager.system.blockGenerationLastTick = true;
 			} catch (Exception e) {
 				setNoticeText("Could not load game");
 				e.printStackTrace();
 			}
 			break;
-		case 3:
+		case "setFPS":
 			String ans = getInputText("Enter FPS Target:");
 			try {
 				int fps = Integer.parseInt(ans);
@@ -70,7 +72,7 @@ public class ButtonActionManager extends Thread {
 				setNoticeText("FPS not valid");
 			}
 			break;
-		case 4:
+		case "saveGame":
 			String fileSaveName = getInputText("World Name:");
 			try {
 				GameSaves.saveGame(fileSaveName, dataManager);
@@ -78,37 +80,37 @@ public class ButtonActionManager extends Thread {
 				setNoticeText("Unable to save game");
 			}
 			break;
-		case 5:
-			String fileLoadName = getInputText("World Name:");
-			try {
-				GameSaves.loadGame(fileLoadName, dataManager);
-			} catch (Exception e) {
-				setNoticeText("Unable to load game");
-				e.printStackTrace();
-			}
+		case "graphics":
+			dataManager.system.currentMenu = "Graphics Menu";
 			break;
-		case 6:
+		case "game":
+			dataManager.system.currentMenu = "Game Menu";
+			break;
+		case "fullScreen":
 			dataManager.settings.isFullScreen = !dataManager.settings.isFullScreen;
 			if (dataManager.settings.isFullScreen) {
-				dataManager.menuButtonManager.getButtonFromName("fullScreen").visible = false;
-				dataManager.menuButtonManager.getButtonFromName("windowed").visible = true;
+				dataManager.menuButtonManager.getMenu("Graphics Menu").getButton("fullScreen").displayName = "Windowed";
 			} else {
-				dataManager.menuButtonManager.getButtonFromName("fullScreen").visible = true;
-				dataManager.menuButtonManager.getButtonFromName("windowed").visible = false;
+				dataManager.menuButtonManager.getMenu("Graphics Menu").getButton("fullScreen").displayName = "Full Screen";
 			}
 			break;
-		case 7:
+		case "vSync":
 			dataManager.settings.vSyncOn = !dataManager.settings.vSyncOn;
 			if (dataManager.settings.vSyncOn) {
-				dataManager.menuButtonManager.getButtonFromName("vSyncOn").visible = false;
-				dataManager.menuButtonManager.getButtonFromName("vSyncOff").visible = true;
+				dataManager.menuButtonManager.getMenu("Graphics Menu").getButton("vSync").displayName = "V-Sync Off";
 			} else {
-				dataManager.menuButtonManager.getButtonFromName("vSyncOn").visible = true;
-				dataManager.menuButtonManager.getButtonFromName("vSyncOff").visible = false;
+				dataManager.menuButtonManager.getMenu("Graphics Menu").getButton("vSync").displayName = "V-Sync On";
 			}
 			break;
-		case 8:
+		case "quit":
 			dataManager.system.running = false;
+			break;
+		case "Go To Parent":
+			if (dataManager.menuButtonManager.getCurrentMenu().parent != null) {
+				dataManager.system.currentMenu = dataManager.menuButtonManager.getCurrentMenu().parent;
+			} else {
+				dataManager.system.isKeyboardMenu = false;
+			}
 			break;
 		default:
 			break;

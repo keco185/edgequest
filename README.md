@@ -4,7 +4,6 @@ Edgequest is a rougelike inspired, top down game. The game takes place in a infi
 
 ## Want to See Edgequest in Action?
 Check out the video below for a full tour of Edgequest's features!
-
 [![Edgequest: The Game](https://img.youtube.com/vi/QMs44AQ6m0Q/0.jpg)](https://www.youtube.com/watch?v=QMs44AQ6m0Q)
 
 ## Playing Edgequest

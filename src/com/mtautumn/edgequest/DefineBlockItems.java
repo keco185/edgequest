@@ -1,3 +1,6 @@
+/* Basically creates all of the blocks and items for the game. It also creates
+ * hash maps which can be used to look up a block/item given its id or name
+ */
 package com.mtautumn.edgequest;
 
 import java.util.HashMap;
@@ -23,6 +26,9 @@ public class DefineBlockItems {
 		torchDefinition();
 		lilyPadDefinition();
 		treeDefinition();
+
+		dungeonDefinition();
+		dungeonUpDefinition();
 		dataManager.system.blockIDMap = blockIDMap;
 		dataManager.system.blockNameMap = blockNameMap;
 	}
@@ -83,19 +89,35 @@ public class DefineBlockItems {
 		torch.isLightSource = true;
 		torch.isHot = true;
 		torch.isPassable = true;
+		torch.isSolid = false;
 		addToMaps(torch);
 	}
 	private static void lilyPadDefinition() {
 		BlockItem lilyPad = new BlockItem(101, true, true, "lilyPad", new int[]{0} , new int[]{0});
 		lilyPad.isPassable = true;
+		lilyPad.isSolid = false;
 		addToMaps(lilyPad);
 	}
 	private static void treeDefinition() {
 		BlockItem tree = new BlockItem(102, true, false, "tree", new int[]{0} , null);
+		tree.isSolid = false;
 		addToMaps(tree);
 	}
-	
-	
+	private static void dungeonDefinition() {
+		BlockItem dungeon = new BlockItem(200, true, false, "dungeon", new int[]{0} , null);
+		dungeon.hardness = -1;
+		dungeon.isPassable = true;
+		dungeon.isSolid = false;
+		addToMaps(dungeon);
+	}
+	private static void dungeonUpDefinition() {
+		BlockItem dungeonUp = new BlockItem(201, true, false, "dungeonUp", new int[]{0} , null);
+		dungeonUp.hardness = -1;
+		dungeonUp.isPassable = true;
+		dungeonUp.isSolid = false;
+		addToMaps(dungeonUp);
+	}
+
 	private static void addToMaps(BlockItem blockItem) {
 		blockIDMap.put(blockItem.getID(), blockItem);
 		blockNameMap.put(blockItem.getName(), blockItem);

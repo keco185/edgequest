@@ -3,6 +3,8 @@ package com.mtautumn.edgequest.data;
 import org.lwjgl.input.Keyboard;
 
 public class SettingsData {
+	public final int BACK_BUTTON_SIZE = 64;
+	public final int BACK_BUTTON_PADDING = 12;
 	public int tickLength = 30;
 	public int targetFPS = 60;
 	public int chunkSize = 12;
@@ -13,7 +15,7 @@ public class SettingsData {
 	public boolean isFullScreen = false;
 	public boolean vSyncOn = true;
 	public double moveSpeed = 1.6;
-	
+
 	public int upKey = Keyboard.KEY_UP;
 	public int downKey = Keyboard.KEY_DOWN;
 	public int rightKey = Keyboard.KEY_RIGHT;
@@ -27,4 +29,5 @@ public class SettingsData {
 	public int placeTorchKey = Keyboard.KEY_Q;
 	public int consoleKey = Keyboard.KEY_T;
 	public int exitKey = Keyboard.KEY_ESCAPE;
+	public int actionKey = Keyboard.KEY_RETURN;
 }

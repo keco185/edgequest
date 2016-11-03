@@ -1,3 +1,6 @@
+/* Defines all non-block/item textures. (Such as UI elements)
+ * This must be called by the renderer thread when the game starts
+ */
 package com.mtautumn.edgequest;
 
 import java.util.HashMap;
@@ -15,7 +18,7 @@ public class TextureManager {
 	
 	public TextureManager() {
 		addTexture("backpack");
-		addTexture("character", new int[]{0,1,2,3,4,5,6,7});
+		addTexture("character");
 		addTexture("cursor");
 		addTexture("footsteps");
 		addTexture("footsteps2");
@@ -41,16 +44,17 @@ public class TextureManager {
 		addTexture("inputField");
 		addTexture("blockHealthBar");
 		addTexture("blockHealth");
+		addTexture("back");
+		addTexture("exit");
+		addTexture("hotBar");
+		addTexture("miniMap");
+		addTexture("hotBarSelect");
 	}
 	public Texture getTexture(String texture) {
 			return textureList.get(texture);
 	}
 	public Texture getAnimatedTexture(String texture, DataManager dataManager) {
 		return textureList.get(texture + textureAnimations.get(texture)[dataManager.system.animationClock % textureAnimations.get(texture).length]);
-	}
-
-	public Texture getCharacter(int direction) {
-		return getTexture("character" + direction);
 	}
 	private void addTexture(String name, int[] series) {
 		for(int i = 0; i< series.length; i++) {

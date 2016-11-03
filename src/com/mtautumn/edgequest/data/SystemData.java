@@ -8,6 +8,8 @@ import java.util.Map;
 import com.mtautumn.edgequest.BlockItem;
 
 public class SystemData {
+	public boolean gameLoaded = false;
+	public boolean updateDungeon = false;
 	public boolean showConsole = false;
 	public String consoleText = "";
 	public int miningX = 0;
@@ -18,7 +20,7 @@ public class SystemData {
 	public ArrayList<String> inputText = new ArrayList<String>();
 	public ArrayList<String> inputTextResponse = new ArrayList<String>();
 	public ArrayList<String> noticeText = new ArrayList<String>();
-	public ArrayList<Integer> buttonActionQueue = new ArrayList<Integer>();
+	public ArrayList<String> buttonActionQueue = new ArrayList<String>();
 	public String lastInputMessage = "";
 	public boolean isKeyboardUp = false;
 	public boolean isKeyboardRight = false;
@@ -31,12 +33,15 @@ public class SystemData {
 	public boolean isLaunchScreenLoaded = false;
 	public int animationClock = 0;
 	public String timeReadable = "";
+	public String currentMenu = "Main Menu";
 	public int menuX = 0;
 	public int menuY = 0;
 	public int minTileX = 0;
 	public int maxTileX = 0;
 	public int minTileY = 0;
 	public int maxTileY = 0;
+	public double screenX = 0;
+	public double screenY = 0;
 	public boolean blockGenerationLastTick = true;
 	public boolean characterMoving = false;
 	public int averagedFPS = 0;

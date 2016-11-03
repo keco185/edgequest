@@ -1,12 +1,16 @@
 package com.mtautumn.edgequest.window;
 
 import java.awt.Font;
+import java.awt.FontFormatException;
+import java.io.File;
+import java.io.IOException;
 
 import static org.lwjgl.opengl.GL11.*;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.opengl.Texture;
 
@@ -19,12 +23,10 @@ public class Renderer {
 	public DataManager dataManager;
 	public TextureManager textureManager;
 	public LaunchScreenManager launchScreenManager;
-	Font awtFont = new Font("Arial", Font.BOLD, 12);
-	Font awtFont2 = new Font("Helvetica", Font.PLAIN, 36);
-	Font awtBackpackFont = new Font("Helvetica", Font.BOLD, 12);
 	public TrueTypeFont font;
 	public TrueTypeFont font2;
 	public TrueTypeFont backpackFont;
+	public TrueTypeFont buttonFont;
 
 	public Renderer(DataManager dataManager) {
 		this.dataManager = dataManager;
@@ -73,9 +75,22 @@ public class Renderer {
 		textureManager = new TextureManager();
 		launchScreenManager = new LaunchScreenManager(dataManager);
 		dataManager.menuButtonManager = new MenuButtonManager(dataManager);
+		Font awtFont = new Font("Arial", Font.BOLD, 12);
+		Font awtFont2 = new Font("Helvetica", Font.PLAIN, 36);
+		Font awtBackpackFont = new Font("Helvetica", Font.BOLD, 12);
 		font = new TrueTypeFont(awtFont, false);
 		font2 = new TrueTypeFont(awtFont2, false);
 		backpackFont = new TrueTypeFont(awtBackpackFont, false);
+		try {
+			Font awtButtonFont = Font.createFont(Font.TRUETYPE_FONT, new File("textures/fonts/buttons.otf")).deriveFont(42f);
+			buttonFont = new TrueTypeFont(awtButtonFont, true);
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	private double oldX = 800;
@@ -129,6 +144,7 @@ public class Renderer {
 
 
 	public void fillRect(int x, int y, int width, int height, float r, float g, float b, float a) {
+		Color.white.bind();
 		glColor4f (r,g,b,a);
 		glBegin(GL_QUADS);
 		glVertex2f(x,y);
@@ -139,6 +155,7 @@ public class Renderer {
 	}
 
 	public void drawTexture(Texture texture, float x, float y, float width, float height) {
+		Color.white.bind();
 		texture.bind();
 		float paddingX = texture.getImageWidth();
 		paddingX /= nearestPower2(paddingX);
@@ -156,6 +173,7 @@ public class Renderer {
 		glEnd();
 	}
 	public void drawTexture(Texture texture, float x, float y, float width, float height, float angle) {
+		Color.white.bind();
 		glPushMatrix();
 		float halfWidth = width/2f;
 		float halfHeight = height/2f;
@@ -188,17 +206,17 @@ public class Renderer {
 
 	public double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
-		int charX = (int) Math.floor(dataManager.savable.charX);
-		int charY = (int) Math.floor(dataManager.savable.charY);
-		if (dataManager.savable.map.containsKey(charX + "," + charY)) {
-			blockInfo[0] = dataManager.savable.map.get(charX + "," + charY);
-		}
-		if (dataManager.savable.playerStructuresMap.containsKey(charX + "," + charY)) {
-			blockInfo[1] = dataManager.savable.playerStructuresMap.get(charX + "," + charY);
-		}
-		if (dataManager.savable.lightMap.containsKey(charX + "," + charY)) {
-			blockInfo[3] = dataManager.savable.lightMap.get(charX + "," + charY);
-		}
+		int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
+		int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
+			if (dataManager.world.isGroundBlock(charX, charY)) {
+				blockInfo[0] = dataManager.world.getGroundBlock(charX, charY);
+			}
+			if (dataManager.world.isStructBlock(charX, charY)) {
+				blockInfo[1] = dataManager.world.getStructBlock(charX, charY);
+			}
+			if (dataManager.world.isLight(charX, charY)) {
+				blockInfo[3] = dataManager.world.getLight(charX, charY);
+			}
 		return blockInfo;
 	}
 }

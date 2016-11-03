@@ -1,3 +1,6 @@
+/*This class is used as a datatype that defines what each block/item is.
+ * These BlockItems are created in the DefineBlockItems class
+ */
 package com.mtautumn.edgequest;
 
 import java.io.Serializable;
@@ -32,6 +35,7 @@ public class BlockItem implements Serializable {
 	public String replacedBy = "ground";
 	public boolean isLiquid = false;
 	public boolean isPassable = false;
+	public boolean isSolid = true;
 	public boolean canHavePrints = false;
 	public int blockHeight = 0;
 
@@ -75,7 +79,7 @@ public class BlockItem implements Serializable {
 
 	public boolean isName(String testName) { return testName.equals(name); }
 
-	public boolean isID(Short testID) { return testID == id; }
+	public boolean isID(Short testID) { return testID.equals(id); }
 
 	private static Texture getTexture(String name, String directory) {
 		try {
