@@ -14,13 +14,16 @@ public class TerrainGenerator {
 	Map<String,Double> altNoiseMap = new HashMap<String, Double>();
 	Map<String,Double> tempNoiseMap = new HashMap<String, Double>();
 
-	Map<String,Integer> altitudeMap = new HashMap<String, Integer>();
-	Map<String,Integer> temperatureMap = new HashMap<String, Integer>();
+	Map<String,Double> altitudeMap = new HashMap<String, Double>();
+	Map<String,Double> temperatureMap = new HashMap<String, Double>();
 
-	Map<String,Integer> altitudeMapFiltered = new HashMap<String, Integer>();
-	Map<String,Integer> temperatureMapFiltered = new HashMap<String, Integer>();
+	Map<String,Double> altitudeMapFiltered = new HashMap<String, Double>();
+	Map<String,Double> temperatureMapFiltered = new HashMap<String, Double>();
 	public TerrainGenerator(DataManager dataManager) {
 		this.dataManager = dataManager;
+		altSeedBase = generateSeed(dataManager.savable.seed,1);
+		tempSeedBase = generateSeed(dataManager.savable.seed,22);
+		rngSeedBase = generateSeed(dataManager.savable.seed,413);
 	}
 	public static long generateSeed(long... vals) {
 		long newSeed = vals[0];
@@ -29,6 +32,9 @@ public class TerrainGenerator {
 		}
 		return newSeed;
 	}
+	private long altSeedBase = 0;
+	private long tempSeedBase = 0;
+	private long rngSeedBase = 0;
 	public void clearCache() {
 		altitudeMap.clear();
 		temperatureMap.clear();
@@ -36,22 +42,25 @@ public class TerrainGenerator {
 		temperatureMapFiltered.clear();
 		altNoiseMap.clear();
 		tempNoiseMap.clear();
+		altSeedBase = generateSeed(dataManager.savable.seed,1);
+		tempSeedBase = generateSeed(dataManager.savable.seed,2);
+		rngSeedBase = generateSeed(dataManager.savable.seed,3);
 	}
 	private double getRNG(int x, int y) {
-		return Math.sqrt(new Random(generateSeed(dataManager.savable.seed,x,y,12)).nextDouble() * new Random(generateSeed(dataManager.savable.seed,x,y,11)).nextDouble());
+		return new Random(generateSeed(rngSeedBase,x,y)).nextDouble();
 	}
-	private Double getAltNoise(long x, long y) {
+	private double getAltNoise(long x, long y) {
 		if (!altNoiseMap.containsKey(x + "," + y))
-			altNoiseMap.put(x+","+y, Math.sqrt(new Random(generateSeed(dataManager.savable.seed,x,y,3)).nextDouble() * new Random(generateSeed(dataManager.savable.seed,x,y,4)).nextDouble()));
+			altNoiseMap.put(x+","+y, new Random(generateSeed(altSeedBase,x,y)).nextDouble());
 		return altNoiseMap.get(x + "," + y);
 	}
-	private Double getTempNoise(long x, long y) {
+	private double getTempNoise(long x, long y) {
 		if (!tempNoiseMap.containsKey(x + "," + y))
-			tempNoiseMap.put(x+","+y, Math.sqrt(new Random(generateSeed(dataManager.savable.seed,x,y,7)).nextDouble() * new Random(generateSeed(dataManager.savable.seed,x,y,8)).nextDouble()));
+			tempNoiseMap.put(x+","+y, new Random(generateSeed(tempSeedBase,x,y)).nextDouble());
 		return tempNoiseMap.get(x+","+y);
 	}
-	public int[] getBlockStats(int x, int y) {
-		int[] stats = new int[2];
+	public double[] getBlockStats(int x, int y) {
+		double[] stats = new double[2];
 		if (altitudeMap.containsKey(x + "," + y)) {
 			stats[0] = altitudeMap.get(x + "," + y);
 		}
@@ -68,7 +77,7 @@ public class TerrainGenerator {
 						chunkRNGSum += getAltNoise(chunkX + i, chunkY + j);
 				}
 			}
-			stats[0] = (int) (chunkRNGSum * 10000) + 1;
+			stats[0] = chunkRNGSum + 1;
 			altitudeMap.put(x+","+y, stats[0]);
 		}
 		if (stats[1] == 0) {
@@ -79,18 +88,19 @@ public class TerrainGenerator {
 						chunkRNGSum += getTempNoise(chunkX + i, chunkY + j);
 				}
 			}
-			stats[1] = (int) (chunkRNGSum * 10000) + 1;
+			stats[1] = chunkRNGSum + 1;
 			temperatureMap.put(x+","+y, stats[1]);
 		}
 		return stats;
 	}
 	public void generateBlock(int x, int y) {
-		int averageAltitude = 0;
-		int averageTemperature = 0;
-		for (int i = -8; i<=16; i++) {
-			for (int j = -8; j <= 16; j++) {
-				averageAltitude += getBlockStats(x + i, y + j)[0];
-				averageTemperature += getBlockStats(x + i, y + j)[1];
+		double averageAltitude = 0;
+		double averageTemperature = 0;
+		for (int i = -8; i<=8; i++) {
+			for (int j = -8; j <= 8; j++) {
+				double[] stats = getBlockStats(x + i, y + j);
+				averageAltitude += stats[0];
+				averageTemperature += stats[1];
 			}
 		}
 		altitudeMapFiltered.put(x + "," + y, averageAltitude);
@@ -98,42 +108,42 @@ public class TerrainGenerator {
 		createBlockForStats(x, y);
 	}
 	public void createBlockForStats(int x, int y) {
-		int alt = altitudeMapFiltered.get(x+","+y);
-		int temp = temperatureMapFiltered.get(x+","+y);
-		if (alt < 63000000) {
-			if (temp < 62200000) {
-				if (alt < 61000000) {
+		double alt = altitudeMapFiltered.get(x+","+y); //between 1 and 4097
+		double temp = temperatureMapFiltered.get(x+","+y);
+		if (alt < 3600) {
+			if (temp < 3550) {
+				if (alt < 3500) {
 					dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("water").getID());
 				} else {
 					dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("ice").getID());
 				}
 			} else {
 				dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("water").getID());
-				if (getRNG(x, y) < 0.02) {
+				if (getRNG(x, y) > 0.996) {
 					dataManager.world.ou.setStructBlock(x, y, dataManager.system.blockNameMap.get("lilyPad").getID());
 				}
 			}
-		} else if (alt < 64000000 && temp > 62200000){
+		} else if (alt < 3650 && temp > 3550){
 			dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("sand").getID());
 		} else {
-			if (temp < 62200000) {
+			if (temp < 3550) {
 				dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("snow").getID());
-			} else if (temp > 70000000){
+			} else if (temp > 4180){
 				dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("sand").getID());
-			} else  if (alt < 80000000 ){
+			} else  if (alt < 4290 ){
 				dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("grass").getID());
-				if (getRNG(x, y) < 0.03) {
+				if (getRNG(x, y) < 0.01) {
 					dataManager.world.ou.setStructBlock(x, y, dataManager.system.blockNameMap.get("tree").getID());
 				}
 			} else {
-				if (getRNG(x, y) < 0.75) {
+				if (getRNG(x, y) < 0.9) {
 					dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("stone").getID());
 				} else { 
 					dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("dirt").getID());
 				}
 			}
 
-			if (getRNG(x, y) > 0.98) {
+			if (getRNG(x, y) > 0.999) {
 				dataManager.world.ou.setStructBlock(x, y, dataManager.system.blockNameMap.get("dungeon").getID());
 				dataManager.savable.dungeonMap.put(x + "," + y, new Dungeon(dataManager, ++dataManager.savable.dungeonCount));
 			}
