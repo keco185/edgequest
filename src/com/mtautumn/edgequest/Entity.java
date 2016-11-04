@@ -29,7 +29,7 @@ public class Entity implements Externalizable {
 	public double frameX, frameY;
 	public double moveSpeed = 1.0;
 	private int destinationX, destinationY;
-	private byte rotation;
+	private double rotation;
 	private PathFinder aStar;
 	public ArrayList<IntCoord> path;
 	public DataManager dm;
@@ -60,7 +60,7 @@ public class Entity implements Externalizable {
 	public double getY() {
 		return posY;
 	}
-	public byte getRot() {
+	public double getRot() {
 		return rotation;
 	}
 	public int getID() {
@@ -163,22 +163,25 @@ public class Entity implements Externalizable {
 		return true;
 	}
 	private void updateRotation(double xSpeed, double ySpeed) {
-		if(ySpeed < 0 && xSpeed == 0) {
-			rotation = 0;
-		} else if (ySpeed < 0 && xSpeed < 0) {
-			rotation = 7;
-		} else if (ySpeed < 0 && xSpeed > 0) {
-			rotation = 1;
-		} else if (ySpeed == 0 && xSpeed < 0) {
-			rotation = 6;
-		} else if (ySpeed == 0 && xSpeed > 0) {
-			rotation = 2;
-		} else if (ySpeed > 0 && xSpeed < 0) {
-			rotation = 5;
-		} else if (ySpeed > 0 && xSpeed == 0) {
-			rotation = 4;
-		} else if (ySpeed > 0 && xSpeed > 0) {
-			rotation = 3;
+		double newRotation = Math.atan2(ySpeed, xSpeed);
+		double newRotation2 = (newRotation > 0) ? newRotation - 6.2831853072 : newRotation + 6.2831853072;
+		if (Math.abs(newRotation - rotation) < Math.abs(newRotation2 - rotation)) { //use newRotation
+			if (Math.abs(newRotation - rotation) < 0.3) {
+				rotation = newRotation;
+			} else {
+				rotation += Math.signum(newRotation - rotation) * 0.3;
+			}
+		} else { //use newRotation2
+			if (Math.abs(newRotation2 - rotation) < 0.3) {
+				rotation = newRotation2;
+			} else {
+				rotation += Math.signum(newRotation2 - rotation) * 0.3;
+			}
+		}
+		if (rotation > Math.PI) {
+			rotation -= 6.2831853072;
+		} else if (rotation < -Math.PI) {
+			rotation += 6.2831853072;
 		}
 	}
 	@Override
@@ -192,7 +195,7 @@ public class Entity implements Externalizable {
 		out.writeDouble(moveSpeed);
 		out.writeInt(destinationX);
 		out.writeInt(destinationY);
-		out.writeByte(rotation);
+		out.writeDouble(rotation);
 		out.writeObject(path);
 		
 	}
@@ -208,7 +211,7 @@ public class Entity implements Externalizable {
 		moveSpeed = in.readDouble();
 		destinationX = in.readInt();
 		destinationY = in.readInt();
-		rotation = in.readByte();
+		rotation = in.readDouble();
 		path = (ArrayList<IntCoord>) in.readObject();
 		
 	}

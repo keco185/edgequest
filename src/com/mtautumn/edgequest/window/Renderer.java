@@ -178,7 +178,7 @@ public class Renderer {
 		float halfWidth = width/2f;
 		float halfHeight = height/2f;
 		glTranslatef(x+halfWidth,y+halfHeight, 0);
-		glRotatef( angle, 0, 0, 1 );
+		glRotatef( angle * 57.2958f, 0, 0, 1 );
 		float paddingX = texture.getImageWidth();
 		paddingX /= nearestPower2(paddingX);
 		float paddingY = texture.getImageHeight();

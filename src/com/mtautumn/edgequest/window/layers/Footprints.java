@@ -44,6 +44,6 @@ public class Footprints {
 		int posY = yPos(r, fp);
 		float width = r.dataManager.settings.blockSize / 6f;
 		float length = r.dataManager.settings.blockSize / 3f;
-		r.drawTexture(r.textureManager.getTexture(name), posX - width , posY - length, length, length * 2f, 45f * Float.valueOf(fp.direction));
+		r.drawTexture(r.textureManager.getTexture(name), posX - width , posY - length, length, length * 2f, (float) fp.direction);
 	}
 }

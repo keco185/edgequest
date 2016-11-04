@@ -8,8 +8,8 @@ public class FootPrint implements Serializable {
 	public double posX;
 	public double posY;
 	public double opacity;
-	public int direction;
-	public FootPrint(double posX, double posY, int direction) {
+	public double direction;
+	public FootPrint(double posX, double posY, double direction) {
 		this.posX = posX;
 		this.posY = posY;
 		this.direction = direction;
