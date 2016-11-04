@@ -8,6 +8,7 @@ import java.util.Map;
 import com.mtautumn.edgequest.BlockItem;
 
 public class SystemData {
+	public boolean characterLocationSet = false;
 	public boolean requestScreenUpdate = false;
 	public boolean requestGenUpdate = false;
 	public boolean gameLoaded = false;

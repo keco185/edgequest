@@ -35,6 +35,17 @@ public class CharacterManager extends Thread{
 				if (!dataManager.system.isGameOnLaunchScreen) {
 					characterEntity.update();
 				}
+				if (!dataManager.system.characterLocationSet) {
+					if (dataManager.world.isGroundBlock((int)characterEntity.getX(), (int)characterEntity.getY())) {
+						BlockItem charBlock = dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock((int)characterEntity.getX(), (int)characterEntity.getY()));
+						if (charBlock.isName("water") || charBlock.isName("ice")) {
+							characterEntity.move(2, 0);
+						} else {
+							dataManager.system.characterLocationSet = true;
+							characterEntity.move(0.5, 0.5);
+						}
+					}
+				}
 				Thread.sleep(dataManager.settings.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();

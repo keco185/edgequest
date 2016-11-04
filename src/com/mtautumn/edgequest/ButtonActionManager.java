@@ -44,6 +44,7 @@ public class ButtonActionManager extends Thread {
 				long seed = Long.parseLong(getInputText("Enter a Seed Number:"));
 				dataManager.savable.seed = seed;
 				dataManager.newGame();
+				dataManager.system.characterLocationSet = false;
 			} catch (Exception e) {
 				setNoticeText("Seeds should be whole numbers");
 			}
