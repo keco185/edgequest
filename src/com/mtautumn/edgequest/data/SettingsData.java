@@ -16,15 +16,15 @@ public class SettingsData {
 	public boolean vSyncOn = true;
 	public double moveSpeed = 1.6;
 
-	public int upKey = Keyboard.KEY_UP;
-	public int downKey = Keyboard.KEY_DOWN;
-	public int rightKey = Keyboard.KEY_RIGHT;
-	public int leftKey = Keyboard.KEY_LEFT;
+	public int upKey = Keyboard.KEY_W;
+	public int downKey = Keyboard.KEY_S;
+	public int rightKey = Keyboard.KEY_D;
+	public int leftKey = Keyboard.KEY_A;
 	public int sprintKey = Keyboard.KEY_LSHIFT;
 	public int menuKey = Keyboard.KEY_ESCAPE;
 	public int backpackKey = Keyboard.KEY_E;
-	public int zoomInKey = Keyboard.KEY_W;
-	public int zoomOutKey = Keyboard.KEY_S;
+	public int zoomInKey = Keyboard.KEY_UP;
+	public int zoomOutKey = Keyboard.KEY_DOWN;
 	public int showDiagKey = Keyboard.KEY_SPACE;
 	public int placeTorchKey = Keyboard.KEY_Q;
 	public int consoleKey = Keyboard.KEY_T;
