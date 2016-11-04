@@ -21,11 +21,11 @@ public class CharacterManager extends Thread{
 		if (!dataManager.world.isStructBlock(charX, charY)) {
 			if ((short)getCharaterBlockInfo()[0] != dataManager.system.blockNameMap.get("water").getID()) {
 				dataManager.world.setStructBlock(charX, charY, dataManager.system.blockNameMap.get("torch").getID());
-				blockUpdateManager.lighting.update(charX, charY);
+				blockUpdateManager.updateBlock(charX, charY);
 			}
 		} else if (dataManager.world.getStructBlock(charX, charY) == dataManager.system.blockNameMap.get("torch").getID()) {
 			dataManager.world.removeStructBlock(charX, charY);
-			blockUpdateManager.lighting.update(charX, charY);
+			blockUpdateManager.updateBlock(charX, charY);
 		}
 	}
 	public void run() {
