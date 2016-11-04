@@ -13,7 +13,7 @@ import com.mtautumn.edgequest.ItemSlot;
 public class SavableData implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public int time = 800;
-	public Map<String, Short> map = new HashMap<String, Short>();
+	public Map<String, Short> map = new HashMap<String, Short>(50000);
 	public Map<String, Byte> lightMap = new HashMap<String, Byte>();
 	public Map<String, Short> playerStructuresMap = new HashMap<String, Short>();
 	public Map<String, Dungeon> dungeonMap = new HashMap<String, Dungeon>();
