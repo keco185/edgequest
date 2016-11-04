@@ -34,7 +34,7 @@ public class OptionPane {
 		if (System.currentTimeMillis() / 500 % 2 == 0) {
 			inputFieldText = inputFieldText + "|";
 		}
-		if (r.dataManager.system.os == 2) { //adjusts font location for windows
+		if (r.dataManager.system.os != 1) { //adjusts font location for macOS
 			r.font2.drawString(xPos + 15, yPos + 5, inputFieldText);
 		} else {
 			r.font2.drawString(xPos + 15, yPos + 15, inputFieldText);
