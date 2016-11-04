@@ -17,31 +17,29 @@ public class Terrain {
 		double charY = r.dataManager.system.screenY;
 		boolean bright = r.dataManager.world.getBrightness() > 0;
 		int xPos = (int) ((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
-
+		int yPos = (int)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
+		int yPosReset = yPos;
 		for(int x = minTileX; x <= maxTileX; x++) {
-			int yPos = (int)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
+			yPos = yPosReset;
 			for (int y = minTileY; y <= maxTileY; y++) {
 				if (r.dataManager.world.isLight(x, y) || bright) {
-					if (r.dataManager.world.getLight(x, y) > -128 || bright) {
-						r.drawTexture(getTerrainBlockTexture(r, x, y),xPos, yPos, blockSize, blockSize);
-					}
+					r.drawTexture(getTerrainBlockTexture(r, x, y),xPos, yPos, blockSize, blockSize);
 				}
 				yPos += blockSize;
 			}
 			xPos += blockSize;
 		}
-		xPos = (int) ((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
+		xPos = (int) ((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0) - blockSize / 6;
+		yPosReset = (int)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0) - blockSize / 6;
 		r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
-
+		int block13 = (int) (blockSize * 1.333);
 		for(int x = minTileX; x <= maxTileX; x++) {
-			int yPos = (int)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
+			yPos = yPosReset;
 			for (int y = minTileY; y <= maxTileY; y++) {
 				if (r.dataManager.world.isLight(x, y) || bright) {
-					if (r.dataManager.world.getLight(x, y) > -128 || bright) {
-						if (r.dataManager.world.isStructBlock(x, y)) {
-							if (r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y)).isSolid) {
-								r.fillRect(xPos - blockSize/6, yPos - blockSize/6, (int) (blockSize * 1.333), (int) (blockSize * 1.333), 0.6f, 0.6f, 0.6f, 1.0f);
-							}
+					if (r.dataManager.world.isStructBlock(x, y)) {
+						if (r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y)).isSolid) {
+							r.fillRect(xPos, yPos, block13, block13, 0.6f, 0.6f, 0.6f, 1.0f);
 						}
 					}
 				}
@@ -50,15 +48,13 @@ public class Terrain {
 			xPos += blockSize;
 		}
 		xPos = (int) ((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
-
+		yPosReset = (int)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
 		for(int x = minTileX; x <= maxTileX; x++) {
-			int yPos = (int)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
+			yPos = yPosReset;
 			for (int y = minTileY; y <= maxTileY; y++) {
 				if (r.dataManager.world.isLight(x, y) || bright) {
-					if (r.dataManager.world.getLight(x, y) > -128 || bright) {
-						if (r.dataManager.world.isStructBlock(x, y)) {
-							r.drawTexture(getStructureBlockTexture(r, x, y),xPos, yPos, blockSize, blockSize);
-						}
+					if (r.dataManager.world.isStructBlock(x, y)) {
+						r.drawTexture(getStructureBlockTexture(r, x, y),xPos, yPos, blockSize, blockSize);
 					}
 				}
 				yPos += blockSize;
@@ -76,15 +72,10 @@ public class Terrain {
 		return r.dataManager.system.blockIDMap.get(blockValue).getBlockImg(r.dataManager.savable.time);
 	}
 	private static short getStructureBlockValue(Renderer r, int x, int y) {
-		if (r.dataManager.world.isStructBlock(x, y)) {
-			return r.dataManager.world.getStructBlock(x, y);
-		}
-		return 0;
+		return r.dataManager.world.getStructBlock(x, y);
 	}
 	private static short getTerrainBlockValue(Renderer r, int x, int y) {
-		if (r.dataManager.world.isGroundBlock(x, y)) {
-			return r.dataManager.world.getGroundBlock(x, y);
-		}
-		return 0;
+		return r.dataManager.world.getGroundBlock(x, y);
+
 	}
 }

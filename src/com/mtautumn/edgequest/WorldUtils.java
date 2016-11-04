@@ -27,7 +27,7 @@ public class WorldUtils {
 			du.setStructBlock(x, y, id);
 		else
 			ou.setStructBlock(x, y, id);
-			
+
 	}
 	public short getStructBlock(int x, int y) {
 		if (dm.savable.isInDungeon)
@@ -45,7 +45,7 @@ public class WorldUtils {
 			du.removeStructBlock(x, y);
 		else
 			ou.removeStructBlock(x, y);
-			
+
 	}
 
 	public void setGroundBlock(int x, int y, short id) {
@@ -69,14 +69,17 @@ public class WorldUtils {
 			du.removeGroundBlock(x, y);
 		else
 			ou.removeGroundBlock(x, y);
-			
+
 	}
 
 	public void setLight(int x, int y, byte val) {
-		if (dm.savable.isInDungeon)
-			du.setLight(x, y, val);
-		else
-			ou.setLight(x, y, val);
+		if (val > -127) {
+			if (dm.savable.isInDungeon)
+				du.setLight(x, y, val);
+			else
+				ou.setLight(x, y, val);
+		} else
+			removeLight(x,y);
 	}
 	public byte getLight(int x, int y) {
 		if (dm.savable.isInDungeon)
@@ -93,9 +96,9 @@ public class WorldUtils {
 			du.removeLight(x, y);
 		else
 			ou.removeLight(x, y);
-			
+
 	}
-	
+
 	public double getBrightness() {
 		if (dm.savable.isInDungeon)
 			return 0.0;
