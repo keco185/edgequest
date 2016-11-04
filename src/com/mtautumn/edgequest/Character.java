@@ -47,15 +47,15 @@ public class Character extends Entity {
 				charYOffset *= 0.70710678118;
 			}
 			if (dm.system.isKeyboardSprint) {
-				charXOffset *= 2.0;
-				charYOffset *= 2.0;
+				charXOffset *= 1.5;
+				charYOffset *= 1.5;
 			}
 			if (dm.system.blockIDMap.get((short)dm.characterManager.getCharaterBlockInfo()[0]).isLiquid && dm.characterManager.getCharaterBlockInfo()[1] == 0.0) {
 				charXOffset /= 1.7;
 				charYOffset /= 1.7;
-
 			}
-			super.move(charXOffset, charYOffset);
+			updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
+			super.move(charXOffset / 1.3, charYOffset, super.getRot());
 			dm.system.characterMoving = (charXOffset != 0 || charYOffset != 0);
 		} else {
 			super.update();
@@ -63,6 +63,9 @@ public class Character extends Entity {
 				dm.system.characterMoving = super.path.size() > 0;
 			} else {
 				dm.system.characterMoving = false;
+			}
+			if (!dm.system.characterMoving) {
+				updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
 			}
 		}
 		lastUpdate = System.currentTimeMillis();

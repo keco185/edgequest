@@ -6,6 +6,8 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.util.ArrayList;
 
+import org.newdawn.slick.geom.Vector2f;
+
 import com.mtautumn.edgequest.PathFinder.IntCoord;
 import com.mtautumn.edgequest.data.DataManager;
 
@@ -120,7 +122,19 @@ public class Entity implements Externalizable {
 		if (checkMoveProposal(deltaY, false)) {
 			posY += deltaY;
 		}
-		updateRotation(deltaX, deltaY);
+	}
+	public void move(double deltaX, double deltaY, double rot) {
+		Vector2f moveVec = new Vector2f((float) -deltaY, (float) deltaX);
+		moveVec.add(rot * 57);
+		double dX = moveVec.getX();
+		double dY = moveVec.getY();
+		
+		if (checkMoveProposal(dX, true)) {
+			posX += dX;
+		}
+		if (checkMoveProposal(dY, false)) {
+			posY += dY;
+		}
 	}
 	private boolean approachPoint(IntCoord point, long timeStep) {
 		double ptX = point.x + 0.5;
@@ -162,7 +176,7 @@ public class Entity implements Externalizable {
 		}
 		return true;
 	}
-	private void updateRotation(double xSpeed, double ySpeed) {
+	public void updateRotation(double xSpeed, double ySpeed) {
 		double newRotation = Math.atan2(ySpeed, xSpeed);
 		double newRotation2 = (newRotation > 0) ? newRotation - 6.2831853072 : newRotation + 6.2831853072;
 		if (Math.abs(newRotation - rotation) < Math.abs(newRotation2 - rotation)) { //use newRotation
