@@ -45,6 +45,7 @@ public class DataManager {
 		system.blockGenerationLastTick = true;
 		system.isGameOnLaunchScreen = false;
 		system.isLaunchScreenLoaded = false;
+		system.requestGenUpdate = true;
 	}
 	
 	// Reset the terrain
@@ -59,6 +60,7 @@ public class DataManager {
 			characterManager.characterEntity.setX(savable.dungeonX);
 			characterManager.characterEntity.setY(savable.dungeonY);
 		}
+		system.requestGenUpdate = true;
 	}
 	
 	// Start the managers
@@ -71,6 +73,7 @@ public class DataManager {
 		blockUpdateManager.start();
 		buttonActionManager.start();
 		backpackManager.start();
+		system.requestGenUpdate = true;
 	}
 	
 }

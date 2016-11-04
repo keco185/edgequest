@@ -17,7 +17,8 @@ public class TerrainManager extends Thread {
 		while (dataManager.system.running) {
 			try {
 				if (!dataManager.system.isGameOnLaunchScreen) {
-					if (dataManager.system.blockGenerationLastTick || dataManager.system.characterMoving) {
+					if (dataManager.system.blockGenerationLastTick || dataManager.system.characterMoving || dataManager.system.requestGenUpdate) {
+						dataManager.system.requestGenUpdate = false;
 						blocksPerTick = 0;
 						for(int i = dataManager.system.minTileX - 2; i <= dataManager.system.maxTileX + 1 && blocksPerTick < 1000; i++) {
 							for (int j = dataManager.system.minTileY - 2; j <= dataManager.system.maxTileY + 1; j++) {

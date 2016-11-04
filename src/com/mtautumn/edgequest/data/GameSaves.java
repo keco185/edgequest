@@ -37,6 +37,8 @@ public class GameSaves {
 			}
 		}
 		dataManager.characterManager.characterEntity = (Character) characterEntity;
+		dataManager.system.requestGenUpdate = true;
+		dataManager.system.requestScreenUpdate = true;
 		
 	}
 }

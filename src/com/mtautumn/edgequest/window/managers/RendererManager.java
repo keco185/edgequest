@@ -160,7 +160,8 @@ public class RendererManager extends Thread {
 		wasMouseDown = Mouse.isButtonDown(0);
 	}
 	private void findViewDimensions() {
-		if (dataManager.system.characterMoving || dataManager.system.blockGenerationLastTick) {
+		if (dataManager.system.characterMoving || dataManager.system.blockGenerationLastTick || dataManager.system.requestScreenUpdate) {
+			dataManager.system.requestScreenUpdate = false;
 			double tileWidth = Double.valueOf(dataManager.settings.screenWidth) / dataManager.settings.blockSize / 2.0 + 1;
 			double tileHeight = Double.valueOf(dataManager.settings.screenHeight) / dataManager.settings.blockSize / 2.0 + 1;
 			dataManager.system.minTileX = (int) (dataManager.system.screenX - tileWidth - 1);
