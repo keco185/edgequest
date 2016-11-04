@@ -218,12 +218,6 @@ public class RendererManager extends Thread {
 						dataManager.system.isKeyboardRight = keyRight;
 						dataManager.system.isKeyboardDown = keyDown;
 						dataManager.system.isKeyboardLeft = keyLeft;
-
-						if (keyUp || keyDown || keyLeft || keyRight)
-							dataManager.system.hideMouse = true;
-						else
-							dataManager.system.hideMouse = false;
-
 					} else {
 						if (keyUp || keyDown || keyRight || keyLeft)
 							dataManager.system.autoWalk = false;
