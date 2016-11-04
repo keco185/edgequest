@@ -45,6 +45,7 @@ public class ButtonActionManager extends Thread {
 				dataManager.savable.seed = seed;
 				dataManager.newGame();
 				dataManager.system.characterLocationSet = false;
+				dataManager.system.loadingWorld = true;
 			} catch (Exception e) {
 				setNoticeText("Seeds should be whole numbers");
 			}

@@ -29,6 +29,9 @@ public class TerrainManager extends Thread {
 							}
 						}
 						dataManager.system.blockGenerationLastTick = (blocksPerTick > 0);
+						if (!dataManager.system.blockGenerationLastTick && dataManager.system.loadingWorld) {
+							dataManager.system.loadingWorld = false;
+						}
 					}
 					if (dataManager.system.updateDungeon) {
 						dataManager.system.blockGenerationLastTick = true;
