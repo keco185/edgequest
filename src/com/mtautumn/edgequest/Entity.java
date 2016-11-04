@@ -180,16 +180,16 @@ public class Entity implements Externalizable {
 		double newRotation = Math.atan2(ySpeed, xSpeed);
 		double newRotation2 = (newRotation > 0) ? newRotation - 6.2831853072 : newRotation + 6.2831853072;
 		if (Math.abs(newRotation - rotation) < Math.abs(newRotation2 - rotation)) { //use newRotation
-			if (Math.abs(newRotation - rotation) < 0.3) {
+			if (Math.abs(newRotation - rotation) < 0.5) {
 				rotation = newRotation;
 			} else {
-				rotation += Math.signum(newRotation - rotation) * 0.3;
+				rotation += Math.signum(newRotation - rotation) * 0.5;
 			}
 		} else { //use newRotation2
-			if (Math.abs(newRotation2 - rotation) < 0.3) {
+			if (Math.abs(newRotation2 - rotation) < 0.5) {
 				rotation = newRotation2;
 			} else {
-				rotation += Math.signum(newRotation2 - rotation) * 0.3;
+				rotation += Math.signum(newRotation2 - rotation) * 0.5;
 			}
 		}
 		if (rotation > Math.PI) {
