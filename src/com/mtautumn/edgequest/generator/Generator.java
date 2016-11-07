@@ -51,96 +51,97 @@ public class Generator {
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
 		for (int i = 0; i < currentMaxRooms; i++ ) {
 			this.rooms[i] = new Room(rng.nextInt((int) Math.floor(this.x / 4) + 3), rng.nextInt((int) Math.floor(this.y / 4) + 3), rng.nextInt(this.x), rng.nextInt(this.y));
+			
 			while (this.rooms[i].center.x > this.x || this.rooms[i].center.y > this.y) {
+				
 				this.rooms[i] = new Room(rng.nextInt((int) Math.floor(this.x / 4) + 3), rng.nextInt((int) Math.floor(this.y / 4) + 3), rng.nextInt(this.x), rng.nextInt(this.y));
+			
 			}
+			
 		}
 
 	}
-
-	// Make rooms
-	private void makeRooms() {
-
-
-		for (int i = 0; i < currentMaxRooms; i++ ) {
-			// Get current room
-			Room room = this.rooms[i];
-
-			// Draw it to the map as a 1 (floor)
-			for (int w = 0; w < room.width; w++) {
-
-				for (int h = 0; h < room.height; h++) {
-
-					// Check bounds
-					if ((w + room.xLoc < x) && (h + room.yLoc < y)) {
-
-						this.map[w + room.xLoc][h + room.yLoc] = 1;
-
-					}
-
-				}
-			}
-
+	
+	// Public Methods
+	
+	// Clear the map to a blank state
+	public void clearMap() {
+		this.map = new int[this.x][this.y];
+	}
+	
+	// Print the map as a 2D array
+	// NOTE: The array is rotated 90 degrees to the left in the output
+	public void debugPrintMap() {
+		for (int[] row : this.map) {
+		    System.out.println(Arrays.toString(row));
 		}
-
+	}
+	
+	// Returns a 2D dungeon array
+	public int[][] getNewDungeon() {
+		this.clearMap();
+		this.makeDungeon();
+		this.naturalifyDungeon();
+		return this.map;
 
 	}
-
-	// Make horizontal corridor
-	private void makeHCorridor(Center center1, Center center2) {
-
-		// Different formulas based on which center is at a larger location
-		// Both accomplish the same thing, drawing a horizontal corridor from one location
-		// to another
-		if (center1.x < center2.x) {
-
-			for (int i = 1; i < center2.x - center1.x + 1; i++) {
-				if (center1.x + i < this.x && center1.y < this.y) {
-					this.map[center1.x + i][center1.y] = 1;
-				}
-
-			}
-
-		} else if (center2.x < center1.x) {
-
-			for (int i = 1; i < center1.x - center2.x + 1; i++) {
-				if (center2.x + i < this.x && center2.y < this.y) {
-					this.map[center2.x + i][center2.y] = 1;
-				}
-			}
-
+	
+	// Private methods
+	
+	// Creates staircase to go up and down, centered in a room
+	public void addStairs() {
+		// Randomly pick two rooms
+		int roomUp = rng.nextInt(rooms.length);
+		int roomDown = rng.nextInt(rooms.length);
+		
+		// Make sure room centers are within bounds.
+		while (rooms[roomUp].center.x + 1 > this.x || rooms[roomUp].center.y + 1 > this.y) {
+			roomUp = rng.nextInt(rooms.length);
 		}
-
-
-	}
-
-	// Make vertical corridor
-	private void makeVCorridor(Center center1, Center center2) {
-
-		// Different formulas based on which center is at a larger location
-		// Both accomplish the same thing, drawing a vertical corridor from one location
-		// to another
-		if (center1.y < center2.y) {
-
-			for (int i = 1; i < center2.y - center1.y + 1; i++) {
-				if (center1.x < this.x && center1.y + i < this.y) {
-					this.map[center1.x][center1.y + i] = 1;
-				}
-			}
-
-		} else if (center2.y < center1.y) {
-
-			for (int i = 1; i < center1.y - center2.y + 1; i++) {
-				if (center2.x < this.x && center2.y + i < this.y) {
-					this.map[center2.x][center2.y + i] = 1;
-				}
-
-			}
+		
+		
+		while (roomDown == roomUp || rooms[roomDown].center.x + 1 > this.x || rooms[roomDown].center.y + 1 > this.y) {
+			roomDown = rng.nextInt(rooms.length);
 		}
-
-
+				
+		map[rooms[roomUp].center.x][rooms[roomUp].center.y] = 2;     // Up stair
+		map[rooms[roomDown].center.x][rooms[roomDown].center.y] = 3; // Down stair
+			
 	}
-
+	
+	// Add a noise map based cave to the dungeon
+	private void applyCave() {
+			
+		Cave cave = new Cave();
+		this.map = cave.makeAndApplyCave(this.map, this.seed + (long) this.rng.nextInt(), 0.5f);
+			
+	}
+		
+		
+	// Add 1-2 ponds occasionally to the dungeon
+	private void addPonds() {
+		
+		// Pond count
+		int ponds = rng.nextInt(3) - 1;
+		
+		// Make each pond
+		while (ponds > 0) {
+				
+			// Get random position
+			int x = rng.nextInt(this.map.length);
+			int y = rng.nextInt(this.map[0].length);
+			
+			DrunkardsWalk d = new DrunkardsWalk(this.seed);
+			
+			// Make the pond
+			this.map = d.pondWalk(this.map, x, y);
+				
+			ponds -= 1;
+				
+		}
+		
+	}
+	
 	// Connect all the rooms
 	private void connectRooms() {
 
@@ -171,85 +172,104 @@ public class Generator {
 
 	}
 
-	// Apply caves
-	private void applyCave() {
-		
-		Cave cave = new Cave();
-		this.map = cave.makeAndApplyCave(this.map, this.seed + (long) this.rng.nextInt(), 0.5f);
-		
-	}
-	
-	// Creates staircase to go up and down, centered in a room
-	public void addStairs() {
-		int roomUp = rng.nextInt(rooms.length);
-		int roomDown = rng.nextInt(rooms.length);
-		
-		while (rooms[roomUp].center.x + 1 > this.x || rooms[roomUp].center.y + 1 > this.y) {
-			roomUp = rng.nextInt(rooms.length);
-		}
-		
-		
-		while (roomDown == roomUp || rooms[roomDown].center.x + 1 > this.x || rooms[roomDown].center.y + 1 > this.y) {
-			roomDown = rng.nextInt(rooms.length);
-		}
-		
-		map[rooms[roomUp].center.x][rooms[roomUp].center.y] = 2;
-		map[rooms[roomDown].center.x][rooms[roomDown].center.y] = 3;
-		
-	}
-	
-	private void addPonds() {
-		// NOTE: Lower value when not testing
-		int ponds = rng.nextInt(3) - 1;
-		
-		while (ponds > 0) {
-			
-			int x = rng.nextInt(this.map.length);
-			int y = rng.nextInt(this.map[0].length);
-			
-			DrunkardsWalk d = new DrunkardsWalk(this.seed);
-			
-			this.map = d.pondWalk(this.map, x, y);
-			
-			ponds -= 1;
-			
-		}
-		
-		this.debugPrintMap();
-		
-		
-	}
-
-	// Clear the map to a blank state
-	public void clearMap() {
-		this.map = new int[this.x][this.y];
-	}
-	
-	public void debugPrintMap() {
-		for (int[] row : this.map) {
-		    System.out.println(Arrays.toString(row));
-		}
-	}
-
-	// Make a dungeon
-	public void makeDungeon() {
+	// Make a dungeon with rooms, hallways, and stairs
+	private void makeDungeon() {
 		
 		this.makeRooms();
 		this.connectRooms();
 		this.addStairs();
-	
-		// this.debugPrintMap();
 
 	}
 
-	// Returns a 2d map
-	public int[][] getNewDungeon() {
-		this.clearMap();
-		this.makeDungeon();
+	// Make horizontal corridor
+	private void makeHCorridor(Center center1, Center center2) {
+
+		// Different formulas based on which center is at a larger location
+		// Both accomplish the same thing, drawing a horizontal corridor from one location
+		// to another
+		if (center1.x < center2.x) {
+
+			for (int i = 1; i < center2.x - center1.x + 1; i++) {
+				if (center1.x + i < this.x && center1.y < this.y) {
+					this.map[center1.x + i][center1.y] = 1;
+				}
+
+			}
+
+		} else if (center2.x < center1.x) {
+
+			for (int i = 1; i < center1.x - center2.x + 1; i++) {
+				if (center2.x + i < this.x && center2.y < this.y) {
+					this.map[center2.x + i][center2.y] = 1;
+				}
+				
+			}
+			
+		}
+
+	}
+	
+	// Make rooms
+	private void makeRooms() {
+
+		// Make each room
+		for (int i = 0; i < currentMaxRooms; i++ ) {
+			// Get current room
+			Room room = this.rooms[i];
+
+			// Draw it to the map as a 1 (floor) by iterating over it's x y bounds
+			for (int w = 0; w < room.width; w++) {
+
+				for (int h = 0; h < room.height; h++) {
+
+					// Check bounds
+					if ((w + room.xLoc < x) && (h + room.yLoc < y)) {
+						
+						// Carve room
+						this.map[w + room.xLoc][h + room.yLoc] = 1;
+
+					}
+
+				}
+				
+			}
+
+		}
+
+	}
+
+	// Make vertical corridor
+	private void makeVCorridor(Center center1, Center center2) {
+
+		// Different formulas based on which center is at a larger location
+		// Both accomplish the same thing, drawing a vertical corridor from one location
+		// to another
+		if (center1.y < center2.y) {
+
+			for (int i = 1; i < center2.y - center1.y + 1; i++) {
+				if (center1.x < this.x && center1.y + i < this.y) {
+					this.map[center1.x][center1.y + i] = 1;
+				}
+				
+			}
+
+		} else if (center2.y < center1.y) {
+
+			for (int i = 1; i < center1.y - center2.y + 1; i++) {
+				if (center2.x < this.x && center2.y + i < this.y) {
+					this.map[center2.x][center2.y + i] = 1;
+				}
+
+			}
+			
+		}
+
+	}
+	
+	// Add natural environmental features to the dungeon
+	private void naturalifyDungeon() {
 		this.applyCave();
 		this.addPonds();
-		return this.map;
-
 	}
 
 }

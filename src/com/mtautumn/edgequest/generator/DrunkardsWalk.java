@@ -52,6 +52,8 @@ public class DrunkardsWalk {
 		return walk(map, 2000, 1.0f, -1, 4, x, y);
 	}
 	
+	// Main walk methods
+	
 	// Wrap walk method to randomize inputs
 	public int[][] randomWalk(int[][] map, int passes, float chaosChance) {
 		return walk(map, passes, chaosChance, 0, 1, rng.nextInt(map.length), rng.nextInt(map[0].length));
@@ -60,27 +62,37 @@ public class DrunkardsWalk {
 	// Does most of the heavy lifting
 	public int[][] walk(int[][] map, int passes, float chaosChance, int find, int replace, int x, int y) {
 		
+		// Get bounds of map
 		int xMax = map.length;
 		int yMax = map[0].length;
 		
+		// Get a temp map to make changes to
 		int[][] tempMap = map;
 		
+		// Establish an old dir for chaosChance
 		int[] oldDir = {0, 0};
 		
+		// Iterate an arbitrary number of times
 		for (int i = 0; i < passes; i++) {
 			
+			// Get a new directon
 			int[] dir = changeDirection(chaosChance);
+			
+			// See if we need to change the direction or use the old one
 			if (dir[0] == 0 && dir[1] == 0) {
 				dir = oldDir;
 			} else {
 				oldDir = dir;
 			}
 			
+			// Move
 			x += dir[0];
 			y += dir[1];
 			
+			// Check bounds
 			if (x > xMax-1 || y > yMax-1 || x < 0 || y < 0) {x -= dir[0]; y -= dir[1]; }
 			
+			// Chance map
 			if (find == -1) {
 				tempMap[x][y] = replace;
 			} else if (tempMap[x][y] == find) { 

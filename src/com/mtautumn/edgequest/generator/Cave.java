@@ -19,6 +19,8 @@ public class Cave {
 		
 	}
 	
+	// Private methods
+	
 	// Create a basic 2D map of floats for the cave noise to be applied too
 	private float[][] initCaveMap(int x, int y) {
 		float[][] caveMap = new float[x][y];
