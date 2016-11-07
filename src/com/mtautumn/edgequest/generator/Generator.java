@@ -1,5 +1,6 @@
 package com.mtautumn.edgequest.generator;
 
+import java.util.Arrays;
 import java.util.Random;
 
 // The dungeon generator
@@ -196,10 +197,38 @@ public class Generator {
 		map[rooms[roomDown].center.x][rooms[roomDown].center.y] = 3;
 		
 	}
+	
+	private void addPonds() {
+		// NOTE: Lower value when not testing
+		int ponds = rng.nextInt(3) - 1;
+		
+		while (ponds > 0) {
+			
+			int x = rng.nextInt(this.map.length);
+			int y = rng.nextInt(this.map[0].length);
+			
+			DrunkardsWalk d = new DrunkardsWalk(this.seed);
+			
+			this.map = d.pondWalk(this.map, x, y);
+			
+			ponds -= 1;
+			
+		}
+		
+		this.debugPrintMap();
+		
+		
+	}
 
 	// Clear the map to a blank state
 	public void clearMap() {
 		this.map = new int[this.x][this.y];
+	}
+	
+	public void debugPrintMap() {
+		for (int[] row : this.map) {
+		    System.out.println(Arrays.toString(row));
+		}
 	}
 
 	// Make a dungeon
@@ -207,6 +236,9 @@ public class Generator {
 		
 		this.makeRooms();
 		this.connectRooms();
+		this.addStairs();
+	
+		// this.debugPrintMap();
 
 	}
 
@@ -214,8 +246,8 @@ public class Generator {
 	public int[][] getNewDungeon() {
 		this.clearMap();
 		this.makeDungeon();
-		this.addStairs();
 		this.applyCave();
+		this.addPonds();
 		return this.map;
 
 	}

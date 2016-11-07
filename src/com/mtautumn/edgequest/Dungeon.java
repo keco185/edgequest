@@ -157,6 +157,10 @@ public class Dungeon implements Serializable {
 					case 3:
 						setDownStairs(x, y, blockNameMap);
 						break;
+					case 4:
+						// structureMap.put(x+","+y, blockNameMap.get("ground").getID());
+						groundMap.put(x+","+y, blockNameMap.get("water").getID());
+						break;
 					default:
 						break;
 					}

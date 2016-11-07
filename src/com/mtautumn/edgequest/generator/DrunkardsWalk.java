@@ -20,48 +20,54 @@ public class DrunkardsWalk {
 		this.rng = new Random(seed);
 	}
 	
-	// Walk types
+	// Random walk types
 	
 	public int[][] shortRandomWalk(int[][] map) {
-		return walk(map, shortWalkPasses, 0.0f);
+		return randomWalk(map, shortWalkPasses, 1.0f);
 	}
 	
 	public int[][] longRandomWalk(int[][] map) {
-		return walk(map, longWalkPasses, 0.0f);
+		return randomWalk(map, longWalkPasses, 1.0f);
 	}
 	
 	public int[][] shortSemiDrunkWalk(int[][] map) {
-		return walk(map, shortWalkPasses, 0.5f);
+		return randomWalk(map, shortWalkPasses, 0.5f);
 	}
 	
 	public int[][] longSemiDrunkWalk(int[][] map) {
-		return walk(map, longWalkPasses, 0.5f);
+		return randomWalk(map, longWalkPasses, 0.5f);
 	}
 	
 	public int[][] shortAntWalk(int[][] map) {
-		return walk(map, shortWalkPasses, 0.75f);
+		return randomWalk(map, shortWalkPasses, 0.25f);
 	}
 	
 	public int[][] longAntWalk(int[][] map) {
-		return walk(map, longWalkPasses, 0.75f);
+		return randomWalk(map, longWalkPasses, 0.25f);
 	}
 	
+	// Walk types for environment features
+	
+	public int[][] pondWalk(int[][] map, int x, int y) {
+		return walk(map, 2000, 1.0f, -1, 4, x, y);
+	}
+	
+	// Wrap walk method to randomize inputs
+	public int[][] randomWalk(int[][] map, int passes, float chaosChance) {
+		return walk(map, passes, chaosChance, 0, 1, rng.nextInt(map.length), rng.nextInt(map[0].length));
+	}
 	
 	// Does most of the heavy lifting
-	public int[][] walk(int[][] map, int passes, float chaosChance) {
+	public int[][] walk(int[][] map, int passes, float chaosChance, int find, int replace, int x, int y) {
 		
 		int xMax = map.length;
 		int yMax = map[0].length;
 		
-		// Get starting pos
-		int x = this.rng.nextInt(xMax);
-		int y = this.rng.nextInt(yMax);
+		int[][] tempMap = map;
 		
 		int[] oldDir = {0, 0};
 		
 		for (int i = 0; i < passes; i++) {
-			
-			if (map[x][y] == 0) { map[x][y] = 1; }
 			
 			int[] dir = changeDirection(chaosChance);
 			if (dir[0] == 0 && dir[1] == 0) {
@@ -75,9 +81,15 @@ public class DrunkardsWalk {
 			
 			if (x > xMax-1 || y > yMax-1 || x < 0 || y < 0) {x -= dir[0]; y -= dir[1]; }
 			
+			if (find == -1) {
+				tempMap[x][y] = replace;
+			} else if (tempMap[x][y] == find) { 
+				tempMap[x][y] = replace; 
+			}
+			
 		}
 		
-		return map;
+		return tempMap;
 		
 	}
 	
@@ -88,7 +100,7 @@ public class DrunkardsWalk {
 		int[] i = new int[2];
 		int r = this.rng.nextInt(4);
 		
-		if (this.rng.nextFloat() < chaosChance) {
+		if (this.rng.nextFloat() > chaosChance) {
 			i[0] = 0;
 			i[1] = 0;
 		} else {
