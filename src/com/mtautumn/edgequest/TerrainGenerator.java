@@ -145,7 +145,7 @@ public class TerrainGenerator {
 
 			if (getRNG(x, y) > 0.999) {
 				dataManager.world.ou.setStructBlock(x, y, dataManager.system.blockNameMap.get("dungeon").getID());
-				dataManager.savable.dungeonMap.put(x + "," + y, new Dungeon(dataManager, ++dataManager.savable.dungeonCount));
+				dataManager.savable.dungeonMap.put(x + "," + y, new Dungeon(dataManager, ++dataManager.savable.dungeonCount, x, y));
 			}
 		}
 	}
