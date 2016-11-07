@@ -7,6 +7,7 @@ package com.mtautumn.edgequest;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.generator.Generator;
@@ -17,11 +18,17 @@ public class Dungeon implements Serializable {
 	DungeonLevel[] levels = new DungeonLevel[MAX_LEVEL];
 	private long seed;
 	private long dungeonID;
-	public Dungeon(DataManager dataManager, long dungeonID) { //dungeonID is the nth dungeon created in the map
-		seed = dataManager.savable.seed;
+	public Dungeon(DataManager dataManager, long dungeonID, int dungeonX, int dungeonY) { //dungeonID is the nth dungeon created in the map
+		seed = generateSeed(dataManager.savable.seed, dungeonX, dungeonY);
 		this.dungeonID = dungeonID;
 	}
-
+	private static long generateSeed(long... vals) {
+		long newSeed = vals[0];
+		for (int i = 1; i < vals.length; i++) {
+			newSeed = new Random(newSeed + vals[i]).nextLong();
+		}
+		return newSeed;
+	}
 	public short getGroundBlock(int level, int x, int y) {
 		if (levels[level] == null) {
 			return 0;
@@ -115,11 +122,11 @@ public class Dungeon implements Serializable {
 
 		public DungeonLevel(int depth, long dungeonID, Map<String, BlockItem> blockNameMap, long seed) {
 			this.depth = depth;
-			this.seed = seed;
-			generateLevel(dungeonID, blockNameMap);
+			this.seed = generateSeed(seed, depth);
+			generateLevel(blockNameMap);
 		}
-		private void generateLevel(long dungeonID, Map<String, BlockItem> blockNameMap) {
-			int[][] dungeonMap = new Generator(100, 100, 10, seed * dungeonID * (depth + 1)).getNewDungeon();
+		private void generateLevel(Map<String, BlockItem> blockNameMap) {
+			int[][] dungeonMap = new Generator(100, 100, 10, seed).getNewDungeon();
 			for (int x = -2; x < 102; x+=103) {
 				for (int y = -2; y < 102; y++) {
 					structureMap.put(x+","+y, blockNameMap.get("ground").getID());
@@ -177,6 +184,13 @@ public class Dungeon implements Serializable {
 			stairsDownLocation[0] = x;
 			stairsDownLocation[1] = y;
 			structureMap.put(x+","+y, blockNameMap.get("dungeon").getID());
+		}
+		public long generateSeed(long... vals) {
+			long newSeed = vals[0];
+			for (int i = 1; i < vals.length; i++) {
+				newSeed = new Random(newSeed + vals[i]).nextLong();
+			}
+			return newSeed;
 		}
 	}
 }
