@@ -215,7 +215,7 @@ public class Generator {
 			
 		}
 		
-		this.debugPrintMap();
+		//this.debugPrintMap();
 		
 		
 	}
