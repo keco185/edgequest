@@ -41,24 +41,24 @@ public class DefineBlockItems {
 		addToMaps(noTexture);
 	}
 	private static void grassDefinition() {
-		BlockItem grass = new BlockItem(1, true, true, "grass", new int[]{0} , new int[]{0});
+		BlockItem grass = new BlockItem(1, true, false, "grass", new int[]{0} , new int[]{0});
 		grass.replacedBy = "dirt";
 		addToMaps(grass);
 	}
 	private static void dirtDefinition() {
-		BlockItem dirt = new BlockItem(2, true, true, "dirt", new int[]{0} , new int[]{0});
+		BlockItem dirt = new BlockItem(2, true, false, "dirt", new int[]{0} , new int[]{0});
 		addToMaps(dirt);
 	}
 	private static void stoneDefinition() {
-		BlockItem stone = new BlockItem(3, true, true, "stone", new int[]{0} , new int[]{0});
+		BlockItem stone = new BlockItem(3, true, false, "stone", new int[]{0} , new int[]{0});
 		addToMaps(stone);
 	}
 	private static void sandDefinition() {
-		BlockItem sand = new BlockItem(4, true, true, "sand", new int[]{0} , new int[]{0});
+		BlockItem sand = new BlockItem(4, true, false, "sand", new int[]{0} , new int[]{0});
 		addToMaps(sand);
 	}
 	private static void snowDefinition() {
-		BlockItem snow = new BlockItem(5, true, true, "snow", new int[]{0} , new int[]{0});
+		BlockItem snow = new BlockItem(5, true, false, "snow", new int[]{0} , new int[]{0});
 		snow.canHavePrints = true;
 		snow.melts = true;
 		snow.meltsInto = "grass";
