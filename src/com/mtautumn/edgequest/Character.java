@@ -55,7 +55,8 @@ public class Character extends Entity {
 				charYOffset /= 1.7;
 			}
 			updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
-			super.move(charXOffset / 1.3, charYOffset, super.getRot());
+			//super.move(charXOffset / 1.3, charYOffset, super.getRot());
+			super.move(charXOffset / 1.3, charYOffset);
 			dm.system.characterMoving = (charXOffset != 0 || charYOffset != 0);
 		} else {
 			super.update();
