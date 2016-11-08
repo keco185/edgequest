@@ -8,10 +8,10 @@ public class Lighting {
 	public static void draw(Renderer r) {
 		Color.white.bind();
 		
-		int xPos = xStartPos(r);
+		float xPos = xStartPos(r);
 		for(int x = r.dataManager.system.minTileX; x <= r.dataManager.system.maxTileX; x++) {
 			
-			int yPos = yStartPos(r);
+			float yPos = yStartPos(r);
 			for (int y = r.dataManager.system.minTileY; y <= r.dataManager.system.maxTileY; y++) {
 				
 				if (r.dataManager.world.getBrightness() < 1) {
@@ -41,7 +41,7 @@ public class Lighting {
 		return 0.0;
 	}
 	
-	private static void drawBrightness(Renderer r, int x, int y, int xPos, int yPos) {
+	private static void drawBrightness(Renderer r, int x, int y, float xPos, float yPos) {
 		double brightness = getBrightness(r, x, y);
 		double nightBrightness = (1 - r.dataManager.world.getBrightness()) * brightness + r.dataManager.world.getBrightness();
 		if (r.dataManager.savable.isInDungeon) {

@@ -11,10 +11,13 @@ public class CharacterEffects {
 	}
 
 	private static void drawWaterSplash(Renderer r) {
-		int blockSize =  r.dataManager.settings.blockSize;
+		float blockSize =  r.dataManager.settings.blockSize;
 		if (r.dataManager.system.blockIDMap.get((short)r.getCharaterBlockInfo()[0]).isLiquid && r.getCharaterBlockInfo()[1] == 0.0) {
-			r.drawTexture(r.textureManager.getAnimatedTexture("waterSplash", r.dataManager), (int) ((r.dataManager.settings.screenWidth - blockSize) / 2.0), (int) ((r.dataManager.settings.screenHeight - blockSize) / 2.0), blockSize, blockSize);
+			double posX = r.dataManager.characterManager.characterEntity.frameX;
+			double posY = r.dataManager.characterManager.characterEntity.frameY;
+			double pixelsX = (float) ((posX - (r.dataManager.system.screenX - (Double.valueOf(r.dataManager.settings.screenWidth)/2.0)/blockSize))*blockSize);
+			double pixelsY = (float) ((posY - (r.dataManager.system.screenY - (Double.valueOf(r.dataManager.settings.screenHeight)/2.0)/blockSize))*blockSize);
+			r.drawTexture(r.textureManager.getAnimatedTexture("waterSplash", r.dataManager), (float) (pixelsX - blockSize / 2.0), (float) (pixelsY - blockSize / 2.0), blockSize, blockSize);
 		}
 	}
-
 }

@@ -8,7 +8,7 @@ import com.mtautumn.edgequest.window.Renderer;
 public class Terrain {
 	public static void draw(Renderer r) {
 		Color.white.bind();
-		int blockSize = r.dataManager.settings.blockSize;
+		float blockSize = r.dataManager.settings.blockSize;
 		int minTileX = r.dataManager.system.minTileX;
 		int minTileY = r.dataManager.system.minTileY;
 		int maxTileX = r.dataManager.system.maxTileX;
@@ -16,9 +16,9 @@ public class Terrain {
 		double charX = r.dataManager.system.screenX;
 		double charY = r.dataManager.system.screenY;
 		boolean bright = r.dataManager.world.getBrightness() > 0;
-		int xPos = (int) ((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
-		int yPos = (int)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
-		int yPosReset = yPos;
+		float xPos = (float)((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
+		float yPos = (float)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
+		float yPosReset = yPos;
 		for(int x = minTileX; x <= maxTileX; x++) {
 			yPos = yPosReset;
 			for (int y = minTileY; y <= maxTileY; y++) {
@@ -29,10 +29,10 @@ public class Terrain {
 			}
 			xPos += blockSize;
 		}
-		xPos = (int) ((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0) - blockSize / 6;
-		yPosReset = (int)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0) - blockSize / 6;
+		xPos = (float)((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0) - blockSize / 6;
+		yPosReset = (float)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0) - blockSize / 6;
 		r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
-		int block13 = (int) (blockSize * 1.333);
+		float block13 = blockSize * 1.33333333f;
 		for(int x = minTileX; x <= maxTileX; x++) {
 			yPos = yPosReset;
 			for (int y = minTileY; y <= maxTileY; y++) {
@@ -47,8 +47,8 @@ public class Terrain {
 			}
 			xPos += blockSize;
 		}
-		xPos = (int) ((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
-		yPosReset = (int)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
+		xPos = (float)((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
+		yPosReset = (float)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
 		for(int x = minTileX; x <= maxTileX; x++) {
 			yPos = yPosReset;
 			for (int y = minTileY; y <= maxTileY; y++) {

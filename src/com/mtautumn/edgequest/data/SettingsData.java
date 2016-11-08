@@ -9,7 +9,8 @@ public class SettingsData {
 	public int targetFPS = 60;
 	public int chunkSize = 12;
 	public boolean showDiag = false;
-	public int blockSize = 32;
+	public float blockSize = 32;
+	public float targetBlockSize = 32;
 	public int screenWidth = 800;
 	public int screenHeight = 600;
 	public boolean isFullScreen = false;

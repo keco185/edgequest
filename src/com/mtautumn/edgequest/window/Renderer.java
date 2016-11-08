@@ -143,7 +143,7 @@ public class Renderer {
 	}
 
 
-	public void fillRect(int x, int y, int width, int height, float r, float g, float b, float a) {
+	public void fillRect(float x, float y, float width, float height, float r, float g, float b, float a) {
 		Color.white.bind();
 		glColor4f (r,g,b,a);
 		glBegin(GL_QUADS);

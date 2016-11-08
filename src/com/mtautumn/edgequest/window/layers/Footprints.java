@@ -22,12 +22,12 @@ public class Footprints {
 		}
 	}
 	
-	private static int xPos(Renderer r, FootPrint fp) {
-		return (int)((fp.posX - offsetX(r))*r.dataManager.settings.blockSize);
+	private static float xPos(Renderer r, FootPrint fp) {
+		return (float)((fp.posX - offsetX(r))*r.dataManager.settings.blockSize);
 	}
 	
-	private static int yPos(Renderer r, FootPrint fp) {
-		return (int)((fp.posY - offsetY(r))*r.dataManager.settings.blockSize);
+	private static float yPos(Renderer r, FootPrint fp) {
+		return (float)((fp.posY - offsetY(r))*r.dataManager.settings.blockSize);
 	}
 	
 	private static double offsetX(Renderer r) {
@@ -40,8 +40,8 @@ public class Footprints {
 	
 	
 	private static void drawPrint(Renderer r, FootPrint fp, String name) {
-		int posX = xPos(r, fp);
-		int posY = yPos(r, fp);
+		float posX = xPos(r, fp);
+		float posY = yPos(r, fp);
 		float width = r.dataManager.settings.blockSize / 6f;
 		float length = r.dataManager.settings.blockSize / 3f;
 		r.drawTexture(r.textureManager.getTexture(name), posX - width , posY - length, length * 2f, length, (float) fp.direction);

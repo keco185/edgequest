@@ -84,8 +84,30 @@ public class RendererManager extends Thread {
 		System.exit(0);
 	}
 	private void updateWindow() {
+		updateZoom();
 		findViewDimensions();
 		renderer.drawFrame();
+	}
+	private void updateZoom() {
+		double pixelSize = 1.0 /dataManager.settings.blockSize;
+		double targetPixelSize = 1.0 /dataManager.settings.targetBlockSize;
+		if (pixelSize < targetPixelSize) {
+			if (pixelSize + 0.001 > targetPixelSize) {
+				pixelSize = targetPixelSize;
+			} else {
+				pixelSize += 0.001;
+			}
+			dataManager.settings.blockSize = (float) (1.0/pixelSize);
+			dataManager.system.requestScreenUpdate = true;
+		} else if (pixelSize > targetPixelSize) {
+			if (pixelSize - 0.001 < targetPixelSize) {
+				pixelSize = targetPixelSize;
+			} else {
+				pixelSize -= 0.001;
+			}
+			dataManager.settings.blockSize = (float) (1.0/pixelSize);
+			dataManager.system.requestScreenUpdate = true;
+		}
 	}
 	private void updateAverageFPS(int FPS) {
 		if (FPS / 5.0 > dataManager.system.averagedFPS) FPS = dataManager.system.averagedFPS+1;
@@ -224,14 +246,14 @@ public class RendererManager extends Thread {
 
 					}
 					if (keyZoomIn && !wasKeyDown[dataManager.settings.zoomInKey]) {
-						if (dataManager.settings.blockSize < 128) {
-							dataManager.settings.blockSize *= 2;
+						if (dataManager.settings.targetBlockSize < 128) {
+							dataManager.settings.targetBlockSize *= 2;
 							dataManager.system.blockGenerationLastTick = true;
 						}
 					}
 					if (keyZoomOut && !wasKeyDown[dataManager.settings.zoomOutKey]) {
-						if (dataManager.settings.blockSize > 16) {
-							dataManager.settings.blockSize /= 2;
+						if (dataManager.settings.targetBlockSize > 16) {
+							dataManager.settings.targetBlockSize /= 2;
 							dataManager.system.blockGenerationLastTick = true;
 						}	
 					}
