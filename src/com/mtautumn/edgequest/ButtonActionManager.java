@@ -55,6 +55,8 @@ public class ButtonActionManager extends Thread {
 				GameSaves.loadGame(getInputText("Enter a File Name:"), dataManager);
 				dataManager.system.isGameOnLaunchScreen = false;
 				dataManager.system.isLaunchScreenLoaded = false;
+				dataManager.system.loadingWorld = false;
+				dataManager.system.characterLocationSet = true;
 			} catch (Exception e) {
 				setNoticeText("Could not load game");
 				e.printStackTrace();
