@@ -41,13 +41,13 @@ public class ButtonActionManager extends Thread {
 		switch (name) {
 		case "newGame": //New Game
 			try {
-				long seed = Long.parseLong(getInputText("Enter a Seed Number:"));
-				dataManager.savable.seed = seed;
+				dataManager.savable.saveName = getInputText("Enter Your World Name:");
+				dataManager.savable.seed = dataManager.savable.saveName.hashCode();
 				dataManager.newGame();
 				dataManager.system.characterLocationSet = false;
 				dataManager.system.loadingWorld = true;
 			} catch (Exception e) {
-				setNoticeText("Seeds should be whole numbers");
+				setNoticeText("An Error Has Occured");
 			}
 			break;
 		case "loadGame": //load game
@@ -74,9 +74,9 @@ public class ButtonActionManager extends Thread {
 			}
 			break;
 		case "saveGame":
-			String fileSaveName = getInputText("World Name:");
 			try {
-				GameSaves.saveGame(fileSaveName, dataManager);
+				GameSaves.saveGame(dataManager.savable.saveName, dataManager);
+				setNoticeText("Game Saved!");
 			} catch (IOException e) {
 				setNoticeText("Unable to save game");
 			}
