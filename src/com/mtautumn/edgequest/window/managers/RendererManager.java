@@ -190,6 +190,12 @@ public class RendererManager extends Thread {
 			dataManager.system.maxTileX = (int) (dataManager.system.screenX + tileWidth);
 			dataManager.system.minTileY = (int) (dataManager.system.screenY - tileHeight - 1);
 			dataManager.system.maxTileY = (int) (dataManager.system.screenY + tileHeight);
+			tileWidth = Double.valueOf(dataManager.settings.screenWidth) / 16.0 / 2.0 + 1;
+			tileHeight = Double.valueOf(dataManager.settings.screenHeight) / 16.0 / 2.0 + 1;
+			dataManager.system.minTileXGen = (int) (dataManager.system.screenX - tileWidth - 1);
+			dataManager.system.maxTileXGen = (int) (dataManager.system.screenX + tileWidth);
+			dataManager.system.minTileYGen = (int) (dataManager.system.screenY - tileHeight - 1);
+			dataManager.system.maxTileYGen = (int) (dataManager.system.screenY + tileHeight);
 		}
 	}
 	private static boolean[] wasKeyDown = new boolean[256];

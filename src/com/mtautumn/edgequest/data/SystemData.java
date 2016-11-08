@@ -44,6 +44,10 @@ public class SystemData {
 	public int maxTileX = 0;
 	public int minTileY = 0;
 	public int maxTileY = 0;
+	public int minTileXGen = 0;
+	public int maxTileXGen = 0;
+	public int minTileYGen = 0;
+	public int maxTileYGen = 0;
 	public double screenX = 0;
 	public double screenY = 0;
 	public boolean blockGenerationLastTick = true;

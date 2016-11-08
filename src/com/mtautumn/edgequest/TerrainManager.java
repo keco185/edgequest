@@ -20,8 +20,8 @@ public class TerrainManager extends Thread {
 					if (dataManager.system.blockGenerationLastTick || dataManager.system.characterMoving || dataManager.system.requestGenUpdate) {
 						dataManager.system.requestGenUpdate = false;
 						blocksPerTick = 0;
-						for(int i = dataManager.system.minTileX - 2; i <= dataManager.system.maxTileX + 1 && blocksPerTick < 1000; i++) {
-							for (int j = dataManager.system.minTileY - 2; j <= dataManager.system.maxTileY + 1; j++) {
+						for(int i = dataManager.system.minTileXGen - 2; i <= dataManager.system.maxTileXGen + 1 && blocksPerTick < 1000; i++) {
+							for (int j = dataManager.system.minTileYGen - 2; j <= dataManager.system.maxTileYGen + 1; j++) {
 								if (!dataManager.world.ou.isGroundBlock(i, j)) {
 									terrainGenerator.generateBlock(i, j);
 									blocksPerTick++;

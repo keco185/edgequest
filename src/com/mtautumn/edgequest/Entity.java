@@ -24,6 +24,7 @@ public class Entity implements Externalizable {
 
 	}
 	private int entityID;
+	private float moveRot;
 	private String entityTexture;
 	private EntityType entityType;
 	private String nameTag = "";
@@ -64,6 +65,9 @@ public class Entity implements Externalizable {
 	}
 	public double getRot() {
 		return rotation;
+	}
+	public float getMoveRot() {
+		return moveRot;
 	}
 	public int getID() {
 		return entityID;
@@ -122,6 +126,7 @@ public class Entity implements Externalizable {
 		if (checkMoveProposal(deltaY, false)) {
 			posY += deltaY;
 		}
+		moveRot = (float) Math.atan2(deltaY, deltaX);
 	}
 	public void move(double deltaX, double deltaY, double rot) {
 		Vector2f moveVec = new Vector2f((float) -deltaY, (float) deltaX);
@@ -135,6 +140,7 @@ public class Entity implements Externalizable {
 		if (checkMoveProposal(dY, false)) {
 			posY += dY;
 		}
+		moveRot = (float) rotation;
 	}
 	private boolean approachPoint(IntCoord point, long timeStep) {
 		double ptX = point.x + 0.5;
