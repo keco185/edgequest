@@ -38,6 +38,13 @@ public class BlockItem implements Serializable {
 	public boolean isSolid = true;
 	public boolean canHavePrints = false;
 	public int blockHeight = 0;
+	
+	//Item Specific Attributes
+	public boolean isStackable = true;
+	public int maxDamage = 1;
+	public int damage = 1;
+	public int maxFuel = 1;
+	public int fuel = 1;
 
 	public BlockItem(int id, boolean isBlock, boolean isItem, String name, int[] blockAnimation, int[] itemAnimation) {
 		this.isItem = isItem;

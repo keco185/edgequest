@@ -22,7 +22,8 @@ public class DefineBlockItems {
 		waterDefinition();
 		groundDefinition();
 		iceDefinition();
-
+		lanternDefinition();
+		
 		torchDefinition();
 		lilyPadDefinition();
 		treeDefinition();
@@ -83,6 +84,16 @@ public class DefineBlockItems {
 		ice.meltsInto = "water";
 		ice.replacedBy = "water";
 		addToMaps(ice);
+	}
+	private static void lanternDefinition() {
+		BlockItem lantern = new BlockItem(9, false, true, "lantern", null , new int[]{0,1,2,1});
+		lantern.isLightSource = true;
+		lantern.isHot = true;
+		lantern.isPassable = true;
+		lantern.isSolid = false;
+		lantern.maxFuel = 100;
+		lantern.isStackable = false;
+		addToMaps(lantern);
 	}
 	private static void torchDefinition() {
 		BlockItem torch = new BlockItem(100, true, true, "torch", new int[]{0} , new int[]{0});
