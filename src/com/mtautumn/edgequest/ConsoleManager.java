@@ -137,6 +137,19 @@ public class ConsoleManager {
 			else
 				addLine("To change the current seed, type /reseed <seed>", 1);
 			break;
+		case "give":
+			if (args.size() == 1) {
+				dataManager.backpackManager.addItem(dataManager.system.blockNameMap.get(args.get(0)));
+				addLine("Gave you 1 " + dataManager.system.blockNameMap.get(args.get(0)).getName(), 2);
+			} else if (args.size() == 2) {
+				for (int i = 0; i < Integer.parseInt(args.get(1)); i++) {
+					dataManager.backpackManager.addItem(dataManager.system.blockNameMap.get(args.get(0)));
+				}
+				addLine("Gave you " + Integer.parseInt(args.get(1)) + " " + dataManager.system.blockNameMap.get(args.get(0)).getName(), 2);
+			} else {
+				addLine("use the format /give <item name> [count]", 1);
+			}
+			break;
 		case "help":
 			addLine("Command List: ", 2);
 			Thread.sleep(1);
@@ -149,6 +162,8 @@ public class ConsoleManager {
 			addLine("     (4) /speed [value]", 2);
 			Thread.sleep(1);
 			addLine("     (5) /reseed <seed>", 2);
+			Thread.sleep(1);
+			addLine("     (6) /give <item name> [count]", 2);
 			break;
 		default:
 			addLine("unknown command \"" + cmdName + "\"", 1);
