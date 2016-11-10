@@ -52,7 +52,7 @@ public class BackpackManager extends Thread {
 						dataManager.savable.mouseItem = new ItemSlot();
 						isItemGrabbed = false;
 					} else {
-						if (dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemID().equals(dataManager.savable.mouseItem.getItemID())) {
+						if (dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemID().equals(dataManager.savable.mouseItem.getItemID()) && dataManager.system.blockIDMap.get(dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemID()).isStackable) {
 							if (dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].isSlotFull()) {
 								int slotCount = dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemCount();
 								dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].setItemCount(dataManager.savable.mouseItem.getItemCount());
@@ -73,6 +73,9 @@ public class BackpackManager extends Thread {
 
 					}
 
+				} else {
+					dataManager.savable.mouseItem = new ItemSlot();
+					isItemGrabbed = false;
 				}
 			}
 			wasMouseDown = true;
