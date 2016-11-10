@@ -16,8 +16,8 @@ public class UpdateLighting {
 		this.dataManager = dataManager;
 	}
 	public void update(int x, int y) {
-		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
-			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
+		for (int i = x - lightDiffuseDistance - 1; i <= x + lightDiffuseDistance + 1; i++) {
+			for (int j = y - lightDiffuseDistance - 1; j <= y + lightDiffuseDistance + 1; j++) {
 				updateBlockLighting(i, j);
 			}
 		}
@@ -27,8 +27,8 @@ public class UpdateLighting {
 		bufferedLightMap.clear();
 	}
 	private void lightStructBlocks(int x, int y) {
-		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
-			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
+		for (int i = x - lightDiffuseDistance - 1; i <= x + lightDiffuseDistance + 1; i++) {
+			for (int j = y - lightDiffuseDistance - 1; j <= y + lightDiffuseDistance + 1; j++) {
 				if(isBlockOpaque(i, j)) {
 					double maxBrightness = 0;
 					for( int k = i - 1; k <= i+1; k++) {
@@ -45,13 +45,13 @@ public class UpdateLighting {
 	}
 	private void antialiasLighting(int x, int y) {
 		Map<String, Double> tempMap = new HashMap<String, Double>();
-		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
-			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
+		for (int i = x - lightDiffuseDistance - 1; i <= x + lightDiffuseDistance + 1; i++) {
+			for (int j = y - lightDiffuseDistance - 1; j <= y + lightDiffuseDistance + 1; j++) {
 				tempMap.put(i + "," + j, getAveragedLighting(i,j));
 			}
 		}
-		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
-			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
+		for (int i = x - lightDiffuseDistance - 1; i <= x + lightDiffuseDistance + 1; i++) {
+			for (int j = y - lightDiffuseDistance - 1; j <= y + lightDiffuseDistance + 1; j++) {
 				setBrightness(i,j,(tempMap.get(i + "," + j) + getBlockBrightness(i,j))/2.0);
 			}
 		}
@@ -82,8 +82,8 @@ public class UpdateLighting {
 	}
 	private void updateBlockLighting(int x, int y) {
 		double brightness = 0.0;
-		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
-			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
+		for (int i = x - lightDiffuseDistance -1; i <= x + lightDiffuseDistance + 1; i++) {
+			for (int j = y - lightDiffuseDistance -1; j <= y + lightDiffuseDistance + 1; j++) {
 				if (doesContainLightSource(i,j)) {
 					if (isLineOfSight(i,j,x,y)) {
 						double distance = Math.sqrt(Math.pow(x-i, 2) + Math.pow(y-j, 2));
@@ -166,8 +166,8 @@ public class UpdateLighting {
 		bufferedLightMap.put(x+","+y, (byte)(brightness*255.0-128.0));
 	}
 	private void pushBuffer(int x, int y) {
-		for (int i = x - lightDiffuseDistance; i <= x + lightDiffuseDistance; i++) {
-			for (int j = y - lightDiffuseDistance; j <= y + lightDiffuseDistance; j++) {
+		for (int i = x - lightDiffuseDistance - 1; i <= x + lightDiffuseDistance + 1; i++) {
+			for (int j = y - lightDiffuseDistance - 1; j <= y + lightDiffuseDistance + 1; j++) {
 				if (bufferedLightMap.containsKey(i+","+j)) {
 					dataManager.world.setLight(i,j,bufferedLightMap.get(i+","+j));
 				}
@@ -175,6 +175,11 @@ public class UpdateLighting {
 		}
 	}
 	private boolean doesContainLightSource(int x, int y) {
+		if ((int)Math.floor(dataManager.characterManager.characterEntity.getX()) == x && (int)Math.floor(dataManager.characterManager.characterEntity.getY()) == y) {
+			if (dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[0].getItemID()).isName("lantern") || dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[1].getItemID()).isName("lantern")) {
+				return true;
+			}
+		}
 		if (dataManager.world.isStructBlock(x, y)) {
 			return dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(x, y)).isLightSource;
 		}

@@ -42,6 +42,10 @@ public class BlockUpdateManager extends Thread {
 		}
 		lightingQueue.clear();
 	}
+	private boolean updateCharLighting = true;
+	private boolean didUpdateLighting = false;
+	private int lastCharX = 0;
+	private int lastCharY = 0;
 	public void run() {
 		int i = 0;
 		while (dataManager.system.running) {
@@ -53,6 +57,19 @@ public class BlockUpdateManager extends Thread {
 					blockPlace.update();
 					footprints.update();
 					executeLighting();
+					if (updateCharLighting) {
+						if (lastCharX != (int)Math.floor(dataManager.characterManager.characterEntity.getX()) || lastCharY != (int)Math.floor(dataManager.characterManager.characterEntity.getY()) || !didUpdateLighting) {
+							updateLighting(lastCharX,lastCharY);
+							lastCharX = (int)Math.floor(dataManager.characterManager.characterEntity.getX());
+							lastCharY = (int)Math.floor(dataManager.characterManager.characterEntity.getY());
+							updateLighting(lastCharX,lastCharY);
+						}
+						didUpdateLighting = true;
+					} else if (didUpdateLighting) {
+						didUpdateLighting = false;
+						updateLighting((int)Math.floor(dataManager.characterManager.characterEntity.getX()),(int)Math.floor(dataManager.characterManager.characterEntity.getY()));
+					}
+					updateCharLighting = (dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[0].getItemID()).isName("lantern") || dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[1].getItemID()).isName("lantern"));
 				}
 				Thread.sleep(dataManager.settings.tickLength);
 			} catch (Exception e) {
