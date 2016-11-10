@@ -113,7 +113,7 @@ public class BackpackManager extends Thread {
 		return coords;
 	}
 	public void addItem(BlockItem item) {
-		if (isItemInBackpack(item)) {
+		if (isItemInBackpack(item) && item.isStackable) {
 			boolean foundSpot = false;
 			for(int i = 0; i < dataManager.savable.backpackItems.length && !foundSpot; i++) {
 				for(int j = 0; j < dataManager.savable.backpackItems[i].length && !foundSpot; j++) {
@@ -134,7 +134,7 @@ public class BackpackManager extends Thread {
 							slot.setItem(item.getID());
 							slot.setItemCount(1);
 							foundSpot = true;
-						} else if (slot.getItemID().equals(item.getID()) && !slot.isSlotFull()) {
+						} else if (slot.getItemID().equals(item.getID()) && !slot.isSlotFull() && item.isStackable) {
 							slot.addOne();
 							foundSpot = true;
 						}
@@ -148,7 +148,7 @@ public class BackpackManager extends Thread {
 						slot.setItem(item.getID());
 						slot.setItemCount(1);
 						foundSpot = true;
-					} else if (slot.getItemID().equals(item.getID()) && !slot.isSlotFull()) {
+					} else if (slot.getItemID().equals(item.getID()) && !slot.isSlotFull() && item.isStackable) {
 						slot.addOne();
 						foundSpot = true;
 					}

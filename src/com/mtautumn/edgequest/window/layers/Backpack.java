@@ -29,7 +29,7 @@ public class Backpack {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				if (r.dataManager.savable.backpackItems[i][j].getItemCount() != 0) {
+				if (r.dataManager.savable.backpackItems[i][j].getItemCount() > 1) {
 					r.backpackFont.drawString(posX, posY, "" + r.dataManager.savable.backpackItems[i][j].getItemCount(), Color.black);
 				}
 			}
