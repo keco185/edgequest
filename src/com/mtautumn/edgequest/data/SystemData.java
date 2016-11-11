@@ -35,6 +35,7 @@ public class SystemData {
 	public boolean isKeyboardBackpack = false;
 	public boolean isGameOnLaunchScreen = true;
 	public boolean isLaunchScreenLoaded = false;
+	public boolean isKeyboardTravel = false;
 	public int animationClock = 0;
 	public String timeReadable = "";
 	public String currentMenu = "Main Menu";

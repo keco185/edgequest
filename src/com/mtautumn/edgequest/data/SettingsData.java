@@ -22,6 +22,7 @@ public class SettingsData {
 	public int rightKey = Keyboard.KEY_D;
 	public int leftKey = Keyboard.KEY_A;
 	public int sprintKey = Keyboard.KEY_LSHIFT;
+	public int travelKey = Keyboard.KEY_TAB;
 	public int menuKey = Keyboard.KEY_ESCAPE;
 	public int backpackKey = Keyboard.KEY_E;
 	public int zoomInKey = Keyboard.KEY_UP;

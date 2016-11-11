@@ -172,7 +172,7 @@ public class RendererManager extends Thread {
 					dataManager.menuButtonManager.buttonPressed(mouseX, mouseY);
 				} else if (dataManager.system.isGameOnLaunchScreen) {
 					renderer.launchScreenManager.buttonPressed(mouseX, mouseY);
-				} else if (dataManager.system.isKeyboardSprint && !dataManager.system.hideMouse){
+				} else if (dataManager.system.isKeyboardTravel && !dataManager.system.hideMouse){
 					dataManager.system.autoWalkX = dataManager.system.mouseX;
 					dataManager.system.autoWalkY = dataManager.system.mouseY;
 					dataManager.characterManager.characterEntity.setDestination(dataManager.system.autoWalkX, dataManager.system.autoWalkY);
@@ -212,6 +212,7 @@ public class RendererManager extends Thread {
 					boolean keyLeft = Keyboard.isKeyDown(dataManager.settings.leftKey);
 					boolean keyRight = Keyboard.isKeyDown(dataManager.settings.rightKey);
 					boolean keySprint = Keyboard.isKeyDown(dataManager.settings.sprintKey);
+					boolean keyTravel = Keyboard.isKeyDown(dataManager.settings.travelKey);
 					boolean keyMenu = Keyboard.isKeyDown(dataManager.settings.menuKey);
 					boolean keyBackpack = Keyboard.isKeyDown(dataManager.settings.backpackKey);
 					boolean keyZoomIn = Keyboard.isKeyDown(dataManager.settings.zoomInKey);
@@ -221,6 +222,7 @@ public class RendererManager extends Thread {
 					boolean keyConsole = Keyboard.isKeyDown(dataManager.settings.consoleKey);
 					boolean keyAction = Keyboard.isKeyDown(dataManager.settings.actionKey);
 					dataManager.system.isKeyboardSprint = keySprint;
+					dataManager.system.isKeyboardTravel = keyTravel;
 					
 					if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
 						dataManager.savable.hotBarSelection = 0;
