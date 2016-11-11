@@ -39,7 +39,7 @@ public class CharacterManager extends Thread{
 					if (dataManager.world.isGroundBlock((int)characterEntity.getX(), (int)characterEntity.getY())) {
 						BlockItem charBlock = dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock((int)characterEntity.getX(), (int)characterEntity.getY()));
 						if (charBlock.isName("water") || charBlock.isName("ice")) {
-							characterEntity.move(2, 0);
+							characterEntity.setPos(characterEntity.getX()+1, characterEntity.getY());
 						} else {
 							dataManager.system.characterLocationSet = true;
 							characterEntity.move(0.5, 0.5);

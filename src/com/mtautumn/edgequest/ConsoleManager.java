@@ -105,8 +105,7 @@ public class ConsoleManager {
 			break;
 		case "tp":
 			if (args.size() == 2) {
-				dataManager.characterManager.characterEntity.setX(Double.parseDouble(args.get(0)));
-				dataManager.characterManager.characterEntity.setY(Double.parseDouble(args.get(1)));
+				dataManager.characterManager.characterEntity.setPos(Double.parseDouble(args.get(0)),Double.parseDouble(args.get(1)));
 				dataManager.system.characterMoving = true;
 				dataManager.system.requestGenUpdate = true;
 				dataManager.system.requestScreenUpdate = true;

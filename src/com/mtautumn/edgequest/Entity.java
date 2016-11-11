@@ -105,11 +105,14 @@ public class Entity implements Externalizable {
 	public boolean hasNameTag() {
 		return !nameTag.equals("");
 	}
-
 	public void setX(double x) {
 		posX = x;
 	}
 	public void setY(double y) {
+		posY = y;
+	}
+	public void setPos(double x, double y) {
+		posX = x;
 		posY = y;
 	}
 	public void setRot(byte rot) {
