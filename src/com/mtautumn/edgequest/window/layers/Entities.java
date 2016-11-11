@@ -10,7 +10,7 @@ public class Entities {
 		Color.white.bind();
 		for( int i = 0; i < r.dataManager.savable.entities.size(); i++) {
 			Entity entity = r.dataManager.savable.entities.get(i);
-			drawEntity(entity.getTextureName(), entity.frameX, entity.frameY, entity.getRot(), r);
+			drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r);
 		}
 	}
 	private static void drawEntity(String texture, double posX, double posY, double rotation, Renderer r) {

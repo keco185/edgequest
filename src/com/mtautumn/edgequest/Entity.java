@@ -39,7 +39,20 @@ public class Entity implements Externalizable {
 	private long lastUpdate;
 	public boolean slide = false;
 	private double lastSpeedX, lastSpeedY;
+	public int[] stillAnimation = new int[]{0};
+	public int[] walkAnimation = new int[]{0};
+	public double lastPosX = 0;
+	public double lastPosY = 0;
+	public long lastPosUpdateTime = System.currentTimeMillis();
 
+	public String getTexture() {
+		if (lastPosX != posX || lastPosY != posY) {
+			lastPosX = posX;
+			lastPosY = posY;
+			return entityTexture + "walk" + walkAnimation[dm.system.animationClock % walkAnimation.length];
+		}
+		return entityTexture + "still" + stillAnimation[dm.system.animationClock % walkAnimation.length];
+	}
 	public Entity(String texture, EntityType type, DataManager dm) {
 		this.entityID = dm.savable.entityID++;
 		this.entityTexture = texture;
