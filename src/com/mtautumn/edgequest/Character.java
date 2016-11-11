@@ -13,9 +13,11 @@ public class Character extends Entity {
 	public Character(double posX, double posY, byte rotation, DataManager dm) {
 		super("character",EntityType.character, posX, posY, rotation, dm);
 		lastUpdate = System.currentTimeMillis();
+		super.slide = true;
 	}
 	public Character() {
 		super();
+		super.slide = true;
 	}
 	public void update() {
 		if (super.dm.system.isKeyboardSprint) super.moveSpeed = super.dm.settings.moveSpeed * 2.0;
@@ -54,20 +56,35 @@ public class Character extends Entity {
 				charXOffset /= 1.7;
 				charYOffset /= 1.7;
 			}
-			updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
-			//super.move(charXOffset / 1.3, charYOffset, super.getRot());
-			super.move(charXOffset / 1.3, charYOffset);
+			if (super.dm.system.rightMouseDown) {
+				updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
+				charXOffset /= 1.5;
+				charYOffset /= 1.5;
+				super.move(charXOffset, charYOffset);
+			} else {
+				 if (charXOffset != 0.0 || charYOffset != 0.0) {
+					 updateRotation(charXOffset, charYOffset);
+				 }
+				super.move(0,-Math.sqrt(Math.pow(charXOffset,2) + Math.pow(charYOffset, 2)), super.getRot());
+			}
+			
 			dm.system.characterMoving = (charXOffset != 0 || charYOffset != 0);
 		} else {
 			super.update();
 			if (super.path != null) {
 				dm.system.characterMoving = super.path.size() > 0;
+				if (super.path.size() == 0) {
+					super.move(0, 0);
+				}
 			} else {
 				dm.system.characterMoving = false;
+				super.move(0, 0);
 			}
 			if (!dm.system.characterMoving) {
-				updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
-			}
+				if (super.dm.system.rightMouseDown) {
+					updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
+				}
+				}
 		}
 		lastUpdate = System.currentTimeMillis();
 	}

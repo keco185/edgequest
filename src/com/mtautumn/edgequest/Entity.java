@@ -37,12 +37,17 @@ public class Entity implements Externalizable {
 	public ArrayList<IntCoord> path;
 	public DataManager dm;
 	private long lastUpdate;
+	public boolean slide = false;
+	private double lastSpeedX, lastSpeedY;
 	
 	public Entity(String texture, EntityType type, DataManager dm) {
 		this.entityID = dm.savable.entityID++;
 		this.entityTexture = texture;
 		this.entityType = type;
 		this.dm = dm;
+		if (type == EntityType.character) {
+			moveSpeed = dm.settings.moveSpeed;
+		}
 	}
 	public Entity(String texture, EntityType type, double posX, double posY, byte rotation, DataManager dm) {
 		this.entityID = dm.savable.entityID++;
@@ -52,6 +57,9 @@ public class Entity implements Externalizable {
 		this.posY = posY;
 		this.rotation = rotation;
 		this.dm = dm;
+		if (type == EntityType.character) {
+			moveSpeed = dm.settings.moveSpeed;
+		}
 	}
 	public Entity() {
 		
@@ -120,6 +128,18 @@ public class Entity implements Externalizable {
 		lastUpdate = System.currentTimeMillis();
 	}
 	public void move(double deltaX, double deltaY) {
+		if (slide) {
+			if (Math.abs(deltaX - lastSpeedX) < 0.012) {
+			} else {
+				deltaX = lastSpeedX + Math.signum(deltaX - lastSpeedX) * 0.012;
+			}
+			if (Math.abs(deltaY - lastSpeedY) < 0.012) {
+			} else {
+				deltaY = lastSpeedY + Math.signum(deltaY - lastSpeedY) * 0.012;
+			}
+			lastSpeedX = deltaX;
+			lastSpeedY = deltaY;
+		}
 		if (checkMoveProposal(deltaX, true)) {
 			posX += deltaX;
 		}
@@ -133,7 +153,18 @@ public class Entity implements Externalizable {
 		moveVec.add(rot * 57);
 		double dX = moveVec.getX();
 		double dY = moveVec.getY();
-		
+		if (slide) {
+			if (Math.abs(dX - lastSpeedX) < 0.012) {
+			} else {
+				dX = lastSpeedX + Math.signum(dX - lastSpeedX) * 0.012;
+			}
+			if (Math.abs(dY - lastSpeedY) < 0.012) {
+			} else {
+				dY = lastSpeedY + Math.signum(dY - lastSpeedY) * 0.012;
+			}
+			lastSpeedX = dX;
+			lastSpeedY = dY;
+		}
 		if (checkMoveProposal(dX, true)) {
 			posX += dX;
 		}
@@ -186,16 +217,16 @@ public class Entity implements Externalizable {
 		double newRotation = Math.atan2(ySpeed, xSpeed);
 		double newRotation2 = (newRotation > 0) ? newRotation - 6.2831853072 : newRotation + 6.2831853072;
 		if (Math.abs(newRotation - rotation) < Math.abs(newRotation2 - rotation)) { //use newRotation
-			if (Math.abs(newRotation - rotation) < 0.5) {
+			if (Math.abs(newRotation - rotation) < 0.2) {
 				rotation = newRotation;
 			} else {
-				rotation += Math.signum(newRotation - rotation) * 0.5;
+				rotation += Math.signum(newRotation - rotation) * 0.2;
 			}
 		} else { //use newRotation2
-			if (Math.abs(newRotation2 - rotation) < 0.5) {
+			if (Math.abs(newRotation2 - rotation) < 0.2) {
 				rotation = newRotation2;
 			} else {
-				rotation += Math.signum(newRotation2 - rotation) * 0.5;
+				rotation += Math.signum(newRotation2 - rotation) * 0.2;
 			}
 		}
 		if (rotation > Math.PI) {
@@ -233,6 +264,9 @@ public class Entity implements Externalizable {
 		destinationY = in.readInt();
 		rotation = in.readDouble();
 		path = (ArrayList<IntCoord>) in.readObject();
+		if (entityType == EntityType.character) {
+			moveSpeed = dm.settings.moveSpeed;
+		}
 		
 	}
 	public void initializeClass(DataManager dm) {

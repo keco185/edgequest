@@ -10,17 +10,21 @@ public class UpdateBlockPlace {
 		this.dataManager = dataManager;
 	}
 	private boolean wasMouseDown = false;
-	private boolean wasRightMouseDown = false;
+	private boolean wasStructBlock = false;
 	public void update() {
+		if (dataManager.system.leftMouseDown && !wasMouseDown || dataManager.system.miningX != dataManager.system.mouseX || dataManager.system.miningY != dataManager.system.mouseY) {
+			wasStructBlock = dataManager.world.isStructBlock(dataManager.system.mouseX, dataManager.system.mouseY);
+		}
 		if (!dataManager.system.isKeyboardBackpack && !dataManager.system.isKeyboardMenu) {
-			if (dataManager.system.leftMouseDown && !wasMouseDown && !dataManager.system.isMouseFar && dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[0].getItemID()).getIsBlock()) {
-				placeBlock(dataManager.system.mouseX, dataManager.system.mouseY, 0);
-			} else if (dataManager.system.rightMouseDown && !wasRightMouseDown && !dataManager.system.isMouseFar && dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[1].getItemID()).getIsBlock()) {
-				placeBlock(dataManager.system.mouseX, dataManager.system.mouseY, 1);
+			if (!dataManager.system.leftMouseDown && wasMouseDown && !dataManager.system.rightMouseDown && !dataManager.system.isMouseFar && !wasStructBlock) {
+				if (dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[0].getItemID()).getIsBlock() && dataManager.backpackManager.getCurrentSelection()[0].getItemID() > 0) {
+					placeBlock(dataManager.system.mouseX, dataManager.system.mouseY, 0);
+				} else if (dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[1].getItemID()).getIsBlock()) {
+					placeBlock(dataManager.system.mouseX, dataManager.system.mouseY, 1);
+				}
 			}
 		}
 		wasMouseDown = dataManager.system.leftMouseDown;
-		wasRightMouseDown = dataManager.system.rightMouseDown;
 	}
 	private void placeBlock(int x, int y, int click) {
 		if (!dataManager.world.isStructBlock(x, y) && dataManager.savable.backpackItems[click][dataManager.savable.hotBarSelection].getItemCount() > 0) {
