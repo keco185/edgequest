@@ -65,7 +65,7 @@ public class Character extends Entity {
 				 if (charXOffset != 0.0 || charYOffset != 0.0) {
 					 updateRotation(charXOffset, charYOffset);
 				 }
-				super.move(0,-Math.sqrt(Math.pow(charXOffset,2) + Math.pow(charYOffset, 2)), super.getRot());
+				 super.move(charXOffset, charYOffset);
 			}
 			
 			dm.system.characterMoving = (charXOffset != 0 || charYOffset != 0);

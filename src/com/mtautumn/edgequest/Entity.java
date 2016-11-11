@@ -131,11 +131,11 @@ public class Entity implements Externalizable {
 		if (slide) {
 			if (Math.abs(deltaX - lastSpeedX) < 0.012) {
 			} else {
-				deltaX = lastSpeedX + Math.signum(deltaX - lastSpeedX) * 0.012;
+				deltaX = lastSpeedX + Math.signum(deltaX - lastSpeedX) * Math.abs(deltaX - lastSpeedX) / 10.0;
 			}
 			if (Math.abs(deltaY - lastSpeedY) < 0.012) {
 			} else {
-				deltaY = lastSpeedY + Math.signum(deltaY - lastSpeedY) * 0.012;
+				deltaY = lastSpeedY + Math.signum(deltaY - lastSpeedY) * Math.abs(deltaY - lastSpeedY) / 10.0;
 			}
 			lastSpeedX = deltaX;
 			lastSpeedY = deltaY;
@@ -156,11 +156,11 @@ public class Entity implements Externalizable {
 		if (slide) {
 			if (Math.abs(dX - lastSpeedX) < 0.012) {
 			} else {
-				dX = lastSpeedX + Math.signum(dX - lastSpeedX) * 0.012;
+				dX = lastSpeedX + Math.signum(dX - lastSpeedX) * Math.abs(dX - lastSpeedX) / 10.0;
 			}
 			if (Math.abs(dY - lastSpeedY) < 0.012) {
 			} else {
-				dY = lastSpeedY + Math.signum(dY - lastSpeedY) * 0.012;
+				dY = lastSpeedY + Math.signum(dY - lastSpeedY) * Math.abs(dY - lastSpeedY) / 10.0;
 			}
 			lastSpeedX = dX;
 			lastSpeedY = dY;
@@ -220,13 +220,13 @@ public class Entity implements Externalizable {
 			if (Math.abs(newRotation - rotation) < 0.2) {
 				rotation = newRotation;
 			} else {
-				rotation += Math.signum(newRotation - rotation) * 0.2;
+				rotation += Math.signum(newRotation - rotation) * Math.abs(newRotation - rotation) / 3.0;
 			}
 		} else { //use newRotation2
 			if (Math.abs(newRotation2 - rotation) < 0.2) {
 				rotation = newRotation2;
 			} else {
-				rotation += Math.signum(newRotation2 - rotation) * 0.2;
+				rotation += Math.signum(newRotation2 - rotation) * Math.abs(newRotation2 - rotation) / 3.0;
 			}
 		}
 		if (rotation > Math.PI) {
