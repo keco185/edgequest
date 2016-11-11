@@ -39,7 +39,7 @@ public class Entity implements Externalizable {
 	private long lastUpdate;
 	public boolean slide = false;
 	private double lastSpeedX, lastSpeedY;
-	
+
 	public Entity(String texture, EntityType type, DataManager dm) {
 		this.entityID = dm.savable.entityID++;
 		this.entityTexture = texture;
@@ -62,9 +62,9 @@ public class Entity implements Externalizable {
 		}
 	}
 	public Entity() {
-		
+
 	}
-	
+
 	public double getX() {
 		return posX;
 	}
@@ -92,7 +92,7 @@ public class Entity implements Externalizable {
 	public boolean hasNameTag() {
 		return !nameTag.equals("");
 	}
-	
+
 	public void setX(double x) {
 		posX = x;
 	}
@@ -129,13 +129,27 @@ public class Entity implements Externalizable {
 	}
 	public void move(double deltaX, double deltaY) {
 		if (slide) {
-			if (Math.abs(deltaX - lastSpeedX) < 0.012) {
-			} else {
-				deltaX = lastSpeedX + Math.signum(deltaX - lastSpeedX) * Math.abs(deltaX - lastSpeedX) / 10.0;
+			if (Math.abs(deltaX - lastSpeedX) > 0.012) {
+				if (Math.signum(deltaX) != 0 || isOnIce()) {
+					if (isOnIce()) {
+						deltaX = lastSpeedX + Math.signum(deltaX - lastSpeedX) * Math.abs(deltaX - lastSpeedX) / 20.0;
+					} else {
+						deltaX = lastSpeedX + Math.signum(deltaX - lastSpeedX) * Math.abs(deltaX - lastSpeedX) / 10.0;
+					}
+				} else {
+					deltaX = lastSpeedX + Math.signum(deltaX - lastSpeedX) * 0.012;
+				}
 			}
-			if (Math.abs(deltaY - lastSpeedY) < 0.012) {
-			} else {
-				deltaY = lastSpeedY + Math.signum(deltaY - lastSpeedY) * Math.abs(deltaY - lastSpeedY) / 10.0;
+			if (Math.abs(deltaY - lastSpeedY) > 0.012) {
+				if (Math.signum(deltaY) != 0 || isOnIce()) {
+					if (isOnIce()) {
+						deltaY = lastSpeedY + Math.signum(deltaY - lastSpeedY) * Math.abs(deltaY - lastSpeedY) / 20.0;
+					} else {
+						deltaY = lastSpeedY + Math.signum(deltaY - lastSpeedY) * Math.abs(deltaY - lastSpeedY) / 10.0;
+					}
+				} else {
+					deltaY = lastSpeedY + Math.signum(deltaY - lastSpeedY) * 0.012;
+				}
 			}
 			lastSpeedX = deltaX;
 			lastSpeedY = deltaY;
@@ -154,13 +168,27 @@ public class Entity implements Externalizable {
 		double dX = moveVec.getX();
 		double dY = moveVec.getY();
 		if (slide) {
-			if (Math.abs(dX - lastSpeedX) < 0.012) {
-			} else {
-				dX = lastSpeedX + Math.signum(dX - lastSpeedX) * Math.abs(dX - lastSpeedX) / 10.0;
+			if (Math.abs(dX - lastSpeedX) > 0.012) {
+				if (Math.signum(dX) != 0 || isOnIce()) {
+					if (isOnIce()) {
+						dX = lastSpeedX + Math.signum(dX - lastSpeedX) * Math.abs(dX - lastSpeedX) / 20.0;
+					} else {
+						dX = lastSpeedX + Math.signum(dX - lastSpeedX) * Math.abs(dX - lastSpeedX) / 10.0;
+					}
+				} else {
+					dX = lastSpeedX + Math.signum(dX - lastSpeedX) * 0.012;
+				}
 			}
-			if (Math.abs(dY - lastSpeedY) < 0.012) {
-			} else {
-				dY = lastSpeedY + Math.signum(dY - lastSpeedY) * Math.abs(dY - lastSpeedY) / 10.0;
+			if (Math.abs(dY - lastSpeedY) > 0.012) {
+				if (Math.signum(dY) != 0 || isOnIce()) {
+					if (isOnIce()) {
+						dY = lastSpeedY + Math.signum(dY - lastSpeedY) * Math.abs(dY - lastSpeedY) / 20.0;
+					} else {
+						dY = lastSpeedY + Math.signum(dY - lastSpeedY) * Math.abs(dY - lastSpeedY) / 10.0;
+					}
+				} else {
+					dY = lastSpeedY + Math.signum(dY - lastSpeedY) * 0.012;
+				}
 			}
 			lastSpeedX = dX;
 			lastSpeedY = dY;
@@ -188,7 +216,7 @@ public class Entity implements Externalizable {
 		if ((posY + ySpeed > ptY && posY < ptY) || (posY + ySpeed < ptY && posY > ptY)) {
 			ySpeed = ptY - posY;
 		}
-		
+
 		if (checkMoveProposal(xSpeed, true)) {
 			posX += xSpeed;
 		}
@@ -248,7 +276,7 @@ public class Entity implements Externalizable {
 		out.writeInt(destinationY);
 		out.writeDouble(rotation);
 		out.writeObject(path);
-		
+
 	}
 	@SuppressWarnings("unchecked")
 	@Override
@@ -267,9 +295,15 @@ public class Entity implements Externalizable {
 		if (entityType == EntityType.character) {
 			moveSpeed = dm.settings.moveSpeed;
 		}
-		
+
 	}
 	public void initializeClass(DataManager dm) {
 		this.dm = dm;
+	}
+	public boolean isOnIce() {
+		if (dm.world.isGroundBlock((int) posX, (int) posY)) {
+			return dm.system.blockIDMap.get(dm.world.getGroundBlock((int) posX, (int) posY)).isName("ice");
+		}
+		return false;
 	}
 }

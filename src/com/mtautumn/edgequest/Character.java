@@ -9,6 +9,8 @@ import com.mtautumn.edgequest.data.DataManager;
 public class Character extends Entity {
 	private static final long serialVersionUID = 1L;
 	long lastUpdate;
+	private double lastX = 0;
+	private double lastY = 0;
 
 	public Character(double posX, double posY, byte rotation, DataManager dm) {
 		super("character",EntityType.character, posX, posY, rotation, dm);
@@ -62,33 +64,37 @@ public class Character extends Entity {
 				charYOffset /= 1.5;
 				super.move(charXOffset, charYOffset);
 			} else {
-				 if (charXOffset != 0.0 || charYOffset != 0.0) {
-					 updateRotation(charXOffset, charYOffset);
-				 }
-				 super.move(charXOffset, charYOffset);
+				if (charXOffset != 0.0 || charYOffset != 0.0) {
+					updateRotation(charXOffset, charYOffset);
+				}
+				super.move(charXOffset, charYOffset);
 			}
-			
-			dm.system.characterMoving = (charXOffset != 0 || charYOffset != 0);
+
 		} else {
 			super.update();
 			if (super.path != null) {
-				dm.system.characterMoving = super.path.size() > 0;
 				if (super.path.size() == 0) {
 					super.move(0, 0);
 				}
 			} else {
-				dm.system.characterMoving = false;
 				super.move(0, 0);
 			}
 			if (!dm.system.characterMoving) {
 				if (super.dm.system.rightMouseDown) {
 					updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
 				}
-				}
+			}
 		}
 		lastUpdate = System.currentTimeMillis();
+		if (lastX != super.getX() || lastY != super.getY()) {
+			dm.system.characterMoving = true;
+			lastX = super.getX();
+			lastY = super.getY();
+		} else {
+			dm.system.characterMoving = false;
+		}
 	}
-	
+
 	@Override
 	public void writeExternal(ObjectOutput out) throws IOException {
 		super.writeExternal(out);
