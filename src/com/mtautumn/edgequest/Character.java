@@ -1,9 +1,5 @@
 package com.mtautumn.edgequest;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 import com.mtautumn.edgequest.data.DataManager;
 
 public class Character extends Entity {
@@ -95,15 +91,6 @@ public class Character extends Entity {
 		} else {
 			dm.system.characterMoving = false;
 		}
-	}
-
-	@Override
-	public void writeExternal(ObjectOutput out) throws IOException {
-		super.writeExternal(out);
-	}
-	@Override
-	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-		super.readExternal(in);
 	}
 	public void initializeClass(DataManager dm) {
 		super.initializeClass(dm);

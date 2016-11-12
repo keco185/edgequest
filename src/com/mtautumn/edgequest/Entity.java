@@ -319,13 +319,13 @@ public class Entity implements Externalizable {
 		path = (ArrayList<IntCoord>) in.readObject();
 		dungeonLevel = in.readInt();
 		dungeon = (int[]) in.readObject();
-		if (entityType == EntityType.character) {
-			moveSpeed = dm.settings.moveSpeed;
-		}
 
 	}
 	public void initializeClass(DataManager dm) {
 		this.dm = dm;
+		if (entityType == EntityType.character) {
+			moveSpeed = dm.settings.moveSpeed;
+		}
 	}
 	public boolean isOnIce() {
 		if (dm.world.isGroundBlock((int) posX, (int) posY)) {

@@ -1,14 +1,9 @@
 package com.mtautumn.edgequest;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-
 import com.mtautumn.edgequest.data.DataManager;
 
 public class Ant extends Entity {
 	private static final long serialVersionUID = 1L;
-	long lastUpdate;
 	private int lastX = 0;
 	private int lastY = 0;
 
@@ -18,7 +13,6 @@ public class Ant extends Entity {
 		this.dungeon = dungeon;
 		super.stillAnimation = new int[]{0,0,1,1};
 		super.walkAnimation = new int[]{0,1,2,3,4};
-		lastUpdate = System.currentTimeMillis();
 		super.moveSpeed = 0.05;
 	}
 	public Ant() {
@@ -58,15 +52,6 @@ public class Ant extends Entity {
 			}
 		}
 		super.update();
-	}
-
-	@Override
-	public void writeExternal(ObjectOutput out) throws IOException {
-		super.writeExternal(out);
-	}
-	@Override
-	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-		super.readExternal(in);
 	}
 	public void initializeClass(DataManager dm) {
 		super.initializeClass(dm);
