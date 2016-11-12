@@ -12,10 +12,14 @@ public class Entities {
 			Entity entity = r.dataManager.savable.entities.get(i);
 			if (entity.dungeonLevel == r.dataManager.savable.dungeonLevel) {
 				if (entity.dungeonLevel == - 1 || (entity.dungeon[0] == r.dataManager.savable.dungeonX && entity.dungeon[1] == r.dataManager.savable.dungeonY)) {
-					drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r);
+					if (entity.getType() != Entity.EntityType.character) {
+						drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r);
+					}
 				}
 			}
 		}
+		Entity entity = r.dataManager.characterManager.characterEntity;
+		drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r);
 	}
 	private static void drawEntity(String texture, double posX, double posY, double rotation, Renderer r) {
 		double blockSize = r.dataManager.settings.blockSize;
