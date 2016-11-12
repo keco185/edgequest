@@ -51,19 +51,10 @@ public class Ant extends Entity {
 		setX(getX() + lastX * moveSpeed);
 		setY(getY() + lastY * moveSpeed);
 		super.updateRotation(lastX, lastY);
-		if (dungeonLevel == -1) {
-			if (dm.world.ou.isStructBlock((int) getX(), (int) getY())) {
-				if (dm.system.blockIDMap.get(dm.world.ou.getStructBlock((int) getX(), (int) getY())).hardness > -1) {
-					dm.world.ou.removeStructBlock((int) getX(), (int) getY());
-					dm.blockUpdateManager.updateBlock((int) getX(), (int) getY());
-				}
-			}
-		} else {
-			if (dm.savable.dungeonMap.get(dungeon[0]+","+dungeon[1]).isStructureBlock(dungeonLevel, (int) getX(), (int) getY())) {
-				if (dm.system.blockIDMap.get(dm.savable.dungeonMap.get(dungeon[0]+","+dungeon[1]).getStructureBlock(dungeonLevel, (int) getX(), (int) getY())).hardness > -1) {
-					dm.savable.dungeonMap.get(dungeon[0]+","+dungeon[1]).removeStructureBlock(dungeonLevel, (int) getX(), (int) getY());
-					dm.blockUpdateManager.updateBlock((int) getX(), (int) getY());
-				}
+		if (dm.world.isStructBlock(this, (int) getX(), (int) getY())) {
+			if (dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) getX(), (int) getY())).hardness > -1) {
+				dm.world.removeStructBlock(this, (int) getX(), (int) getY());
+				dm.blockUpdateManager.updateBlock((int) getX(), (int) getY());
 			}
 		}
 		super.update();
