@@ -92,18 +92,18 @@ public class RendererManager extends Thread {
 		double pixelSize = 1.0 /dataManager.settings.blockSize;
 		double targetPixelSize = 1.0 /dataManager.settings.targetBlockSize;
 		if (pixelSize < targetPixelSize) {
-			if (pixelSize + 0.001 > targetPixelSize) {
+			if (pixelSize + dataManager.settings.zoomSpeed > targetPixelSize) {
 				pixelSize = targetPixelSize;
 			} else {
-				pixelSize += 0.001;
+				pixelSize += dataManager.settings.zoomSpeed;
 			}
 			dataManager.settings.blockSize = (float) (1.0/pixelSize);
 			dataManager.system.requestScreenUpdate = true;
 		} else if (pixelSize > targetPixelSize) {
-			if (pixelSize - 0.001 < targetPixelSize) {
+			if (pixelSize - dataManager.settings.zoomSpeed < targetPixelSize) {
 				pixelSize = targetPixelSize;
 			} else {
-				pixelSize -= 0.001;
+				pixelSize -= dataManager.settings.zoomSpeed;
 			}
 			dataManager.settings.blockSize = (float) (1.0/pixelSize);
 			dataManager.system.requestScreenUpdate = true;

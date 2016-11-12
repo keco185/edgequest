@@ -43,5 +43,11 @@ public class EdgeQuest {
 			Thread.sleep(100);
 		}
 		dataManager.system.buttonActionQueue.add("fullScreen"); //Sets the game to full screen
+		while(!dataManager.system.characterLocationSet || dataManager.system.loadingWorld) {
+			Thread.sleep(100);
+		}
+		dataManager.settings.targetBlockSize = 32;
+		Thread.sleep(3000);
+		dataManager.settings.zoomSpeed = 0.001;
 	}
 }
