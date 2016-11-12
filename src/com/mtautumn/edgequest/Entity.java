@@ -45,9 +45,16 @@ public class Entity implements Externalizable {
 	public int[] walkAnimation = new int[]{0};
 	public double lastPosX = 0;
 	public double lastPosY = 0;
+	private boolean wasWalking = false;
 
 	public String getTexture() {
+		boolean walking = wasWalking;
 		if (lastPosX != posX || lastPosY != posY) {
+			wasWalking = true;
+		} else {
+			wasWalking = false;
+		}
+		if (lastPosX != posX || lastPosY != posY || walking) {
 			lastPosX = posX;
 			lastPosY = posY;
 			return entityTexture + "walk" + walkAnimation[dm.system.animationClock % walkAnimation.length];
