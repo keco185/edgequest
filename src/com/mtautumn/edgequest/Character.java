@@ -22,6 +22,8 @@ public class Character extends Entity {
 		super.slide = true;
 	}
 	public void update() {
+		dungeonLevel = dm.savable.dungeonLevel;
+		dungeon = new int[]{dm.savable.dungeonX, dm.savable.dungeonY};
 		if (super.dm.system.isKeyboardSprint) super.moveSpeed = super.dm.settings.moveSpeed * 2.0;
 		else super.moveSpeed = super.dm.settings.moveSpeed;
 		if (super.dm.system.isKeyboardLeft ||

@@ -24,6 +24,8 @@ public class Entity implements Externalizable {
 
 	}
 	private int entityID;
+	public int dungeonLevel = -1;
+	public int[] dungeon;
 	private float moveRot;
 	private String entityTexture;
 	private EntityType entityType;
@@ -50,7 +52,7 @@ public class Entity implements Externalizable {
 			lastPosY = posY;
 			return entityTexture + "walk" + walkAnimation[dm.system.animationClock % walkAnimation.length];
 		}
-		return entityTexture + "still" + stillAnimation[dm.system.animationClock % walkAnimation.length];
+		return entityTexture + "still" + stillAnimation[dm.system.animationClock % stillAnimation.length];
 	}
 	public Entity(String texture, EntityType type, DataManager dm) {
 		this.entityID = dm.savable.entityID++;
@@ -291,7 +293,8 @@ public class Entity implements Externalizable {
 		out.writeInt(destinationY);
 		out.writeDouble(rotation);
 		out.writeObject(path);
-
+		out.writeInt(dungeonLevel);
+		out.writeObject(dungeon);
 	}
 	@SuppressWarnings("unchecked")
 	@Override
@@ -307,6 +310,8 @@ public class Entity implements Externalizable {
 		destinationY = in.readInt();
 		rotation = in.readDouble();
 		path = (ArrayList<IntCoord>) in.readObject();
+		dungeonLevel = in.readInt();
+		dungeon = (int[]) in.readObject();
 		if (entityType == EntityType.character) {
 			moveSpeed = dm.settings.moveSpeed;
 		}

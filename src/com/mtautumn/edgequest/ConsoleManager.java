@@ -18,7 +18,7 @@ public class ConsoleManager {
 		private long creationTime;
 		private String text;
 		public Color color = new Color(Color.white);
-		
+
 		Line(String text) {
 			creationTime = System.currentTimeMillis();
 			this.text = text;
@@ -32,8 +32,8 @@ public class ConsoleManager {
 		public long getTime() { return creationTime; }
 	}	
 	public ArrayList<Line> lines = new ArrayList<Line>();
-	
-	
+
+
 	public void addLine(String text) {
 		// Linux doesn't like colons
 		if (text.startsWith("/"))
@@ -81,13 +81,13 @@ public class ConsoleManager {
 			moreArgs = false;
 			if (remaining.contains(" ")) {
 				if (remaining.length() > remaining.indexOf(" ") + 1) {
-				remaining = remaining.substring(remaining.indexOf(" ") + 1, remaining.length());
-				moreArgs = true;
+					remaining = remaining.substring(remaining.indexOf(" ") + 1, remaining.length());
+					moreArgs = true;
 				}
 			}
 		}
 		try {
-		runCommand(cmdName, args);
+			runCommand(cmdName, args);
 		} catch (Exception e) {
 			addLine("Command entered wrong", 1);
 		}
@@ -149,6 +149,21 @@ public class ConsoleManager {
 				addLine("use the format /give <item name> [count]", 1);
 			}
 			break;
+		case "spawn":
+			if (args.size() == 1) {
+				if (args.get(0).equals("ant")) {
+					dataManager.savable.entities.add(new Ant(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), (byte) 0, dataManager, dataManager.savable.dungeonLevel, new int[] {dataManager.savable.dungeonX,dataManager.savable.dungeonY}));
+				}
+			} else if (args.size() == 2) {
+				for (int i = 0; i < Integer.parseInt(args.get(1)); i++) {
+					if (args.get(0).equals("ant")) {
+						dataManager.savable.entities.add(new Ant(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), (byte) 0, dataManager, dataManager.savable.dungeonLevel, new int[] {dataManager.savable.dungeonX,dataManager.savable.dungeonY}));
+					}
+				}
+			} else {
+				addLine("use the format /spawn <entity name> [count]", 1);
+			}
+			break;
 		case "help":
 			addLine("Command List: ", 2);
 			Thread.sleep(1);
@@ -163,6 +178,8 @@ public class ConsoleManager {
 			addLine("     (5) /reseed <seed>", 2);
 			Thread.sleep(1);
 			addLine("     (6) /give <item name> [count]", 2);
+			Thread.sleep(1);
+			addLine("     (7) /spawn <entity name> [count]", 2);
 			break;
 		default:
 			addLine("unknown command \"" + cmdName + "\"", 1);
@@ -181,7 +198,7 @@ public class ConsoleManager {
 		}
 		return lines;
 	}
-	
+
 	private static Line getNewest(ArrayList<Line> lines) {
 		Line newest = null;
 		for (int i = 0; i < lines.size(); i++) {

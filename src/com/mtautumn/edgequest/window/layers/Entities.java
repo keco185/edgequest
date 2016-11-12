@@ -10,7 +10,11 @@ public class Entities {
 		Color.white.bind();
 		for( int i = 0; i < r.dataManager.savable.entities.size(); i++) {
 			Entity entity = r.dataManager.savable.entities.get(i);
-			drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r);
+			if (entity.dungeonLevel == r.dataManager.savable.dungeonLevel) {
+				if (entity.dungeonLevel == - 1 || (entity.dungeon[0] == r.dataManager.savable.dungeonX && entity.dungeon[1] == r.dataManager.savable.dungeonY)) {
+					drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r);
+				}
+			}
 		}
 	}
 	private static void drawEntity(String texture, double posX, double posY, double rotation, Renderer r) {
