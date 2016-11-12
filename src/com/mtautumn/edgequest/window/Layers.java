@@ -25,12 +25,13 @@ public class Layers {
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			MouseItem.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
+			if (!r.dataManager.system.characterLocationSet || r.dataManager.system.loadingWorld)
+				LoadingScreen.draw(r);
+			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.system.isKeyboardMenu) Menu.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.settings.showDiag) DiagnosticsWindow.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
-			if (!r.dataManager.system.characterLocationSet || r.dataManager.system.loadingWorld)
-				LoadingScreen.draw(r);
 			if (r.dataManager.system.showConsole) Console.draw(r);
 		}
 		OptionPane.draw(r);
