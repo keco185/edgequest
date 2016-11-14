@@ -151,13 +151,31 @@ public class ConsoleManager {
 			break;
 		case "spawn":
 			if (args.size() == 1) {
-				if (args.get(0).equals("ant")) {
-					dataManager.savable.entities.add(new Ant(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), (byte) 0, dataManager, dataManager.savable.dungeonLevel, new int[] {dataManager.savable.dungeonX,dataManager.savable.dungeonY}));
+				Entity entity = new Entity(args.get(0), null, dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), 0, dataManager.characterManager.characterEntity.dungeonLevel, dataManager.characterManager.characterEntity.dungeon, dataManager);
+				switch (args.get(0)) {
+				case "ant":
+					dataManager.savable.entities.add(new Ant(entity));
+					break;
+				case "character":
+					dataManager.savable.entities.add(new Character(entity));
+					break;
+				default:
+					break;
 				}
 			} else if (args.size() == 2) {
+				Entity entity = new Entity(args.get(0), null, dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), 0, dataManager.characterManager.characterEntity.dungeonLevel, dataManager.characterManager.characterEntity.dungeon, dataManager);
 				for (int i = 0; i < Integer.parseInt(args.get(1)); i++) {
 					if (args.get(0).equals("ant")) {
-						dataManager.savable.entities.add(new Ant(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), (byte) 0, dataManager, dataManager.savable.dungeonLevel, new int[] {dataManager.savable.dungeonX,dataManager.savable.dungeonY}));
+						switch (args.get(0)) {
+						case "ant":
+							dataManager.savable.entities.add(new Ant(entity));
+							break;
+						case "character":
+							dataManager.savable.entities.add(new Character(entity));
+							break;
+						default:
+							break;
+						}
 					}
 				}
 			} else {

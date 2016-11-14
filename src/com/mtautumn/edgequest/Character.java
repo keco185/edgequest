@@ -8,10 +8,20 @@ public class Character extends Entity {
 	private double lastX = 0;
 	private double lastY = 0;
 
-	public Character(double posX, double posY, byte rotation, DataManager dm) {
-		super("character",EntityType.character, posX, posY, rotation, dm);
+	public Character(double posX, double posY, double rotation, int dungeonLevel, int[] dungeon, DataManager dm) {
+		super("character",EntityType.character, posX, posY, rotation, dungeonLevel, dungeon, dm);
 		lastUpdate = System.currentTimeMillis();
 		super.slide = true;
+	}
+	public Character(Entity entity) {
+		super("character", EntityType.character, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dungeon, entity.dm);
+		lastUpdate = System.currentTimeMillis();
+		super.slide = true;
+		dungeonLevel = entity.dungeonLevel;
+		dungeon = entity.dungeon;
+		super.stillAnimation = new int[]{0};
+		super.walkAnimation = new int[]{0};
+		super.moveSpeed = dm.settings.moveSpeed;
 	}
 	public Character() {
 		super();

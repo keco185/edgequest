@@ -7,10 +7,16 @@ public class Ant extends Entity {
 	private int lastX = 0;
 	private int lastY = 0;
 
-	public Ant(double posX, double posY, byte rotation, DataManager dm, int dungeonLevel, int[] dungeon) {
-		super("ant",EntityType.passiveCreature, posX, posY, rotation, dm);
-		this.dungeonLevel = dungeonLevel;
-		this.dungeon = dungeon;
+	public Ant(double posX, double posY, double rotation, DataManager dm, int dungeonLevel, int[] dungeon) {
+		super("ant",EntityType.passiveCreature, posX, posY, rotation, dungeonLevel, dungeon, dm);
+		super.stillAnimation = new int[]{0,0,1,1};
+		super.walkAnimation = new int[]{0,1,2,3,4};
+		super.moveSpeed = 0.05;
+	}
+	public Ant(Entity entity) {
+		super("ant",EntityType.passiveCreature, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dungeon, entity.dm);
+		dungeonLevel = entity.dungeonLevel;
+		dungeon = entity.dungeon;
 		super.stillAnimation = new int[]{0,0,1,1};
 		super.walkAnimation = new int[]{0,1,2,3,4};
 		super.moveSpeed = 0.05;

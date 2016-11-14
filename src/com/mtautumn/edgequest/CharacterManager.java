@@ -68,7 +68,7 @@ public class CharacterManager extends Thread{
 		return blockInfo;
 	}
 	public void createCharacterEntity() {
-		characterEntity = new Character(0, 0, (byte) 0, dataManager);
+		characterEntity = new Character(0, 0, 0, -1, new int[] {0,0}, dataManager);
 		dataManager.savable.entities.add(characterEntity);
 	}
 }

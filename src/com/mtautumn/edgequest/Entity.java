@@ -70,7 +70,7 @@ public class Entity implements Externalizable {
 			moveSpeed = dm.settings.moveSpeed;
 		}
 	}
-	public Entity(String texture, EntityType type, double posX, double posY, byte rotation, DataManager dm) {
+	public Entity(String texture, EntityType type, double posX, double posY, double rotation, int dungeonLevel, int[] dungeon, DataManager dm) {
 		this.entityID = dm.savable.entityID++;
 		this.entityTexture = texture;
 		this.entityType = type;
@@ -78,6 +78,8 @@ public class Entity implements Externalizable {
 		this.posY = posY;
 		this.rotation = rotation;
 		this.dm = dm;
+		this.dungeon = dungeon;
+		this.dungeonLevel = dungeonLevel;
 		if (type == EntityType.character) {
 			moveSpeed = dm.settings.moveSpeed;
 		}
