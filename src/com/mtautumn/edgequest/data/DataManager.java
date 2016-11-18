@@ -1,5 +1,6 @@
 package com.mtautumn.edgequest.data;
 
+import com.mtautumn.edgequest.AttackManager;
 import com.mtautumn.edgequest.BackpackManager;
 import com.mtautumn.edgequest.ButtonActionManager;
 import com.mtautumn.edgequest.CharacterManager;
@@ -29,6 +30,7 @@ public class DataManager {
 	public AnimationClock animationClock = new AnimationClock(this);
 	public ButtonActionManager buttonActionManager = new ButtonActionManager(this);
 	public ConsoleManager consoleManager = new ConsoleManager(this);
+	public AttackManager attackManager = new AttackManager(this);
 	
 	public WorldUtils world = new WorldUtils(this);
 	public EntityUpdater entityUpdater = new EntityUpdater(this);
@@ -76,6 +78,7 @@ public class DataManager {
 		buttonActionManager.start();
 		backpackManager.start();
 		entityUpdater.start();
+		attackManager.start();
 		system.requestGenUpdate = true;
 	}
 	
