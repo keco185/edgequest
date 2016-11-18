@@ -11,7 +11,7 @@ public class Ant extends Entity {
 		super("ant",EntityType.passiveCreature, posX, posY, rotation, dungeonLevel, dungeon, dm);
 		super.stillAnimation = new int[]{0,0,1,1};
 		super.walkAnimation = new int[]{0,1,2,3,4};
-		super.moveSpeed = 0.05;
+		super.moveSpeed = 0.025;
 		super.maxHealth = 3.0;
 		super.health = 3.0;
 	}
@@ -21,7 +21,7 @@ public class Ant extends Entity {
 		dungeon = entity.dungeon;
 		super.stillAnimation = new int[]{0,0,1,1};
 		super.walkAnimation = new int[]{0,1,2,3,4};
-		super.moveSpeed = 0.05;
+		super.moveSpeed = 0.025;
 		super.maxHealth = 3.0;
 		super.health = 3.0;
 	}
