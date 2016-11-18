@@ -14,6 +14,10 @@ public class EntityUpdater extends Thread{
 				for (int i = 0; i < dm.savable.entities.size(); i++) {
 					if (dm.savable.entities.get(i).getType() != EntityType.character) {
 						dm.savable.entities.get(i).update();
+						if (dm.savable.entities.get(i).health <= 0) {
+							dm.savable.entities.remove(i);
+							i--;
+						}
 					}
 				}
 				Thread.sleep(dm.settings.tickLength);

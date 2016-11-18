@@ -74,6 +74,6 @@ public class AttackManager extends Thread{
 		return Math.atan2(dm.characterManager.characterEntity.getY() - entity.getY(), entity.getX() - dm.characterManager.characterEntity.getX());
 	}
 	public void damageEntity(Entity entity, int location) {
-		dm.savable.entities.remove(location);
+		dm.savable.entities.get(location).health -= 1;
 	}
 }
