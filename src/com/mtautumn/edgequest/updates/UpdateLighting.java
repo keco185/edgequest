@@ -6,16 +6,21 @@ package com.mtautumn.edgequest.updates;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mtautumn.edgequest.Location;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class UpdateLighting {
 	private int lightDiffuseDistance = 8;
 	DataManager dataManager;
 	Map<String, Byte> bufferedLightMap = new HashMap<String, Byte>();
+	private Location updateLocation = new Location(0,0);
 	public UpdateLighting(DataManager dataManager) {
 		this.dataManager = dataManager;
 	}
-	public void update(int x, int y) {
+	public void update(Location location) {
+		updateLocation = location;
+		int x = location.x;
+		int y = location.y;
 		for (int i = x - lightDiffuseDistance - 1; i <= x + lightDiffuseDistance + 1; i++) {
 			for (int j = y - lightDiffuseDistance - 1; j <= y + lightDiffuseDistance + 1; j++) {
 				updateBlockLighting(i, j);
@@ -72,11 +77,14 @@ public class UpdateLighting {
 		return lighting / 9.0;
 	}
 	private double getBlockBrightness(int x, int y) {
+		Location checkLocation = new Location(updateLocation);
+		checkLocation.x = x;
+		checkLocation.y = y;
 		if (bufferedLightMap.containsKey(x+","+y)) {
 			return Double.valueOf(bufferedLightMap.get(x+","+y) + 128) / 255.0;
 		}
-		if (dataManager.world.isLight(x, y)) {
-			return Double.valueOf((dataManager.world.getLight(x, y) + 128)) / 255.0;
+		if (dataManager.world.isLight(checkLocation)) {
+			return Double.valueOf((dataManager.world.getLight(checkLocation) + 128)) / 255.0;
 		}
 		return 0.0;
 	}
@@ -98,8 +106,11 @@ public class UpdateLighting {
 
 	}
 	private boolean isBlockOpaque(int x, int y) {
-		if (dataManager.world.isStructBlock(x, y)) {
-			return !dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(x, y)).isPassable;
+		Location checkLocation = new Location(updateLocation);
+		checkLocation.x = x;
+		checkLocation.y = y;
+		if (dataManager.world.isStructBlock(checkLocation)) {
+			return !dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(checkLocation)).isPassable;
 		}
 		return false;
 	}
@@ -166,22 +177,29 @@ public class UpdateLighting {
 		bufferedLightMap.put(x+","+y, (byte)(brightness*255.0-128.0));
 	}
 	private void pushBuffer(int x, int y) {
+		Location pushLocation = new Location(updateLocation);
 		for (int i = x - lightDiffuseDistance - 1; i <= x + lightDiffuseDistance + 1; i++) {
 			for (int j = y - lightDiffuseDistance - 1; j <= y + lightDiffuseDistance + 1; j++) {
 				if (bufferedLightMap.containsKey(i+","+j)) {
-					dataManager.world.setLight(i,j,bufferedLightMap.get(i+","+j));
+					pushLocation.x = i;
+					pushLocation.y = j;
+					dataManager.world.setLight(pushLocation,bufferedLightMap.get(i+","+j));
 				}
 			}
 		}
 	}
 	private boolean doesContainLightSource(int x, int y) {
-		if ((int)Math.floor(dataManager.characterManager.characterEntity.getX()) == x && (int)Math.floor(dataManager.characterManager.characterEntity.getY()) == y) {
+		Location charLocation = new Location(dataManager.characterManager.characterEntity);
+		Location checkLocation = new Location(updateLocation);
+		checkLocation.x = x;
+		checkLocation.y = y;
+		if (checkLocation.isEqual(charLocation)) {
 			if (dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[0].getItemID()).isName("lantern") || dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[1].getItemID()).isName("lantern")) {
 				return true;
 			}
 		}
-		if (dataManager.world.isStructBlock(x, y)) {
-			return dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(x, y)).isLightSource;
+		if (dataManager.world.isStructBlock(checkLocation)) {
+			return dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(checkLocation)).isLightSource;
 		}
 		return false;
 	}

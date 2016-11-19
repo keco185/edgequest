@@ -48,7 +48,7 @@ public class TerrainManager extends Thread {
 						}
 						dataManager.system.updateDungeon = false;
 						dataManager.savable.lastDungeonLevel = dataManager.savable.dungeonLevel;
-						dataManager.blockUpdateManager.updateLighting((int)Math.floor(dataManager.characterManager.characterEntity.getX()),(int)Math.floor(dataManager.characterManager.characterEntity.getY()));
+						dataManager.blockUpdateManager.updateLighting(new Location(dataManager.characterManager.characterEntity));
 					}
 				}
 				Thread.sleep(dataManager.settings.tickLength);

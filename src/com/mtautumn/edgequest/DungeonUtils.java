@@ -108,4 +108,69 @@ public class DungeonUtils {
 	public void removeLight(Entity entity, int x, int y) {
 		dm.savable.dungeonMap.get(entity.dungeon[0] + "," + entity.dungeon[1]).removeLighting(entity.dungeonLevel, x, y);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void setStructBlock(Location location, short id) {
+		dm.savable.dungeonMap.get(location.dungeonX + "," + location.dungeonY).setStructureBlock(location.level, location.x, location.y, id);
+	}
+	public short getStructBlock(Location location) {
+		if (isStructBlock(location)) {
+			return dm.savable.dungeonMap.get(location.dungeonX + "," + location.dungeonY).getStructureBlock(location.level, location.x, location.y);
+		}
+		return 0;
+	}
+	public boolean isStructBlock(Location location) {
+		return dm.savable.dungeonMap.get(location.dungeonX + "," + location.dungeonY).isStructureBlock(location.level, location.x, location.y);
+	}
+	public void removeStructBlock(Location location) {
+		dm.savable.dungeonMap.get(location.dungeonX + "," + location.dungeonY).removeStructureBlock(location.level, location.x, location.y);
+	}
+
+	public void setGroundBlock(Location location, short id) {
+		dm.savable.dungeonMap.get(location.dungeonX + "," + location.dungeonY).setGroundBlock(location.level, location.x, location.y, id);
+	}
+	public short getGroundBlock(Location location) {
+		if (isGroundBlock(location)) {
+			return dm.savable.dungeonMap.get(location.dungeonX + "," + location.dungeonY).getGroundBlock(location.level, location.x, location.y);
+		}
+		return 0;
+	}
+	public boolean isGroundBlock(Location location) {
+		return dm.savable.dungeonMap.get(location.dungeonX + "," + location.dungeonY).isGroundBlock(location.level, location.x, location.y);
+	}
+	public void removeGroundBlock(Location location) {
+		dm.savable.dungeonMap.get(location.dungeonX + "," + location.dungeonY).removeGroundBlock(location.level, location.x, location.y);
+	}
+
+	public void setLight(Location location, byte val) {
+		dm.savable.dungeonMap.get(location.dungeonX + "," + location.dungeonY).setLighting(location.level, location.x, location.y, val);
+	}
+	public byte getLight(Location location) {
+		if (isLight(location)) {
+			return dm.savable.dungeonMap.get(location.dungeonX + "," + location.dungeonY).getLighting(location.level, location.x, location.y);
+		}
+		return Byte.MIN_VALUE;
+	}
+	public boolean isLight(Location location) {
+		return dm.savable.dungeonMap.get(location.dungeonX + "," + location.dungeonY).isLighting(location.level, location.x, location.y);
+	}
+	public void removeLight(Location location) {
+		dm.savable.dungeonMap.get(location.dungeonX + "," + location.dungeonY).removeLighting(location.level, location.x, location.y);
+	}
 }

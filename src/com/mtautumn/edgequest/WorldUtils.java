@@ -211,4 +211,121 @@ public class WorldUtils {
 		if (brightness < 0) brightness = 0;
 		return brightness;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public void setStructBlock(Location location, short id) {
+		if (location.level > -1)
+			du.setStructBlock(location, id);
+		else
+			ou.setStructBlock(location.x, location.y, id);
+
+	}
+	public short getStructBlock(Location location) {
+		if (location.level > -1)
+			return du.getStructBlock(location);
+		return ou.getStructBlock(location.x, location.y);
+
+	}
+	public boolean isStructBlock(Location location) {
+		if (location.level > -1)
+			return du.isStructBlock(location);
+		return ou.isStructBlock(location.x, location.y);
+	}
+	public void removeStructBlock(Location location) {
+		if (location.level > -1)
+			du.removeStructBlock(location);
+		else
+			ou.removeStructBlock(location.x, location.y);
+
+	}
+
+	public void setGroundBlock(Location location, short id) {
+		if (location.level > -1)
+			du.setGroundBlock(location, id);
+		else
+			ou.setGroundBlock(location.x, location.y, id);
+	}
+	public short getGroundBlock(Location location) {
+		if (location.level > -1)
+			return du.getGroundBlock(location);
+		return ou.getGroundBlock(location.x, location.y);
+	}
+	public boolean isGroundBlock(Location location) {
+		if (location.level > -1)
+			return du.isGroundBlock(location);
+		return ou.isGroundBlock(location.x, location.y);
+	}
+	public void removeGroundBlock(Location location) {
+		if (location.level > -1)
+			du.removeGroundBlock(location);
+		else
+			ou.removeGroundBlock(location.x, location.y);
+
+	}
+
+	public void setLight(Location location, byte val) {
+		if (val > -127) {
+			if (location.level > -1)
+				du.setLight(location, val);
+			else
+				ou.setLight(location.x, location.y, val);
+		} else
+			removeLight(location);
+	}
+	public byte getLight(Location location) {
+		if (location.level > -1)
+			return du.getLight(location);
+		return ou.getLight(location.x, location.y);
+	}
+	public boolean isLight(Location location) {
+		if (location.level > -1)
+			return du.isLight(location);
+		return ou.isLight(location.x, location.y);
+	}
+	public void removeLight(Location location) {
+		if (location.level > -1)
+			du.removeLight(location);
+		else
+			ou.removeLight(location.x, location.y);
+
+	}
+	public double getBrightness(Location location) {
+		if (location.level > -1)
+			return 0.0;
+		int tempTime = dm.savable.time - 200;
+		double brightness = 0.0;
+		if (tempTime < 1200) tempTime += 2400;
+		double distFromMidnight = Math.abs(tempTime - 2400);
+		if (distFromMidnight > 600) {
+			brightness = 1;
+		} else if (distFromMidnight > 400){
+			brightness = distFromMidnight * 0.004 - 1.4;
+		} else {
+			brightness = 0.2;
+		}
+		if (brightness > 1) brightness = 1;
+		if (brightness < 0) brightness = 0;
+		return brightness;
+	}
 }

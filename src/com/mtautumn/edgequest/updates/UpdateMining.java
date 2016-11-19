@@ -4,6 +4,7 @@
 package com.mtautumn.edgequest.updates;
 
 import com.mtautumn.edgequest.BlockItem;
+import com.mtautumn.edgequest.Location;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class UpdateMining {
@@ -30,7 +31,10 @@ public class UpdateMining {
 					if (dataManager.system.blockDamage >= 10) {
 						dataManager.system.blockDamage = 0;
 						breakBlock(dataManager.system.mouseX, dataManager.system.mouseY);
-						dataManager.blockUpdateManager.lighting.update(dataManager.system.mouseX, dataManager.system.mouseY);
+						Location checkLocation = new Location(dataManager.characterManager.characterEntity);
+						checkLocation.x = dataManager.system.mouseX;
+						checkLocation.y = dataManager.system.mouseY;
+						dataManager.blockUpdateManager.lighting.update(checkLocation);
 					}
 				} else {
 					dataManager.system.blockDamage = 0;

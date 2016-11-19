@@ -58,7 +58,7 @@ public class Ant extends Entity {
 		if (dm.world.isStructBlock(this, (int) getX(), (int) getY())) {
 			if (dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) getX(), (int) getY())).hardness > -1) {
 				dm.world.removeStructBlock(this, (int) getX(), (int) getY());
-				dm.blockUpdateManager.updateBlock((int) getX(), (int) getY());
+				dm.blockUpdateManager.updateBlock(new Location(this));
 			}
 		}
 		super.update();

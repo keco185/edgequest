@@ -67,8 +67,8 @@ public class AttackManager extends Thread{
 			}
 		}
 	}
-	private double getRange(Entity entity) {
-		return Math.sqrt(Math.pow(entity.getX() - dm.characterManager.characterEntity.getX(), 2) + Math.pow(entity.getY() - dm.characterManager.characterEntity.getY(), 2));
+	private static double getRange(Entity entity) {
+		return entity.distanceToPlayer();
 	}
 	private double getAngle(Entity entity) {
 		return Math.atan2(dm.characterManager.characterEntity.getY() - entity.getY(), entity.getX() - dm.characterManager.characterEntity.getX());

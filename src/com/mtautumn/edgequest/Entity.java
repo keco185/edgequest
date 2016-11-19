@@ -336,9 +336,30 @@ public class Entity implements Externalizable {
 		}
 	}
 	public boolean isOnIce() {
-		if (dm.world.isGroundBlock((int) posX, (int) posY)) {
-			return dm.system.blockIDMap.get(dm.world.getGroundBlock((int) posX, (int) posY)).isName("ice");
+		if (dm.world.isGroundBlock(this, (int) posX, (int) posY)) {
+			return dm.system.blockIDMap.get(dm.world.getGroundBlock(this, (int) posX, (int) posY)).isName("ice");
 		}
 		return false;
+	}
+	public double distanceToPlayer() {
+		return Math.sqrt(Math.pow(dm.characterManager.characterEntity.getX() - getX(), 2) + Math.pow(dm.characterManager.characterEntity.getY() - getY(), 2));
+	}
+	public BlockItem getBlock() {
+		if (dm.world.isGroundBlock(this, (int) getX(), (int) getY())) {
+			return dm.system.blockIDMap.get(dm.world.getGroundBlock(this, (int) getX(), (int) getY()));
+		}
+		return null;
+	}
+	public BlockItem getRelativeGroundBlock(int deltaX, int deltaY) {
+		if (dm.world.isGroundBlock(this, (int) getX() + deltaX, (int) getY() + deltaY)) {
+			return dm.system.blockIDMap.get(dm.world.getGroundBlock(this, (int) getX() + deltaX, (int) getY() + deltaY));
+		}
+		return null;
+	}
+	public BlockItem getRelativeStructureBlock(int deltaX, int deltaY) {
+		if (dm.world.isStructBlock(this, (int) getX() + deltaX, (int) getY() + deltaY)) {
+			return dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) getX() + deltaX, (int) getY() + deltaY));
+		}
+		return null;
 	}
 }

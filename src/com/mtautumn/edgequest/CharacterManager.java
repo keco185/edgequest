@@ -16,16 +16,15 @@ public class CharacterManager extends Thread{
 		blockUpdateManager = dataManager.blockUpdateManager;
 	}
 	public void charPlaceTorch() {
-		int charX = (int) Math.floor(characterEntity.getX());
-		int charY = (int) Math.floor(characterEntity.getY());
-		if (!dataManager.world.isStructBlock(charX, charY)) {
+		Location location = new Location(characterEntity);
+		if (!dataManager.world.isStructBlock(location)) {
 			if ((short)getCharaterBlockInfo()[0] != dataManager.system.blockNameMap.get("water").getID()) {
-				dataManager.world.setStructBlock(charX, charY, dataManager.system.blockNameMap.get("torch").getID());
-				blockUpdateManager.updateBlock(charX, charY);
+				dataManager.world.setStructBlock(location, dataManager.system.blockNameMap.get("torch").getID());
+				blockUpdateManager.updateBlock(location);
 			}
-		} else if (dataManager.world.getStructBlock(charX, charY) == dataManager.system.blockNameMap.get("torch").getID()) {
-			dataManager.world.removeStructBlock(charX, charY);
-			blockUpdateManager.updateBlock(charX, charY);
+		} else if (dataManager.world.getStructBlock(location) == dataManager.system.blockNameMap.get("torch").getID()) {
+			dataManager.world.removeStructBlock(location);
+			blockUpdateManager.updateBlock(location);
 		}
 	}
 	public void run() {
@@ -36,8 +35,9 @@ public class CharacterManager extends Thread{
 					characterEntity.update();
 				}
 				if (!dataManager.system.characterLocationSet) {
-					if (dataManager.world.isGroundBlock((int)characterEntity.getX(), (int)characterEntity.getY())) {
-						BlockItem charBlock = dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock((int)characterEntity.getX(), (int)characterEntity.getY()));
+					Location location = new Location(characterEntity);
+					if (dataManager.world.isGroundBlock(location)) {
+						BlockItem charBlock = dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock(location));
 						if (charBlock.isName("water") || charBlock.isName("ice")) {
 							characterEntity.setPos(characterEntity.getX()+1, characterEntity.getY());
 						} else {
