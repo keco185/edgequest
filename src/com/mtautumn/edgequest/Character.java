@@ -68,10 +68,6 @@ public class Character extends Entity {
 				charXOffset *= 1.7;
 				charYOffset *= 1.7;
 				stamina -= 0.03;
-			} else {
-				if (stamina < maxStamina) {
-					stamina += 0.01;
-				}
 			}
 			if (dm.system.blockIDMap.get((short)dm.characterManager.getCharaterBlockInfo()[0]).isLiquid && dm.characterManager.getCharaterBlockInfo()[1] == 0.0) {
 				charXOffset /= 1.7;
@@ -102,6 +98,11 @@ public class Character extends Entity {
 				if (super.dm.system.rightMouseDown) {
 					updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
 				}
+			}
+		}
+		if (!dm.system.isKeyboardSprint) {
+			if (stamina < maxStamina) {
+				stamina += 0.01;
 			}
 		}
 		lastUpdate = System.currentTimeMillis();
