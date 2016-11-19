@@ -182,22 +182,43 @@ public class ConsoleManager {
 				addLine("use the format /spawn <entity name> [count]", 1);
 			}
 			break;
+		case "setHealth":
+			if (args.size() > 0) {
+				double health = Double.parseDouble(args.get(0));
+				if (health > 100) health = 100;
+				dataManager.characterManager.characterEntity.health = health/100.0 * dataManager.characterManager.characterEntity.maxHealth;
+				addLine("set health to: " + dataManager.characterManager.characterEntity.health, 2);
+			} else
+				addLine("use the format /setHealth <percent health>", 1);
+			break;
 		case "help":
-			addLine("Command List: ", 2);
-			Thread.sleep(1);
-			addLine("     (1) /time [0-2399]", 2);
-			Thread.sleep(1);
-			addLine("     (2) /tp <posX> <posY>", 2);
-			Thread.sleep(1);
-			addLine("     (3) /seed", 2);
-			Thread.sleep(1);
-			addLine("     (4) /speed [value]", 2);
-			Thread.sleep(1);
-			addLine("     (5) /reseed <seed>", 2);
-			Thread.sleep(1);
-			addLine("     (6) /give <item name> [count]", 2);
-			Thread.sleep(1);
-			addLine("     (7) /spawn <entity name> [count]", 2);
+			int page = (args.size() > 0) ? Integer.parseInt(args.get(0)) : 1;
+			switch (page) {
+			default:
+				addLine("Command List: (Page 1)", 2);
+				Thread.sleep(1);
+				addLine("     (1) /help [page number]", 2);
+				Thread.sleep(1);
+				addLine("     (2) /time [0-2399]", 2);
+				Thread.sleep(1);
+				addLine("     (3) /tp <posX> <posY>", 2);
+				Thread.sleep(1);
+				addLine("     (4) /seed", 2);
+				Thread.sleep(1);
+				addLine("     (5) /speed [value]", 2);
+				Thread.sleep(1);
+				addLine("     (6) /reseed <seed>", 2);
+				Thread.sleep(1);
+				addLine("     (7) /give <item name> [count]", 2);
+				break;
+			case 2:
+				addLine("Command List: (Page 2)", 2);
+				Thread.sleep(1);
+				addLine("     (8) /spawn <entity name> [count]", 2);
+				Thread.sleep(1);
+				addLine("     (9) /setHealth [percent health]", 2);
+				break;
+			}
 			break;
 		default:
 			addLine("unknown command \"" + cmdName + "\"", 1);

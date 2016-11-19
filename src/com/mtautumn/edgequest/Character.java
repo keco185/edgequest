@@ -7,11 +7,15 @@ public class Character extends Entity {
 	long lastUpdate;
 	private double lastX = 0;
 	private double lastY = 0;
+	public double stamina = 10;
+	public double maxStamina = 10;
 
 	public Character(double posX, double posY, double rotation, int dungeonLevel, int[] dungeon, DataManager dm) {
 		super("character",EntityType.character, posX, posY, rotation, dungeonLevel, dungeon, dm);
 		lastUpdate = System.currentTimeMillis();
 		super.slide = true;
+		stamina = 10;
+		maxStamina = 10;
 	}
 	public Character(Entity entity) {
 		super("character", EntityType.character, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dungeon, entity.dm);
@@ -22,6 +26,8 @@ public class Character extends Entity {
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0};
 		super.moveSpeed = dm.settings.moveSpeed;
+		stamina = 10;
+		maxStamina = 10;
 	}
 	public Character() {
 		super();
@@ -58,9 +64,14 @@ public class Character extends Entity {
 				charXOffset *= 0.70710678118;
 				charYOffset *= 0.70710678118;
 			}
-			if (dm.system.isKeyboardSprint) {
-				charXOffset *= 1.5;
-				charYOffset *= 1.5;
+			if (dm.system.isKeyboardSprint && stamina > 0.03) {
+				charXOffset *= 1.7;
+				charYOffset *= 1.7;
+				stamina -= 0.03;
+			} else {
+				if (stamina < maxStamina) {
+					stamina += 0.01;
+				}
 			}
 			if (dm.system.blockIDMap.get((short)dm.characterManager.getCharaterBlockInfo()[0]).isLiquid && dm.characterManager.getCharaterBlockInfo()[1] == 0.0) {
 				charXOffset /= 1.7;

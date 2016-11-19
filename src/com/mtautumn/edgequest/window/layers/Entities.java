@@ -19,7 +19,7 @@ public class Entities {
 			}
 		}
 		Entity entity = r.dataManager.characterManager.characterEntity;
-		drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r, entity.health/entity.maxHealth);
+		drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r);
 	}
 	private static void drawEntity(String texture, double posX, double posY, double rotation, Renderer r, double health) {
 		double blockSize = r.dataManager.settings.blockSize;
@@ -27,6 +27,12 @@ public class Entities {
 		double pixelsY = (float) ((posY - (r.dataManager.system.screenY - (Double.valueOf(r.dataManager.settings.screenHeight)/2.0)/blockSize))*blockSize);
 		r.drawTexture(r.textureManager.getTexture(texture), (float) (pixelsX - blockSize / 2.0), (float) (pixelsY - blockSize / 2.0), (float) blockSize, (float) blockSize, (float) rotation);
 		drawHealth(r, pixelsX, pixelsY, health);
+	}
+	private static void drawEntity(String texture, double posX, double posY, double rotation, Renderer r) {
+		double blockSize = r.dataManager.settings.blockSize;
+		double pixelsX = (float) ((posX - (r.dataManager.system.screenX - (Double.valueOf(r.dataManager.settings.screenWidth)/2.0)/blockSize))*blockSize);
+		double pixelsY = (float) ((posY - (r.dataManager.system.screenY - (Double.valueOf(r.dataManager.settings.screenHeight)/2.0)/blockSize))*blockSize);
+		r.drawTexture(r.textureManager.getTexture(texture), (float) (pixelsX - blockSize / 2.0), (float) (pixelsY - blockSize / 2.0), (float) blockSize, (float) blockSize, (float) rotation);
 	}
 	private static void drawHealth(Renderer r, double x, double y, double health) {
 		r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
