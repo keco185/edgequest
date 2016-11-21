@@ -88,18 +88,12 @@ public class DefineBlockItems {
 	}
 	private static void lanternDefinition() {
 		BlockItem lantern = new BlockItem(9, false, true, "lantern", null , new int[]{0,1,2,1});
-		lantern.isLightSource = true;
-		lantern.isHot = true;
-		lantern.isPassable = true;
-		lantern.isSolid = false;
 		lantern.maxFuel = 100;
 		lantern.isStackable = false;
 		addToMaps(lantern);
 	}
 	private static void daggerDefinition() {
 		BlockItem dagger = new BlockItem(10, false, true, "dagger", null , new int[]{0});
-		dagger.isPassable = true;
-		dagger.isSolid = false;
 		dagger.isStackable = false;
 		dagger.isWeapon = true;
 		dagger.maxDamage = 4;
