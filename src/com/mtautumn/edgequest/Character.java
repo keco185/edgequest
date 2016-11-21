@@ -117,4 +117,20 @@ public class Character extends Entity {
 	public void initializeClass(DataManager dm) {
 		super.initializeClass(dm);
 	}
+	public BlockItem getHeldItem(int slot) {
+		switch (slot) {
+		case 0:
+			if (dm.savable.backpackItems[0][dm.savable.hotBarSelection].getItemCount() > 0) {
+				return dm.system.blockIDMap.get(dm.savable.backpackItems[0][dm.savable.hotBarSelection].getItemID());
+			}
+			return null;
+		case 1:
+			if (dm.savable.backpackItems[0][dm.savable.hotBarSelection].getItemCount() > 0) {
+				return dm.system.blockIDMap.get(dm.savable.backpackItems[1][dm.savable.hotBarSelection].getItemID());
+			}
+			return null;
+		default:
+			return null;
+		}
+	}
 }

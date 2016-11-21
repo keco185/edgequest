@@ -25,7 +25,10 @@ public class BlockItem implements Serializable {
 	public int attackDamage = 1; //hit points attributed to target
 	public byte wearPosition = -1; //-1 (nowhere), 0 (head), 1 (torso), 2 (legs), 3 (feet)
 	public double defence = 0.0; //Percentage of damage removed when worn
-
+	public boolean isWeapon = false;
+	public double range = 1.0;
+	public double weaponSpread = 0.6;
+	
 	public boolean isLightSource = false;
 	public boolean isHot = false;
 	public boolean melts = false;

@@ -23,10 +23,29 @@ public class AttackManager extends Thread{
 			}
 		}
 	}
+	private boolean isWeapon(int slot) {
+		if (dm.characterManager.characterEntity.getHeldItem(slot) != null) {
+			return dm.characterManager.characterEntity.getHeldItem(slot).isWeapon;
+		}
+		return false;
+	}
 	private void performAttack() {
+		BlockItem attackWeapon = null;
+		if (isWeapon(0)) {
+			attackWeapon = dm.characterManager.characterEntity.getHeldItem(0);
+		} else {
+			attackWeapon = dm.characterManager.characterEntity.getHeldItem(1);
+		}
 		double maxRange = 1.0;
 		double minAngle = -dm.characterManager.characterEntity.getRot() - 0.3;
 		double maxAngle = -dm.characterManager.characterEntity.getRot() + 0.3;
+		double maxDamage = 1.0;
+		if (attackWeapon != null) {
+			maxRange = attackWeapon.range;
+			minAngle = -dm.characterManager.characterEntity.getRot() - attackWeapon.weaponSpread/2.0;
+			maxAngle = -dm.characterManager.characterEntity.getRot() + attackWeapon.weaponSpread/2.0;
+			maxDamage = attackWeapon.maxDamage;
+		}
 		if (minAngle < - 6.28) {
 			for (int i = 0; i < dm.savable.entities.size(); i++) {
 				Entity entity = dm.savable.entities.get(i);
@@ -34,7 +53,7 @@ public class AttackManager extends Thread{
 					if (getRange(entity) < maxRange) {
 						double entityAngle = getAngle(entity);
 						if (entityAngle < maxAngle || entityAngle > minAngle + 6.28) {
-							damageEntity(entity, i);
+							damageEntity(i, maxDamage);
 						}
 					}
 				}
@@ -47,7 +66,7 @@ public class AttackManager extends Thread{
 
 						double entityAngle = getAngle(entity);
 						if (entityAngle > minAngle || entityAngle < maxAngle - 6.28) {
-							damageEntity(entity, i);
+							damageEntity(i, maxDamage);
 						}
 					}
 				}
@@ -60,7 +79,7 @@ public class AttackManager extends Thread{
 
 						double entityAngle = getAngle(entity);
 						if (entityAngle < maxAngle && entityAngle > minAngle) {
-							damageEntity(entity, i);
+							damageEntity(i, maxDamage);
 						}
 					}
 				}
@@ -73,7 +92,11 @@ public class AttackManager extends Thread{
 	private double getAngle(Entity entity) {
 		return Math.atan2(dm.characterManager.characterEntity.getY() - entity.getY(), entity.getX() - dm.characterManager.characterEntity.getX());
 	}
-	public void damageEntity(Entity entity, int location) {
-		dm.savable.entities.get(location).health -= 1;
+	public void damageEntity(int location, double maxDamage) {
+		if (Math.random() > 0.8) {
+			dm.savable.entities.get(location).health -= maxDamage;
+		} {
+			dm.savable.entities.get(location).health -= maxDamage / 2.0 * (1 + Math.random());
+		}
 	}
 }
