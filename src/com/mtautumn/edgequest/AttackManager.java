@@ -95,8 +95,9 @@ public class AttackManager extends Thread{
 	public void damageEntity(int location, double maxDamage) {
 		if (Math.random() > 0.8) {
 			dm.savable.entities.get(location).health -= maxDamage;
-		} {
+		} else {
 			dm.savable.entities.get(location).health -= maxDamage / 2.0 * (1 + Math.random());
 		}
+		if (dm.savable.entities.get(location).health < 0) dm.savable.entities.get(location).health = 0;
 	}
 }

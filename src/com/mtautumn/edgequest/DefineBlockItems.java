@@ -23,6 +23,7 @@ public class DefineBlockItems {
 		groundDefinition();
 		iceDefinition();
 		lanternDefinition();
+		daggerDefinition();
 		
 		torchDefinition();
 		lilyPadDefinition();
@@ -94,6 +95,17 @@ public class DefineBlockItems {
 		lantern.maxFuel = 100;
 		lantern.isStackable = false;
 		addToMaps(lantern);
+	}
+	private static void daggerDefinition() {
+		BlockItem dagger = new BlockItem(10, false, true, "dagger", null , new int[]{0});
+		dagger.isPassable = true;
+		dagger.isSolid = false;
+		dagger.isStackable = false;
+		dagger.isWeapon = true;
+		dagger.maxDamage = 4;
+		dagger.range = 2;
+		dagger.weaponSpread = 1.2;
+		addToMaps(dagger);
 	}
 	private static void torchDefinition() {
 		BlockItem torch = new BlockItem(100, true, true, "torch", new int[]{0} , new int[]{0});
