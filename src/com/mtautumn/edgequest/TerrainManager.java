@@ -24,6 +24,7 @@ public class TerrainManager extends Thread {
 							for (int j = dataManager.system.minTileYGen - 2; j <= dataManager.system.maxTileYGen + 1; j++) {
 								if (!dataManager.world.ou.isGroundBlock(i, j)) {
 									terrainGenerator.generateBlock(i, j);
+									dataManager.entitySpawn.considerEntity(new Location(i, j));
 									blocksPerTick++;
 								}
 							}
@@ -36,7 +37,7 @@ public class TerrainManager extends Thread {
 					if (dataManager.system.updateDungeon) {
 						dataManager.system.blockGenerationLastTick = true;
 						if (dataManager.savable.dungeonLevel >= 0) {
-							dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).requestLevel(dataManager.savable.dungeonLevel, dataManager.system.blockNameMap);
+							dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).requestLevel(dataManager.savable.dungeonLevel, dataManager.system.blockNameMap, dataManager);
 							if (dataManager.savable.lastDungeonLevel > dataManager.savable.dungeonLevel) {
 								dataManager.characterManager.characterEntity.setX(dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).getStairsDown(dataManager.savable.dungeonLevel)[0] + 0.5);
 								dataManager.characterManager.characterEntity.setY(dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).getStairsDown(dataManager.savable.dungeonLevel)[1] + 0.5);

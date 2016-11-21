@@ -17,10 +17,12 @@ public class Dungeon implements Serializable {
 	private static final int MAX_LEVEL = 100;
 	DungeonLevel[] levels = new DungeonLevel[MAX_LEVEL];
 	private long seed;
-	private long dungeonID;
-	public Dungeon(DataManager dataManager, long dungeonID, int dungeonX, int dungeonY) { //dungeonID is the nth dungeon created in the map
+	private int dungeonX;
+	private int dungeonY;
+	public Dungeon(DataManager dataManager, int dungeonX, int dungeonY) { //dungeonID is the nth dungeon created in the map
+		this.dungeonX = dungeonX;
+		this.dungeonY = dungeonY;
 		seed = generateSeed(dataManager.savable.seed, dungeonX, dungeonY);
-		this.dungeonID = dungeonID;
 	}
 	private static long generateSeed(long... vals) {
 		long newSeed = vals[0];
@@ -95,11 +97,11 @@ public class Dungeon implements Serializable {
 			levels[level].lightingMap.remove(x+","+y);
 		}
 	}
-	public void requestLevel(int level, Map<String, BlockItem> blockNameMap) {
+	public void requestLevel(int level, Map<String, BlockItem> blockNameMap, DataManager dm) {
 		if (level >= 0) {
 			if (levels[level] == null) {
 
-				levels[level] =  new DungeonLevel(level, dungeonID, blockNameMap, seed);
+				levels[level] =  new DungeonLevel(level,dungeonX, dungeonY, blockNameMap, seed, dm);
 			}
 		}
 	}
@@ -120,12 +122,12 @@ public class Dungeon implements Serializable {
 		private int depth;
 		private long seed;
 
-		public DungeonLevel(int depth, long dungeonID, Map<String, BlockItem> blockNameMap, long seed) {
+		public DungeonLevel(int depth, int dungeonX, int dungeonY, Map<String, BlockItem> blockNameMap, long seed, DataManager dm) {
 			this.depth = depth;
 			this.seed = generateSeed(seed, depth);
-			generateLevel(blockNameMap);
+			generateLevel(blockNameMap, dm, dungeonX, dungeonY);
 		}
-		private void generateLevel(Map<String, BlockItem> blockNameMap) {
+		private void generateLevel(Map<String, BlockItem> blockNameMap, DataManager dm, int dungeonX, int dungeonY) {
 			int[][] dungeonMap = new Generator(100, 100, 10, seed).getNewDungeon();
 			for (int x = -2; x < 102; x+=103) {
 				for (int y = -2; y < 102; y++) {
@@ -157,6 +159,9 @@ public class Dungeon implements Serializable {
 					switch (dungeonMap[x][y]) {
 					case 0:
 						structureMap.put(x+","+y, blockNameMap.get("dirt").getID());
+						break;
+					case 1:
+						dm.entitySpawn.considerEntity(new Location(x, y, depth, dungeonX, dungeonY));
 						break;
 					case 2:
 						setUpStairs(x, y, blockNameMap);
