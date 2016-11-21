@@ -12,11 +12,13 @@ public class EntityUpdater extends Thread{
 		while(dm.system.running) {
 			try {
 				for (int i = 0; i < dm.savable.entities.size(); i++) {
-					if (dm.savable.entities.get(i).getType() != EntityType.character) {
-						dm.savable.entities.get(i).update();
-						if (dm.savable.entities.get(i).health <= 0) {
-							dm.savable.entities.remove(i);
-							i--;
+					if (dm.savable.entities.get(i).getType() != EntityType.character && dm.savable.entities.get(i).dungeonLevel == dm.characterManager.characterEntity.dungeonLevel) {
+						if (dm.savable.entities.get(i).distanceToPlayer() < 100) {
+							dm.savable.entities.get(i).update();
+							if (dm.savable.entities.get(i).health <= 0) {
+								dm.savable.entities.remove(i);
+								i--;
+							}
 						}
 					}
 				}
