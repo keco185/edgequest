@@ -32,6 +32,9 @@ public class Ant extends Entity {
 		super.moveSpeed = 0.05;
 	}
 	public void update() {
+		int tries = 0;
+		while ((!checkMove(0, getX() + lastX * moveSpeed) || !checkMove(1, getY() + lastY * moveSpeed) || tries == 0) && tries < 20) {
+			tries++;
 		if (Math.random() > 0.99) {
 			double rand = Math.random();
 			if (rand < 0.33333333) {
@@ -52,8 +55,11 @@ public class Ant extends Entity {
 				lastY = 1;
 			}
 		}
-		setX(getX() + lastX * moveSpeed);
-		setY(getY() + lastY * moveSpeed);
+		}
+		if (tries < 20) {
+			setX(getX() + lastX * moveSpeed);
+			setY(getY() + lastY * moveSpeed);
+		}
 		super.updateRotation(lastX, lastY);
 		if (dm.world.isStructBlock(this, (int) getX(), (int) getY())) {
 			if (dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) getX(), (int) getY())).hardness > -1) {
@@ -62,6 +68,28 @@ public class Ant extends Entity {
 			}
 		}
 		super.update();
+	}
+	private boolean checkMove(int dir, double newVal) {
+		double newX = getX();
+		double newY = getY();
+		if (dir == 0) {
+			newX = newVal;
+		} else {
+			newY = newVal;
+		}
+		if (dm.world.isStructBlock(this, (int) newX, (int) newY)) {
+			if (dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) newX, (int) newY)).hardness == -1) {
+				return false;
+			}
+		}
+		if (dm.world.isGroundBlock(this, (int) newX, (int) newY)) {
+			if (dm.world.getGroundBlock(this, (int) newX, (int) newY) == dm.system.blockNameMap.get("water").getID()) {
+				return false;
+			}
+			return true;
+		}
+		return false;
+		
 	}
 	public void initializeClass(DataManager dm) {
 		super.initializeClass(dm);
