@@ -37,8 +37,8 @@ public class AttackManager extends Thread{
 			attackWeapon = dm.characterManager.characterEntity.getHeldItem(1);
 		}
 		double maxRange = 1.0;
-		double minAngle = -dm.characterManager.characterEntity.getRot() - 0.3;
-		double maxAngle = -dm.characterManager.characterEntity.getRot() + 0.3;
+		double minAngle = -dm.characterManager.characterEntity.getRot() - 0.6;
+		double maxAngle = -dm.characterManager.characterEntity.getRot() + 0.6;
 		double maxDamage = 1.0;
 		if (attackWeapon != null) {
 			maxRange = attackWeapon.range;
