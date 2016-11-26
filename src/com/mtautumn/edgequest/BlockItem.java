@@ -28,6 +28,7 @@ public class BlockItem implements Serializable {
 	public boolean isWeapon = false;
 	public double range = 1.0;
 	public double weaponSpread = 0.6;
+	public String ammo = "";
 	
 	public boolean isLightSource = false;
 	public boolean isHot = false;

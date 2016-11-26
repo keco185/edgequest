@@ -31,13 +31,14 @@ public class AttackManager extends Thread{
 	}
 	private void performAttack() {
 		BlockItem attackWeapon = null;
+		Entity attackedEntity = null;
 		if (isWeapon(0)) {
 			attackWeapon = dm.characterManager.characterEntity.getHeldItem(0);
 			dm.characterManager.characterEntity.getHeldItemSlot(0).itemHealth -= 1;
 			if (dm.characterManager.characterEntity.getHeldItemSlot(0).itemHealth <= 0) {
 				dm.characterManager.characterEntity.removeHeldItem(0);
 			}
-		} else {
+		} else if (isWeapon(1)) {
 			attackWeapon = dm.characterManager.characterEntity.getHeldItem(1);
 			dm.characterManager.characterEntity.getHeldItemSlot(1).itemHealth -= 1;
 			if (dm.characterManager.characterEntity.getHeldItemSlot(1).itemHealth <= 0) {
@@ -61,7 +62,11 @@ public class AttackManager extends Thread{
 					if (getRange(entity) < maxRange) {
 						double entityAngle = getAngle(entity);
 						if (entityAngle < maxAngle || entityAngle > minAngle + 6.28) {
-							damageEntity(i, maxDamage);
+							if (attackedEntity == null) {
+								attackedEntity = entity;
+							} else if (attackedEntity.distanceToPlayer() > entity.distanceToPlayer()) {
+								attackedEntity = entity;
+							}
 						}
 					}
 				}
@@ -74,7 +79,11 @@ public class AttackManager extends Thread{
 
 						double entityAngle = getAngle(entity);
 						if (entityAngle > minAngle || entityAngle < maxAngle - 6.28) {
-							damageEntity(i, maxDamage);
+							if (attackedEntity == null) {
+								attackedEntity = entity;
+							} else if (attackedEntity.distanceToPlayer() > entity.distanceToPlayer()) {
+								attackedEntity = entity;
+							}
 						}
 					}
 				}
@@ -87,12 +96,17 @@ public class AttackManager extends Thread{
 
 						double entityAngle = getAngle(entity);
 						if (entityAngle < maxAngle && entityAngle > minAngle) {
-							damageEntity(i, maxDamage);
+							if (attackedEntity == null) {
+								attackedEntity = entity;
+							} else if (attackedEntity.distanceToPlayer() > entity.distanceToPlayer()) {
+								attackedEntity = entity;
+							}
 						}
 					}
 				}
 			}
 		}
+		damageEntity(attackedEntity, maxDamage);
 	}
 	private static double getRange(Entity entity) {
 		return entity.distanceToPlayer();
@@ -100,12 +114,14 @@ public class AttackManager extends Thread{
 	private double getAngle(Entity entity) {
 		return Math.atan2(dm.characterManager.characterEntity.getY() - entity.getY(), entity.getX() - dm.characterManager.characterEntity.getX());
 	}
-	public void damageEntity(int location, double maxDamage) {
-		if (Math.random() > 0.8) {
-			dm.savable.entities.get(location).health -= maxDamage;
-		} else {
-			dm.savable.entities.get(location).health -= maxDamage / 2.0 * (1 + Math.random());
+	public void damageEntity(Entity entity, double maxDamage) {
+		if (entity != null) {
+			if (Math.random() > 0.8) {
+				entity.health -= maxDamage;
+			} else {
+				entity.health -= maxDamage / 2.0 * (1 + Math.random());
+			}
+			if (entity.health < 0) entity.health = 0;
 		}
-		if (dm.savable.entities.get(location).health < 0) dm.savable.entities.get(location).health = 0;
 	}
 }
