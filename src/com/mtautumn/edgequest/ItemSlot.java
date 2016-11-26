@@ -12,6 +12,7 @@ public class ItemSlot implements Serializable {
 	
 	private Short itemID = -1;
 	private int itemCount = 0;
+	public int itemHealth = 1;
 	public Short getItemID() {
 		return itemID;
 	}

@@ -125,8 +125,27 @@ public class Character extends Entity {
 			}
 			return null;
 		case 1:
-			if (dm.savable.backpackItems[0][dm.savable.hotBarSelection].getItemCount() > 0) {
+			if (dm.savable.backpackItems[1][dm.savable.hotBarSelection].getItemCount() > 0) {
 				return dm.system.blockIDMap.get(dm.savable.backpackItems[1][dm.savable.hotBarSelection].getItemID());
+			}
+			return null;
+		default:
+			return null;
+		}
+	}
+	public void removeHeldItem(int slot) {
+		dm.savable.backpackItems[slot][dm.savable.hotBarSelection] = new ItemSlot();
+	}
+	public ItemSlot getHeldItemSlot(int slot) {
+		switch (slot) {
+		case 0:
+			if (dm.savable.backpackItems[0][dm.savable.hotBarSelection].getItemCount() > 0) {
+				return dm.savable.backpackItems[0][dm.savable.hotBarSelection];
+			}
+			return null;
+		case 1:
+			if (dm.savable.backpackItems[1][dm.savable.hotBarSelection].getItemCount() > 0) {
+				return dm.savable.backpackItems[1][dm.savable.hotBarSelection];
 			}
 			return null;
 		default:

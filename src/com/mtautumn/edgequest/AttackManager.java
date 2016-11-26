@@ -33,8 +33,16 @@ public class AttackManager extends Thread{
 		BlockItem attackWeapon = null;
 		if (isWeapon(0)) {
 			attackWeapon = dm.characterManager.characterEntity.getHeldItem(0);
+			dm.characterManager.characterEntity.getHeldItemSlot(0).itemHealth -= 1;
+			if (dm.characterManager.characterEntity.getHeldItemSlot(0).itemHealth <= 0) {
+				dm.characterManager.characterEntity.removeHeldItem(0);
+			}
 		} else {
 			attackWeapon = dm.characterManager.characterEntity.getHeldItem(1);
+			dm.characterManager.characterEntity.getHeldItemSlot(1).itemHealth -= 1;
+			if (dm.characterManager.characterEntity.getHeldItemSlot(1).itemHealth <= 0) {
+				dm.characterManager.characterEntity.removeHeldItem(1);
+			}
 		}
 		double maxRange = 1.0;
 		double minAngle = -dm.characterManager.characterEntity.getRot() - 0.6;

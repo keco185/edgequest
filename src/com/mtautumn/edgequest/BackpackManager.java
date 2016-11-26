@@ -136,6 +136,7 @@ public class BackpackManager extends Thread {
 						if (slot.getItemCount() == 0) {
 							slot.setItem(item.getID());
 							slot.setItemCount(1);
+							slot.itemHealth = item.maxHealth;
 							foundSpot = true;
 						} else if (slot.getItemID().equals(item.getID()) && !slot.isSlotFull() && item.isStackable) {
 							slot.addOne();
@@ -150,6 +151,7 @@ public class BackpackManager extends Thread {
 					if (slot.getItemCount() == 0) {
 						slot.setItem(item.getID());
 						slot.setItemCount(1);
+						slot.itemHealth = item.maxHealth;
 						foundSpot = true;
 					} else if (slot.getItemID().equals(item.getID()) && !slot.isSlotFull() && item.isStackable) {
 						slot.addOne();

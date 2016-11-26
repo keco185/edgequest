@@ -48,6 +48,7 @@ public class BlockItem implements Serializable {
 	public int damage = 1;
 	public int maxFuel = 1;
 	public int fuel = 1;
+	public int maxHealth = 1;
 
 	public BlockItem(int id, boolean isBlock, boolean isItem, String name, int[] blockAnimation, int[] itemAnimation) {
 		this.isItem = isItem;
