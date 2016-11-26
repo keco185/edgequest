@@ -9,6 +9,7 @@ import com.mtautumn.edgequest.Dungeon;
 import com.mtautumn.edgequest.Entity;
 import com.mtautumn.edgequest.FootPrint;
 import com.mtautumn.edgequest.ItemSlot;
+import com.mtautumn.edgequest.Projectile;
 
 public class SavableData implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -19,6 +20,7 @@ public class SavableData implements Serializable {
 	public Map<String, Dungeon> dungeonMap = new HashMap<String, Dungeon>();
 	public ArrayList<FootPrint> footPrints = new ArrayList<FootPrint>();
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
+	public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public long seed = 7;
 	public boolean isInDungeon = false;
 	public int dungeonX = 0;

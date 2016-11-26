@@ -31,97 +31,41 @@ public class AttackManager extends Thread{
 	}
 	private void performAttack() {
 		BlockItem attackWeapon = null;
-		Entity attackedEntity = null;
+		String projectile = "";
+		double offsetX = 0;
+		double offsetY = 0;
 		if (isWeapon(0)) {
 			attackWeapon = dm.characterManager.characterEntity.getHeldItem(0);
+			projectile = attackWeapon.projectile;
+			offsetX = Math.cos(-dm.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+			offsetY = -Math.sin(-dm.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
 			dm.characterManager.characterEntity.getHeldItemSlot(0).itemHealth -= 1;
 			if (dm.characterManager.characterEntity.getHeldItemSlot(0).itemHealth <= 0) {
 				dm.characterManager.characterEntity.removeHeldItem(0);
 			}
 		} else if (isWeapon(1)) {
 			attackWeapon = dm.characterManager.characterEntity.getHeldItem(1);
+			offsetX = Math.cos(-dm.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+			offsetY = -Math.sin(-dm.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+			projectile = attackWeapon.projectile;
 			dm.characterManager.characterEntity.getHeldItemSlot(1).itemHealth -= 1;
 			if (dm.characterManager.characterEntity.getHeldItemSlot(1).itemHealth <= 0) {
 				dm.characterManager.characterEntity.removeHeldItem(1);
 			}
 		}
-		double maxRange = 1.0;
-		double minAngle = -dm.characterManager.characterEntity.getRot() - 0.6;
-		double maxAngle = -dm.characterManager.characterEntity.getRot() + 0.6;
+		double maxRange = 0.5;
 		double maxDamage = 1.0;
 		if (attackWeapon != null) {
 			maxRange = attackWeapon.range;
-			minAngle = -dm.characterManager.characterEntity.getRot() - attackWeapon.weaponSpread/2.0;
-			maxAngle = -dm.characterManager.characterEntity.getRot() + attackWeapon.weaponSpread/2.0;
 			maxDamage = attackWeapon.maxDamage;
 		}
-		if (minAngle < - 6.28) {
-			for (int i = 0; i < dm.savable.entities.size(); i++) {
-				Entity entity = dm.savable.entities.get(i);
-				if (entity.getType() != Entity.EntityType.character) {
-					if (getRange(entity) < maxRange) {
-						double entityAngle = getAngle(entity);
-						if (entityAngle < maxAngle || entityAngle > minAngle + 6.28) {
-							if (attackedEntity == null) {
-								attackedEntity = entity;
-							} else if (attackedEntity.distanceToPlayer() > entity.distanceToPlayer()) {
-								attackedEntity = entity;
-							}
-						}
-					}
-				}
-			}
-		} else if (maxAngle > 6.28) {
-			for (int i = 0; i < dm.savable.entities.size(); i++) {
-				Entity entity = dm.savable.entities.get(i);
-				if (entity.getType() != Entity.EntityType.character) {
-					if (getRange(entity) < maxRange) {
-
-						double entityAngle = getAngle(entity);
-						if (entityAngle > minAngle || entityAngle < maxAngle - 6.28) {
-							if (attackedEntity == null) {
-								attackedEntity = entity;
-							} else if (attackedEntity.distanceToPlayer() > entity.distanceToPlayer()) {
-								attackedEntity = entity;
-							}
-						}
-					}
-				}
-			}
-		} else {
-			for (int i = 0; i < dm.savable.entities.size(); i++) {
-				Entity entity = dm.savable.entities.get(i);
-				if (entity.getType() != Entity.EntityType.character) {
-					if (getRange(entity) < maxRange) {
-
-						double entityAngle = getAngle(entity);
-						if (entityAngle < maxAngle && entityAngle > minAngle) {
-							if (attackedEntity == null) {
-								attackedEntity = entity;
-							} else if (attackedEntity.distanceToPlayer() > entity.distanceToPlayer()) {
-								attackedEntity = entity;
-							}
-						}
-					}
-				}
-			}
+		double damage = getDamage(maxDamage);
+		dm.savable.projectiles.add(new Projectile(0.30, -dm.characterManager.characterEntity.getRot(), maxRange, damage, projectile, dm.characterManager.characterEntity.getX() + offsetX, dm.characterManager.characterEntity.getY() + offsetY, dm.characterManager.characterEntity.dungeon[0], dm.characterManager.characterEntity.dungeon[1], dm.characterManager.characterEntity.dungeonLevel));
+	}
+	public double getDamage(double maxDamage) {
+		if (Math.random() > 0.8) {
+			return maxDamage;
 		}
-		damageEntity(attackedEntity, maxDamage);
-	}
-	private static double getRange(Entity entity) {
-		return entity.distanceToPlayer();
-	}
-	private double getAngle(Entity entity) {
-		return Math.atan2(dm.characterManager.characterEntity.getY() - entity.getY(), entity.getX() - dm.characterManager.characterEntity.getX());
-	}
-	public void damageEntity(Entity entity, double maxDamage) {
-		if (entity != null) {
-			if (Math.random() > 0.8) {
-				entity.health -= maxDamage;
-			} else {
-				entity.health -= maxDamage / 2.0 * (1 + Math.random());
-			}
-			if (entity.health < 0) entity.health = 0;
-		}
+		return maxDamage / 2.0 * (1 + Math.random());
 	}
 }

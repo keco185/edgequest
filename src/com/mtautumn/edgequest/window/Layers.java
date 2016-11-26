@@ -11,6 +11,7 @@ public class Layers {
 			Terrain.draw(r);
 			if (!r.dataManager.savable.isInDungeon) Footprints.draw(r);
 			CharacterEffects.draw(r);
+			Projectiles.draw(r);
 			Entities.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			Lighting.draw(r);

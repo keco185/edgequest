@@ -97,9 +97,10 @@ public class DefineBlockItems {
 		dagger.isStackable = false;
 		dagger.isWeapon = true;
 		dagger.maxDamage = 4;
-		dagger.range = 2;
+		dagger.range = 0.8;
 		dagger.weaponSpread = 1.2;
 		dagger.maxHealth = 50;
+		dagger.projectile = "dagger0";
 		addToMaps(dagger);
 	}
 	private static void torchDefinition() {
