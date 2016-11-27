@@ -65,11 +65,11 @@ public class Terrain {
 
 	private static Texture getTerrainBlockTexture(Renderer r, int x, int y) {
 		short blockValue = getTerrainBlockValue(r, x, y);
-		return r.dataManager.system.blockIDMap.get(blockValue).getBlockImg(r.dataManager.savable.time);
+		return r.dataManager.system.blockIDMap.get(blockValue).getBlockImg(r.dataManager.system.animationClock);
 	}
 	private static Texture getStructureBlockTexture(Renderer r, int x, int y) {
 		short blockValue = getStructureBlockValue(r, x, y);
-		return r.dataManager.system.blockIDMap.get(blockValue).getBlockImg(r.dataManager.savable.time);
+		return r.dataManager.system.blockIDMap.get(blockValue).getBlockImg(r.dataManager.system.animationClock);
 	}
 	private static short getStructureBlockValue(Renderer r, int x, int y) {
 		return r.dataManager.world.getStructBlock(x, y);

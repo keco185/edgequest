@@ -17,7 +17,7 @@ public class AnimationClock extends Thread {
 				if (!dataManager.system.isGameOnLaunchScreen) {
 					dataManager.system.animationClock++;
 				}
-				Thread.sleep(dataManager.settings.tickLength * 8);
+				Thread.sleep(dataManager.settings.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

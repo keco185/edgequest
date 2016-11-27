@@ -19,7 +19,7 @@ public class TextureManager {
 	public Map<String, int[]> textureAnimations = new HashMap<String, int[]>();
 
 	public TextureManager() {
-		textureAnimations.put("waterSplash", new int[]{0,0,1,1,2,2});
+		textureAnimations.put("waterSplash", new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2});
 		addGameTextures();
 		addBlockTextures();
 		addItemTextures();

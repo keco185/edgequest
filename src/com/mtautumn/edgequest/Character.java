@@ -16,6 +16,8 @@ public class Character extends Entity {
 		super.slide = true;
 		stamina = 10;
 		maxStamina = 10;
+		super.stillAnimation = new int[]{0};
+		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 	}
 	public Character(Entity entity) {
 		super("character", EntityType.character, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dungeon, entity.dm);
@@ -24,7 +26,7 @@ public class Character extends Entity {
 		dungeonLevel = entity.dungeonLevel;
 		dungeon = entity.dungeon;
 		super.stillAnimation = new int[]{0};
-		super.walkAnimation = new int[]{0};
+		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 		super.moveSpeed = dm.settings.moveSpeed;
 		stamina = 10;
 		maxStamina = 10;
@@ -32,6 +34,17 @@ public class Character extends Entity {
 	public Character() {
 		super();
 		super.slide = true;
+		super.stillAnimation = new int[]{0};
+		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
+	}
+	public String getTexture() {
+		if (dm.system.isKeyboardLeft ||
+				dm.system.isKeyboardUp ||
+				dm.system.isKeyboardRight ||
+				dm.system.isKeyboardDown) {
+			return entityTexture + "walk" + walkAnimation[dm.system.animationClock % walkAnimation.length];
+		}
+		return entityTexture + "still" + stillAnimation[dm.system.animationClock % stillAnimation.length];
 	}
 	public void update() {
 		dungeonLevel = dm.savable.dungeonLevel;

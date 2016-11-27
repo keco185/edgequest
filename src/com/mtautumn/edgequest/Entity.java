@@ -23,29 +23,29 @@ public class Entity implements Externalizable {
 		hostileCreature
 
 	}
-	private int entityID;
+	protected int entityID;
 	public int dungeonLevel = -1;
 	public int[] dungeon;
-	private float moveRot;
-	private String entityTexture;
-	private EntityType entityType;
-	private String nameTag = "";
-	private double posX, posY;
+	protected float moveRot;
+	protected String entityTexture;
+	protected EntityType entityType;
+	protected String nameTag = "";
+	protected double posX, posY;
 	public double frameX, frameY;
 	public double moveSpeed = 1.0;
-	private int destinationX, destinationY;
-	private double rotation;
-	private PathFinder aStar;
+	protected int destinationX, destinationY;
+	protected double rotation;
+	protected PathFinder aStar;
 	public ArrayList<IntCoord> path;
 	public DataManager dm;
-	private long lastUpdate;
+	protected long lastUpdate;
 	public boolean slide = false;
-	private double lastSpeedX, lastSpeedY;
+	protected double lastSpeedX, lastSpeedY;
 	public int[] stillAnimation = new int[]{0};
 	public int[] walkAnimation = new int[]{0};
 	public double lastPosX = 0;
 	public double lastPosY = 0;
-	private boolean wasWalking = false;
+	protected boolean wasWalking = false;
 	public double maxHealth = 1;
 	public double health = 1;
 

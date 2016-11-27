@@ -39,7 +39,7 @@ public class HotBar {
 				int posY = yPos + (int)(j * DELTA_Y) + START_Y;
 				Color.white.bind();
 				try {
-					r.drawTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.savable.time), posX, posY, 38, 38);
+					r.drawTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.system.animationClock), posX, posY, 38, 38);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

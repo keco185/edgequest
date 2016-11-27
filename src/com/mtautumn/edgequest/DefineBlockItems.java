@@ -70,7 +70,7 @@ public class DefineBlockItems {
 		addToMaps(snow);
 	}
 	private static void waterDefinition() {
-		BlockItem water = new BlockItem(6, true, false, "water", new int[]{0,1,2,3,2,1} , null);
+		BlockItem water = new BlockItem(6, true, false, "water", new int[]{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1} , null);
 		water.isLiquid = true;
 		water.isPassable = true;
 		water.hardness = -1;
@@ -89,7 +89,7 @@ public class DefineBlockItems {
 		addToMaps(ice);
 	}
 	private static void lanternDefinition() {
-		BlockItem lantern = new BlockItem(9, false, true, "lantern", null , new int[]{0,1,2,1});
+		BlockItem lantern = new BlockItem(9, false, true, "lantern", null , new int[]{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1});
 		lantern.maxFuel = 100;
 		lantern.isStackable = false;
 		addToMaps(lantern);
