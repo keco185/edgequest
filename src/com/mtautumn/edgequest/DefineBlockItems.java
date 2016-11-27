@@ -111,7 +111,7 @@ public class DefineBlockItems {
 		pistol.isStackable = false;
 		pistol.isWeapon = true;
 		pistol.maxDamage = 8;
-		pistol.range = 10;
+		pistol.range = 15;
 		pistol.maxHealth = 50;
 		pistol.projectile = "bullet";
 		pistol.ammo = "bullet";
