@@ -55,12 +55,20 @@ public class AttackManager extends Thread{
 		}
 		double maxRange = 0.5;
 		double maxDamage = 1.0;
+		double speed = 1.0;
+		boolean ammoGood = true;
 		if (attackWeapon != null) {
 			maxRange = attackWeapon.range;
 			maxDamage = attackWeapon.maxDamage;
+			speed = attackWeapon.speed;
+			if (!attackWeapon.ammo.equals("")) {
+				ammoGood = dm.backpackManager.removeItemFromBackpack(dm.system.blockNameMap.get(attackWeapon.ammo));
+			}
 		}
+		if (ammoGood) {
 		double damage = getDamage(maxDamage);
-		dm.savable.projectiles.add(new Projectile(0.30, -dm.characterManager.characterEntity.getRot(), maxRange, damage, projectile, dm.characterManager.characterEntity.getX() + offsetX, dm.characterManager.characterEntity.getY() + offsetY, dm.characterManager.characterEntity.dungeon[0], dm.characterManager.characterEntity.dungeon[1], dm.characterManager.characterEntity.dungeonLevel));
+		dm.savable.projectiles.add(new Projectile(speed, -dm.characterManager.characterEntity.getRot(), maxRange, damage, projectile, dm.characterManager.characterEntity.getX() + offsetX, dm.characterManager.characterEntity.getY() + offsetY, dm.characterManager.characterEntity.dungeon[0], dm.characterManager.characterEntity.dungeon[1], dm.characterManager.characterEntity.dungeonLevel));
+		}
 	}
 	public double getDamage(double maxDamage) {
 		if (Math.random() > 0.8) {

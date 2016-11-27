@@ -171,4 +171,20 @@ public class BackpackManager extends Thread {
 		}
 		return false;
 	}
+	public boolean removeItemFromBackpack(BlockItem item) {
+		for(int i = 0; i < dataManager.savable.backpackItems.length; i++) {
+			for(int j = 0; j < dataManager.savable.backpackItems[i].length; j++) {
+				if (dataManager.savable.backpackItems[i][j].getItemID().equals(item.getID())) {
+					if (dataManager.savable.backpackItems[i][j].getItemCount() > 0) {
+						dataManager.savable.backpackItems[i][j].subtractOne();
+						if (dataManager.savable.backpackItems[i][j].getItemCount() == 0) {
+							dataManager.savable.backpackItems[i][j] = new ItemSlot();
+						}
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 }

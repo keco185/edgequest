@@ -24,6 +24,8 @@ public class DefineBlockItems {
 		iceDefinition();
 		lanternDefinition();
 		daggerDefinition();
+		pistolDefinition();
+		bulletDefinition();
 		
 		torchDefinition();
 		lilyPadDefinition();
@@ -101,7 +103,24 @@ public class DefineBlockItems {
 		dagger.weaponSpread = 1.2;
 		dagger.maxHealth = 50;
 		dagger.projectile = "dagger0";
+		dagger.speed = 0.3;
 		addToMaps(dagger);
+	}
+	private static void pistolDefinition() {
+		BlockItem pistol = new BlockItem(11, false, true, "pistol", null , new int[]{0});
+		pistol.isStackable = false;
+		pistol.isWeapon = true;
+		pistol.maxDamage = 8;
+		pistol.range = 10;
+		pistol.maxHealth = 50;
+		pistol.projectile = "bullet";
+		pistol.ammo = "bullet";
+		pistol.speed = 2;
+		addToMaps(pistol);
+	}
+	private static void bulletDefinition() {
+		BlockItem bullet = new BlockItem(12, false, true, "bullet", null , new int[]{0});
+		addToMaps(bullet);
 	}
 	private static void torchDefinition() {
 		BlockItem torch = new BlockItem(100, true, true, "torch", new int[]{0} , new int[]{0});

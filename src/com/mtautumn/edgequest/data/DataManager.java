@@ -73,6 +73,7 @@ public class DataManager {
 	
 	// Start the managers
 	public void start() {
+		System.out.println("Starting managers");
 		characterManager.start();
 		terrainManager.start();
 		rendererManager.start();

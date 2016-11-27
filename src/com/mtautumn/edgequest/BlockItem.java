@@ -30,6 +30,7 @@ public class BlockItem implements Serializable {
 	public double weaponSpread = 0.6;
 	public String ammo = "";
 	public String projectile = "";
+	public double speed = 1.0;
 	
 	public boolean isLightSource = false;
 	public boolean isHot = false;
