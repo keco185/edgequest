@@ -59,13 +59,23 @@ public class Projectile {
 		}
 		return false;
 	}
+	public boolean inStructure(DataManager dm) {
+		Location location = new Location((int) x, (int) y, level, dungeonX, dungeonY);
+		if (dm.world.isStructBlock(location)) {
+			return !dm.system.blockIDMap.get(dm.world.getStructBlock(location)).isPassable;
+		}
+		return false;
+	}
 	private boolean checkEntity(Entity entity, double x, double y) {
 		if (entity == firedBy) return false;
 		double minX = entity.getX() - 0.5;
 		double minY = entity.getY() - 0.5;
 		double maxX = entity.getX() + 0.5;
 		double maxY = entity.getY() + 0.5;
-		return minX <= x && minY <= y && maxX >= x && maxY >= y;
+		if (entity.dungeonLevel == -1) {
+			return minX <= x && minY <= y && maxX >= x && maxY >= y && entity.dungeonLevel == level;
+		}
+		return minX <= x && minY <= y && maxX >= x && maxY >= y && entity.dungeonLevel == level && entity.dungeon[0] == dungeonX && entity.dungeon[1] == dungeonY;
 	}
 	public Entity getEntityIn(DataManager dm) {
 		for (int i = 0; i < dm.savable.entities.size(); i++) {

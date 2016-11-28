@@ -148,12 +148,18 @@ public class Entity implements Externalizable {
 		if (lastUpdate == 0L) lastUpdate = System.currentTimeMillis();
 		if (path != null) {
 			if (path.size() > 0) {
-				if (approachPoint(path.get(path.size() - 1), System.currentTimeMillis() - lastUpdate)) { //returns true if arrived at point
+				if (approachPoint(path.get(path.size() - 1), System.currentTimeMillis() - lastUpdate) || isImpassible(path.get(path.size() - 1))) { //returns true if arrived at point
 					path.remove(path.size() - 1);
 				}
 			}
 		}
 		lastUpdate = System.currentTimeMillis();
+	}
+	protected boolean isImpassible(IntCoord point) {
+		if (dm.world.isStructBlock(this, point.x, point.y)) {
+			return !dm.system.blockIDMap.get(dm.world.getStructBlock(this, point.x, point.y)).isPassable;
+		}
+		return false;
 	}
 	public void move(double deltaX, double deltaY) {
 		if (slide) {
@@ -361,5 +367,73 @@ public class Entity implements Externalizable {
 			return dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) getX() + deltaX, (int) getY() + deltaY));
 		}
 		return null;
+	}
+
+
+	protected boolean isLineOfSight(double x, double y) {
+		double checkingPosX = posX;
+		double checkingPosY = posY;
+		double deltaX = (x-posX);
+		double deltaY = (y-posY);
+		boolean answer = true;
+		if (deltaX != 0 || deltaY != 0) {
+			while(isInBetween(posX,x,checkingPosX) && isInBetween(posY,y,checkingPosY)) {
+				if (isBlockOpaque((int)Math.floor(checkingPosX), (int)Math.floor(checkingPosY))) {
+					//if (!(Math.abs(checkingPosX % 1.0) < 0.001 && Math.abs(checkingPosY % 1.0) < 0.001)) {
+					answer = false;
+					//}
+				}
+				double xNextLine;
+				double yNextLine;
+				if (deltaX > 0) {
+					xNextLine = (Math.ceil(checkingPosX) - checkingPosX) / deltaX;
+				} else if (deltaX < 0) {
+					xNextLine = (checkingPosX - Math.floor(checkingPosX)) / deltaX;
+				} else {
+					xNextLine = 100;
+				}
+				if (xNextLine == 0) {
+					xNextLine = 1.0 / deltaX;
+				}
+				if (deltaY > 0) {
+					yNextLine = (Math.ceil(checkingPosY) - checkingPosY) / deltaY;
+				} else if (deltaY < 0) {
+					yNextLine = (checkingPosY - Math.floor(checkingPosY)) / deltaY;
+				} else {
+					yNextLine = 100;
+				}
+				if (yNextLine == 0) {
+					yNextLine = 1.0 / deltaY;
+				}
+				xNextLine = Math.abs(xNextLine);
+				yNextLine = Math.abs(yNextLine);
+				if ((Math.abs(checkingPosX % 1.0) < 0.001 && Math.abs(checkingPosY % 1.0) < 0.001)) {
+					xNextLine = 0.01;
+					yNextLine = 0.01;
+				}
+				if (Math.abs(xNextLine) < Math.abs(yNextLine)) {
+					checkingPosX += xNextLine * deltaX;
+					checkingPosY += xNextLine * deltaY;
+				} else {
+					checkingPosX += yNextLine * deltaX;
+					checkingPosY += yNextLine * deltaY;
+				}
+
+			}
+		}
+		return answer;
+	}
+	private static boolean isInBetween(double num1, double num2, double numCheck) {
+		if (num1 <= numCheck && num2 >= numCheck) { return true; }
+		return (num1 >= numCheck && num2 <= numCheck);
+	}
+	private boolean isBlockOpaque(int x, int y) {
+		Location checkLocation = new Location(this);
+		checkLocation.x = x;
+		checkLocation.y = y;
+		if (dm.world.isStructBlock(checkLocation)) {
+			return !dm.system.blockIDMap.get(dm.world.getStructBlock(checkLocation)).isPassable;
+		}
+		return false;
 	}
 }

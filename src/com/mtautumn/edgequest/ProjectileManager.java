@@ -19,7 +19,7 @@ public class ProjectileManager extends Thread {
 						i--;
 						if (entity.health < 0) entity.health = 0;
 					} else {
-						if (projectile.distance() > projectile.maxDistance) {
+						if (projectile.distance() > projectile.maxDistance || projectile.inStructure(dm)) {
 							dm.savable.projectiles.remove(i);
 							i--;
 						}
