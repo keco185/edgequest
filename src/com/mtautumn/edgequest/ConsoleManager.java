@@ -159,13 +159,15 @@ public class ConsoleManager {
 				case "character":
 					dataManager.savable.entities.add(new Character(entity));
 					break;
+				case "troll":
+					dataManager.savable.entities.add(new Troll(entity));
+					break;
 				default:
 					break;
 				}
 			} else if (args.size() == 2) {
 				Entity entity = new Entity(args.get(0), null, dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), 0, dataManager.characterManager.characterEntity.dungeonLevel, dataManager.characterManager.characterEntity.dungeon, dataManager);
 				for (int i = 0; i < Integer.parseInt(args.get(1)); i++) {
-					if (args.get(0).equals("ant")) {
 						switch (args.get(0)) {
 						case "ant":
 							dataManager.savable.entities.add(new Ant(entity));
@@ -173,10 +175,12 @@ public class ConsoleManager {
 						case "character":
 							dataManager.savable.entities.add(new Character(entity));
 							break;
+						case "troll":
+							dataManager.savable.entities.add(new Troll(entity));
+							break;
 						default:
 							break;
 						}
-					}
 				}
 			} else {
 				addLine("use the format /spawn <entity name> [count]", 1);

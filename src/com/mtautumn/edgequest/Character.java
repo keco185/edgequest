@@ -16,6 +16,8 @@ public class Character extends Entity {
 		super.slide = true;
 		stamina = 10;
 		maxStamina = 10;
+		health = 20;
+		maxHealth = 20;
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 	}
@@ -30,6 +32,8 @@ public class Character extends Entity {
 		super.moveSpeed = dm.settings.moveSpeed;
 		stamina = 10;
 		maxStamina = 10;
+		health = 20;
+		maxHealth = 20;
 	}
 	public Character() {
 		super();
