@@ -1,8 +1,11 @@
 package com.mtautumn.edgequest;
 
+import java.io.Serializable;
+
 import com.mtautumn.edgequest.data.DataManager;
 
-public class Projectile {
+public class Projectile implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private double speed;
 	public double angle;
 	public double maxDistance;

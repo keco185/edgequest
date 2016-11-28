@@ -5,6 +5,7 @@ import com.mtautumn.edgequest.BackpackManager;
 import com.mtautumn.edgequest.ButtonActionManager;
 import com.mtautumn.edgequest.CharacterManager;
 import com.mtautumn.edgequest.ConsoleManager;
+import com.mtautumn.edgequest.DamagePostManager;
 import com.mtautumn.edgequest.EntitySpawn;
 import com.mtautumn.edgequest.EntityUpdater;
 import com.mtautumn.edgequest.GameClock;
@@ -21,7 +22,7 @@ public class DataManager {
 	public SystemData system = new SystemData();
 	public SavableData savable = new SavableData();
 	public SettingsData settings = new SettingsData();
-	
+
 	public MenuButtonManager menuButtonManager;
 	public BackpackManager backpackManager = new BackpackManager(this);
 	public BlockUpdateManager blockUpdateManager = new BlockUpdateManager(this);
@@ -35,10 +36,11 @@ public class DataManager {
 	public AttackManager attackManager = new AttackManager(this);
 	public EntitySpawn entitySpawn = new EntitySpawn(this);
 	public ProjectileManager projectileManager = new ProjectileManager(this);
-	
+	public DamagePostManager damagePostManager = new DamagePostManager(this);
+
 	public WorldUtils world = new WorldUtils(this);
 	public EntityUpdater entityUpdater = new EntityUpdater(this);
-	
+
 	// Initialize a new game
 	public void newGame() {
 		resetTerrain();
@@ -55,7 +57,7 @@ public class DataManager {
 		system.isLaunchScreenLoaded = false;
 		system.requestGenUpdate = true;
 	}
-	
+
 	// Reset the terrain
 	public void resetTerrain() {
 		terrainManager.terrainGenerator.clearCache();
@@ -70,7 +72,7 @@ public class DataManager {
 		}
 		system.requestGenUpdate = true;
 	}
-	
+
 	// Start the managers
 	public void start() {
 		System.out.println("Starting managers");
@@ -86,7 +88,8 @@ public class DataManager {
 		attackManager.start();
 		entitySpawn.start();
 		projectileManager.start();
+		damagePostManager.start();
 		system.requestGenUpdate = true;
 	}
-	
+
 }

@@ -15,9 +15,15 @@ public class ProjectileManager extends Thread {
 					if (projectile.advance(dm)) {
 						Entity entity = projectile.getEntityIn(dm);
 						entity.health -= projectile.damage;
+						double damage = projectile.damage;
 						dm.savable.projectiles.remove(i);
 						i--;
-						if (entity.health < 0) entity.health = 0;
+						if (entity.health < 0) {
+							damage += entity.health;
+							entity.health = 0;
+						}
+						dm.savable.damagePosts.add(new DamagePost(entity, (int) damage));
+
 					} else {
 						if (projectile.distance() > projectile.maxDistance || projectile.inStructure(dm)) {
 							dm.savable.projectiles.remove(i);

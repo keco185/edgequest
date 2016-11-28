@@ -27,6 +27,7 @@ public class Renderer {
 	public TrueTypeFont font2;
 	public TrueTypeFont backpackFont;
 	public TrueTypeFont buttonFont;
+	public TrueTypeFont damageFont;
 
 	public Renderer(DataManager dataManager) {
 		this.dataManager = dataManager;
@@ -77,10 +78,12 @@ public class Renderer {
 		dataManager.menuButtonManager = new MenuButtonManager(dataManager);
 		Font awtFont = new Font("Arial", Font.BOLD, 12);
 		Font awtFont2 = new Font("Helvetica", Font.PLAIN, 36);
-		Font awtBackpackFont = new Font("Helvetica", Font.BOLD, 12);
+		Font awtBackpackFont = new Font("Helvetica", Font.BOLD, 14);
+		Font awtDamageFont = new Font("Verdana", Font.BOLD, 14);
 		font = new TrueTypeFont(awtFont, false);
 		font2 = new TrueTypeFont(awtFont2, false);
 		backpackFont = new TrueTypeFont(awtBackpackFont, false);
+		damageFont = new TrueTypeFont(awtDamageFont, false);
 		try {
 			Font awtButtonFont = Font.createFont(Font.TRUETYPE_FONT, new File("textures/fonts/buttons.otf")).deriveFont(42f);
 			buttonFont = new TrueTypeFont(awtButtonFont, true);
@@ -208,15 +211,15 @@ public class Renderer {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
 		int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
 		int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
-			if (dataManager.world.isGroundBlock(charX, charY)) {
-				blockInfo[0] = dataManager.world.getGroundBlock(charX, charY);
-			}
-			if (dataManager.world.isStructBlock(charX, charY)) {
-				blockInfo[1] = dataManager.world.getStructBlock(charX, charY);
-			}
-			if (dataManager.world.isLight(charX, charY)) {
-				blockInfo[3] = dataManager.world.getLight(charX, charY);
-			}
+		if (dataManager.world.isGroundBlock(charX, charY)) {
+			blockInfo[0] = dataManager.world.getGroundBlock(charX, charY);
+		}
+		if (dataManager.world.isStructBlock(charX, charY)) {
+			blockInfo[1] = dataManager.world.getStructBlock(charX, charY);
+		}
+		if (dataManager.world.isLight(charX, charY)) {
+			blockInfo[3] = dataManager.world.getLight(charX, charY);
+		}
 		return blockInfo;
 	}
 }
