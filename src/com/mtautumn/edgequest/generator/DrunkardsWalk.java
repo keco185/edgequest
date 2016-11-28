@@ -49,12 +49,12 @@ public class DrunkardsWalk {
 	// Walk types for environment features
 	
 	public int[][] pondWalk(int[][] map, int x, int y) {
-		return walk(map, 2000, 1.0f, -1, 4, x, y);
+		return walk(map, 2000, 1.0f, Tile.DO_NOTHING, Tile.WATER, x, y);
 	}
 	
 	// Wrap walk method to randomize inputs
 	public int[][] randomWalk(int[][] map, int passes, float chaosChance) {
-		return walk(map, passes, chaosChance, 0, 1, rng.nextInt(map.length), rng.nextInt(map[0].length));
+		return walk(map, passes, chaosChance, Tile.WALL, Tile.FLOOR, rng.nextInt(map.length), rng.nextInt(map[0].length));
 	}
 	
 	// Does most of the heavy lifting
@@ -81,7 +81,7 @@ public class DrunkardsWalk {
 			
 			if (x > xMax-1 || y > yMax-1 || x < 0 || y < 0) {x -= dir[0]; y -= dir[1]; }
 			
-			if (find == -1) {
+			if (find == Tile.DO_NOTHING) {
 				tempMap[x][y] = replace;
 			} else if (tempMap[x][y] == find) { 
 				tempMap[x][y] = replace; 

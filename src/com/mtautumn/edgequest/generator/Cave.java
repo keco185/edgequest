@@ -61,8 +61,8 @@ public class Cave {
 		for (int i = 0; i < caveMap.length ; i++) {
 			for (int j = 0; j < caveMap[0].length; j++) {
 				// Only knock down walls
-				if (caveMap[i][j] == 1.0f && dunMap[i][j] == 0) {
-					dunMap[i][j] = 1;
+				if (caveMap[i][j] == 1.0f && dunMap[i][j] == Tile.WALL) {
+					dunMap[i][j] = Tile.FLOOR;
 				}
 			}
 		}

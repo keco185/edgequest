@@ -29,7 +29,7 @@ public class Room {
 		// NOTE: Maybe it's possible to remove this in the future, this is mostly wasted cpu cycles
 		for(int w = 0; w < width; w++) {
 			for(int h = 0; h < height; h++) {
-				this.room[w][h] = 1;
+				this.room[w][h] = Tile.FLOOR;
 			}
 		}
 		

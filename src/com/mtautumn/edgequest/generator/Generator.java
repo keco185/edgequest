@@ -26,7 +26,6 @@ public class Generator {
 	// 2D Array to store the map
 	int[][] map;
 
-
 	// RNG
 	long seed;
 	Random rng;
@@ -74,7 +73,7 @@ public class Generator {
 					// Check bounds
 					if ((w + room.xLoc < x) && (h + room.yLoc < y)) {
 
-						this.map[w + room.xLoc][h + room.yLoc] = 1;
+						this.map[w + room.xLoc][h + room.yLoc] = Tile.FLOOR;
 
 					}
 
@@ -96,7 +95,7 @@ public class Generator {
 
 			for (int i = 1; i < center2.x - center1.x + 1; i++) {
 				if (center1.x + i < this.x && center1.y < this.y) {
-					this.map[center1.x + i][center1.y] = 1;
+					this.map[center1.x + i][center1.y] = Tile.FLOOR;
 				}
 
 			}
@@ -105,7 +104,7 @@ public class Generator {
 
 			for (int i = 1; i < center1.x - center2.x + 1; i++) {
 				if (center2.x + i < this.x && center2.y < this.y) {
-					this.map[center2.x + i][center2.y] = 1;
+					this.map[center2.x + i][center2.y] = Tile.FLOOR;
 				}
 			}
 
@@ -124,7 +123,7 @@ public class Generator {
 
 			for (int i = 1; i < center2.y - center1.y + 1; i++) {
 				if (center1.x < this.x && center1.y + i < this.y) {
-					this.map[center1.x][center1.y + i] = 1;
+					this.map[center1.x][center1.y + i] = Tile.FLOOR;
 				}
 			}
 
@@ -132,7 +131,7 @@ public class Generator {
 
 			for (int i = 1; i < center1.y - center2.y + 1; i++) {
 				if (center2.x < this.x && center2.y + i < this.y) {
-					this.map[center2.x][center2.y + i] = 1;
+					this.map[center2.x][center2.y + i] = Tile.FLOOR;
 				}
 
 			}
@@ -193,9 +192,9 @@ public class Generator {
 			roomDown = rng.nextInt(rooms.length);
 		}
 		
-		map[rooms[roomUp].center.x][rooms[roomUp].center.y] = 2;
-		map[rooms[roomDown].center.x][rooms[roomDown].center.y] = 3;
-		
+		map[rooms[roomUp].center.x][rooms[roomUp].center.y] = Tile.UP_STAIR;
+		map[rooms[roomDown].center.x][rooms[roomDown].center.y] = Tile.DOWN_STAIR;
+	
 	}
 	
 	private void addPonds() {
