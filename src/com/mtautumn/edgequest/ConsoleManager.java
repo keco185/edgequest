@@ -195,6 +195,23 @@ public class ConsoleManager {
 			} else
 				addLine("use the format /setHealth <percent health>", 1);
 			break;
+		case "ubm":
+			if (dataManager.characterManager.characterEntity.stamina <= dataManager.characterManager.characterEntity.maxStamina) {
+				dataManager.characterManager.characterEntity.stamina = 2147483647;
+			} else {
+				dataManager.characterManager.characterEntity.stamina = dataManager.characterManager.characterEntity.maxStamina;
+			}
+			addLine("Usain Bolt Mode toggled", 1);
+			break;
+		case "tgm":
+			// '20' is the max health of the character class
+			if (dataManager.characterManager.characterEntity.health <= dataManager.characterManager.characterEntity.maxHealth) {
+				dataManager.characterManager.characterEntity.health = 2147483647;
+			} else {
+				dataManager.characterManager.characterEntity.health = dataManager.characterManager.characterEntity.maxHealth;
+			}
+			addLine("God Mode toggled", 1);
+			break;
 		case "help":
 			int page = (args.size() > 0) ? Integer.parseInt(args.get(0)) : 1;
 			switch (page) {
