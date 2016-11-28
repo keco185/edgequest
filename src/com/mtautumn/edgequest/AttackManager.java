@@ -105,21 +105,13 @@ public class AttackManager extends Thread{
 	public int diceRoll(double sides) {
 
 		// Roll dice, assuming sides is the number of sides on the die and the lowest face is one
-		double result = (Math.random() * sides) + 1;
-
-		// Critical hit
-		if (result >= sides) {
-
-			result += diceRoll(sides);
-
-			// Critical fail
-		} else if (result <= 1) {
-
-			return 0;
-
+		int total = (int) Math.ceil((Math.random() * sides));
+		
+		if (total == sides) {
+			total += Math.ceil((Math.random() * sides));
 		}
 
-		return (int) Math.ceil(result);
+		return total;
 
 	}
 
