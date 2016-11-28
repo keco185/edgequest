@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mtautumn.edgequest.DamagePost;
 import com.mtautumn.edgequest.Dungeon;
 import com.mtautumn.edgequest.Entity;
 import com.mtautumn.edgequest.FootPrint;
@@ -21,6 +22,7 @@ public class SavableData implements Serializable {
 	public ArrayList<FootPrint> footPrints = new ArrayList<FootPrint>();
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
 	public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
+	public ArrayList<DamagePost> damagePosts = new ArrayList<DamagePost>();
 	public long seed = 7;
 	public boolean isInDungeon = false;
 	public int dungeonX = 0;

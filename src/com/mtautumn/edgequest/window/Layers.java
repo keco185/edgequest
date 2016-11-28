@@ -16,6 +16,7 @@ public class Layers {
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			Lighting.draw(r);
 			BlockDamage.draw(r);
+			DamagePosts.draw(r);
 			if (!r.dataManager.system.hideMouse) MouseSelection.draw(r);
 			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			StatsBar.draw(r);
