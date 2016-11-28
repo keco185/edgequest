@@ -67,7 +67,7 @@ public class AttackManager extends Thread{
 		}
 		if (ammoGood) {
 		double damage = getDamage(maxDamage);
-		dm.savable.projectiles.add(new Projectile(speed, -dm.characterManager.characterEntity.getRot(), maxRange, damage, projectile, dm.characterManager.characterEntity.getX() + offsetX, dm.characterManager.characterEntity.getY() + offsetY, dm.characterManager.characterEntity.dungeon[0], dm.characterManager.characterEntity.dungeon[1], dm.characterManager.characterEntity.dungeonLevel));
+		dm.savable.projectiles.add(new Projectile(speed, -dm.characterManager.characterEntity.getRot(), maxRange, damage, projectile, dm.characterManager.characterEntity.getX() + offsetX, dm.characterManager.characterEntity.getY() + offsetY, dm.characterManager.characterEntity.dungeon[0], dm.characterManager.characterEntity.dungeon[1], dm.characterManager.characterEntity.dungeonLevel,dm.characterManager.characterEntity));
 		}
 	}
 	public double getDamage(double maxDamage) {

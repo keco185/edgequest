@@ -15,7 +15,8 @@ public class Projectile {
 	public int dungeonX;
 	public int dungeonY;
 	public int level;
-	public Projectile(double speed, double angle, double maxDistance, double damage, String texture, double startX, double startY, int dungeonX, int dungeonY, int level) {
+	public Entity firedBy;
+	public Projectile(double speed, double angle, double maxDistance, double damage, String texture, double startX, double startY, int dungeonX, int dungeonY, int level, Entity firedBy) {
 		this.speed = speed;
 		this.angle = angle;
 		this.maxDistance = maxDistance;
@@ -28,6 +29,7 @@ public class Projectile {
 		this.dungeonX = dungeonX;
 		this.dungeonY = dungeonY;
 		this.level = level;
+		this.firedBy = firedBy;
 	}
 	public double distance() {
 		return Math.sqrt(Math.pow(x - startX, 2) + Math.pow(y - startY, 2));
@@ -48,7 +50,7 @@ public class Projectile {
 		y = newY;
 		return false;
 	}
-	private static boolean isInEntity(DataManager dm, double x, double y) {
+	private boolean isInEntity(DataManager dm, double x, double y) {
 		for (int i = 0; i < dm.savable.entities.size(); i++) {
 			Entity entity = dm.savable.entities.get(i);
 			if (checkEntity(entity, x, y)) {
@@ -57,8 +59,8 @@ public class Projectile {
 		}
 		return false;
 	}
-	private static boolean checkEntity(Entity entity, double x, double y) {
-		if (entity.getType() == Entity.EntityType.character) return false;
+	private boolean checkEntity(Entity entity, double x, double y) {
+		if (entity == firedBy) return false;
 		double minX = entity.getX() - 0.5;
 		double minY = entity.getY() - 0.5;
 		double maxX = entity.getX() + 0.5;
