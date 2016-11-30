@@ -22,6 +22,10 @@ public class Generator {
 
 	// Array of all rooms being used
 	Room[] rooms;
+	
+	// Dungeon temperature and manager
+	Temperature dunTemp = new Temperature();
+	double tempurature;
 
 	// 2D Array to store the map
 	int[][] map;
@@ -37,6 +41,9 @@ public class Generator {
 		this.x = x;
 		this.y = y;
 		this.maxRooms = maxRooms;
+		
+		// TODO: Pass temp to dungeon
+		this.tempurature = 100;
 
 		// Initialize a map. Default all values are set to 0s (walls)
 		this.map = new int[x][y];
@@ -222,6 +229,7 @@ public class Generator {
 	// Clear the map to a blank state
 	public void clearMap() {
 		this.map = new int[this.x][this.y];
+		// Arrays.fill(this.map, dunTemp.getWall(this.tempurature));
 	}
 	
 	public void debugPrintMap() {

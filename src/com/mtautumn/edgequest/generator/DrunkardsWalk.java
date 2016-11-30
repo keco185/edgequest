@@ -54,7 +54,7 @@ public class DrunkardsWalk {
 	
 	// Wrap walk method to randomize inputs
 	public int[][] randomWalk(int[][] map, int passes, float chaosChance) {
-		return walk(map, passes, chaosChance, Tile.WALL, Tile.FLOOR, rng.nextInt(map.length), rng.nextInt(map[0].length));
+		return walk(map, passes, chaosChance, Tile.DIRT, Tile.FLOOR, rng.nextInt(map.length), rng.nextInt(map[0].length));
 	}
 	
 	// Does most of the heavy lifting
