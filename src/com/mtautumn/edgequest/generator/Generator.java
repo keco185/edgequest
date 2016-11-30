@@ -243,7 +243,6 @@ public class Generator {
 		
 		this.makeRooms();
 		this.connectRooms();
-		this.addStairs();
 	
 		// this.debugPrintMap();
 
@@ -255,6 +254,7 @@ public class Generator {
 		this.makeDungeon();
 		this.applyCave();
 		this.addPonds();
+		this.addStairs();
 		return this.map;
 
 	}
