@@ -9,8 +9,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.newdawn.slick.tiled.TileSet;
+
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.generator.Generator;
+import com.mtautumn.edgequest.generator.Tile;
 
 public class Dungeon implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -153,23 +156,25 @@ public class Dungeon implements Serializable {
 					groundMap.put(x+","+y, blockNameMap.get("stone").getID());
 				}
 			}
+			
+			// Make dungeons from generator map
 			for (int x = 0; x < dungeonMap.length; x++) {
 				for (int y = 0; y < dungeonMap[1].length; y++) {
 					groundMap.put(x+","+y, blockNameMap.get("stone").getID());
 					switch (dungeonMap[x][y]) {
-					case 0:
+					case Tile.DIRT:
 						structureMap.put(x+","+y, blockNameMap.get("dirt").getID());
 						break;
-					case 1:
+					case Tile.FLOOR:
 						dm.entitySpawn.considerEntity(new Location(x, y, depth, dungeonX, dungeonY));
 						break;
-					case 2:
+					case Tile.UP_STAIR:
 						setUpStairs(x, y, blockNameMap);
 						break;
-					case 3:
+					case Tile.DOWN_STAIR:
 						setDownStairs(x, y, blockNameMap);
 						break;
-					case 4:
+					case Tile.WATER:
 						// structureMap.put(x+","+y, blockNameMap.get("ground").getID());
 						groundMap.put(x+","+y, blockNameMap.get("water").getID());
 						break;
