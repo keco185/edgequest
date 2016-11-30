@@ -35,12 +35,6 @@ public class BlockUpdateManager extends Thread {
 		}
 		updateLighting(location);
 	}
-	private void executeLighting() {
-		for (int i = 0; i < lightingQueue.size(); i++) {
-			lighting.update(lightingQueue.get(i));
-		}
-		lightingQueue.clear();
-	}
 	private boolean updateCharLighting = true;
 	private boolean didUpdateLighting = false;
 	private int lastCharX = 0;
@@ -56,12 +50,13 @@ public class BlockUpdateManager extends Thread {
 					mining.update();
 					blockPlace.update();
 					footprints.update();
-					executeLighting();
 					if (updateCharLighting) {
-						if (lastCharX != (int)Math.floor(dataManager.characterManager.characterEntity.getX()) || lastCharY != (int)Math.floor(dataManager.characterManager.characterEntity.getY()) || !didUpdateLighting) {
+						if (!lastCharLocation.isEqual(new Location(dataManager.characterManager.characterEntity)) || !didUpdateLighting) {
 							updateLighting(lastCharLocation);
 							lastCharLocation = new Location(dataManager.characterManager.characterEntity);
 							updateLighting(lastCharLocation);
+							lastCharX = lastCharLocation.x;
+							lastCharY = lastCharLocation.y;
 						}
 						didUpdateLighting = true;
 					} else if (didUpdateLighting) {

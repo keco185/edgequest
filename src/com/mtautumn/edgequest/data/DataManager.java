@@ -15,6 +15,7 @@ import com.mtautumn.edgequest.TerrainManager;
 import com.mtautumn.edgequest.WorldUtils;
 import com.mtautumn.edgequest.updates.AnimationClock;
 import com.mtautumn.edgequest.updates.BlockUpdateManager;
+import com.mtautumn.edgequest.updates.LightingUpdater;
 import com.mtautumn.edgequest.window.managers.MenuButtonManager;
 import com.mtautumn.edgequest.window.managers.RendererManager;
 
@@ -37,6 +38,7 @@ public class DataManager {
 	public EntitySpawn entitySpawn = new EntitySpawn(this);
 	public ProjectileManager projectileManager = new ProjectileManager(this);
 	public DamagePostManager damagePostManager = new DamagePostManager(this);
+	public LightingUpdater lightingUpdater = new LightingUpdater(this);
 
 	public WorldUtils world = new WorldUtils(this);
 	public EntityUpdater entityUpdater = new EntityUpdater(this);
@@ -89,6 +91,7 @@ public class DataManager {
 		entitySpawn.start();
 		projectileManager.start();
 		damagePostManager.start();
+		lightingUpdater.start();
 		system.requestGenUpdate = true;
 	}
 
