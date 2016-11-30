@@ -13,7 +13,7 @@ public class Entities {
 			if (entity.dungeonLevel == r.dataManager.savable.dungeonLevel) {
 				if (entity.dungeonLevel == - 1 || (entity.dungeon[0] == r.dataManager.savable.dungeonX && entity.dungeon[1] == r.dataManager.savable.dungeonY)) {
 					if (entity.getType() != Entity.EntityType.character) {
-						drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r, entity.health/entity.maxHealth);
+						drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r, Double.valueOf(entity.health)/Double.valueOf(entity.maxHealth));
 					}
 				}
 			}

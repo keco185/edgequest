@@ -15,7 +15,8 @@ public class StatsBar {
 	}
 	
 	private static void drawHealth(Renderer r) {
-		double health = r.dataManager.characterManager.characterEntity.health / r.dataManager.characterManager.characterEntity.maxHealth;
+		double health = Double.valueOf(r.dataManager.characterManager.characterEntity.health) / Double.valueOf(r.dataManager.characterManager.characterEntity.maxHealth);
+		if (health > 1) health = 1.0;
 		int xPos = (r.dataManager.settings.screenWidth - BAR_WIDTH)/2 + 26;
 		int yPos = 8;
 		int width = (int) (647.0 * health);
@@ -31,6 +32,7 @@ public class StatsBar {
 	}
 	private static void drawStamina(Renderer r) {
 		double stamina = r.dataManager.characterManager.characterEntity.stamina / r.dataManager.characterManager.characterEntity.maxStamina;
+		if (stamina > 1) stamina = 1.0;
 		int xPos = (r.dataManager.settings.screenWidth - BAR_WIDTH)/2 + 69;
 		int yPos = 33;
 		int width = (int) (562.0 * stamina);
