@@ -9,7 +9,7 @@ public class Projectile implements Serializable {
 	private double speed;
 	public double angle;
 	public double maxDistance;
-	public double damage;
+	public int damage;
 	public String texture;
 	private double startX;
 	private double startY;
@@ -19,7 +19,7 @@ public class Projectile implements Serializable {
 	public int dungeonY;
 	public int level;
 	public Entity firedBy;
-	public Projectile(double speed, double angle, double maxDistance, double damage, String texture, double startX, double startY, int dungeonX, int dungeonY, int level, Entity firedBy) {
+	public Projectile(double speed, double angle, double maxDistance, int damage, String texture, double startX, double startY, int dungeonX, int dungeonY, int level, Entity firedBy) {
 		this.speed = speed;
 		this.angle = angle;
 		this.maxDistance = maxDistance;
