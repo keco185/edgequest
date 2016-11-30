@@ -103,7 +103,7 @@ public class DefineBlockItems {
 		dagger.weaponSpread = 1.2;
 		dagger.maxHealth = 50;
 		dagger.projectile = "dagger0";
-		dagger.speed = 0.3;
+		dagger.speed = 0.2;
 		addToMaps(dagger);
 	}
 	private static void pistolDefinition() {
@@ -115,7 +115,7 @@ public class DefineBlockItems {
 		pistol.maxHealth = 50;
 		pistol.projectile = "bullet";
 		pistol.ammo = "bullet";
-		pistol.speed = 2;
+		pistol.speed = 1.5;
 		addToMaps(pistol);
 	}
 	private static void bulletDefinition() {
