@@ -19,8 +19,8 @@ public class Troll extends Entity {
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 		super.moveSpeed = 0.83;
-		super.maxHealth = 10.0;
-		super.health = 10.0;
+		super.maxHealth = 10;
+		super.health = 10;
 	}
 	public Troll(Entity entity) {
 		super("troll",EntityType.hostileCreature, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dungeon, entity.dm);
@@ -29,8 +29,8 @@ public class Troll extends Entity {
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 		super.moveSpeed = 0.83;
-		super.maxHealth = 10.0;
-		super.health = 10.0;
+		super.maxHealth = 10;
+		super.health = 10;
 	}
 	public Troll() {
 		super();

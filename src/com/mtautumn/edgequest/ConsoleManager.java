@@ -190,7 +190,7 @@ public class ConsoleManager {
 			if (args.size() > 0) {
 				double health = Double.parseDouble(args.get(0));
 				if (health > 100) health = 100;
-				dataManager.characterManager.characterEntity.health = health/100.0 * dataManager.characterManager.characterEntity.maxHealth;
+				dataManager.characterManager.characterEntity.health = (int)(health/100.0 * dataManager.characterManager.characterEntity.maxHealth);
 				addLine("set health to: " + dataManager.characterManager.characterEntity.health, 2);
 			} else
 				addLine("use the format /setHealth <percent health>", 1);

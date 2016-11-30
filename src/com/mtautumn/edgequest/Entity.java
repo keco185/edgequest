@@ -46,8 +46,8 @@ public class Entity implements Externalizable {
 	public double lastPosX = 0;
 	public double lastPosY = 0;
 	protected boolean wasWalking = false;
-	public double maxHealth = 1;
-	public double health = 1;
+	public int maxHealth = 1;
+	public int health = 1;
 
 	public String getTexture() {
 		boolean walking = wasWalking;
@@ -312,8 +312,8 @@ public class Entity implements Externalizable {
 		out.writeObject(path);
 		out.writeInt(dungeonLevel);
 		out.writeObject(dungeon);
-		out.writeDouble(maxHealth);
-		out.writeDouble(health);
+		out.writeInt(maxHealth);
+		out.writeInt(health);
 	}
 	@SuppressWarnings("unchecked")
 	@Override
@@ -331,8 +331,8 @@ public class Entity implements Externalizable {
 		path = (ArrayList<IntCoord>) in.readObject();
 		dungeonLevel = in.readInt();
 		dungeon = (int[]) in.readObject();
-		maxHealth = in.readDouble();
-		health = in.readDouble();
+		maxHealth = in.readInt();
+		health = in.readInt();
 
 	}
 	public void initializeClass(DataManager dm) {
