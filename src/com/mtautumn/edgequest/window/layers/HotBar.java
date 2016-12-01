@@ -21,25 +21,26 @@ public class HotBar {
 	}
 	
 	private static void drawBackground(Renderer r) {
-		yPos = (r.dataManager.settings.screenHeight - HOTBAR_HEIGHT) - 24;
-		xPos = r.dataManager.settings.screenWidth - HOTBAR_WIDTH;
-		r.drawTexture(r.textureManager.getTexture("hotBar"), xPos, yPos, HOTBAR_WIDTH, HOTBAR_HEIGHT);
+		yPos = (r.dataManager.settings.screenHeight - (int)(HOTBAR_HEIGHT * r.dataManager.system.uiZoom)) / 2;
+		xPos = r.dataManager.settings.screenWidth - (int)(HOTBAR_WIDTH * r.dataManager.system.uiZoom);
+		r.drawTexture(r.textureManager.getTexture("hotBar"), xPos, yPos, (int) (HOTBAR_WIDTH * r.dataManager.system.uiZoom), (int) (HOTBAR_HEIGHT * r.dataManager.system.uiZoom));
 	}
 	private static void drawSelection(Renderer r) {
-		int posX = xPos + START_X - 5;
-		int posY = yPos + (int)(r.dataManager.savable.hotBarSelection * DELTA_Y) + START_Y - 6;
-		r.drawTexture(r.textureManager.getTexture("hotBarSelect"), posX, posY, 101, 47);
+		int posX = xPos + (int)((START_X - 5) * r.dataManager.system.uiZoom);
+		int posY = yPos + (int)(((r.dataManager.savable.hotBarSelection * DELTA_Y) + START_Y - 6) * r.dataManager.system.uiZoom);
+		r.drawTexture(r.textureManager.getTexture("hotBarSelect"), posX, posY, (int)(101 * r.dataManager.system.uiZoom), (int)(47 * r.dataManager.system.uiZoom));
 
 	}
 	
 	private static void drawSpaces(Renderer r) {
+		int itemSize = (int) (38 * r.dataManager.system.uiZoom);
 		for (int i = 0; i < 2; i++) {
-			int posX = xPos + i * DELTA_X + START_X;
+			int posX = xPos + (int)((i * DELTA_X + START_X) * r.dataManager.system.uiZoom);
 			for (int j = 0; j < 6; j++) {
-				int posY = yPos + (int)(j * DELTA_Y) + START_Y;
+				int posY = yPos + (int)(((j * DELTA_Y) + START_Y) * r.dataManager.system.uiZoom);
 				Color.white.bind();
 				try {
-					r.drawTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.system.animationClock), posX, posY, 38, 38);
+					r.drawTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.system.animationClock), posX, posY, itemSize, itemSize);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

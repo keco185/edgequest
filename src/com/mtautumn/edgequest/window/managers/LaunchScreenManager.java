@@ -20,7 +20,7 @@ public class LaunchScreenManager {
 	public void buttonPressed(int posX, int posY) {
 		for (int i = 0; i < buttonIDArray.size(); i++) {
 			MenuButton button = buttonIDArray.get(i);
-			if (posX > button.getPosX(dataManager.settings.screenWidth) && posX < button.getPosX(dataManager.settings.screenWidth) + button.width && posY > button.getPosY(dataManager.settings.screenHeight) && posY < button.getPosY(dataManager.settings.screenHeight) + button.height) {
+			if (posX > button.getPosX(dataManager.settings.screenWidth) && posX < button.getPosX(dataManager.settings.screenWidth) + button.getWidth() && posY > button.getPosY(dataManager.settings.screenHeight) && posY < button.getPosY(dataManager.settings.screenHeight) + button.getHeight()) {
 				runButtonAction(button.name);
 			}
 		}
@@ -29,10 +29,10 @@ public class LaunchScreenManager {
 		dataManager.system.buttonActionQueue.add(name);
 	}
 	public class MenuButton {
-		public int posX = 0;
-		public int posY = 0;
-		public int width = 0;
-		public int height = 0;
+		private int posX = 0;
+		private int posY = 0;
+		private int width = 0;
+		private int height = 0;
 		public int id = -1;
 		public Texture buttonImage;
 		public String name = "";
@@ -52,10 +52,22 @@ public class LaunchScreenManager {
 			}
 		}
 		public int getPosX(int screenWidth) {
-			return screenWidth / 2 + posX;
+			return screenWidth / 2 + (int)(posX * dataManager.system.uiZoom);
 		}
 		public int getPosY(int screenHeight) {
-			return screenHeight / 2 + posY;
+			return screenHeight / 2 + (int)(posY * dataManager.system.uiZoom);
+		}
+		public int getX() {
+			return (int) (posX * dataManager.system.uiZoom);
+		}
+		public int getY() {
+			return (int) (posY * dataManager.system.uiZoom);
+		}
+		public int getWidth() {
+			return (int)(width * dataManager.system.uiZoom);
+		}
+		public int getHeight() {
+			return (int)(height * dataManager.system.uiZoom);
 		}
 	}
 

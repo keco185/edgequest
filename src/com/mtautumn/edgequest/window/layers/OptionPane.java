@@ -20,11 +20,11 @@ public class OptionPane {
 
 		}
 		int textX = (r.dataManager.settings.screenWidth - r.font2.getWidth(text)) / 2;
-		int textY = (r.dataManager.settings.screenHeight) / 2 - r.font2.getHeight(text) - 100;
+		int textY = (r.dataManager.settings.screenHeight) / 2 - r.font2.getHeight(text) - (int)(100 * r.dataManager.system.uiZoom);
 		r.font2.drawString(textX, textY, text);
-		int xPos = (r.dataManager.settings.screenWidth - 400) / 2;
-		int yPos = (r.dataManager.settings.screenHeight - 60) / 2;
-		r.drawTexture(r.textureManager.getTexture("inputField"), xPos, yPos, 400, 60);
+		int xPos = (r.dataManager.settings.screenWidth - (int)(400 * r.dataManager.system.uiZoom)) / 2;
+		int yPos = (r.dataManager.settings.screenHeight - (int)(60 * r.dataManager.system.uiZoom)) / 2;
+		r.drawTexture(r.textureManager.getTexture("inputField"), xPos, yPos, (int)(400 * r.dataManager.system.uiZoom), (int)(60 * r.dataManager.system.uiZoom));
 		String inputFieldText = "";
 		if (r.dataManager.system.inputTextResponse.size() > count) {
 			inputFieldText = r.dataManager.system.inputTextResponse.get(count);
@@ -35,9 +35,9 @@ public class OptionPane {
 			inputFieldText = inputFieldText + "|";
 		}
 		if (r.dataManager.system.os != 1) { //adjusts font location for macOS
-			r.font2.drawString(xPos + 15, yPos + 5, inputFieldText);
+			r.font2.drawString(xPos + (int)(15 * r.dataManager.system.uiZoom), yPos + (int)(5 * r.dataManager.system.uiZoom), inputFieldText);
 		} else {
-			r.font2.drawString(xPos + 15, yPos + 15, inputFieldText);
+			r.font2.drawString(xPos + (int)(15 * r.dataManager.system.uiZoom), yPos + (int)(15 * r.dataManager.system.uiZoom), inputFieldText);
 		}
 		
 	}

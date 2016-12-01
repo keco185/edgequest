@@ -1,9 +1,7 @@
 package com.mtautumn.edgequest.window;
 
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.io.File;
-import java.io.IOException;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -11,7 +9,8 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.opengl.Texture;
 
 import com.mtautumn.edgequest.TextureManager;
@@ -23,14 +22,20 @@ public class Renderer {
 	public DataManager dataManager;
 	public TextureManager textureManager;
 	public LaunchScreenManager launchScreenManager;
-	public TrueTypeFont font;
-	public TrueTypeFont font2;
-	public TrueTypeFont backpackFont;
-	public TrueTypeFont buttonFont;
-	public TrueTypeFont damageFont;
-
+	public UnicodeFont font;
+	public UnicodeFont font2;
+	public UnicodeFont backpackFont;
+	public UnicodeFont buttonFont;
+	public UnicodeFont damageFont;
+	private double lastUIZoom;
+	private final double awtFontSize = 12;
+	private final double awt2FontSize = 36;
+	private final float buttonFontSize = 42;
+	private final double awtBackpackFontSize = 14;
+	private final double awtDamageFontSize = 14;
 	public Renderer(DataManager dataManager) {
 		this.dataManager = dataManager;
+		lastUIZoom = dataManager.system.uiZoom;
 	}
 	public void initGL(int width, int height) {
 		try {
@@ -72,28 +77,45 @@ public class Renderer {
 		glOrtho(0, width, height, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 	}
+	@SuppressWarnings("unchecked")
+	private static void setupFont(UnicodeFont font) {
+		try {
+			font.addAsciiGlyphs();
+			font.addGlyphs(400, 600);
+			font.getEffects().add(new ColorEffect(java.awt.Color.WHITE));
+			font.loadGlyphs();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void assignFonts() {
+		Font awtFont = new Font("Arial", Font.BOLD, (int) (awtFontSize * lastUIZoom));
+		Font awtFont2 = new Font("Helvetica", Font.PLAIN, (int) (awt2FontSize * lastUIZoom));
+		Font awtBackpackFont = new Font("Helvetica", Font.BOLD, (int) (awtBackpackFontSize * lastUIZoom));
+		Font awtDamageFont = new Font("Verdana", Font.BOLD, (int) (awtDamageFontSize * lastUIZoom));
+		font = new UnicodeFont(awtFont);
+		font2 = new UnicodeFont(awtFont2);
+		backpackFont = new UnicodeFont(awtBackpackFont);
+		damageFont = new UnicodeFont(awtDamageFont);
+		setupFont(font);
+		setupFont(font2);
+		setupFont(backpackFont);
+		setupFont(damageFont);
+		try {
+			float fontSize = buttonFontSize;// * (float)lastUIZoom;
+			Font awtButtonFont = Font.createFont(Font.TRUETYPE_FONT, new File("textures/fonts/buttons.otf")).deriveFont((float) (fontSize * lastUIZoom));
+			buttonFont = new UnicodeFont(awtButtonFont);
+			setupFont(buttonFont);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	public void loadManagers() {
 		textureManager = new TextureManager();
 		launchScreenManager = new LaunchScreenManager(dataManager);
 		dataManager.menuButtonManager = new MenuButtonManager(dataManager);
-		Font awtFont = new Font("Arial", Font.BOLD, 12);
-		Font awtFont2 = new Font("Helvetica", Font.PLAIN, 36);
-		Font awtBackpackFont = new Font("Helvetica", Font.BOLD, 14);
-		Font awtDamageFont = new Font("Verdana", Font.BOLD, 14);
-		font = new TrueTypeFont(awtFont, false);
-		font2 = new TrueTypeFont(awtFont2, false);
-		backpackFont = new TrueTypeFont(awtBackpackFont, false);
-		damageFont = new TrueTypeFont(awtDamageFont, false);
-		try {
-			Font awtButtonFont = Font.createFont(Font.TRUETYPE_FONT, new File("textures/fonts/buttons.otf")).deriveFont(42f);
-			buttonFont = new TrueTypeFont(awtButtonFont, true);
-		} catch (FontFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		assignFonts();
 	}
 
 	private double oldX = 800;
@@ -101,6 +123,10 @@ public class Renderer {
 	private boolean wasVSync = true;
 	private DisplayMode oldDisplayMode;
 	public void drawFrame() {
+		if (lastUIZoom != dataManager.system.uiZoom) {
+			lastUIZoom = dataManager.system.uiZoom;
+			assignFonts();
+		}
 		if (dataManager.settings.vSyncOn && !wasVSync) {
 			wasVSync = true;
 			Display.setVSyncEnabled(true);

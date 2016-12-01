@@ -57,12 +57,12 @@ public class MenuButtonManager {
 	public void buttonPressed(int posX, int posY) {
 		int adjustedX = posX - dataManager.system.menuX;
 		int adjustedY = posY - dataManager.system.menuY;
-		if (adjustedX < dataManager.settings.BACK_BUTTON_SIZE + dataManager.settings.BACK_BUTTON_PADDING && adjustedX > 0 && adjustedY < dataManager.settings.BACK_BUTTON_SIZE + dataManager.settings.BACK_BUTTON_PADDING && adjustedY > 0) {
+		if (adjustedX < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING * dataManager.system.uiZoom && adjustedX > 0 && adjustedY < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING * dataManager.system.uiZoom && adjustedY > 0) {
 			runButtonAction("Go To Parent");
 		}
 		for (int i = 0; i < getCurrentMenu().getButtons().size(); i++) {
 			MenuButton button = getCurrentMenu().getButtons().get(i);
-			if (adjustedX > button.posX && adjustedX < button.posX + button.width && adjustedY > button.posY && adjustedY < button.posY + button.height) {
+			if (adjustedX > button.getX() && adjustedX < button.getX() + button.getWidth() && adjustedY > button.getY() && adjustedY < button.getY() + button.getHeight()) {
 				if (button.visible) runButtonAction(button.name);
 			}
 		}
@@ -114,10 +114,10 @@ public class MenuButtonManager {
 		}
 	}
 	public class MenuButton {
-		public int posX = 0;
-		public int posY = 0;
-		public int width = 0;
-		public int height = 0;
+		private int posX = 0;
+		private int posY = 0;
+		private int width = 0;
+		private int height = 0;
 		public Texture buttonImage;
 		public String name = "";
 		public String displayName = "";
@@ -132,10 +132,22 @@ public class MenuButtonManager {
 			}
 		}
 		public int getPosX(int menuStartX) {
-			return posX+menuStartX;
+			return (int)(posX * dataManager.system.uiZoom)+menuStartX;
 		}
 		public int getPosY(int menuStartY) {
-			return posY+menuStartY;
+			return (int)(posY * dataManager.system.uiZoom)+menuStartY;
+		}
+		public int getX() {
+			return (int)(posX * dataManager.system.uiZoom);
+		}
+		public int getY() {
+			return (int)(posY * dataManager.system.uiZoom);
+		}
+		public int getWidth() {
+			return (int) (width * dataManager.system.uiZoom);
+		}
+		public int getHeight() {
+			return (int) (height * dataManager.system.uiZoom);
 		}
 	}
 }

@@ -101,16 +101,16 @@ public class BackpackManager extends Thread {
 	private int[] getItemSlotCoords(int x, int y) {
 		int[] coords = {-1,-1,0,0};
 		if (x < 2) {
-			int xPosMin = (dataManager.settings.screenWidth - 125) + x * 53 + 20;
-			int yPosMin = ((dataManager.settings.screenHeight - 403) - 24) + y * 53 + 66;
-			int xPosMax = xPosMin + 38;
-			int yPosMax = yPosMin + 38;
+			int xPosMin = (dataManager.settings.screenWidth - (int)(125* dataManager.system.uiZoom)) + (int)((x * 53 + 20)* dataManager.system.uiZoom);
+			int yPosMin = (int) ((dataManager.settings.screenHeight - (int)(403 * dataManager.system.uiZoom)) / 2.0 + (int)((y * 53.5 + 66) * dataManager.system.uiZoom));
+			int xPosMax = xPosMin + (int)(38 * dataManager.system.uiZoom);
+			int yPosMax = yPosMin + (int)(38 * dataManager.system.uiZoom);
 			coords = new int[] {xPosMin, yPosMin, xPosMax, yPosMax};
 		} else {
-			int xPosMin = dataManager.system.menuX + (x - 2) * 64 + 37;
-			int yPosMin = dataManager.system.menuY + (y) * 65 + 94;
-			int xPosMax = xPosMin + 48;
-			int yPosMax = yPosMin + 48;
+			int xPosMin = dataManager.system.menuX + (int)(((x - 2) * 64 + 37) * dataManager.system.uiZoom);
+			int yPosMin = dataManager.system.menuY + (int)((y * 65 + 94) * dataManager.system.uiZoom);
+			int xPosMax = xPosMin + (int)(48 * dataManager.system.uiZoom);
+			int yPosMax = yPosMin + (int)(48 * dataManager.system.uiZoom);
 			coords = new int[] {xPosMin, yPosMin, xPosMax, yPosMax};
 		}
 		return coords;

@@ -68,4 +68,5 @@ public class SystemData {
 	public boolean hideMouse = false;
 	public Map<Short, BlockItem> blockIDMap = new HashMap<Short, BlockItem>();
 	public Map<String, BlockItem> blockNameMap = new HashMap<String, BlockItem>();
+	public double uiZoom = 1;
 }

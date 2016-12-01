@@ -13,20 +13,24 @@ public class Backpack {
 	}
 	
 	private static void drawBackground(Renderer r) {
-		r.dataManager.system.menuX = r.dataManager.settings.screenWidth / 2 - 375;
-		r.dataManager.system.menuY = r.dataManager.settings.screenHeight/2 - 250;
-		r.drawTexture(r.textureManager.getTexture("backpack"), r.dataManager.system.menuX, r.dataManager.system.menuY, 750,500);
+		r.dataManager.system.menuX = r.dataManager.settings.screenWidth / 2 - (int) (375 * r.dataManager.system.uiZoom);
+		r.dataManager.system.menuY = r.dataManager.settings.screenHeight/2 - (int) (250 * r.dataManager.system.uiZoom);
+		r.drawTexture(r.textureManager.getTexture("backpack"), r.dataManager.system.menuX, r.dataManager.system.menuY, (int)(750 * r.dataManager.system.uiZoom),(int)(500 * r.dataManager.system.uiZoom));
 	}
 	
 	private static void drawSpaces(Renderer r) {
+		int spaceXMult = (int)(64 * r.dataManager.system.uiZoom);
+		int spaceYMult = (int)(65 * r.dataManager.system.uiZoom);
+		int spaceXAdd = (int)(37 * r.dataManager.system.uiZoom);
+		int spaceYAdd = (int)(94 * r.dataManager.system.uiZoom);
 		for (int i = 2; i < r.dataManager.savable.backpackItems.length; i++) {
-			int posX = r.dataManager.system.menuX + (i - 2) * 64 + 37;
+			int posX = r.dataManager.system.menuX + (i - 2) * spaceXMult + spaceXAdd;
 			for (int j = 0; j < r.dataManager.savable.backpackItems[i].length; j++) {
-				int posY = r.dataManager.system.menuY + j * 65 + 94;
+				int posY = r.dataManager.system.menuY + j * spaceYMult + spaceYAdd;
 				Color.white.bind();
 				try {
 					if (r.dataManager.savable.backpackItems[i][j].getItemCount() > 0) {
-						r.drawTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.system.animationClock), posX, posY, 48, 48);
+						r.drawTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.system.animationClock), posX, posY, (int)(48 * r.dataManager.system.uiZoom), (int)(48 * r.dataManager.system.uiZoom));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

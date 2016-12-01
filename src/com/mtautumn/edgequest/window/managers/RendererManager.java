@@ -132,6 +132,12 @@ public class RendererManager extends Thread {
 			dataManager.settings.screenHeight = Display.getHeight();
 			dataManager.system.blockGenerationLastTick = true;
 		}
+		if (dataManager.settings.screenHeight * 1.6 > dataManager.settings.screenWidth) {
+			dataManager.system.uiZoom = dataManager.settings.screenHeight / 800;
+		} else {
+			dataManager.system.uiZoom = dataManager.settings.screenWidth / 1280;
+		}
+		if (dataManager.system.uiZoom < 1) dataManager.system.uiZoom = 0.5;
 	}
 	private boolean wasMouseDown = false;
 	private void updateMouse() {
