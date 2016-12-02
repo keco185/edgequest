@@ -4,6 +4,7 @@
 package com.mtautumn.edgequest;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,8 +18,30 @@ public class TextureManager {
 	public Map<String, Texture> textureList = new HashMap<String, Texture>();
 	public Map<String, Texture> entityTextureList = new HashMap<String, Texture>();
 	public Map<String, int[]> textureAnimations = new HashMap<String, int[]>();
+	public String jarLocal;
 
+	private static String getLocal() throws URISyntaxException {
+		String baseLocal = EdgeQuest.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+		if (baseLocal.substring(baseLocal.length() - 1).equals("/") || baseLocal.substring(baseLocal.length() - 1).equals("\\")) {
+			baseLocal = baseLocal.substring(0, baseLocal.length() - 1);
+		}
+		boolean removing = true;
+		while (removing) {
+			if (!baseLocal.substring(baseLocal.length() - 1).equals("/") && !baseLocal.substring(baseLocal.length() - 1).equals("\\")) {
+				baseLocal = baseLocal.substring(0, baseLocal.length() - 1);
+			} else {
+				removing = false;
+			}
+		}
+		return baseLocal;
+	}
 	public TextureManager() {
+	try {
+		jarLocal = getLocal();
+		System.out.println("Game Directory: " + jarLocal);
+	} catch (URISyntaxException e) {
+		e.printStackTrace();
+	}
 		textureAnimations.put("waterSplash", new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2});
 		addGameTextures();
 		addBlockTextures();
@@ -37,7 +60,7 @@ public class TextureManager {
 		}
 	}
 	private void addEntityTextures() {
-		File folder = new File("textures/entities");
+		File folder = new File(jarLocal + "textures/entities");
 		File[] listOfFiles = folder.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {
@@ -45,16 +68,16 @@ public class TextureManager {
 				try {
 					if (getExtension(listOfFiles[i].getName()).equalsIgnoreCase("png")) {
 						System.out.println("Loaded: textures/entities/" + listOfFiles[i].getName());
-						textureList.put(getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/entities/" + listOfFiles[i].getName())));
+						textureList.put(getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/entities/" + listOfFiles[i].getName())));
 					}
 				} catch (Exception e) {
-					System.err.println("Could not load texture: /entities/" + listOfFiles[i].getName());
+					System.err.println("Could not load texture: textures/entities/" + listOfFiles[i].getName());
 				}
 			}
 		}
 	}
 	private void addBlockTextures() {
-		File folder = new File("textures/blocks");
+		File folder = new File(jarLocal + "textures/blocks");
 		File[] listOfFiles = folder.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {
@@ -62,16 +85,16 @@ public class TextureManager {
 				try {
 					if (getExtension(listOfFiles[i].getName()).equalsIgnoreCase("png")) {
 						System.out.println("Loaded: textures/blocks/" + listOfFiles[i].getName());
-						textureList.put(getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/blocks/" + listOfFiles[i].getName())));
+						textureList.put(getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/blocks/" + listOfFiles[i].getName())));
 					}
 				} catch (Exception e) {
-					System.err.println("Could not load texture: /blocks/" + listOfFiles[i].getName());
+					System.err.println("Could not load texture: textures/blocks/" + listOfFiles[i].getName());
 				}
 			}
 		}
 	}
 	private void addItemTextures() {
-		File folder = new File("textures/items");
+		File folder = new File(jarLocal + "textures/items");
 		File[] listOfFiles = folder.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {
@@ -79,16 +102,16 @@ public class TextureManager {
 				try {
 					if (getExtension(listOfFiles[i].getName()).equalsIgnoreCase("png")) {
 						System.out.println("Loaded: textures/items/" + listOfFiles[i].getName());
-						textureList.put(getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/items/" + listOfFiles[i].getName())));
+						textureList.put(getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/items/" + listOfFiles[i].getName())));
 					}
 				} catch (Exception e) {
-					System.err.println("Could not load texture: /items/" + listOfFiles[i].getName());
+					System.err.println("Could not load texture: textures/items/" + listOfFiles[i].getName());
 				}
 			}
 		}
 	}
 	private void addGameTextures() {
-		File folder = new File("textures");
+		File folder = new File(jarLocal + "textures");
 		File[] listOfFiles = folder.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {
@@ -96,17 +119,17 @@ public class TextureManager {
 				try {
 					if (getExtension(listOfFiles[i].getName()).equalsIgnoreCase("png")) {
 						System.out.println("Loaded: textures/" + listOfFiles[i].getName());
-						textureList.put(getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/" + listOfFiles[i].getName())));
+						textureList.put(getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/" + listOfFiles[i].getName())));
 					}
 				} catch (Exception e) {
-					System.err.println("Could not load texture: /" + listOfFiles[i].getName());
+					System.err.println("Could not load texture: textures/" + listOfFiles[i].getName());
 				}
 			}
 		}
 	}
 	private void addTexture(String name) {
 		try {
-			textureList.put(name, TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/" + name + ".png")));
+			textureList.put(name, TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/" + name + ".png")));
 		} catch (Exception e) {
 			System.out.println("Could not load texture: textures/" + name);
 		}

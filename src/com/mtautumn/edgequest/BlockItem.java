@@ -4,6 +4,7 @@
 package com.mtautumn.edgequest;
 
 import java.io.Serializable;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import org.newdawn.slick.opengl.Texture;
@@ -97,10 +98,25 @@ public class BlockItem implements Serializable {
 
 	private static Texture getTexture(String name, String directory) {
 		try {
-			return TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/" + directory + "/" + name + ".png"));
+			return TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(getLocal() + "/textures/" + directory + "/" + name + ".png"));
 		} catch (Exception e) {
-			System.out.println("Could not load texture: " + "textures/" + directory + "/" + name + ".png");
+			System.err.println("Could not load block/item texture: " + "textures/" + directory + "/" + name + ".png");
 			return null;
 		}
+	}
+	private static String getLocal() throws URISyntaxException {
+		String baseLocal = EdgeQuest.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+		if (baseLocal.substring(baseLocal.length() - 1).equals("/") || baseLocal.substring(baseLocal.length() - 1).equals("\\")) {
+			baseLocal = baseLocal.substring(0, baseLocal.length() - 1);
+		}
+		boolean removing = true;
+		while (removing) {
+			if (!baseLocal.substring(baseLocal.length() - 1).equals("/") && !baseLocal.substring(baseLocal.length() - 1).equals("\\")) {
+				baseLocal = baseLocal.substring(0, baseLocal.length() - 1);
+			} else {
+				removing = false;
+			}
+		}
+		return baseLocal;
 	}
 }

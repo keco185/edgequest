@@ -103,7 +103,7 @@ public class Renderer {
 		setupFont(damageFont);
 		try {
 			float fontSize = buttonFontSize;// * (float)lastUIZoom;
-			Font awtButtonFont = Font.createFont(Font.TRUETYPE_FONT, new File("textures/fonts/buttons.otf")).deriveFont((float) (fontSize * lastUIZoom));
+			Font awtButtonFont = Font.createFont(Font.TRUETYPE_FONT, new File(textureManager.jarLocal + "/textures/fonts/buttons.otf")).deriveFont((float) (fontSize * lastUIZoom));
 			buttonFont = new UnicodeFont(awtButtonFont);
 			setupFont(buttonFont);
 		} catch (Exception e) {
