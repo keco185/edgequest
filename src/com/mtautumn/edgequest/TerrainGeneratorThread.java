@@ -99,7 +99,7 @@ public class TerrainGeneratorThread extends Thread{
 			int[] stairs = getDungeonStairs(x,y,level-1);
 			System.out.println(stairs[0] + "," + stairs[1]);
 			if (level == 0) {
-				dm.world.setStructBlock(stairs[0], stairs[1], -1, dm.system.blockNameMap.get("dungeon").getID());
+				dm.world.setStructBlock(stairs[0] + x, stairs[1] + y, -1, dm.system.blockNameMap.get("dungeon").getID());
 			}
 
 			int[][] dungeonMap = new Generator(100, 100, 10, generateSeed(dungeonSeedBase,x,y,level), new Center(stairs[0], stairs[1])).getNewDungeon();
@@ -146,8 +146,8 @@ public class TerrainGeneratorThread extends Thread{
 			}
 			if (level == -1) {
 				Random rng = new Random(generateSeed(dungeonSeedBase,x,y,421));
-				int stairsX = (int) (rng.nextDouble() * 100) + x;
-				int stairsY = (int) (rng.nextDouble() * 100) + y;
+				int stairsX = (int) (rng.nextDouble() * 100);
+				int stairsY = (int) (rng.nextDouble() * 100);
 				dm.savable.dungeonStairs.put(x+","+y+","+level,new int[]{stairsX,stairsY});
 				return new int[]{stairsX,stairsY};
 			}
