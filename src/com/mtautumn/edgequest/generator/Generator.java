@@ -33,9 +33,11 @@ public class Generator {
 	// RNG
 	long seed;
 	Random rng;
+	
+	// Start loc
+	Center start = new Center();
 
-	// Constructor
-	public Generator(int x, int y, int maxRooms, long seed) {
+	public Generator(int x, int y, int maxRooms, long seed, Center start) {
 		this.seed = seed;
 		rng = new Random(seed);
 		this.x = x;
@@ -47,15 +49,21 @@ public class Generator {
 
 		// Initialize a map. Default all values are set to 0s (walls)
 		this.map = new int[x][y];
+		
+		// Init start
+		this.start = start;
 
 		// Get a current number of rooms based on a random value
 		this.currentMaxRooms = rng.nextInt(maxRooms) + (int) Math.floor(maxRooms / 2);
 
 		// Initialize the array of rooms
 		this.rooms = new Room[currentMaxRooms];
+		
+		// Init start room
+		this.rooms[0] = new Room(rng.nextInt((int) Math.floor(this.x / 4) + 3), rng.nextInt((int) Math.floor(this.y / 4) + 3), this.start.x, this.start.y);
 
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
-		for (int i = 0; i < currentMaxRooms; i++ ) {
+		for (int i = 1; i < currentMaxRooms; i++ ) {
 			this.rooms[i] = new Room(rng.nextInt((int) Math.floor(this.x / 4) + 3), rng.nextInt((int) Math.floor(this.y / 4) + 3), rng.nextInt(this.x), rng.nextInt(this.y));
 			while (this.rooms[i].center.x > this.x || this.rooms[i].center.y > this.y) {
 				this.rooms[i] = new Room(rng.nextInt((int) Math.floor(this.x / 4) + 3), rng.nextInt((int) Math.floor(this.y / 4) + 3), rng.nextInt(this.x), rng.nextInt(this.y));
