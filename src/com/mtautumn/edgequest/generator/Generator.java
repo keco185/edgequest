@@ -60,7 +60,7 @@ public class Generator {
 		this.rooms = new Room[currentMaxRooms];
 		
 		// Init start room
-		this.rooms[0] = new Room(rng.nextInt((int) Math.floor(this.x / 4) + 3), rng.nextInt((int) Math.floor(this.y / 4) + 3), this.start.x, this.start.y);
+		this.rooms[0] = new Room(10, 10, start);
 
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
 		for (int i = 1; i < currentMaxRooms; i++ ) {
@@ -195,19 +195,15 @@ public class Generator {
 	
 	// Creates staircase to go up and down, centered in a room
 	public void addStairs() {
-		int roomUp = rng.nextInt(rooms.length);
+		
 		int roomDown = rng.nextInt(rooms.length);
 		
-		while (rooms[roomUp].center.x + 1 > this.x || rooms[roomUp].center.y + 1 > this.y) {
-			roomUp = rng.nextInt(rooms.length);
-		}
 		
-		
-		while (roomDown == roomUp || rooms[roomDown].center.x + 1 > this.x || rooms[roomDown].center.y + 1 > this.y) {
+		while (roomDown == 0 || rooms[roomDown].center.x + 1 > this.x || rooms[roomDown].center.y + 1 > this.y) {
 			roomDown = rng.nextInt(rooms.length);
 		}
 		
-		map[rooms[roomUp].center.x][rooms[roomUp].center.y] = Tile.UP_STAIR;
+		map[rooms[0].center.x][rooms[0].center.y] = Tile.UP_STAIR;
 		map[rooms[roomDown].center.x][rooms[roomDown].center.y] = Tile.DOWN_STAIR;
 	
 	}

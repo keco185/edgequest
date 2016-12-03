@@ -38,6 +38,30 @@ public class Room {
 		
 	}
 	
+	public Room(int width, int height, Center center) {
+		// Dimensions of the room
+		this.width = width;
+		this.height = height;
+				
+		// Location of top left corner on map
+		this.xLoc = (int) (center.x - Math.floor(width/2));
+		this.yLoc = (int) (center.y - Math.floor(height / 2));
+				
+		// 2D Array
+		this.room = new int[width][height];
+				
+		// Set room array to all 1s, as 1s signify open floor tiles
+		// NOTE: Maybe it's possible to remove this in the future, this is mostly wasted cpu cycles
+		for(int w = 0; w < width; w++) {
+			for(int h = 0; h < height; h++) {
+				this.room[w][h] = Tile.FLOOR;
+			}
+		}
+				
+		// Center of the new room
+		this.center = center;
+	}
+	
 	// Return the room array. Not really necessary for most uses
 	public int[][] getRoom() {
 		return this.room;
