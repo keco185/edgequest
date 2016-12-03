@@ -8,7 +8,7 @@ public class Ant extends Entity {
 	private int lastY = 0;
 
 	public Ant(double posX, double posY, double rotation, DataManager dm, int dungeonLevel, int[] dungeon) {
-		super("ant",EntityType.passiveCreature, posX, posY, rotation, dungeonLevel, dungeon, dm);
+		super("ant",EntityType.passiveCreature, posX, posY, rotation, dungeonLevel, dm);
 		super.stillAnimation = new int[]{0,0,1,1};
 		super.walkAnimation = new int[]{0,1,2,3,4};
 		super.moveSpeed = 0.025;
@@ -16,9 +16,8 @@ public class Ant extends Entity {
 		super.health = 5;
 	}
 	public Ant(Entity entity) {
-		super("ant",EntityType.passiveCreature, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dungeon, entity.dm);
+		super("ant",EntityType.passiveCreature, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dm);
 		dungeonLevel = entity.dungeonLevel;
-		dungeon = entity.dungeon;
 		super.stillAnimation = new int[]{0,0,1,1};
 		super.walkAnimation = new int[]{0,1,2,3,4};
 		super.moveSpeed = 0.025;

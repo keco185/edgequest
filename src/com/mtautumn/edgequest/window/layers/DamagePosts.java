@@ -11,10 +11,8 @@ public class DamagePosts {
 		for( int i = 0; i < r.dataManager.savable.damagePosts.size(); i++) {
 			DamagePost post = r.dataManager.savable.damagePosts.get(i);
 			if (post.level == r.dataManager.savable.dungeonLevel) {
-				if (post.level == - 1 || (post.dungeonX == r.dataManager.savable.dungeonX && post.dungeonY == r.dataManager.savable.dungeonY)) {
 					drawPost(post.getX(), post.getY(), post.damage, r);
 				}
-			}
 		}
 	}
 	private static void drawPost(double x, double y, int damage, Renderer r) {

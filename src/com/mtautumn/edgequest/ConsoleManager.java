@@ -151,7 +151,7 @@ public class ConsoleManager {
 			break;
 		case "spawn":
 			if (args.size() == 1) {
-				Entity entity = new Entity(args.get(0), null, dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), 0, dataManager.characterManager.characterEntity.dungeonLevel, dataManager.characterManager.characterEntity.dungeon, dataManager);
+				Entity entity = new Entity(args.get(0), null, dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), 0, dataManager.characterManager.characterEntity.dungeonLevel, dataManager);
 				switch (args.get(0)) {
 				case "ant":
 					dataManager.savable.entities.add(new Ant(entity));
@@ -166,7 +166,7 @@ public class ConsoleManager {
 					break;
 				}
 			} else if (args.size() == 2) {
-				Entity entity = new Entity(args.get(0), null, dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), 0, dataManager.characterManager.characterEntity.dungeonLevel, dataManager.characterManager.characterEntity.dungeon, dataManager);
+				Entity entity = new Entity(args.get(0), null, dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), 0, dataManager.characterManager.characterEntity.dungeonLevel, dataManager);
 				for (int i = 0; i < Integer.parseInt(args.get(1)); i++) {
 						switch (args.get(0)) {
 						case "ant":

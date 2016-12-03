@@ -12,9 +12,7 @@ public class Projectiles {
 		for( int i = 0; i < r.dataManager.savable.projectiles.size(); i++) {
 			Projectile projectile = r.dataManager.savable.projectiles.get(i);
 			if (projectile.level == r.dataManager.savable.dungeonLevel) {
-				if (projectile.level == - 1 || (projectile.dungeonX == r.dataManager.savable.dungeonX && projectile.dungeonY == r.dataManager.savable.dungeonY)) {
-					drawProjectile(r.textureManager.getTexture(projectile.texture), projectile.x, projectile.y, -projectile.angle, r);
-				}
+				drawProjectile(r.textureManager.getTexture(projectile.texture), projectile.x, projectile.y, -projectile.angle, r);
 			}
 		}
 	}

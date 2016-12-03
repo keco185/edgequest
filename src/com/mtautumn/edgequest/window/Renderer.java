@@ -237,14 +237,14 @@ public class Renderer {
 		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
 		int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
 		int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
-		if (dataManager.world.isGroundBlock(charX, charY)) {
-			blockInfo[0] = dataManager.world.getGroundBlock(charX, charY);
+		if (dataManager.world.isGroundBlock(dataManager.characterManager.characterEntity, charX, charY)) {
+			blockInfo[0] = dataManager.world.getGroundBlock(dataManager.characterManager.characterEntity, charX, charY);
 		}
-		if (dataManager.world.isStructBlock(charX, charY)) {
-			blockInfo[1] = dataManager.world.getStructBlock(charX, charY);
+		if (dataManager.world.isStructBlock(dataManager.characterManager.characterEntity, charX, charY)) {
+			blockInfo[1] = dataManager.world.getStructBlock(dataManager.characterManager.characterEntity, charX, charY);
 		}
-		if (dataManager.world.isLight(charX, charY)) {
-			blockInfo[3] = dataManager.world.getLight(charX, charY);
+		if (dataManager.world.isLight(dataManager.characterManager.characterEntity, charX, charY)) {
+			blockInfo[3] = dataManager.world.getLight(dataManager.characterManager.characterEntity, charX, charY);
 		}
 		return blockInfo;
 	}

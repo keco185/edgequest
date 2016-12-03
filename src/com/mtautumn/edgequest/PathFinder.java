@@ -13,7 +13,7 @@ public class PathFinder {
 	public PathFinder(DataManager dm) {
 		this.dm = dm;
 	}
-	public ArrayList<IntCoord> findPath(int startX, int startY, int endX, int endY, DataManager dm) {
+	public ArrayList<IntCoord> findPath(int startX, int startY, int endX, int endY, int level, DataManager dm) {
 		int iterationCount = 0;
 		IntCoord start = new IntCoord(startX, startY);
 		IntCoord end = new IntCoord(endX, endY);
@@ -34,7 +34,7 @@ public class PathFinder {
 				for (int x = current.x - 1; x <= current.x + 1; x++) {
 					for (int y = current.y - 1; y <= current.y + 1; y++) {
 						if (x != current.x || y != current.y) {
-							if (isNodeClear(x, y, current.x, current.y) && !doesNodeExist(x, y, closedNodes)) {
+							if (isNodeClear(x, y, current.x, current.y, level) && !doesNodeExist(x, y, closedNodes)) {
 								int gCost = current.gCost;
 								if (current.x - x == 0 || current.y - y == 0) {
 									gCost += 10;
@@ -71,16 +71,16 @@ public class PathFinder {
 		}
 		return path;
 	}
-	private boolean isNodeClear(int x, int y, int firstX, int firstY) {
+	private boolean isNodeClear(int x, int y, int firstX, int firstY, int level) {
 		boolean nodeClear = true;
 		boolean diag1Clear = true;
 		boolean diag2Clear = true;
-		if (dm.world.isStructBlock(x, y))
-			nodeClear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, y)).isPassable;
-		if (dm.world.isStructBlock(firstX, y))
-			diag1Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(firstX, y)).isPassable;
-		if (dm.world.isStructBlock(x, firstY))
-			diag2Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, firstY)).isPassable;
+		if (dm.world.isStructBlock(x, y, level))
+			nodeClear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, y, level)).isPassable;
+		if (dm.world.isStructBlock(firstX, y, level))
+			diag1Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(firstX, y, level)).isPassable;
+		if (dm.world.isStructBlock(x, firstY, level))
+			diag2Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, firstY, level)).isPassable;
 		return nodeClear && (diag1Clear || diag2Clear);
 		
 	}

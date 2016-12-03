@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.mtautumn.edgequest.DamagePost;
-import com.mtautumn.edgequest.Dungeon;
 import com.mtautumn.edgequest.Entity;
 import com.mtautumn.edgequest.FootPrint;
 import com.mtautumn.edgequest.ItemSlot;
@@ -18,11 +17,12 @@ public class SavableData implements Serializable {
 	public Map<String, Short> map = new HashMap<String, Short>(50000);
 	public Map<String, Byte> lightMap = new HashMap<String, Byte>();
 	public Map<String, Short> playerStructuresMap = new HashMap<String, Short>();
-	public Map<String, Dungeon> dungeonMap = new HashMap<String, Dungeon>();
+	public Map<String, int[]> dungeonStairs = new HashMap<String, int[]>();
 	public ArrayList<FootPrint> footPrints = new ArrayList<FootPrint>();
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
 	public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public ArrayList<DamagePost> damagePosts = new ArrayList<DamagePost>();
+	public ArrayList<String> generatedRegions = new ArrayList<String>();
 	public long seed = 7;
 	public boolean isInDungeon = false;
 	public int dungeonX = 0;

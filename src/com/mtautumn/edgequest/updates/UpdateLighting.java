@@ -13,7 +13,7 @@ public class UpdateLighting {
 	private int lightDiffuseDistance = 8;
 	DataManager dataManager;
 	Map<String, Byte> bufferedLightMap = new HashMap<String, Byte>();
-	private Location updateLocation = new Location(0,0);
+	private Location updateLocation;
 	public UpdateLighting(DataManager dataManager) {
 		this.dataManager = dataManager;
 	}

@@ -16,7 +16,7 @@ public class UpdateMining {
 	private boolean wasStructBlock = false;
 	public void update() {
 		if (dataManager.system.leftMouseDown && !wasMouseDown || dataManager.system.miningX != dataManager.system.mouseX || dataManager.system.miningY != dataManager.system.mouseY) {
-			wasStructBlock = dataManager.world.isStructBlock(dataManager.system.mouseX, dataManager.system.mouseY);
+			wasStructBlock = dataManager.world.isStructBlock(dataManager.system.mouseX, dataManager.system.mouseY, dataManager.savable.dungeonLevel);
 		}
 		if (!dataManager.system.isKeyboardBackpack && !dataManager.system.isKeyboardMenu) {
 			if (dataManager.system.leftMouseDown && wasMouseDown && !dataManager.system.rightMouseDown && !dataManager.system.isMouseFar) {
@@ -25,12 +25,12 @@ public class UpdateMining {
 					dataManager.system.miningY = dataManager.system.mouseY;
 					dataManager.system.blockDamage = 0;
 				}
-				if (getBlockAt(dataManager.system.mouseX, dataManager.system.mouseY) != null && (wasStructBlock || (!wasStructBlock && dataManager.world.isStructBlock(dataManager.system.mouseX, dataManager.system.mouseY)))) {
-					dataManager.system.blockDamage += 1.0/getBlockAt(dataManager.system.mouseX, dataManager.system.mouseY).hardness/dataManager.settings.tickLength;
+				if (getBlockAt(dataManager.system.mouseX, dataManager.system.mouseY,dataManager.savable.dungeonLevel) != null && (wasStructBlock || (!wasStructBlock && dataManager.world.isStructBlock(dataManager.system.mouseX, dataManager.system.mouseY, dataManager.savable.dungeonLevel)))) {
+					dataManager.system.blockDamage += 1.0/getBlockAt(dataManager.system.mouseX, dataManager.system.mouseY, dataManager.savable.dungeonLevel).hardness/dataManager.settings.tickLength;
 					if (dataManager.system.blockDamage < 0) dataManager.system.blockDamage = 0;
 					if (dataManager.system.blockDamage >= 10) {
 						dataManager.system.blockDamage = 0;
-						breakBlock(dataManager.system.mouseX, dataManager.system.mouseY);
+						breakBlock(dataManager.system.mouseX, dataManager.system.mouseY, dataManager.savable.dungeonLevel);
 						Location checkLocation = new Location(dataManager.characterManager.characterEntity);
 						checkLocation.x = dataManager.system.mouseX;
 						checkLocation.y = dataManager.system.mouseY;
@@ -45,18 +45,18 @@ public class UpdateMining {
 		}
 		wasMouseDown = dataManager.system.leftMouseDown;
 	}
-	private BlockItem getBlockAt(int x, int y) {
-		if (dataManager.world.isStructBlock(x, y)) {
-			return dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(x, y));
+	private BlockItem getBlockAt(int x, int y, int level) {
+		if (dataManager.world.isStructBlock(x, y, level)) {
+			return dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(x, y, level));
 		}
 		return null;
 
 	}
-	private void breakBlock(int x, int y) {
+	private void breakBlock(int x, int y, int level) {
 		BlockItem item = null;
-		if (dataManager.world.isStructBlock(x, y)) {
-			item = dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(x, y));
-			dataManager.world.removeStructBlock(x, y);
+		if (dataManager.world.isStructBlock(x, y, level)) {
+			item = dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(x, y, level));
+			dataManager.world.removeStructBlock(x, y, level);
 
 		}
 		if (item != null) {

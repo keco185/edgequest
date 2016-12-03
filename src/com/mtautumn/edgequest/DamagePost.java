@@ -7,16 +7,12 @@ public class DamagePost implements Serializable {
 	double posX;
 	double posY;
 	public int level;
-	public int dungeonX;
-	public int dungeonY;
 	public long postTime;
 	public int damage;
 	public DamagePost(Entity entity, int damage) {
 		posX = entity.posX;
 		posY = entity.posY;
 		level = entity.dungeonLevel;
-		dungeonX = entity.dungeon[0];
-		dungeonY = entity.dungeon[1];
 		postTime = System.currentTimeMillis();
 		this.damage = damage;
 	}

@@ -37,9 +37,7 @@ public class BlockUpdateManager extends Thread {
 	}
 	private boolean updateCharLighting = true;
 	private boolean didUpdateLighting = false;
-	private int lastCharX = 0;
-	private int lastCharY = 0;
-	private Location lastCharLocation = new Location(0,0);
+	private Location lastCharLocation = new Location(0,0,-1);
 	public void run() {
 		int i = 0;
 		while (dataManager.system.running) {
@@ -55,8 +53,6 @@ public class BlockUpdateManager extends Thread {
 							updateLighting(lastCharLocation);
 							lastCharLocation = new Location(dataManager.characterManager.characterEntity);
 							updateLighting(lastCharLocation);
-							lastCharX = lastCharLocation.x;
-							lastCharY = lastCharLocation.y;
 						}
 						didUpdateLighting = true;
 					} else if (didUpdateLighting) {

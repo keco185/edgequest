@@ -3,6 +3,8 @@
  */
 package com.mtautumn.edgequest;
 
+import java.util.ArrayList;
+
 import com.mtautumn.edgequest.data.DataManager;
 
 public class TerrainManager extends Thread {
@@ -13,48 +15,47 @@ public class TerrainManager extends Thread {
 		terrainGenerator = new TerrainGenerator(dataManager);
 	}
 	public void run() {
-		int blocksPerTick = 0;
 		while (dataManager.system.running) {
 			try {
 				if (!dataManager.system.isGameOnLaunchScreen) {
-					if (dataManager.system.blockGenerationLastTick || dataManager.system.characterMoving || dataManager.system.requestGenUpdate) {
-						dataManager.system.requestGenUpdate = false;
-						blocksPerTick = 0;
-						for(int i = dataManager.system.minTileXGen - 2; i <= dataManager.system.maxTileXGen + 1 && blocksPerTick < 1000; i++) {
-							for (int j = dataManager.system.minTileYGen - 2; j <= dataManager.system.maxTileYGen + 1; j++) {
-								if (!dataManager.world.ou.isGroundBlock(i, j)) {
-									terrainGenerator.generateBlock(i, j);
-									dataManager.entitySpawn.considerEntity(new Location(i, j));
-									blocksPerTick++;
-								}
-							}
-						}
-						dataManager.system.blockGenerationLastTick = (blocksPerTick > 0);
-						if (!dataManager.system.blockGenerationLastTick && dataManager.system.loadingWorld) {
-							dataManager.system.loadingWorld = false;
+					ArrayList<int[]> regionsToGen = new ArrayList<int[]>();
+					ArrayList<TerrainGeneratorThread> threads = new ArrayList<TerrainGeneratorThread>();
+					for (int i = (int) (Math.floor((dataManager.system.minTileXGen - 20.0) / 100.0)*100); i <=  dataManager.system.maxTileXGen + 20; i+= 100) {
+						for (int j = (int) (Math.floor((dataManager.system.minTileYGen - 20.0) / 100.0)*100); j <=  dataManager.system.maxTileYGen + 20; j+= 100) {
+							regionsToGen.add(new int[]{i,j});
 						}
 					}
-					if (dataManager.system.updateDungeon) {
+					for (int i = 0; i < regionsToGen.size(); i++) {
+						if (!dataManager.savable.generatedRegions.contains(regionsToGen.get(i)[0] + "," + regionsToGen.get(i)[1] + "," + dataManager.savable.dungeonLevel)) {
+						TerrainGeneratorThread tgt = new TerrainGeneratorThread(terrainGenerator, dataManager, regionsToGen.get(i)[0], regionsToGen.get(i)[1], dataManager.savable.dungeonLevel);
+						tgt.start();
+						threads.add(tgt);
+						}
+					}
+					boolean waiting = threads.size() > 0;
+					if (waiting) {
 						dataManager.system.blockGenerationLastTick = true;
-						if (dataManager.savable.dungeonLevel >= 0) {
-							dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).requestLevel(dataManager.savable.dungeonLevel, dataManager.system.blockNameMap, dataManager);
-							if (dataManager.savable.lastDungeonLevel > dataManager.savable.dungeonLevel) {
-								dataManager.characterManager.characterEntity.setX(dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).getStairsDown(dataManager.savable.dungeonLevel)[0] + 0.5);
-								dataManager.characterManager.characterEntity.setY(dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).getStairsDown(dataManager.savable.dungeonLevel)[1] + 0.5);
-							} else {
-								dataManager.characterManager.characterEntity.setX(dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).getStairsUp(dataManager.savable.dungeonLevel)[0] + 0.5);
-								dataManager.characterManager.characterEntity.setY(dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY).getStairsUp(dataManager.savable.dungeonLevel)[1] + 0.5);
-
+					} else {
+						dataManager.system.blockGenerationLastTick = false;
+					}
+					while (waiting) {
+						boolean shouldWait = false;
+						for (int i = 0; i < threads.size() && !shouldWait; i++) {
+							if (threads.get(i).isAlive()) {
+								shouldWait = true;
 							}
 						}
-						dataManager.system.updateDungeon = false;
-						dataManager.savable.lastDungeonLevel = dataManager.savable.dungeonLevel;
-						dataManager.blockUpdateManager.updateLighting(new Location(dataManager.characterManager.characterEntity));
+						waiting = shouldWait;
 					}
+					if (threads.size() == 0) {
+						dataManager.system.loadingWorld = false;
+					}
+					Thread.sleep(1000);
+				} else {
+					Thread.sleep(100);
 				}
-				Thread.sleep(dataManager.settings.tickLength);
 			} catch (Exception e) {
-				e.printStackTrace();
+				
 			}
 		}
 	}

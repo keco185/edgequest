@@ -15,11 +15,9 @@ public class Projectile implements Serializable {
 	private double startY;
 	public double x;
 	public double y;
-	public int dungeonX;
-	public int dungeonY;
 	public int level;
 	public Entity firedBy;
-	public Projectile(double speed, double angle, double maxDistance, int damage, String texture, double startX, double startY, int dungeonX, int dungeonY, int level, Entity firedBy) {
+	public Projectile(double speed, double angle, double maxDistance, int damage, String texture, double startX, double startY, int level, Entity firedBy) {
 		this.speed = speed;
 		this.angle = angle;
 		this.maxDistance = maxDistance;
@@ -29,8 +27,6 @@ public class Projectile implements Serializable {
 		this.y = startY;
 		this.damage = damage;
 		this.texture = texture;
-		this.dungeonX = dungeonX;
-		this.dungeonY = dungeonY;
 		this.level = level;
 		this.firedBy = firedBy;
 	}
@@ -63,7 +59,7 @@ public class Projectile implements Serializable {
 		return false;
 	}
 	public boolean inStructure(DataManager dm) {
-		Location location = new Location((int) x, (int) y, level, dungeonX, dungeonY);
+		Location location = new Location((int) x, (int) y, level);
 		if (dm.world.isStructBlock(location)) {
 			return !dm.system.blockIDMap.get(dm.world.getStructBlock(location)).isPassable;
 		}
@@ -78,7 +74,7 @@ public class Projectile implements Serializable {
 		if (entity.dungeonLevel == -1) {
 			return minX <= x && minY <= y && maxX >= x && maxY >= y && entity.dungeonLevel == level;
 		}
-		return minX <= x && minY <= y && maxX >= x && maxY >= y && entity.dungeonLevel == level && entity.dungeon[0] == dungeonX && entity.dungeon[1] == dungeonY;
+		return minX <= x && minY <= y && maxX >= x && maxY >= y && entity.dungeonLevel == level;
 	}
 	public Entity getEntityIn(DataManager dm) {
 		for (int i = 0; i < dm.savable.entities.size(); i++) {

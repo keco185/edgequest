@@ -10,8 +10,8 @@ public class Character extends Entity {
 	public double stamina = 10;
 	public double maxStamina = 10;
 
-	public Character(double posX, double posY, double rotation, int dungeonLevel, int[] dungeon, DataManager dm) {
-		super("character",EntityType.character, posX, posY, rotation, dungeonLevel, dungeon, dm);
+	public Character(double posX, double posY, double rotation, int dungeonLevel, DataManager dm) {
+		super("character",EntityType.character, posX, posY, rotation, dungeonLevel, dm);
 		lastUpdate = System.currentTimeMillis();
 		super.slide = true;
 		stamina = 10;
@@ -22,11 +22,10 @@ public class Character extends Entity {
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 	}
 	public Character(Entity entity) {
-		super("character", EntityType.character, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dungeon, entity.dm);
+		super("character", EntityType.character, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dm);
 		lastUpdate = System.currentTimeMillis();
 		super.slide = true;
 		dungeonLevel = entity.dungeonLevel;
-		dungeon = entity.dungeon;
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 		super.moveSpeed = dm.settings.moveSpeed;
@@ -52,7 +51,6 @@ public class Character extends Entity {
 	}
 	public void update() {
 		dungeonLevel = dm.savable.dungeonLevel;
-		dungeon = new int[]{dm.savable.dungeonX, dm.savable.dungeonY};
 		if (super.dm.system.isKeyboardSprint) super.moveSpeed = super.dm.settings.moveSpeed * 2.0;
 		else super.moveSpeed = super.dm.settings.moveSpeed;
 		if (super.dm.system.isKeyboardLeft ||

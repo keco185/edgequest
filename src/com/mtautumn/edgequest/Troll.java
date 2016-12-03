@@ -14,8 +14,8 @@ public class Troll extends Entity {
 	private int checkCount = 0;
 	private int attackTimer = 0;
 
-	public Troll(double posX, double posY, double rotation, DataManager dm, int dungeonLevel, int[] dungeon) {
-		super("troll",EntityType.hostileCreature, posX, posY, rotation, dungeonLevel, dungeon, dm);
+	public Troll(double posX, double posY, double rotation, DataManager dm, int dungeonLevel) {
+		super("troll",EntityType.hostileCreature, posX, posY, rotation, dungeonLevel, dm);
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 		super.moveSpeed = 0.83;
@@ -23,9 +23,8 @@ public class Troll extends Entity {
 		super.health = 10;
 	}
 	public Troll(Entity entity) {
-		super("troll",EntityType.hostileCreature, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dungeon, entity.dm);
+		super("troll",EntityType.hostileCreature, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dm);
 		dungeonLevel = entity.dungeonLevel;
-		dungeon = entity.dungeon;
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 		super.moveSpeed = 0.83;

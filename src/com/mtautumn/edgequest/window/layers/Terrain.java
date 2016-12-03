@@ -22,7 +22,7 @@ public class Terrain {
 		for(int x = minTileX; x <= maxTileX; x++) {
 			yPos = yPosReset;
 			for (int y = minTileY; y <= maxTileY; y++) {
-				if (r.dataManager.world.isLight(x, y) || bright) {
+				if (r.dataManager.world.isLight(x, y, r.dataManager.savable.dungeonLevel) || bright) {
 					r.drawTexture(getTerrainBlockTexture(r, x, y),xPos, yPos, blockSize, blockSize);
 				}
 				yPos += blockSize;
@@ -36,9 +36,9 @@ public class Terrain {
 		for(int x = minTileX; x <= maxTileX; x++) {
 			yPos = yPosReset;
 			for (int y = minTileY; y <= maxTileY; y++) {
-				if (r.dataManager.world.isLight(x, y) || bright) {
-					if (r.dataManager.world.isStructBlock(x, y)) {
-						if (r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y)).isSolid) {
+				if (r.dataManager.world.isLight(x, y, r.dataManager.savable.dungeonLevel) || bright) {
+					if (r.dataManager.world.isStructBlock(x, y, r.dataManager.savable.dungeonLevel)) {
+						if (r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y, r.dataManager.savable.dungeonLevel)).isSolid) {
 							r.fillRect(xPos, yPos, block13, block13, 0.6f, 0.6f, 0.6f, 1.0f);
 						}
 					}
@@ -52,8 +52,8 @@ public class Terrain {
 		for(int x = minTileX; x <= maxTileX; x++) {
 			yPos = yPosReset;
 			for (int y = minTileY; y <= maxTileY; y++) {
-				if (r.dataManager.world.isLight(x, y) || bright) {
-					if (r.dataManager.world.isStructBlock(x, y)) {
+				if (r.dataManager.world.isLight(x, y, r.dataManager.savable.dungeonLevel) || bright) {
+					if (r.dataManager.world.isStructBlock(x, y, r.dataManager.savable.dungeonLevel)) {
 						r.drawTexture(getStructureBlockTexture(r, x, y),xPos, yPos, blockSize, blockSize);
 					}
 				}
@@ -72,10 +72,10 @@ public class Terrain {
 		return r.dataManager.system.blockIDMap.get(blockValue).getBlockImg(r.dataManager.system.animationClock);
 	}
 	private static short getStructureBlockValue(Renderer r, int x, int y) {
-		return r.dataManager.world.getStructBlock(x, y);
+		return r.dataManager.world.getStructBlock(x, y, r.dataManager.savable.dungeonLevel);
 	}
 	private static short getTerrainBlockValue(Renderer r, int x, int y) {
-		return r.dataManager.world.getGroundBlock(x, y);
+		return r.dataManager.world.getGroundBlock(x, y, r.dataManager.savable.dungeonLevel);
 
 	}
 }

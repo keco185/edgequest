@@ -36,7 +36,7 @@ public class AttackManager extends Thread{
 		int maxDamage = attackWeapon.maxDamage;
 		double speed = attackWeapon.speed;
 		int damage = getDamage(maxDamage);
-		dm.savable.projectiles.add(new Projectile(speed, -entity.getRot(), maxRange, damage, projectile, entity.getX(), entity.getY(), entity.dungeon[0], entity.dungeon[1], entity.dungeonLevel,entity));
+		dm.savable.projectiles.add(new Projectile(speed, -entity.getRot(), maxRange, damage, projectile, entity.getX(), entity.getY(), entity.dungeonLevel,entity));
 	}
 	public void castAttack(BlockItem attackWeapon, Entity entity, double angle) {
 		String projectile = attackWeapon.projectile;
@@ -45,14 +45,14 @@ public class AttackManager extends Thread{
 		int maxDamage = attackWeapon.maxDamage;
 		double speed = attackWeapon.speed;
 		int damage = getDamage(maxDamage);
-		dm.savable.projectiles.add(new Projectile(speed, angle, maxRange, damage, projectile, entity.getX(), entity.getY(), entity.dungeon[0], entity.dungeon[1], entity.dungeonLevel,entity));
+		dm.savable.projectiles.add(new Projectile(speed, angle, maxRange, damage, projectile, entity.getX(), entity.getY(), entity.dungeonLevel,entity));
 	}
 	public void castAttack(BlockItem attackWeapon, Entity entity, double angle, double maxRange, double speed) {
 		String projectile = attackWeapon.projectile;
 
 		int maxDamage = attackWeapon.maxDamage;
 		int damage = getDamage(maxDamage);
-		dm.savable.projectiles.add(new Projectile(speed, angle, maxRange, damage, projectile, entity.getX(), entity.getY(), entity.dungeon[0], entity.dungeon[1], entity.dungeonLevel,entity));
+		dm.savable.projectiles.add(new Projectile(speed, angle, maxRange, damage, projectile, entity.getX(), entity.getY(), entity.dungeonLevel,entity));
 	}
 	private void performAttack() {
 		BlockItem attackWeapon = null;
@@ -92,7 +92,7 @@ public class AttackManager extends Thread{
 		}
 		if (ammoGood) {
 			int damage = getDamage(maxDamage);
-			dm.savable.projectiles.add(new Projectile(speed, -dm.characterManager.characterEntity.getRot(), maxRange, damage, projectile, dm.characterManager.characterEntity.getX() + offsetX, dm.characterManager.characterEntity.getY() + offsetY, dm.characterManager.characterEntity.dungeon[0], dm.characterManager.characterEntity.dungeon[1], dm.characterManager.characterEntity.dungeonLevel,dm.characterManager.characterEntity));
+			dm.savable.projectiles.add(new Projectile(speed, -dm.characterManager.characterEntity.getRot(), maxRange, damage, projectile, dm.characterManager.characterEntity.getX() + offsetX, dm.characterManager.characterEntity.getY() + offsetY, dm.characterManager.characterEntity.dungeonLevel,dm.characterManager.characterEntity));
 		}
 	}
 	public int getDamage(int maxDamage) {

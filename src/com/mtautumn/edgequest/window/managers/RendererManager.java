@@ -10,7 +10,6 @@ import org.lwjgl.opengl.Display;
 
 import com.mtautumn.edgequest.CharacterManager;
 import com.mtautumn.edgequest.DefineBlockItems;
-import com.mtautumn.edgequest.Dungeon;
 import com.mtautumn.edgequest.Entity;
 import com.mtautumn.edgequest.KeyboardInput;
 import com.mtautumn.edgequest.data.DataManager;
@@ -289,28 +288,12 @@ public class RendererManager extends Thread {
 					if (keyAction && !wasKeyDown[dataManager.settings.actionKey]) {
 						int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
 						int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
-						if (dataManager.savable.isInDungeon) {
-							Dungeon dungeon = dataManager.savable.dungeonMap.get(dataManager.savable.dungeonX + "," + dataManager.savable.dungeonY);
-							if (charX == dungeon.getStairsUp(dataManager.savable.dungeonLevel)[0]&&charY == dungeon.getStairsUp(dataManager.savable.dungeonLevel)[1]) {
-								dataManager.savable.dungeonLevel -= 1;
-								dataManager.system.updateDungeon = true;
-								if (dataManager.savable.dungeonLevel < 0) {
-									dataManager.savable.isInDungeon = false;
-									dataManager.characterManager.characterEntity.setX(dataManager.savable.dungeonX + 0.5);
-									dataManager.characterManager.characterEntity.setY(dataManager.savable.dungeonY + 0.5);
-								}
-							} else if (charX == dungeon.getStairsDown(dataManager.savable.dungeonLevel)[0]&&charY == dungeon.getStairsDown(dataManager.savable.dungeonLevel)[1]) {
-								dataManager.savable.dungeonLevel += 1;
-								dataManager.system.updateDungeon = true;
-							}
-						} else {
-							if (dataManager.savable.dungeonMap.containsKey(charX + "," + charY)) {
-								dataManager.savable.isInDungeon = true;
-								dataManager.savable.dungeonX = charX;
-								dataManager.savable.dungeonY = charY;
-								dataManager.savable.dungeonLevel = 0;
-								dataManager.system.updateDungeon = true;
-							}
+						if (dataManager.characterManager.characterEntity.getRelativeStructureBlock(0, 0).isName("dungeonUp")) {
+							dataManager.characterManager.characterEntity.dungeonLevel -= 1;
+							dataManager.savable.dungeonLevel -= 1;
+						} else if (dataManager.characterManager.characterEntity.getRelativeStructureBlock(0, 0).isName("dungeon")) {
+							dataManager.characterManager.characterEntity.dungeonLevel += 1;
+							dataManager.savable.dungeonLevel += 1;
 						}
 					}
 

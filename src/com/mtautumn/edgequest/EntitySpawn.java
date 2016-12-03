@@ -28,7 +28,7 @@ public class EntitySpawn extends Thread{
 		}
 	}
 	public void spawn(String type, Location location) {
-		Entity entity = new Entity(type, null, location.x, location.y, 0, location.level, new int[]{location.dungeonX,location.dungeonY}, dm);
+		Entity entity = new Entity(type, null, location.x, location.y, 0.0, location.level, dm);
 		switch (type) {
 		case "ant":
 			dm.savable.entities.add(new Ant(entity));

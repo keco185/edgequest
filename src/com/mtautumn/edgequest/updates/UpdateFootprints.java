@@ -16,8 +16,8 @@ public class UpdateFootprints {
 	public void update() {
 		int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
 		int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
-		if (dataManager.world.isGroundBlock(charX, charY)) {
-			if (dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock(charX, charY)).canHavePrints) {
+		if (dataManager.world.isGroundBlock(dataManager.characterManager.characterEntity, charX, charY)) {
+			if (dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock(dataManager.characterManager.characterEntity, charX, charY)).canHavePrints) {
 				if (Math.sqrt(Math.pow(dataManager.characterManager.characterEntity.getX() - lastFootX, 2)+Math.pow(dataManager.characterManager.characterEntity.getY() - lastFootY, 2)) > 0.7) {
 					lastFootX = dataManager.characterManager.characterEntity.getX();
 					lastFootY = dataManager.characterManager.characterEntity.getY();

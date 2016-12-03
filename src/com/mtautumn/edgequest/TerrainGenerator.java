@@ -50,23 +50,39 @@ public class TerrainGenerator {
 		return new Random(generateSeed(rngSeedBase,x,y)).nextDouble();
 	}
 	private double getAltNoise(long x, long y) {
-		if (!altNoiseMap.containsKey(x + "," + y))
+		try {
+			if (!altNoiseMap.containsKey(x + "," + y))
+				altNoiseMap.put(x+","+y, new Random(generateSeed(altSeedBase,x,y)).nextDouble());
+			return altNoiseMap.get(x + "," + y);
+		} catch (Exception e) {
 			altNoiseMap.put(x+","+y, new Random(generateSeed(altSeedBase,x,y)).nextDouble());
-		return altNoiseMap.get(x + "," + y);
+			return new Random(generateSeed(altSeedBase,x,y)).nextDouble();
+		}
 	}
 	private double getTempNoise(long x, long y) {
-		if (!tempNoiseMap.containsKey(x + "," + y))
+		try {
+			if (!tempNoiseMap.containsKey(x + "," + y))
+				tempNoiseMap.put(x+","+y, new Random(generateSeed(tempSeedBase,x,y)).nextDouble());
+			return tempNoiseMap.get(x+","+y);
+		} catch (Exception e) {
 			tempNoiseMap.put(x+","+y, new Random(generateSeed(tempSeedBase,x,y)).nextDouble());
-		return tempNoiseMap.get(x+","+y);
+			return new Random(generateSeed(tempSeedBase,x,y)).nextDouble();
+		}
 	}
 	public double[] getBlockStats(int x, int y) {
 		double[] stats = new double[2];
-		if (altitudeMap.containsKey(x + "," + y)) {
-			stats[0] = altitudeMap.get(x + "," + y);
+		boolean tryIt = true;
+		while (tryIt) {
+			try {
+				if (altitudeMap.containsKey(x + "," + y)) {
+					stats[0] = altitudeMap.get(x + "," + y);
+				}
+				if (temperatureMap.containsKey(x + "," + y))
+					stats[1] = temperatureMap.get(x + "," + y);
+				tryIt = false;
+			} catch (Exception e) {
+			}
 		}
-		if (temperatureMap.containsKey(x + "," + y))
-			stats[1] = temperatureMap.get(x + "," + y);
-
 		int chunkX = (int) Math.floor(x / dataManager.settings.chunkSize);
 		int chunkY = (int) Math.floor(y / dataManager.settings.chunkSize);
 		if (stats[0] == 0) {
@@ -94,6 +110,7 @@ public class TerrainGenerator {
 		return stats;
 	}
 	public void generateBlock(int x, int y) {
+		try {
 		double averageAltitude = 0;
 		double averageTemperature = 0;
 		for (int i = -8; i<=8; i++) {
@@ -106,6 +123,9 @@ public class TerrainGenerator {
 		altitudeMapFiltered.put(x + "," + y, averageAltitude);
 		temperatureMapFiltered.put(x + "," + y, averageTemperature);
 		createBlockForStats(x, y);
+		} catch (Exception e) {
+			
+		}
 	}
 	public void createBlockForStats(int x, int y) {
 		double alt = altitudeMapFiltered.get(x+","+y); //between 1 and 4097
@@ -141,11 +161,6 @@ public class TerrainGenerator {
 				} else { 
 					dataManager.world.ou.setGroundBlock(x, y, dataManager.system.blockNameMap.get("dirt").getID());
 				}
-			}
-
-			if (getRNG(x, y) > 0.999) {
-				dataManager.world.ou.setStructBlock(x, y, dataManager.system.blockNameMap.get("dungeon").getID());
-				dataManager.savable.dungeonMap.put(x + "," + y, new Dungeon(dataManager, x, y));
 			}
 		}
 	}

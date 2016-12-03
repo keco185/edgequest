@@ -25,7 +25,6 @@ public class Entity implements Externalizable {
 	}
 	protected int entityID;
 	public int dungeonLevel = -1;
-	public int[] dungeon;
 	protected float moveRot;
 	protected String entityTexture;
 	protected EntityType entityType;
@@ -72,7 +71,7 @@ public class Entity implements Externalizable {
 			moveSpeed = dm.settings.moveSpeed;
 		}
 	}
-	public Entity(String texture, EntityType type, double posX, double posY, double rotation, int dungeonLevel, int[] dungeon, DataManager dm) {
+	public Entity(String texture, EntityType type, double posX, double posY, double rotation, int dungeonLevel, DataManager dm) {
 		this.entityID = dm.savable.entityID++;
 		this.entityTexture = texture;
 		this.entityType = type;
@@ -80,7 +79,6 @@ public class Entity implements Externalizable {
 		this.posY = posY;
 		this.rotation = rotation;
 		this.dm = dm;
-		this.dungeon = dungeon;
 		this.dungeonLevel = dungeonLevel;
 		if (type == EntityType.character) {
 			moveSpeed = dm.settings.moveSpeed;
@@ -137,11 +135,11 @@ public class Entity implements Externalizable {
 		destinationX = x;
 		destinationY = y;
 		aStar = new PathFinder(dm);
-		path = aStar.findPath((int) posX, (int) posY, destinationX, destinationY, dm);
+		path = aStar.findPath((int) posX, (int) posY, destinationX, destinationY, dungeonLevel, dm);
 	}
 	public void reCalculatePath() {
 		if (aStar != null) {
-			path = aStar.findPath((int) posX, (int) posY, destinationX, destinationY, dm);
+			path = aStar.findPath((int) posX, (int) posY, destinationX, destinationY, dungeonLevel, dm);
 		}
 	}
 	public void update() {
@@ -270,8 +268,8 @@ public class Entity implements Externalizable {
 			entityY = (int) Math.floor(speed + posY);
 			entityX = (int) Math.floor(posX);
 		}
-		if (dm.world.isStructBlock(entityX, entityY)) {
-			return (dm.system.blockIDMap.get(dm.world.getStructBlock(entityX, entityY)).isPassable);
+		if (dm.world.isStructBlock(this,entityX, entityY)) {
+			return (dm.system.blockIDMap.get(dm.world.getStructBlock(this,entityX, entityY)).isPassable);
 		}
 		return true;
 	}
@@ -311,7 +309,6 @@ public class Entity implements Externalizable {
 		out.writeDouble(rotation);
 		out.writeObject(path);
 		out.writeInt(dungeonLevel);
-		out.writeObject(dungeon);
 		out.writeInt(maxHealth);
 		out.writeInt(health);
 	}
@@ -330,7 +327,6 @@ public class Entity implements Externalizable {
 		rotation = in.readDouble();
 		path = (ArrayList<IntCoord>) in.readObject();
 		dungeonLevel = in.readInt();
-		dungeon = (int[]) in.readObject();
 		maxHealth = in.readInt();
 		health = in.readInt();
 
@@ -357,16 +353,10 @@ public class Entity implements Externalizable {
 		return null;
 	}
 	public BlockItem getRelativeGroundBlock(int deltaX, int deltaY) {
-		if (dm.world.isGroundBlock(this, (int) getX() + deltaX, (int) getY() + deltaY)) {
-			return dm.system.blockIDMap.get(dm.world.getGroundBlock(this, (int) getX() + deltaX, (int) getY() + deltaY));
-		}
-		return null;
+		return dm.system.blockIDMap.get(dm.world.getGroundBlock(this, (int) getX() + deltaX, (int) getY() + deltaY));
 	}
 	public BlockItem getRelativeStructureBlock(int deltaX, int deltaY) {
-		if (dm.world.isStructBlock(this, (int) getX() + deltaX, (int) getY() + deltaY)) {
-			return dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) getX() + deltaX, (int) getY() + deltaY));
-		}
-		return null;
+		return dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) posX + deltaX, (int) posY + deltaY));
 	}
 
 

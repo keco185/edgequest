@@ -14,7 +14,7 @@ public class UpdateBlockPlace {
 	private boolean wasStructBlock = false;
 	public void update() {
 		if (dataManager.system.leftMouseDown && !wasMouseDown || dataManager.system.miningX != dataManager.system.mouseX || dataManager.system.miningY != dataManager.system.mouseY) {
-			wasStructBlock = dataManager.world.isStructBlock(dataManager.system.mouseX, dataManager.system.mouseY);
+			wasStructBlock = dataManager.world.isStructBlock(dataManager.system.mouseX, dataManager.system.mouseY, dataManager.savable.dungeonLevel);
 		}
 		if (!dataManager.system.isKeyboardBackpack && !dataManager.system.isKeyboardMenu) {
 			if (!dataManager.system.leftMouseDown && wasMouseDown && !dataManager.system.rightMouseDown && !dataManager.system.isMouseFar && !wasStructBlock) {

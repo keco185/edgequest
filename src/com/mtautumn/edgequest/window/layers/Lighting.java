@@ -35,8 +35,8 @@ public class Lighting {
 	}
 	
 	private static double getBrightness(Renderer r, int x, int y) {
-		if (r.dataManager.world.isLight(x, y)) {
-			return Double.valueOf((r.dataManager.world.getLight(x, y) + 128)) / 255.0;
+		if (r.dataManager.world.isLight(x, y, r.dataManager.savable.dungeonLevel)) {
+			return Double.valueOf((r.dataManager.world.getLight(x, y, r.dataManager.savable.dungeonLevel) + 128)) / 255.0;
 		}
 		return 0.0;
 	}
