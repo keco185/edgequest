@@ -86,7 +86,7 @@ public class Generator {
 				for (int h = 0; h < room.height; h++) {
 
 					// Check bounds
-					if ((w + room.xLoc < x) && (h + room.yLoc < y)) {
+					if ((w + room.xLoc < x) && (h + room.yLoc < y) && (w + room.xLoc >= 0) && (h + room.yLoc >= y)) {
 
 						this.map[w + room.xLoc][h + room.yLoc] = Tile.FLOOR;
 
@@ -189,7 +189,7 @@ public class Generator {
 	private void applyCave() {
 		
 		Cave cave = new Cave();
-		this.map = cave.makeAndApplyCave(this.map, this.seed + (long) this.rng.nextInt(), 0.5f);
+		this.map = cave.makeAndApplyCave(this.map, this.seed + this.rng.nextInt(), 0.5f);
 		
 	}
 	
