@@ -99,7 +99,7 @@ public class TerrainGeneratorThread extends Thread{
 						dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("dirt").getID());
 						break;
 					case Tile.FLOOR:
-						dm.entitySpawn.considerEntity(new Location(x, y, level));
+						dm.entitySpawn.considerEntity(new Location(pX, pY, level));
 						break;
 					case Tile.UP_STAIR:
 						dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("dungeonUp").getID());
