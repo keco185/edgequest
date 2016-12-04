@@ -3,22 +3,22 @@
  */
 package com.mtautumn.edgequest;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.mtautumn.edgequest.data.DataManager;
 
 public class TerrainGenerator {
 	DataManager dataManager;
-	Map<String,Double> altNoiseMap = new HashMap<String, Double>();
-	Map<String,Double> tempNoiseMap = new HashMap<String, Double>();
+	Map<String,Double> altNoiseMap = new ConcurrentHashMap<String, Double>();
+	Map<String,Double> tempNoiseMap = new ConcurrentHashMap<String, Double>();
 
-	Map<String,Double> altitudeMap = new HashMap<String, Double>();
-	Map<String,Double> temperatureMap = new HashMap<String, Double>();
+	Map<String,Double> altitudeMap = new ConcurrentHashMap<String, Double>();
+	Map<String,Double> temperatureMap = new ConcurrentHashMap<String, Double>();
 
-	Map<String,Double> altitudeMapFiltered = new HashMap<String, Double>();
-	Map<String,Double> temperatureMapFiltered = new HashMap<String, Double>();
+	Map<String,Double> altitudeMapFiltered = new ConcurrentHashMap<String, Double>();
+	Map<String,Double> temperatureMapFiltered = new ConcurrentHashMap<String, Double>();
 	public TerrainGenerator(DataManager dataManager) {
 		this.dataManager = dataManager;
 		altSeedBase = generateSeed(dataManager.savable.seed,1);
