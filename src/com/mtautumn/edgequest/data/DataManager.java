@@ -65,13 +65,7 @@ public class DataManager {
 		terrainManager.terrainGenerator.clearCache();
 		world.wipeMaps();
 		savable.footPrints.clear();
-		if (savable.isInDungeon) {
-			savable.isInDungeon = false;
-			savable.dungeonLevel = -1;
-			savable.dungeonCount = 0;
-			characterManager.characterEntity.setX(savable.dungeonX);
-			characterManager.characterEntity.setY(savable.dungeonY);
-		}
+		savable.dungeonLevel = -1;
 		system.requestGenUpdate = true;
 	}
 

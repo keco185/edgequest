@@ -18,7 +18,7 @@ public class CharacterManager extends Thread{
 	public void charPlaceTorch() {
 		Location location = new Location(characterEntity);
 		if (!dataManager.world.isStructBlock(location)) {
-			if ((short)getCharaterBlockInfo()[0] != dataManager.system.blockNameMap.get("water").getID()) {
+			if (!characterEntity.getRelativeGroundBlock(0, 0).isLiquid) {
 				dataManager.world.setStructBlock(location, dataManager.system.blockNameMap.get("torch").getID());
 				blockUpdateManager.updateBlock(location);
 			}

@@ -9,7 +9,7 @@ public class Layers {
 			LaunchScreen.draw(r);
 		} else {
 			Terrain.draw(r);
-			if (!r.dataManager.savable.isInDungeon) Footprints.draw(r);
+			Footprints.draw(r);
 			CharacterEffects.draw(r);
 			Projectiles.draw(r);
 			Entities.draw(r);

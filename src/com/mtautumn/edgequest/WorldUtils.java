@@ -72,7 +72,7 @@ public class WorldUtils {
 		dm.savable.lightMap.remove(x+","+y+","+level);
 	}
 	public double getBrightness() {
-		if (dm.savable.isInDungeon)
+		if (dm.savable.dungeonLevel > -1)
 			return 0.0;
 		int tempTime = dm.savable.time - 200;
 		double brightness = 0.0;

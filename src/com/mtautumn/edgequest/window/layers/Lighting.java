@@ -44,7 +44,7 @@ public class Lighting {
 	private static void drawBrightness(Renderer r, int x, int y, float xPos, float yPos) {
 		double brightness = getBrightness(r, x, y);
 		double nightBrightness = (1 - r.dataManager.world.getBrightness()) * brightness + r.dataManager.world.getBrightness();
-		if (r.dataManager.savable.isInDungeon) {
+		if (r.dataManager.savable.dungeonLevel > -1) {
 			r.fillRect(xPos, yPos, r.dataManager.settings.blockSize, r.dataManager.settings.blockSize, 0.02f,0.0f,0.05f,(float) (1.0 - nightBrightness));
 		} else {
 			r.fillRect(xPos, yPos, r.dataManager.settings.blockSize, r.dataManager.settings.blockSize, 0.01f,0.0f,0.15f,(float) (1.0 - nightBrightness));

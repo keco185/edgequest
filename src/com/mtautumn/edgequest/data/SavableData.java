@@ -24,12 +24,10 @@ public class SavableData implements Serializable {
 	public ArrayList<DamagePost> damagePosts = new ArrayList<DamagePost>();
 	public ArrayList<String> generatedRegions = new ArrayList<String>();
 	public long seed = 7;
-	public boolean isInDungeon = false;
 	public int dungeonX = 0;
 	public int dungeonY = 0;
 	public int dungeonLevel = -1;
 	public int lastDungeonLevel = -1;
-	public long dungeonCount = 0;
 	public int entityID = 0;
 	public int hotBarSelection = 0;
 	public ItemSlot[][] backpackItems = new ItemSlot[8][6];

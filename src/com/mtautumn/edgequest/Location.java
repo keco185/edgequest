@@ -15,8 +15,8 @@ public class Location {
 		this.level = location.level;
 	}
 	public Location(Entity entity) {
-		this.x = (int) entity.getX();
-		this.y = (int) entity.getY();
+		this.x = (int) Math.floor(entity.getX());
+		this.y = (int) Math.floor(entity.getY());
 		this.level = entity.dungeonLevel;
 	}
 	public boolean isEqual(Location location) {
