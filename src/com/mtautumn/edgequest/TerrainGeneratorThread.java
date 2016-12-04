@@ -61,21 +61,6 @@ public class TerrainGeneratorThread extends Thread{
 					dm.entitySpawn.considerEntity(new Location(i, j, -1));
 				}
 			}
-			boolean notDone = true;
-			while (notDone) {
-				notDone = false;
-				for (int i = x; i < x + 100; i++) {
-					for (int j = y; j < y + 100; j++) {
-						if (!dm.world.ou.isGroundBlock(x, y)) {
-							terrainGenerator.generateBlock(i, j);
-							notDone = true;
-						} else if (dm.world.ou.getGroundBlock(i, j) == 0) {
-							terrainGenerator.generateBlock(i, j);
-							notDone = true;
-						}
-					}
-				}
-			}
 			generated(x,y,-1);
 		}
 		double dungeonChance = new Random(generateSeed(dungeonSeedBase,x,y)).nextDouble();

@@ -14,7 +14,7 @@ import com.mtautumn.edgequest.Projectile;
 public class SavableData implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public int time = 800;
-	public Map<String, Short> map = new ConcurrentHashMap<String, Short>(50000);
+	public Map<String, Short> map = new ConcurrentHashMap<String, Short>(60000);
 	public Map<String, Byte> lightMap = new ConcurrentHashMap<String, Byte>();
 	public Map<String, Short> playerStructuresMap = new ConcurrentHashMap<String, Short>();
 	public Map<String, int[]> dungeonStairs = new ConcurrentHashMap<String, int[]>();
