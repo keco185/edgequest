@@ -124,6 +124,7 @@ public class SimplexNoise {
 
 	public float[][] generateSimplexNoise(int width, int height, long seed) {
 		float[][] simplexnoise = new float[width][height];
+		@SuppressWarnings("cast")
 		float frequency = 5.0f / (float) width;
 	      
 		for(int x = 0; x < width; x++){

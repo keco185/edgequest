@@ -286,8 +286,6 @@ public class RendererManager extends Thread {
 						dataManager.system.showConsole = true;
 
 					if (keyAction && !wasKeyDown[dataManager.settings.actionKey]) {
-						int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
-						int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
 						if (dataManager.characterManager.characterEntity.getRelativeStructureBlock(0, 0).isName("dungeonUp")) {
 							dataManager.characterManager.characterEntity.dungeonLevel -= 1;
 							dataManager.savable.dungeonLevel -= 1;

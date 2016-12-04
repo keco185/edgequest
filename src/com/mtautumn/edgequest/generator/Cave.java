@@ -36,7 +36,7 @@ public class Cave {
 	// Generate noise over the cave map
 	private float[][] getNoise(float[][] caveMap, long seed) {
 		SimplexNoise s = new SimplexNoise();
-		return s.generateSimplexNoise((int) caveMap[0].length, (int) caveMap.length, seed);
+		return s.generateSimplexNoise(caveMap[0].length, caveMap.length, seed);
 	}
 
 	// Apply a threshold to polarize the noise map
