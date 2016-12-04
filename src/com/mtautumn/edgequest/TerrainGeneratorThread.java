@@ -133,69 +133,6 @@ public class TerrainGeneratorThread extends Thread{
 					}
 				}
 			}
-			
-			boolean notDone = true;
-			while (notDone) {
-				notDone = false;
-				for (int i = 0; i < dungeonMap.length; i++) {
-					for (int j = 0; j < dungeonMap[1].length; j++) {
-						if (!dm.world.isGroundBlock(x, y, level)) {
-							int pX = i + x;
-							int pY = j + y;
-							dm.world.setGroundBlock(pX,pY, level, dm.system.blockNameMap.get("stone").getID());
-							switch (dungeonMap[i][j]) {
-							case Tile.DIRT:
-								dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("dirt").getID());
-								break;
-							case Tile.FLOOR:
-								dm.entitySpawn.considerEntity(new Location(x, y, level));
-								break;
-							case Tile.UP_STAIR:
-								dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("dungeonUp").getID());
-								break;
-							case Tile.DOWN_STAIR:
-								dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("dungeon").getID());
-								dm.savable.dungeonStairs.put(x+","+y+","+level,new int[]{i,j});
-								break;
-							case Tile.WATER:
-								// structureMap.put(x+","+y, blockNameMap.get("ground").getID());
-								dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("water").getID());
-								break;
-							default:
-								break;
-							}
-							notDone = true;
-						} else if (dm.world.ou.getGroundBlock(i, j) == 0) {
-							int pX = i + x;
-							int pY = j + y;
-							dm.world.setGroundBlock(pX,pY, level, dm.system.blockNameMap.get("stone").getID());
-							switch (dungeonMap[i][j]) {
-							case Tile.DIRT:
-								dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("dirt").getID());
-								break;
-							case Tile.FLOOR:
-								dm.entitySpawn.considerEntity(new Location(x, y, level));
-								break;
-							case Tile.UP_STAIR:
-								dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("dungeonUp").getID());
-								break;
-							case Tile.DOWN_STAIR:
-								dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("dungeon").getID());
-								dm.savable.dungeonStairs.put(x+","+y+","+level,new int[]{i,j});
-								break;
-							case Tile.WATER:
-								// structureMap.put(x+","+y, blockNameMap.get("ground").getID());
-								dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("water").getID());
-								break;
-							default:
-								break;
-							}
-							notDone = true;
-						}
-					}
-				}
-			}
-
 			generated(x,y,level);
 		}
 	}

@@ -2,8 +2,8 @@ package com.mtautumn.edgequest.data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.mtautumn.edgequest.DamagePost;
 import com.mtautumn.edgequest.Entity;
@@ -14,10 +14,10 @@ import com.mtautumn.edgequest.Projectile;
 public class SavableData implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public int time = 800;
-	public Map<String, Short> map = new HashMap<String, Short>(50000);
-	public Map<String, Byte> lightMap = new HashMap<String, Byte>();
-	public Map<String, Short> playerStructuresMap = new HashMap<String, Short>();
-	public Map<String, int[]> dungeonStairs = new HashMap<String, int[]>();
+	public Map<String, Short> map = new ConcurrentHashMap<String, Short>(50000);
+	public Map<String, Byte> lightMap = new ConcurrentHashMap<String, Byte>();
+	public Map<String, Short> playerStructuresMap = new ConcurrentHashMap<String, Short>();
+	public Map<String, int[]> dungeonStairs = new ConcurrentHashMap<String, int[]>();
 	public ArrayList<FootPrint> footPrints = new ArrayList<FootPrint>();
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
 	public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
