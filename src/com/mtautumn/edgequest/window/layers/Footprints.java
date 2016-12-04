@@ -11,13 +11,14 @@ public class Footprints {
 	    
 		for (int i = 0; i < r.dataManager.savable.footPrints.size(); i++) {
 			FootPrint fp = r.dataManager.savable.footPrints.get(i);
-			
+			if (fp.level == r.dataManager.savable.dungeonLevel) {
 			if (fp.opacity > 0.4) {
 				drawPrint(r, fp, "footsteps");
 			} else if (fp.opacity > 0.2) {
 				drawPrint(r, fp, "footsteps2");
 			} else {
 				drawPrint(r, fp, "footsteps3");
+			}
 			}
 		}
 	}

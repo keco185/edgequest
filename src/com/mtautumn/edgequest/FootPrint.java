@@ -9,10 +9,12 @@ public class FootPrint implements Serializable {
 	public double posY;
 	public double opacity;
 	public double direction;
-	public FootPrint(double posX, double posY, double direction) {
+	public int level;
+	public FootPrint(double posX, double posY, double direction, int level) {
 		this.posX = posX;
 		this.posY = posY;
 		this.direction = direction;
+		this.level = level;
 		opacity = 1.0;
 	}
 }
