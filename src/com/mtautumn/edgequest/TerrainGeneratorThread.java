@@ -82,7 +82,6 @@ public class TerrainGeneratorThread extends Thread{
 		if (!beenGenerated(x,y,level)) {
 			//generate dungeon
 			int[] stairs = getDungeonStairs(x,y,level-1);
-			System.out.println(stairs[0] + "," + stairs[1]);
 			if (level == 0) {
 				dm.world.setStructBlock(stairs[0] + x, stairs[1] + y, -1, dm.system.blockNameMap.get("dungeon").getID());
 			}

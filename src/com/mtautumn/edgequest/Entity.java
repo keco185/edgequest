@@ -135,11 +135,11 @@ public class Entity implements Externalizable {
 		destinationX = x;
 		destinationY = y;
 		aStar = new PathFinder(dm);
-		path = aStar.findPath((int) posX, (int) posY, destinationX, destinationY, dungeonLevel, dm);
+		path = aStar.findPath((int) Math.floor(posX), (int) Math.floor(posY), destinationX, destinationY, dungeonLevel, dm);
 	}
 	public void reCalculatePath() {
 		if (aStar != null) {
-			path = aStar.findPath((int) posX, (int) posY, destinationX, destinationY, dungeonLevel, dm);
+			path = aStar.findPath((int) Math.floor(posX), (int) Math.floor(posY), destinationX, destinationY, dungeonLevel, dm);
 		}
 	}
 	public void update() {
@@ -338,27 +338,32 @@ public class Entity implements Externalizable {
 		}
 	}
 	public boolean isOnIce() {
-		if (dm.world.isGroundBlock(this, (int) posX, (int) posY)) {
-			return dm.system.blockIDMap.get(dm.world.getGroundBlock(this, (int) posX, (int) posY)).isName("ice");
+		if (dm.world.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
+			return dm.system.blockIDMap.get(dm.world.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))).isName("ice");
 		}
 		return false;
 	}
 	public double distanceToPlayer() {
-		return Math.sqrt(Math.pow(dm.characterManager.characterEntity.getX() - getX(), 2) + Math.pow(dm.characterManager.characterEntity.getY() - getY(), 2));
+		return Math.sqrt(Math.pow(dm.characterManager.characterEntity.getX() - posX, 2) + Math.pow(dm.characterManager.characterEntity.getY() - posY, 2));
 	}
 	public BlockItem getBlock() {
-		if (dm.world.isGroundBlock(this, (int) getX(), (int) getY())) {
-			return dm.system.blockIDMap.get(dm.world.getGroundBlock(this, (int) getX(), (int) getY()));
+		if (dm.world.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
+			return dm.system.blockIDMap.get(dm.world.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY)));
 		}
 		return null;
 	}
 	public BlockItem getRelativeGroundBlock(int deltaX, int deltaY) {
-		return dm.system.blockIDMap.get(dm.world.getGroundBlock(this, (int) getX() + deltaX, (int) getY() + deltaY));
+		return dm.system.blockIDMap.get(getRelativeGroundBlockID(deltaX, deltaY));
 	}
 	public BlockItem getRelativeStructureBlock(int deltaX, int deltaY) {
-		return dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) posX + deltaX, (int) posY + deltaY));
+		return dm.system.blockIDMap.get(getRelativeStructureBlockID(deltaX, deltaY));
 	}
-
+	public short getRelativeGroundBlockID(int deltaX, int deltaY) {
+		return dm.world.getGroundBlock(this, (int) Math.floor(getX() + deltaX), (int) Math.floor(getY() + deltaY));
+	}
+	public short getRelativeStructureBlockID(int deltaX, int deltaY) {
+		return dm.world.getStructBlock(this, (int) Math.floor(posX + deltaX), (int) Math.floor(posY + deltaY));
+	}
 
 	protected boolean isLineOfSight(double x, double y) {
 		double checkingPosX = posX;

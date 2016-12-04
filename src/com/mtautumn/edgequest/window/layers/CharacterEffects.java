@@ -12,7 +12,7 @@ public class CharacterEffects {
 
 	private static void drawWaterSplash(Renderer r) {
 		float blockSize =  r.dataManager.settings.blockSize;
-		if (r.dataManager.system.blockIDMap.get((short)r.getCharaterBlockInfo()[0]).isLiquid && r.getCharaterBlockInfo()[1] == 0.0) {
+		if (r.dataManager.characterManager.characterEntity.getRelativeGroundBlock(0, 0).isLiquid && r.dataManager.characterManager.characterEntity.getRelativeStructureBlockID(0, 0) == 0) {
 			double posX = r.dataManager.characterManager.characterEntity.frameX;
 			double posY = r.dataManager.characterManager.characterEntity.frameY;
 			double pixelsX = (float) ((posX - (r.dataManager.system.screenX - (Double.valueOf(r.dataManager.settings.screenWidth)/2.0)/blockSize))*blockSize);
