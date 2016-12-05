@@ -26,7 +26,7 @@ public class TerrainManager extends Thread {
 						}
 					}
 					for (int i = 0; i < regionsToGen.size(); i++) {
-						if (!dataManager.savable.generatedRegions.contains(regionsToGen.get(i)[0] + "," + regionsToGen.get(i)[1] + "," + dataManager.savable.dungeonLevel)) {
+						if (!dataManager.savable.generatedRegions.contains(regionsToGen.get(i)[0] + "," + regionsToGen.get(i)[1] + "," + dataManager.savable.dungeonLevel) || !dataManager.savable.generatedRegions.contains(regionsToGen.get(i)[0] + "," + regionsToGen.get(i)[1] + "," + (dataManager.savable.dungeonLevel+1)) || (!dataManager.savable.generatedRegions.contains(regionsToGen.get(i)[0] + "," + regionsToGen.get(i)[1] + "," + (dataManager.savable.dungeonLevel - 1)) && dataManager.savable.dungeonLevel > -1)) {
 						TerrainGeneratorThread tgt = new TerrainGeneratorThread(terrainGenerator, dataManager, regionsToGen.get(i)[0], regionsToGen.get(i)[1], dataManager.savable.dungeonLevel);
 						tgt.start();
 						threads.add(tgt);
