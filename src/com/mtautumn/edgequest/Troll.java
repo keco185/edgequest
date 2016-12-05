@@ -55,7 +55,7 @@ public class Troll extends Entity {
 			if (distanceToPlayer() > 5 || !isLineOfSight(dm.characterManager.characterEntity.getX(), dm.characterManager.characterEntity.getY())) {
 
 				if (checkCount == 1) {
-					setDestination((int) lastPlayerLocX, (int) lastPlayerLocY);
+					setDestination((int) Math.floor(lastPlayerLocX), (int) Math.floor(lastPlayerLocY));
 				}
 			} else if (distanceToPlayer() < 3) {
 				path = new ArrayList<IntCoord>();
@@ -144,13 +144,13 @@ public class Troll extends Entity {
 		} else {
 			newY = newVal;
 		}
-		if (dm.world.isStructBlock(this, (int) newX, (int) newY)) {
-			if (!dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) newX, (int) newY)).isPassable) {
+		if (dm.world.isStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
+			if (!dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))).isPassable) {
 				return false;
 			}
 		}
-		if (dm.world.isGroundBlock(this, (int) newX, (int) newY)) {
-			if (dm.world.getGroundBlock(this, (int) newX, (int) newY) == dm.system.blockNameMap.get("water").getID()) {
+		if (dm.world.isGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
+			if (dm.world.getGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY)) == dm.system.blockNameMap.get("water").getID()) {
 				return false;
 			}
 			return true;

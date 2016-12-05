@@ -60,9 +60,9 @@ public class Ant extends Entity {
 			setY(getY() + lastY * moveSpeed);
 		}
 		super.updateRotation(lastX, lastY);
-		if (dm.world.isStructBlock(this, (int) getX(), (int) getY())) {
-			if (dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) getX(), (int) getY())).hardness > -1) {
-				dm.world.removeStructBlock(this, (int) getX(), (int) getY());
+		if (dm.world.isStructBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
+			if (dm.system.blockIDMap.get(dm.world.getStructBlock(this,(int) Math.floor(posX), (int) Math.floor(posY))).hardness > -1) {
+				dm.world.removeStructBlock(this, (int) Math.floor(posX), (int) Math.floor(posY));
 				dm.blockUpdateManager.updateBlock(new Location(this));
 			}
 		}
@@ -76,13 +76,13 @@ public class Ant extends Entity {
 		} else {
 			newY = newVal;
 		}
-		if (dm.world.isStructBlock(this, (int) newX, (int) newY)) {
-			if (dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) newX, (int) newY)).hardness == -1) {
+		if (dm.world.isStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
+			if (dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))).hardness == -1) {
 				return false;
 			}
 		}
-		if (dm.world.isGroundBlock(this, (int) newX, (int) newY)) {
-			if (dm.world.getGroundBlock(this, (int) newX, (int) newY) == dm.system.blockNameMap.get("water").getID()) {
+		if (dm.world.isGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
+			if (dm.world.getGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY)) == dm.system.blockNameMap.get("water").getID()) {
 				return false;
 			}
 			return true;
