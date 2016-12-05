@@ -86,7 +86,7 @@ public class Generator {
 				for (int h = 0; h < room.height; h++) {
 
 					// Check bounds
-					if ((w + room.xLoc < x) && (h + room.yLoc < y) && (w + room.xLoc >= 0) && (h + room.yLoc >= y)) {
+					if ((w + room.xLoc < x) && (h + room.yLoc < y) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0)) {
 
 						this.map[w + room.xLoc][h + room.yLoc] = Tile.FLOOR;
 
