@@ -1,5 +1,7 @@
 package com.mtautumn.edgequest.generator;
 
+
+
 public class Cave {
 	
 	/* 
@@ -11,57 +13,43 @@ public class Cave {
 	 */
 	
 	// Easiest way to make a cave and apply
-	public int[][] makeAndApplyCave(int[][] dunMap, long seed, float thresh) {
-		
-		// Do everything
-		float[][] caveMap = applyThreshold(getNoise(initCaveMap(dunMap.length, dunMap[0].length), seed), thresh);
-		return overlayCave(caveMap, dunMap);
-		
+	public static int[][] makeAndApplyCave(int[][] dunMap, long seed, float thresh) {
+		return overlayCave(thresholdMap(makeCaves(100,100,seed), thresh), dunMap);
 	}
-	
-	// Create a basic 2D map of floats for the cave noise to be applied too
-	private float[][] initCaveMap(int x, int y) {
-		float[][] caveMap = new float[x][y];
-		
-		// Init to 0
-		for (float[] row : caveMap) {
-			for (float ele: row) {
-				row[(int) ele] = 0.0f;
+	public static int[][] generateCave(long seed, float thresh) {
+		return thresholdMap(makeCaves(100,100,seed), thresh);
+	}
+	// Create a basic 2D map of floats
+	private static float[][] makeCaves(int width, int height, long seed) {
+		SimplexNoise smplxNoise = new SimplexNoise(width/4, 0.5, seed);
+		float[][] map = new float[width][height];
+		for (int x = 0; x < map.length; x++) {
+			for (int y = 0; y < map[x].length; y++) {
+				map[x][y] = (float) smplxNoise.getNoise(x, y);
 			}
 		}
-		
-		return caveMap;
+		return map;
 	}
-	
-	// Generate noise over the cave map
-	private float[][] getNoise(float[][] caveMap, long seed) {
-		SimplexNoise s = new SimplexNoise();
-		return s.generateSimplexNoise(caveMap[0].length, caveMap.length, seed);
-	}
-
-	// Apply a threshold to polarize the noise map
-	private float[][] applyThreshold(float[][] caveMap, float thresh) {
-		for (int i = 0; i < caveMap.length ; i++) {
-			for (int j = 0; j < caveMap[0].length; j++) {
-				if (caveMap[i][j] > thresh) {
-					caveMap[i][j] = 1.0f;
-				} else {
-					caveMap[i][j] = 0.0f;
+	private static int[][] thresholdMap(float[][] map, float thresh) {
+		int[][] thresholdedMap = new int[map.length][map[0].length];
+		for (int x = 0; x < map.length; x++) {
+			for (int y = 0; y < map[x].length; y++) {
+				if (map[x][y] > thresh) {
+					thresholdedMap[x][y] = 1;
 				}
 			}
 		}
-		return caveMap;
+		return thresholdedMap;
 	}
-	
 	// Overlay a cave map on top of a dungeon map.
 	// NOTE: This function assumes that the 
 	// cave map and dungeon map are of the same dimensions and that a 
 	// threshold has been applied to the cave map
-	private int[][] overlayCave(float[][] caveMap, int[][] dunMap) {
+	private static int[][] overlayCave(int[][] caveMap, int[][] dunMap) {
 		for (int i = 0; i < caveMap.length ; i++) {
 			for (int j = 0; j < caveMap[0].length; j++) {
 				// Only knock down walls
-				if (caveMap[i][j] == 1.0f && dunMap[i][j] != Tile.FLOOR) {
+				if (caveMap[i][j] == 1 && dunMap[i][j] != Tile.FLOOR) {
 					dunMap[i][j] = Tile.FLOOR;
 				}
 			}

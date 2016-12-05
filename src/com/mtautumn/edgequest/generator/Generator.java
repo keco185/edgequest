@@ -186,11 +186,8 @@ public class Generator {
 	}
 
 	// Apply caves
-	private void applyCave() {
-		
-		Cave cave = new Cave();
-		this.map = cave.makeAndApplyCave(this.map, this.seed + this.rng.nextInt(), 0.5f);
-		
+	private void applyCave() {		
+		this.map = Cave.makeAndApplyCave(this.map, this.seed + this.rng.nextInt(), 0.1f);	
 	}
 	
 	// Creates staircase to go up and down, centered in a room

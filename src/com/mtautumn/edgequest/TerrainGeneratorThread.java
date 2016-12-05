@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.generator.Cave;
 import com.mtautumn.edgequest.generator.Center;
 import com.mtautumn.edgequest.generator.Generator;
 import com.mtautumn.edgequest.generator.Tile;
@@ -110,8 +111,7 @@ public class TerrainGeneratorThread extends Thread{
 						dm.savable.dungeonStairs.put(x+","+y+","+level,new int[]{i,j});
 						break;
 					case Tile.WATER:
-						// structureMap.put(x+","+y, blockNameMap.get("ground").getID());
-						dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("water").getID());
+						dm.world.setGroundBlock(pX,pY,level, dm.system.blockNameMap.get("water").getID());
 						break;
 					default:
 						break;
@@ -192,10 +192,13 @@ public class TerrainGeneratorThread extends Thread{
 	}
 	public void genEmptyGround(int x, int y, int level) {
 		if (!beenGenerated(x,y,level)) {
-			for (int i = x; i < x+100; i++) {
-				for (int j = y; j < y+100; j++) {
-					dm.world.setGroundBlock(i,j, level, dm.system.blockNameMap.get("stone").getID());
-					dm.world.setStructBlock(i,j, level, dm.system.blockNameMap.get("dirt").getID());
+			int[][] caves = Cave.generateCave(generateSeed(dungeonSeedBase,x,y,level), 0.1f);
+			for (int i = 0; i < caves.length; i++) {
+				for (int j = 0; j < caves[i].length; j++) {
+					dm.world.setGroundBlock(x + i,y + j, level, dm.system.blockNameMap.get("stone").getID());
+					if (caves[i][j] == 0) {
+						dm.world.setStructBlock(x + i,y + j, level, dm.system.blockNameMap.get("dirt").getID());
+					}
 				}
 			}
 			generated(x,y,level);

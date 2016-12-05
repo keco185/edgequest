@@ -21,7 +21,7 @@ public class EntitySpawn extends Thread{
 	public void considerEntity(Location location) {
 		if (location.level > -1) { //in dungeon
 			if (!dm.world.isStructBlock(location)) {
-				if (Math.random() > 0.999) {
+				if (Math.random() > 0.9995) {
 					spawn("ant", location);
 				}
 			}
