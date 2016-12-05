@@ -1,5 +1,6 @@
 package com.mtautumn.edgequest;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.mtautumn.edgequest.data.DataManager;
@@ -128,8 +129,59 @@ public class TerrainGeneratorThread extends Thread{
 			}
 			if (level == -1) {
 				Random rng = new Random(generateSeed(dungeonSeedBase,x,y,421));
-				int stairsX = (int) (rng.nextDouble() * 100);
-				int stairsY = (int) (rng.nextDouble() * 100);
+				boolean stairsOk = false;
+				int stairsX = 0;
+				int stairsY = 0;
+				int tryCount = 0;
+				while (!stairsOk && tryCount < 1000) {
+					tryCount++;
+					stairsX = (int) (rng.nextDouble() * 100);
+					stairsY = (int) (rng.nextDouble() * 100);
+					do {
+					if (!dm.system.blockIDMap.get(dm.world.getGroundBlock(stairsX + x, stairsY + y, level)).isName("water") && !dm.system.blockIDMap.get(dm.world.getGroundBlock(stairsX + x, stairsY + y, level)).isName("ice")) {
+						stairsOk = true;
+					}
+					if (!dm.world.isGroundBlock(stairsX + x, stairsY + y, -1)) {
+						try {
+							Thread.sleep(50);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+					} while (!dm.world.isGroundBlock(stairsX + x, stairsY + y, -1));
+				}
+				if (tryCount >= 1000) {
+					rng = new Random(generateSeed(dungeonSeedBase,x,y,421));
+					stairsX = (int) (rng.nextDouble() * 100);
+					stairsY = (int) (rng.nextDouble() * 100);
+					ArrayList<int[]> island = new ArrayList<int[]>();
+					island.add(new int[]{-1,-1});
+					island.add(new int[]{-1,-2});
+					island.add(new int[]{-2,-1});
+					island.add(new int[]{-3,0});
+					island.add(new int[]{-2,0});
+					island.add(new int[]{-1,0});
+					island.add(new int[]{0,0});
+					island.add(new int[]{1,0});
+					island.add(new int[]{2,0});
+					island.add(new int[]{3,0});
+					island.add(new int[]{1,-1});
+					island.add(new int[]{1,-2});
+					island.add(new int[]{2,-1});
+					island.add(new int[]{0,-1});
+					island.add(new int[]{0,-2});
+					island.add(new int[]{1,1});
+					island.add(new int[]{1,2});
+					island.add(new int[]{2,1});
+					island.add(new int[]{0,1});
+					island.add(new int[]{0,2});
+					island.add(new int[]{-1,1});
+					island.add(new int[]{-1,2});
+					island.add(new int[]{-2,1});
+					for (int i = 0; i < island.size(); i++) {
+						dm.world.setGroundBlock(stairsX + x + island.get(i)[0],stairsY + y + island.get(i)[1], level, dm.system.blockNameMap.get("grass").getID());
+					}
+				}
 				dm.savable.dungeonStairs.put(x+","+y+","+level,new int[]{stairsX,stairsY});
 				return new int[]{stairsX,stairsY};
 			}
