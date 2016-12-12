@@ -205,11 +205,11 @@ public class Renderer {
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
 		glVertex2f(x,y);
-		glTexCoord2f(1f*paddingX,0);
+		glTexCoord2f(paddingX,0);
 		glVertex2f(x+width,y);
-		glTexCoord2f(1f*paddingX,1f*paddingY);
+		glTexCoord2f(paddingX,paddingY);
 		glVertex2f(x+width,y+height);
-		glTexCoord2f(0,1f*paddingY);
+		glTexCoord2f(0,paddingY);
 		glVertex2f(x,y+height);
 		glEnd();
 	}
@@ -228,11 +228,11 @@ public class Renderer {
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
 		glVertex2f(-halfWidth,-halfHeight);
-		glTexCoord2f(1*paddingX,0);
+		glTexCoord2f(paddingX,0);
 		glVertex2f(+halfWidth,-halfHeight);
-		glTexCoord2f(1*paddingX,1*paddingY);
+		glTexCoord2f(paddingX,paddingY);
 		glVertex2f(+halfWidth,+halfHeight);
-		glTexCoord2f(0,1*paddingY);
+		glTexCoord2f(0,paddingY);
 		glVertex2f(-halfWidth,+halfHeight);
 		glEnd();
 
