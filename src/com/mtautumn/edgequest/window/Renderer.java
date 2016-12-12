@@ -182,7 +182,19 @@ public class Renderer {
 		glVertex2f(x,y+height);
 		glEnd();
 	}
-
+	public void fillRect(float x, float y, float width, float height, float r, float g, float b, float a1, float a2, float a3, float a4) {
+		Color.white.bind();
+		glBegin(GL_QUADS);
+		glColor4f (r,g,b,a1);
+		glVertex2f(x,y);
+		glColor4f (r,g,b,a2);
+		glVertex2f(x+width,y);
+		glColor4f (r,g,b,a3);
+		glVertex2f(x+width,y+height);
+		glColor4f (r,g,b,a4);
+		glVertex2f(x,y+height);
+		glEnd();
+	}
 	public void drawTexture(Texture texture, float x, float y, float width, float height) {
 		Color.white.bind();
 		texture.bind();

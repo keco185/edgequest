@@ -27,7 +27,7 @@ public class UpdateLighting {
 			}
 		}
 		antialiasLighting(x, y);
-		lightStructBlocks(x, y);
+		//lightStructBlocks(x, y);
 		pushBuffer(x, y);
 		bufferedLightMap.clear();
 	}
@@ -115,17 +115,15 @@ public class UpdateLighting {
 		return false;
 	}
 	private boolean isLineOfSight(int x1, int y1, int x2, int y2) {
-		double checkingPosX = Double.valueOf(x1) + 0.5;
-		double checkingPosY = Double.valueOf(y1) + 0.5;
-		double deltaX = (x2-x1);
-		double deltaY = (y2-y1);
+		double checkingPosX = Double.valueOf(x1 + 0.5);
+		double checkingPosY = Double.valueOf(y1 + 0.5);
+		double deltaX = (x2-x1 - 0.5);
+		double deltaY = (y2-y1 - 0.5);
 		boolean answer = true;
 		if (deltaX != 0 || deltaY != 0) {
-			while(isInBetween(x1 + 0.5,x2 + 0.5,checkingPosX) && isInBetween(y1 + 0.5,y2 + 0.5,checkingPosY)) {
+			while(isInBetween(x1 + 0.5,x2,checkingPosX) && isInBetween(y1 + 0.5,y2,checkingPosY)) {
 				if (isBlockOpaque((int)Math.floor(checkingPosX), (int)Math.floor(checkingPosY))) {
-					//if (!(Math.abs(checkingPosX % 1.0) < 0.001 && Math.abs(checkingPosY % 1.0) < 0.001)) {
 					answer = false;
-					//}
 				}
 				double xNextLine;
 				double yNextLine;
@@ -137,7 +135,7 @@ public class UpdateLighting {
 					xNextLine = lightDiffuseDistance + 1;
 				}
 				if (xNextLine == 0) {
-					xNextLine = 1.0 / deltaX;
+					xNextLine = 0.01 / deltaX;
 				}
 				if (deltaY > 0) {
 					yNextLine = (Math.ceil(checkingPosY) - checkingPosY) / deltaY;
@@ -147,14 +145,10 @@ public class UpdateLighting {
 					yNextLine = lightDiffuseDistance + 1;
 				}
 				if (yNextLine == 0) {
-					yNextLine = 1.0 / deltaY;
+					yNextLine = 0.01 / deltaY;
 				}
 				xNextLine = Math.abs(xNextLine);
 				yNextLine = Math.abs(yNextLine);
-				if ((Math.abs(checkingPosX % 1.0) < 0.001 && Math.abs(checkingPosY % 1.0) < 0.001)) {
-					xNextLine = 0.01;
-					yNextLine = 0.01;
-				}
 				if (Math.abs(xNextLine) < Math.abs(yNextLine)) {
 					checkingPosX += xNextLine * deltaX;
 					checkingPosY += xNextLine * deltaY;
@@ -168,8 +162,8 @@ public class UpdateLighting {
 		return answer;
 	}
 	private static boolean isInBetween(double num1, double num2, double numCheck) {
-		if (num1 <= numCheck && num2 >= numCheck) { return true; }
-		return (num1 >= numCheck && num2 <= numCheck);
+		if (num1 <= numCheck && num2 > numCheck) { return true; }
+		return (num1 >= numCheck && num2 < numCheck);
 	}
 	private void setBrightness(int x, int y, double brightness) {
 		if (brightness > 1) brightness = 1;

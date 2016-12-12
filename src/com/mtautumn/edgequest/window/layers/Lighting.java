@@ -35,24 +35,30 @@ public class Lighting {
 	}
 	
 	private static double getBrightness(Renderer r, int x, int y) {
-		if (r.dataManager.world.isLight(x, y, r.dataManager.savable.dungeonLevel)) {
 			return Double.valueOf((r.dataManager.world.getLight(x, y, r.dataManager.savable.dungeonLevel) + 128)) / 255.0;
-		}
-		return 0.0;
 	}
 	
 	private static void drawBrightness(Renderer r, int x, int y, float xPos, float yPos) {
-		double brightness = getBrightness(r, x, y);
-		double nightBrightness = (1 - r.dataManager.world.getBrightness()) * brightness + r.dataManager.world.getBrightness();
+		double brightness1 = getBrightness(r, x, y);
+		double brightness2 = getBrightness(r, x + 1, y);
+		double brightness3 = getBrightness(r, x + 1, y + 1);
+		double brightness4 = getBrightness(r, x, y + 1);
+		double worldBrightness = r.dataManager.world.getBrightness();
+		double invWorldBrightness = 1 - worldBrightness;
+		double nightBrightness1 = (invWorldBrightness) * brightness1 + worldBrightness;
+		double nightBrightness2 = (invWorldBrightness) * brightness2 + worldBrightness;
+		double nightBrightness3 = (invWorldBrightness) * brightness3 + worldBrightness;
+		double nightBrightness4 = (invWorldBrightness) * brightness4 + worldBrightness;
+
 		if (r.dataManager.savable.dungeonLevel > -1) {
-			r.fillRect(xPos, yPos, r.dataManager.settings.blockSize, r.dataManager.settings.blockSize, 0.02f,0.0f,0.05f,(float) (1.0 - nightBrightness));
+			r.fillRect(xPos, yPos, r.dataManager.settings.blockSize, r.dataManager.settings.blockSize, 0.02f,0.0f,0.05f,(float) (1.0 - nightBrightness1),(float) (1.0 - nightBrightness2),(float) (1.0 - nightBrightness3),(float) (1.0 - nightBrightness4));
 		} else {
-			r.fillRect(xPos, yPos, r.dataManager.settings.blockSize, r.dataManager.settings.blockSize, 0.01f,0.0f,0.15f,(float) (1.0 - nightBrightness));
+			r.fillRect(xPos, yPos, r.dataManager.settings.blockSize, r.dataManager.settings.blockSize, 0.01f,0.0f,0.15f,(float) (1.0 - nightBrightness1),(float) (1.0 - nightBrightness2),(float) (1.0 - nightBrightness3),(float) (1.0 - nightBrightness4));
 		}
-		float blockBrightness = (float)(0.2 * (nightBrightness - r.dataManager.world.getBrightness()));
-		
-		if (blockBrightness > 0) {
-			r.fillRect(xPos, yPos, r.dataManager.settings.blockSize, r.dataManager.settings.blockSize, 1.0f,0.6f,0.05f, blockBrightness);
-		}
+		float blockBrightness1 = (float)(0.2 * (nightBrightness1 - worldBrightness));
+		float blockBrightness2 = (float)(0.2 * (nightBrightness2 - worldBrightness));
+		float blockBrightness3 = (float)(0.2 * (nightBrightness3 - worldBrightness));
+		float blockBrightness4 = (float)(0.2 * (nightBrightness4 - worldBrightness));
+		r.fillRect(xPos, yPos, r.dataManager.settings.blockSize, r.dataManager.settings.blockSize, 1.0f,0.6f,0.05f, blockBrightness1, blockBrightness2, blockBrightness3, blockBrightness4);
 	}
 }
