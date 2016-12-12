@@ -40,7 +40,7 @@ public class Troll extends Entity {
 	public void update() {
 		if (checkCount == 10) {
 			checkCount = 0;
-			if (isLineOfSight(dm.characterManager.characterEntity.getX(), dm.characterManager.characterEntity.getY())) {
+			if (isLineOfSightFOV(dm.characterManager.characterEntity.getX(), dm.characterManager.characterEntity.getY(), 2.7052603406)) {
 				lastPlayerLocX = dm.characterManager.characterEntity.getX();
 				lastPlayerLocY = dm.characterManager.characterEntity.getY();
 			} else if (!Double.isNaN(lastPlayerLocX) && !Double.isNaN(lastPlayerLocY)) {
@@ -125,7 +125,7 @@ public class Troll extends Entity {
 		}
 		super.update();
 
-		if (attackTimer == 60 && distanceToPlayer() <= 5 && isLineOfSight(dm.characterManager.characterEntity.getX(), dm.characterManager.characterEntity.getY())) {
+		if (attackTimer == 60 && distanceToPlayer() <= 5 && isLineOfSightFOV(dm.characterManager.characterEntity.getX(), dm.characterManager.characterEntity.getY(), 2.7052603406)) {
 			double deltaX = dm.characterManager.characterEntity.getX() - getX();
 			double deltaY = dm.characterManager.characterEntity.getY() - getY();
 			double angle = Math.atan2(-deltaY, deltaX);

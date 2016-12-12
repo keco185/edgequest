@@ -365,6 +365,25 @@ public class Entity implements Externalizable {
 		return dm.world.getStructBlock(this, (int) Math.floor(posX + deltaX), (int) Math.floor(posY + deltaY));
 	}
 
+	protected boolean isInFOV(double x, double y, double fov) {
+		double angle = Math.atan2(y-posY, x-posX);
+		double difference = Math.abs(angle - rotation);
+		if (difference < fov / 2.0) {
+			return true;
+		}
+		if (angle < 0) {
+			angle += Math.PI * 2;
+		}
+		double angle2 = rotation;
+		if (angle2 < 0) {
+			angle2 += Math.PI * 2;
+		}
+		difference = Math.abs(angle - angle2);
+		return difference < fov / 2.0;
+	}
+	protected boolean isLineOfSightFOV(double x, double y, double fov) {
+		return isInFOV(x, y, fov) && isLineOfSight(x, y);
+	}
 	protected boolean isLineOfSight(double x, double y) {
 		double checkingPosX = posX;
 		double checkingPosY = posY;
