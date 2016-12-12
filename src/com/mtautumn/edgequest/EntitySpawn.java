@@ -23,6 +23,9 @@ public class EntitySpawn extends Thread{
 			if (!dm.world.isStructBlock(location)) {
 				if (Math.random() > 0.9995) {
 					spawn("ant", location);
+				} 
+				if (Math.random() > 1.0 - Math.sqrt(location.level) * 0.0003) {
+					spawn("troll", location);
 				}
 			}
 		}
@@ -35,6 +38,9 @@ public class EntitySpawn extends Thread{
 			break;
 		case "character":
 			dm.savable.entities.add(new Character(entity));
+			break;
+		case "troll":
+			dm.savable.entities.add(new Troll(entity));
 			break;
 		default:
 			break;

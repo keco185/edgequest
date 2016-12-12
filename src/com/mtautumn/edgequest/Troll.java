@@ -65,7 +65,8 @@ public class Troll extends Entity {
 
 				setX(getX() + Math.cos(angle) * moveSpeed * new Double(dm.settings.tickLength) / 1000.0);
 				setY(getY() + Math.sin(angle) * moveSpeed * new Double(dm.settings.tickLength) / 1000.0);
-				super.updateRotation(-deltaX, -deltaY);
+				super.updateRotation(deltaX, deltaY);
+				
 			} else {
 				path = new ArrayList<IntCoord>();
 				double deltaX = lastPlayerLocX - getX();
