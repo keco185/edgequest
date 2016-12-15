@@ -1,14 +1,10 @@
 package com.mtautumn.edgequest.window.layers;
 
-import org.newdawn.slick.Color;
-
 import com.mtautumn.edgequest.FootPrint;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Footprints {
-	public static void draw(Renderer r) {
-	    Color.white.bind();
-	    
+	public static void draw(Renderer r) {	    
 		for (int i = 0; i < r.dataManager.savable.footPrints.size(); i++) {
 			FootPrint fp = r.dataManager.savable.footPrints.get(i);
 			if (fp.level == r.dataManager.savable.dungeonLevel) {

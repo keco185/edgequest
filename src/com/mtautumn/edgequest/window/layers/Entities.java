@@ -1,13 +1,10 @@
 package com.mtautumn.edgequest.window.layers;
 
-import org.newdawn.slick.Color;
-
 import com.mtautumn.edgequest.Entity;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Entities {
 	public static void draw(Renderer r) {
-		Color.white.bind();
 		for( int i = 0; i < r.dataManager.savable.entities.size(); i++) {
 			Entity entity = r.dataManager.savable.entities.get(i);
 			if (entity.dungeonLevel == r.dataManager.savable.dungeonLevel) {

@@ -7,7 +7,6 @@ import com.mtautumn.edgequest.window.Renderer;
 
 public class DamagePosts {
 	public static void draw(Renderer r) {
-		Color.white.bind();
 		for( int i = 0; i < r.dataManager.savable.damagePosts.size(); i++) {
 			DamagePost post = r.dataManager.savable.damagePosts.get(i);
 			if (post.level == r.dataManager.savable.dungeonLevel) {

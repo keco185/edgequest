@@ -13,27 +13,18 @@ public class Layers {
 			CharacterEffects.draw(r);
 			Projectiles.draw(r);
 			Entities.draw(r);
-			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			Lighting.draw(r);
 			BlockDamage.draw(r);
 			DamagePosts.draw(r);
 			if (!r.dataManager.system.hideMouse) MouseSelection.draw(r);
-			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			StatsBar.draw(r);
-			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.system.isKeyboardBackpack) Backpack.draw(r);
-			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			HotBar.draw(r);
-			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			MouseItem.draw(r);
-			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (!r.dataManager.system.characterLocationSet || r.dataManager.system.loadingWorld)
 				LoadingScreen.draw(r);
-			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.system.isKeyboardMenu) Menu.draw(r);
-			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.settings.showDiag) DiagnosticsWindow.draw(r);
-			r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 			if (r.dataManager.system.showConsole) Console.draw(r);
 		}
 		OptionPane.draw(r);

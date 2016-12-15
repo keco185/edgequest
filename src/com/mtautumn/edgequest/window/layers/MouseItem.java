@@ -6,7 +6,6 @@ import com.mtautumn.edgequest.window.Renderer;
 
 public class MouseItem {
 	public static void draw(Renderer r) {
-		Color.white.bind();
 		drawItem(r);
 	}
 	private static void drawItem(Renderer r) {

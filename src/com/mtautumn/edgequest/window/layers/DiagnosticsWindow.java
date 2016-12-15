@@ -1,12 +1,9 @@
 package com.mtautumn.edgequest.window.layers;
 
-import org.newdawn.slick.Color;
-
 import com.mtautumn.edgequest.window.Renderer;
 
 public class DiagnosticsWindow {
 	public static void draw(Renderer r) {
-		Color.white.bind();
 		r.fillRect((int)(10* r.dataManager.system.uiZoom),(int)(10* r.dataManager.system.uiZoom), (int)(215* r.dataManager.system.uiZoom), (int)(240* r.dataManager.system.uiZoom), 0.7f, 0.7f, 0.7f, 0.7f);
 
 		int i = 0;

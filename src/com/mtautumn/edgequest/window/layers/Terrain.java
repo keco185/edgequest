@@ -1,6 +1,5 @@
 package com.mtautumn.edgequest.window.layers;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
 import com.mtautumn.edgequest.data.DataManager;
@@ -11,7 +10,6 @@ public class Terrain {
 		return dm.world.isLight(x, y, level) || dm.world.isLight(x, y + 1, level) || dm.world.isLight(x + 1, y, level) || dm.world.isLight(x + 1, y + 1, level);   
 	}
 	public static void draw(Renderer r) {
-		Color.white.bind();
 		float blockSize = r.dataManager.settings.blockSize;
 		int minTileX = r.dataManager.system.minTileX;
 		int minTileY = r.dataManager.system.minTileY;
@@ -42,7 +40,6 @@ public class Terrain {
 		// Structure block outline
 		xPos = (float)((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0) - blockSize / 6;
 		yPosReset = (float)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0) - blockSize / 6;
-		r.drawTexture(r.textureManager.getTexture("selectFar"), 0, 0, 0, 0); //Somehow this fixes lighting bug
 		float block13 = blockSize * 1.33333333f;
 		for(int x = minTileX; x <= maxTileX; x++) {
 			yPos = yPosReset;

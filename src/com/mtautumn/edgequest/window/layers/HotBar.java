@@ -14,7 +14,6 @@ public class HotBar {
 	static int xPos;
 	static int yPos;
 	public static void draw(Renderer r) {
-		Color.white.bind();
 		drawBackground(r);
 		drawSpaces(r);	
 		drawSelection(r);
@@ -38,7 +37,6 @@ public class HotBar {
 			int posX = xPos + (int)((i * DELTA_X + START_X) * r.dataManager.system.uiZoom);
 			for (int j = 0; j < 6; j++) {
 				int posY = yPos + (int)(((j * DELTA_Y) + START_Y) * r.dataManager.system.uiZoom);
-				Color.white.bind();
 				try {
 					r.drawTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.system.animationClock), posX, posY, itemSize, itemSize);
 				} catch (Exception e) {

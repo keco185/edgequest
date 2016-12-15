@@ -1,14 +1,11 @@
 package com.mtautumn.edgequest.window.layers;
 
-import org.newdawn.slick.Color;
-
 import com.mtautumn.edgequest.window.Renderer;
 
 public class StatsBar {
 	public static final int BAR_WIDTH = 700;
 	public static final int BAR_HEIGHT = 50;
 	public static void draw(Renderer r) {
-		Color.white.bind();
 		drawHealth(r);
 		drawStamina(r);
 		drawBackground(r);

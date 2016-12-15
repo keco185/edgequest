@@ -1,12 +1,9 @@
 package com.mtautumn.edgequest.window.layers;
 
-import org.newdawn.slick.Color;
-
 import com.mtautumn.edgequest.window.Renderer;
 
 public class CharacterEffects {
 	public static void draw(Renderer r) {
-		Color.white.bind();
 		drawWaterSplash(r);
 	}
 

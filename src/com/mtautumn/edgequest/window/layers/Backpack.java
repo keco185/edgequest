@@ -7,7 +7,6 @@ import com.mtautumn.edgequest.window.Renderer;
 public class Backpack {
 	public static void draw(Renderer r) {
 		r.fillRect(0, 0, r.dataManager.settings.screenWidth, r.dataManager.settings.screenHeight, 0.2f,0.2f,0.2f, 0.7f);
-		Color.white.bind();
 		drawBackground(r);
 		drawSpaces(r);	
 	}
@@ -27,7 +26,6 @@ public class Backpack {
 			int posX = r.dataManager.system.menuX + (i - 2) * spaceXMult + spaceXAdd;
 			for (int j = 0; j < r.dataManager.savable.backpackItems[i].length; j++) {
 				int posY = r.dataManager.system.menuY + j * spaceYMult + spaceYAdd;
-				Color.white.bind();
 				try {
 					if (r.dataManager.savable.backpackItems[i][j].getItemCount() > 0) {
 						r.drawTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.system.animationClock), posX, posY, (int)(48 * r.dataManager.system.uiZoom), (int)(48 * r.dataManager.system.uiZoom));

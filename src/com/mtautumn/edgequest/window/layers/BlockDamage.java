@@ -1,13 +1,9 @@
 package com.mtautumn.edgequest.window.layers;
 
-import org.newdawn.slick.Color;
-
 import com.mtautumn.edgequest.window.Renderer;
 
 public class BlockDamage {
-	public static void draw(Renderer r) {
-		Color.white.bind();
-		
+	public static void draw(Renderer r) {		
 		float posX = getMousePosX(r);
 		float posY = getMousePosY(r);
 		float blockSize = r.dataManager.settings.blockSize;

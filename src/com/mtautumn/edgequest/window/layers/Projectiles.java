@@ -1,6 +1,5 @@
 package com.mtautumn.edgequest.window.layers;
 
-import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
 import com.mtautumn.edgequest.Projectile;
@@ -8,7 +7,6 @@ import com.mtautumn.edgequest.window.Renderer;
 
 public class Projectiles {
 	public static void draw(Renderer r) {
-		Color.white.bind();
 		for( int i = 0; i < r.dataManager.savable.projectiles.size(); i++) {
 			Projectile projectile = r.dataManager.savable.projectiles.get(i);
 			if (projectile.level == r.dataManager.savable.dungeonLevel) {

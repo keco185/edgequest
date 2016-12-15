@@ -1,14 +1,10 @@
 package com.mtautumn.edgequest.window.layers;
 
-import org.newdawn.slick.Color;
-
 import com.mtautumn.edgequest.window.Renderer;
 import com.mtautumn.edgequest.window.managers.LaunchScreenManager.MenuButton;
 
 public class LaunchScreen {
 	public static void draw(Renderer r) {
-		Color.white.bind();
-
 		drawBackground(r);
 		drawLogo(r);
 		drawButtons(r);

@@ -1,7 +1,5 @@
 package com.mtautumn.edgequest.window.layers;
 
-import org.newdawn.slick.Color;
-
 import com.mtautumn.edgequest.window.Renderer;
 import com.mtautumn.edgequest.window.managers.MenuButtonManager.MenuButton;
 import com.mtautumn.edgequest.window.managers.MenuButtonManager.MenuPane;
@@ -10,7 +8,6 @@ public class Menu {
 	public static void draw(Renderer r) {
 		
 		r.fillRect(0, 0, r.dataManager.settings.screenWidth, r.dataManager.settings.screenHeight, 0.2f,0.2f,0.2f, 0.7f);
-		Color.white.bind();
 		r.dataManager.system.menuX = r.dataManager.settings.screenWidth / 2 - (int)(375 * r.dataManager.system.uiZoom);
 		r.dataManager.system.menuY = r.dataManager.settings.screenHeight / 2 - (int)(250 * r.dataManager.system.uiZoom);
 		r.drawTexture(r.textureManager.getTexture("menuBackground"), r.dataManager.system.menuX, r.dataManager.system.menuY, (int)(750 * r.dataManager.system.uiZoom),(int)(500 * r.dataManager.system.uiZoom));

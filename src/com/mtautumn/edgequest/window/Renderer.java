@@ -8,11 +8,13 @@ import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.lwjgl.opengl.GL20;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.opengl.Texture;
 
+import com.mtautumn.edgequest.ShaderProgram;
 import com.mtautumn.edgequest.TextureManager;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.managers.LaunchScreenManager;
@@ -33,6 +35,7 @@ public class Renderer {
 	private final float buttonFontSize = 42;
 	private final double awtBackpackFontSize = 14;
 	private final double awtDamageFontSize = 14;
+	public ShaderProgram shader;
 	public Renderer(DataManager dataManager) {
 		this.dataManager = dataManager;
 		lastUIZoom = dataManager.system.uiZoom;
@@ -76,6 +79,8 @@ public class Renderer {
 		glLoadIdentity();
 		glOrtho(0, width, height, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
+		shader = new ShaderProgram();
+		shader.init("shaders/lighting.vert", "shaders/lighting.frag");
 	}
 	@SuppressWarnings("unchecked")
 	private static void setupFont(UnicodeFont font) {
@@ -182,22 +187,27 @@ public class Renderer {
 		glVertex2f(x,y+height);
 		glEnd();
 	}
-	public void fillRect(float x, float y, float width, float height, float r, float g, float b, float a1, float a2, float a3, float a4) {
+	public void fillRect(float x, float y, float width, float height) {
 		Color.white.bind();
+		int location = GL20.glGetAttribLocation(shader.getProgramId(),"posIn");
 		glBegin(GL_QUADS);
-		glColor4f (r,g,b,a1);
+		GL20.glVertexAttrib2f(location,0.0f,0.0f);
+		//glColor4f (r,g,b,a1);
 		glVertex2f(x,y);
-		glColor4f (r,g,b,a2);
+		GL20.glVertexAttrib2f(location,1.0f,0.0f);
+		//glColor4f (r,g,b,a2);
 		glVertex2f(x+width,y);
-		glColor4f (r,g,b,a3);
+		GL20.glVertexAttrib2f(location,1.0f,1.0f);
+		//glColor4f (r,g,b,a3);
 		glVertex2f(x+width,y+height);
-		glColor4f (r,g,b,a4);
+		GL20.glVertexAttrib2f(location,0.0f,1.0f);
+		//glColor4f (r,g,b,a4);
 		glVertex2f(x,y+height);
 		glEnd();
 	}
 	public void drawTexture(Texture texture, float x, float y, float width, float height) {
 		Color.white.bind();
-		texture.bind();
+		glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
 		float paddingX = texture.getImageWidth();
 		paddingX /= nearestPower2(paddingX);
 		float paddingY = texture.getImageHeight();
@@ -212,6 +222,26 @@ public class Renderer {
 		glTexCoord2f(0,paddingY);
 		glVertex2f(x,y+height);
 		glEnd();
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	public void drawTexture(int texture, float x, float y, float width, float height) {
+		Color.white.bind();
+		glBindTexture(GL_TEXTURE_2D, texture);
+		float paddingX = width;
+		paddingX /= nearestPower2(paddingX);
+		float paddingY = height;
+		paddingY /= nearestPower2(paddingY);
+		glBegin(GL_QUADS);
+		glTexCoord2f(0,0);
+		glVertex2f(x,y);
+		glTexCoord2f(paddingX,0);
+		glVertex2f(x+width,y);
+		glTexCoord2f(paddingX,paddingY);
+		glVertex2f(x+width,y+height);
+		glTexCoord2f(0,paddingY);
+		glVertex2f(x,y+height);
+		glEnd();
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	public void drawTexture(Texture texture, float x, float y, float width, float height, float angle) {
 		Color.white.bind();
@@ -224,7 +254,7 @@ public class Renderer {
 		paddingX /= nearestPower2(paddingX);
 		float paddingY = texture.getImageHeight();
 		paddingY /= nearestPower2(paddingY);
-		texture.bind();
+		glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
 		glVertex2f(-halfWidth,-halfHeight);
@@ -235,7 +265,7 @@ public class Renderer {
 		glTexCoord2f(0,paddingY);
 		glVertex2f(-halfWidth,+halfHeight);
 		glEnd();
-
+		glBindTexture(GL_TEXTURE_2D, 0);
 		glPopMatrix();
 	}
 	private static float nearestPower2(float size) {
