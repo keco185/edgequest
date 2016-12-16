@@ -14,9 +14,21 @@ public class Console {
 		for (int i = 0; i < lineCount; i++) {
 			Line line = lines[i];
 			if (line != null) {
-				r.font.drawString(screenWidth - (int) (consoleWidth * r.dataManager.system.uiZoom),(int)((consoleHeight -  (i + 1) * consoleHeight / (lineCount + 1) - 10) * r.dataManager.system.uiZoom), line.getText(), line.color);
+				if (isDrawable(line.getText())) {
+					r.font.drawString(screenWidth - (int) (consoleWidth * r.dataManager.system.uiZoom),(int)((consoleHeight -  (i + 1) * consoleHeight / (lineCount + 1) - 10) * r.dataManager.system.uiZoom), line.getText(), line.color);
+				}
 			}
 		}
-		r.font.drawString(screenWidth - (int)(consoleWidth * r.dataManager.system.uiZoom),(int)((consoleHeight - 10) * r.dataManager.system.uiZoom), r.dataManager.system.consoleText);
+		if (isDrawable(r.dataManager.system.consoleText)) {
+			r.font.drawString(screenWidth - (int)(consoleWidth * r.dataManager.system.uiZoom),(int)((consoleHeight - 10) * r.dataManager.system.uiZoom), r.dataManager.system.consoleText);
+		}
 	}
+		private static boolean isDrawable(String line) {
+			for (int i = 0; i < line.length(); i++) {
+				if (line.charAt(i) != " ".charAt(0)) {
+					return true;
+				}
+			}
+			return false;
+		}
 }

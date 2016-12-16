@@ -70,12 +70,8 @@ public class Renderer {
 
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 		glViewport(0,0,width,height);
-		glMatrixMode(GL_MODELVIEW);
-
-		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0, width, height, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
@@ -178,6 +174,7 @@ public class Renderer {
 
 
 	public void fillRect(float x, float y, float width, float height, float r, float g, float b, float a) {
+		glBindTexture(GL_TEXTURE_2D, 0);
 		Color.white.bind();
 		glColor4f (r,g,b,a);
 		glBegin(GL_QUADS);
@@ -211,25 +208,6 @@ public class Renderer {
 		float paddingX = texture.getImageWidth();
 		paddingX /= nearestPower2(paddingX);
 		float paddingY = texture.getImageHeight();
-		paddingY /= nearestPower2(paddingY);
-		glBegin(GL_QUADS);
-		glTexCoord2f(0,0);
-		glVertex2f(x,y);
-		glTexCoord2f(paddingX,0);
-		glVertex2f(x+width,y);
-		glTexCoord2f(paddingX,paddingY);
-		glVertex2f(x+width,y+height);
-		glTexCoord2f(0,paddingY);
-		glVertex2f(x,y+height);
-		glEnd();
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-	public void drawTexture(int texture, float x, float y, float width, float height) {
-		Color.white.bind();
-		glBindTexture(GL_TEXTURE_2D, texture);
-		float paddingX = width;
-		paddingX /= nearestPower2(paddingX);
-		float paddingY = height;
 		paddingY /= nearestPower2(paddingY);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
