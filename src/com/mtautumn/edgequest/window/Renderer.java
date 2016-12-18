@@ -36,6 +36,9 @@ public class Renderer {
 	private final double awtBackpackFontSize = 14;
 	private final double awtDamageFontSize = 14;
 	public ShaderProgram shader;
+	public VBO terrainVBO;
+	public LightingVBO lightingVBODarkness;
+	public LightingVBO lightingVBOBrightness;
 	public Renderer(DataManager dataManager) {
 		this.dataManager = dataManager;
 		lastUIZoom = dataManager.system.uiZoom;
@@ -163,7 +166,11 @@ public class Renderer {
 		}
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		Layers.draw(this);
+		try {
+			Layers.draw(this);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 
 		Display.update();
 		if (Display.isCloseRequested()) {

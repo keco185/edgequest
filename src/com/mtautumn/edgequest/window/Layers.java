@@ -4,16 +4,22 @@ package com.mtautumn.edgequest.window;
 import com.mtautumn.edgequest.window.layers.*;
 
 public class Layers {
-	static void draw(Renderer r) {
+	static void draw(Renderer r) throws InterruptedException {
 		if (r.dataManager.system.isGameOnLaunchScreen) {
 			LaunchScreen.draw(r);
 		} else {
-			Terrain.draw(r);
+			Terrain terrainThread = new Terrain(r);
+			terrainThread.start();
+			Lighting lightingThread = new Lighting(r);
+			lightingThread.start();
+			terrainThread.join();
+			Terrain.completionTasks(r);
 			Footprints.draw(r);
 			CharacterEffects.draw(r);
 			Projectiles.draw(r);
 			Entities.draw(r);
-			Lighting.draw(r);
+			lightingThread.join();
+			Lighting.completionTasks(r);
 			BlockDamage.draw(r);
 			DamagePosts.draw(r);
 			if (!r.dataManager.system.hideMouse) MouseSelection.draw(r);

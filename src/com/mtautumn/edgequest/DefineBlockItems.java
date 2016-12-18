@@ -11,7 +11,10 @@ import com.mtautumn.edgequest.data.DataManager;
 public class DefineBlockItems {
 	public static Map<Short, BlockItem> blockIDMap = new HashMap<Short, BlockItem>();
 	public static Map<String, BlockItem> blockNameMap = new HashMap<String, BlockItem>();
+	private static DataManager dm;
 	public static void setDefinitions(DataManager dataManager) {
+		dm = dataManager;
+		atlasDefinition();
 		noneDefinition();
 		noTextureDefinition();
 		grassDefinition();
@@ -26,7 +29,7 @@ public class DefineBlockItems {
 		daggerDefinition();
 		pistolDefinition();
 		bulletDefinition();
-		
+
 		torchDefinition();
 		lilyPadDefinition();
 		treeDefinition();
@@ -36,33 +39,54 @@ public class DefineBlockItems {
 		dataManager.system.blockIDMap = blockIDMap;
 		dataManager.system.blockNameMap = blockNameMap;
 	}
+	private static void atlasDefinition() {
+		dm.settings.atlasMap.put("dimensions", new int[]{4,8});
+		dm.settings.atlasMap.put("dirt0", new int[]{0,0});
+		dm.settings.atlasMap.put("dungeon0", new int[]{1,0});
+		dm.settings.atlasMap.put("sand0", new int[]{2,0});
+		dm.settings.atlasMap.put("stone0", new int[]{3,0});
+		dm.settings.atlasMap.put("snow0", new int[]{0,1});
+		dm.settings.atlasMap.put("grass0", new int[]{1,1});
+		dm.settings.atlasMap.put("dungeonUp0", new int[]{2,1});
+		dm.settings.atlasMap.put("torch0", new int[]{3,1});
+		dm.settings.atlasMap.put("tree0", new int[]{0,2});
+		dm.settings.atlasMap.put("water0", new int[]{1,2});
+		dm.settings.atlasMap.put("ground0", new int[]{2,2});
+		dm.settings.atlasMap.put("water1", new int[]{3,2});
+		dm.settings.atlasMap.put("water2", new int[]{0,3});
+		dm.settings.atlasMap.put("water3", new int[]{1,3});
+		dm.settings.atlasMap.put("noTexture0", new int[]{2,3});
+		dm.settings.atlasMap.put("none0", new int[]{3,3});
+		dm.settings.atlasMap.put("lilyPad0", new int[]{0,4});
+		dm.settings.atlasMap.put("ice0", new int[]{1,4});
+	}
 	private static void noneDefinition() {
-		BlockItem none = new BlockItem(-1, true, true, "none", new int[]{0} , new int[]{0});
+		BlockItem none = new BlockItem(-1, true, true, "none", new int[]{0} , new int[]{0}, dm);
 		addToMaps(none);
 	}
 	private static void noTextureDefinition() {
-		BlockItem noTexture = new BlockItem(0, true, true, "noTexture", new int[]{0} , new int[]{0});
+		BlockItem noTexture = new BlockItem(0, true, true, "noTexture", new int[]{0} , new int[]{0}, dm);
 		addToMaps(noTexture);
 	}
 	private static void grassDefinition() {
-		BlockItem grass = new BlockItem(1, true, false, "grass", new int[]{0} , new int[]{0});
+		BlockItem grass = new BlockItem(1, true, false, "grass", new int[]{0} , new int[]{0}, dm);
 		grass.replacedBy = "dirt";
 		addToMaps(grass);
 	}
 	private static void dirtDefinition() {
-		BlockItem dirt = new BlockItem(2, true, false, "dirt", new int[]{0} , new int[]{0});
+		BlockItem dirt = new BlockItem(2, true, false, "dirt", new int[]{0} , new int[]{0}, dm);
 		addToMaps(dirt);
 	}
 	private static void stoneDefinition() {
-		BlockItem stone = new BlockItem(3, true, false, "stone", new int[]{0} , new int[]{0});
+		BlockItem stone = new BlockItem(3, true, false, "stone", new int[]{0} , new int[]{0}, dm);
 		addToMaps(stone);
 	}
 	private static void sandDefinition() {
-		BlockItem sand = new BlockItem(4, true, false, "sand", new int[]{0} , new int[]{0});
+		BlockItem sand = new BlockItem(4, true, false, "sand", new int[]{0} , new int[]{0}, dm);
 		addToMaps(sand);
 	}
 	private static void snowDefinition() {
-		BlockItem snow = new BlockItem(5, true, false, "snow", new int[]{0} , new int[]{0});
+		BlockItem snow = new BlockItem(5, true, false, "snow", new int[]{0} , new int[]{0}, dm);
 		snow.canHavePrints = true;
 		snow.melts = true;
 		snow.meltsInto = "grass";
@@ -70,32 +94,32 @@ public class DefineBlockItems {
 		addToMaps(snow);
 	}
 	private static void waterDefinition() {
-		BlockItem water = new BlockItem(6, true, false, "water", new int[]{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1} , null);
+		BlockItem water = new BlockItem(6, true, false, "water", new int[]{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1} , null, dm);
 		water.isLiquid = true;
 		water.isPassable = true;
 		water.hardness = -1;
 		addToMaps(water);
 	}
 	private static void groundDefinition() {
-		BlockItem ground = new BlockItem(7, true, false, "ground", new int[]{0} , null);
+		BlockItem ground = new BlockItem(7, true, false, "ground", new int[]{0} , null, dm);
 		ground.hardness = -1;
 		addToMaps(ground);
 	}
 	private static void iceDefinition() {
-		BlockItem ice = new BlockItem(8, true, true, "ice", new int[]{0} , new int[]{0});
+		BlockItem ice = new BlockItem(8, true, true, "ice", new int[]{0} , new int[]{0}, dm);
 		ice.melts = true;
 		ice.meltsInto = "water";
 		ice.replacedBy = "water";
 		addToMaps(ice);
 	}
 	private static void lanternDefinition() {
-		BlockItem lantern = new BlockItem(9, false, true, "lantern", null , new int[]{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1});
+		BlockItem lantern = new BlockItem(9, false, true, "lantern", null , new int[]{0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1}, dm);
 		lantern.maxFuel = 100;
 		lantern.isStackable = false;
 		addToMaps(lantern);
 	}
 	private static void daggerDefinition() {
-		BlockItem dagger = new BlockItem(10, false, true, "dagger", null , new int[]{0});
+		BlockItem dagger = new BlockItem(10, false, true, "dagger", null , new int[]{0}, dm);
 		dagger.isStackable = false;
 		dagger.isWeapon = true;
 		dagger.maxDamage = 4;
@@ -107,7 +131,7 @@ public class DefineBlockItems {
 		addToMaps(dagger);
 	}
 	private static void pistolDefinition() {
-		BlockItem pistol = new BlockItem(11, false, true, "pistol", null , new int[]{0});
+		BlockItem pistol = new BlockItem(11, false, true, "pistol", null , new int[]{0}, dm);
 		pistol.isStackable = false;
 		pistol.isWeapon = true;
 		pistol.maxDamage = 8;
@@ -119,11 +143,11 @@ public class DefineBlockItems {
 		addToMaps(pistol);
 	}
 	private static void bulletDefinition() {
-		BlockItem bullet = new BlockItem(12, false, true, "bullet", null , new int[]{0});
+		BlockItem bullet = new BlockItem(12, false, true, "bullet", null , new int[]{0}, dm);
 		addToMaps(bullet);
 	}
 	private static void torchDefinition() {
-		BlockItem torch = new BlockItem(100, true, true, "torch", new int[]{0} , new int[]{0});
+		BlockItem torch = new BlockItem(100, true, true, "torch", new int[]{0} , new int[]{0}, dm);
 		torch.isLightSource = true;
 		torch.isHot = true;
 		torch.isPassable = true;
@@ -131,25 +155,25 @@ public class DefineBlockItems {
 		addToMaps(torch);
 	}
 	private static void lilyPadDefinition() {
-		BlockItem lilyPad = new BlockItem(101, true, true, "lilyPad", new int[]{0} , new int[]{0});
+		BlockItem lilyPad = new BlockItem(101, true, true, "lilyPad", new int[]{0} , new int[]{0}, dm);
 		lilyPad.isPassable = true;
 		lilyPad.isSolid = false;
 		addToMaps(lilyPad);
 	}
 	private static void treeDefinition() {
-		BlockItem tree = new BlockItem(102, true, false, "tree", new int[]{0} , null);
+		BlockItem tree = new BlockItem(102, true, false, "tree", new int[]{0} , null, dm);
 		tree.isSolid = false;
 		addToMaps(tree);
 	}
 	private static void dungeonDefinition() {
-		BlockItem dungeon = new BlockItem(200, true, false, "dungeon", new int[]{0} , null);
+		BlockItem dungeon = new BlockItem(200, true, false, "dungeon", new int[]{0} , null, dm);
 		dungeon.hardness = -1;
 		dungeon.isPassable = true;
 		dungeon.isSolid = false;
 		addToMaps(dungeon);
 	}
 	private static void dungeonUpDefinition() {
-		BlockItem dungeonUp = new BlockItem(201, true, false, "dungeonUp", new int[]{0} , null);
+		BlockItem dungeonUp = new BlockItem(201, true, false, "dungeonUp", new int[]{0} , null, dm);
 		dungeonUp.hardness = -1;
 		dungeonUp.isPassable = true;
 		dungeonUp.isSolid = false;

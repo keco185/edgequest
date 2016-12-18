@@ -11,12 +11,16 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import com.mtautumn.edgequest.data.DataManager;
+
 public class BlockItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private static final String blockImageDirectory = "blocks";
 	private static final String itemImageDirectory = "items";
 	private ArrayList<Texture> blockImg = new ArrayList<Texture>();
 	private ArrayList<Texture> itemImg = new ArrayList<Texture>();
+
+	private ArrayList<int[]> blockImgAtlas = new ArrayList<int[]>();
 	private boolean isItem;
 	private boolean isBlock;
 	private String name;
@@ -32,7 +36,7 @@ public class BlockItem implements Serializable {
 	public String ammo = "";
 	public String projectile = "";
 	public double speed = 1.0;
-	
+
 	public boolean isLightSource = false;
 	public boolean isHot = false;
 	public boolean melts = false;
@@ -45,7 +49,7 @@ public class BlockItem implements Serializable {
 	public boolean isSolid = true;
 	public boolean canHavePrints = false;
 	public int blockHeight = 0;
-	
+
 	//Item Specific Attributes
 	public boolean isStackable = true;
 	public int maxDamage = 1;
@@ -54,7 +58,7 @@ public class BlockItem implements Serializable {
 	public int fuel = 1;
 	public int maxHealth = 1;
 
-	public BlockItem(int id, boolean isBlock, boolean isItem, String name, int[] blockAnimation, int[] itemAnimation) {
+	public BlockItem(int id, boolean isBlock, boolean isItem, String name, int[] blockAnimation, int[] itemAnimation, DataManager dm) {
 		this.isItem = isItem;
 		this.isBlock = isBlock;
 		this.id = (short)id;
@@ -63,6 +67,7 @@ public class BlockItem implements Serializable {
 		if (isBlock) {
 			for (Short i = 0; i < blockAnimation.length; i++) {
 				blockImg.add(getTexture(name + blockAnimation[i], blockImageDirectory));
+				blockImgAtlas.add(dm.settings.atlasMap.get(name + blockAnimation[i]));
 			}
 		}
 		if (isItem) {
@@ -83,7 +88,9 @@ public class BlockItem implements Serializable {
 		if (isItem) return itemImg.get(time % itemImg.size());
 		return null;
 	}
-
+	public int[] getAtlasedBlockImg(int time) {
+		return blockImgAtlas.get(time % blockImgAtlas.size());
+	}
 	public boolean getIsBlock() { return isBlock; }
 
 	public boolean getIsItem() { return isItem; }

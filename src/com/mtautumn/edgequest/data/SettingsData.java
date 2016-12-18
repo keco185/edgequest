@@ -1,5 +1,8 @@
 package com.mtautumn.edgequest.data;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.lwjgl.input.Keyboard;
 
 public class SettingsData {
@@ -33,4 +36,6 @@ public class SettingsData {
 	public int consoleKey = Keyboard.KEY_T;
 	public int exitKey = Keyboard.KEY_ESCAPE;
 	public int actionKey = Keyboard.KEY_RETURN;
+
+	public Map<String, int[]> atlasMap = new ConcurrentHashMap<String, int[]>();
 }
