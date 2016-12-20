@@ -7,10 +7,14 @@ public class EntityUpdater extends Thread{
 	public EntityUpdater(DataManager dm) {
 		this.dm = dm;
 	}
-	private static void moveEntity(Entity entity, double r, double theta, double x, double y) {
+	private void moveEntity(Entity entity, double r, double theta, double x, double y) {
 		double deltaX = Math.cos(theta) * r;
 		double deltaY = Math.sin(theta) * r;
-		entity.setPos(deltaX + x, deltaY + y);
+		if (!dm.world.isStructBlock((int)(deltaX + x), (int)(deltaY + y), entity.dungeonLevel)) {
+			entity.setPos(deltaX + x, deltaY + y);
+		} else if (!dm.system.blockIDMap.get(dm.world.getStructBlock((int)(deltaX + x), (int)(deltaY + y), entity.dungeonLevel)).isSolid) {
+			entity.setPos(deltaX + x, deltaY + y);
+		}
 	}
 	public void run() {
 		while(dm.system.running) {
