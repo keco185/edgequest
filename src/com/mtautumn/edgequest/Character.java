@@ -88,7 +88,7 @@ public class Character extends Entity {
 				charXOffset /= 1.7;
 				charYOffset /= 1.7;
 			}
-			if (super.dm.system.rightMouseDown) {
+			if (super.dm.system.isAiming) {
 				updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
 				charXOffset /= 1.5;
 				charYOffset /= 1.5;
@@ -110,7 +110,7 @@ public class Character extends Entity {
 				super.move(0, 0);
 			}
 			if (!dm.system.characterMoving) {
-				if (super.dm.system.rightMouseDown) {
+				if (super.dm.system.isAiming) {
 					updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
 				}
 			}

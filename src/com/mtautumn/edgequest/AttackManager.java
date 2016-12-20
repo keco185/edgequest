@@ -11,7 +11,7 @@ public class AttackManager extends Thread{
 		boolean wasLeftMouseDown = false;
 		while (dm.system.running) {
 			try {
-				if (dm.system.rightMouseDown) { //Is player aiming
+				if (dm.system.isAiming) { //Is player aiming
 					if (dm.system.leftMouseDown && !wasLeftMouseDown) { //Is player attacking
 						performAttack();
 					}

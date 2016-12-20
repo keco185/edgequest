@@ -36,6 +36,7 @@ public class SettingsData {
 	public int consoleKey = Keyboard.KEY_T;
 	public int exitKey = Keyboard.KEY_ESCAPE;
 	public int actionKey = Keyboard.KEY_RETURN;
+	public int aimKey = Keyboard.KEY_LMETA;
 
 	public Map<String, int[]> atlasMap = new ConcurrentHashMap<String, int[]>();
 }

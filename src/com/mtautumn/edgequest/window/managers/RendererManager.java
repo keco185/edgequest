@@ -247,7 +247,11 @@ public class RendererManager extends Thread {
 					if (Keyboard.isKeyDown(Keyboard.KEY_6)) {
 						dataManager.savable.hotBarSelection = 5;
 					}
-					
+					if (Keyboard.isKeyDown(dataManager.settings.aimKey) || dataManager.system.rightMouseDown) {
+						dataManager.system.isAiming = true;
+					} else {
+						dataManager.system.isAiming = false;
+					}
 					if (!dataManager.system.autoWalk) {
 						dataManager.system.isKeyboardUp = keyUp;
 						dataManager.system.isKeyboardRight = keyRight;
