@@ -3,7 +3,9 @@ package com.mtautumn.edgequest;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.PathFinder.IntCoord;
+import com.mtautumn.edgequest.blockitems.combat.Weapon;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.projectiles.DaggerProjectile;
 
 public class Troll extends Entity {
 	private static final long serialVersionUID = 1L;
@@ -13,6 +15,7 @@ public class Troll extends Entity {
 	private double lastPlayerLocY = Double.NaN;
 	private int checkCount = 0;
 	private int attackTimer = 0;
+	private boolean lastHand = false;
 
 	public Troll(double posX, double posY, double rotation, DataManager dm, int dungeonLevel) {
 		super("troll",EntityType.hostileCreature, posX, posY, rotation, dungeonLevel, dm);
@@ -130,7 +133,17 @@ public class Troll extends Entity {
 			double deltaX = dm.characterManager.characterEntity.getX() - getX();
 			double deltaY = dm.characterManager.characterEntity.getY() - getY();
 			double angle = Math.atan2(-deltaY, deltaX);
-			dm.attackManager.castAttack(dm.system.blockNameMap.get("dagger"), this, angle, 5, 0.3);
+			double offsetX;
+			double offsetY;
+			if (lastHand) {
+				offsetX = Math.cos(-dm.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+				offsetY = -Math.sin(-dm.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+			} else {
+				offsetX = Math.cos(-dm.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+				offsetY = -Math.sin(-dm.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+			}
+			lastHand = !lastHand;
+			dm.savable.projectiles.add(new DaggerProjectile(10, 5, this, Weapon.getDamage(3), offsetX, offsetY, false, 1, angle));
 		}
 		if (attackTimer == 60) {
 			attackTimer = 0;

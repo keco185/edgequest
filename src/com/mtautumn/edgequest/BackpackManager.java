@@ -5,6 +5,7 @@
  */
 package com.mtautumn.edgequest;
 
+import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class BackpackManager extends Thread {

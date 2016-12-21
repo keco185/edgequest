@@ -3,8 +3,8 @@
  */
 package com.mtautumn.edgequest.updates;
 
-import com.mtautumn.edgequest.BlockItem;
 import com.mtautumn.edgequest.Location;
+import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class UpdateMining {

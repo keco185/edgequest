@@ -33,7 +33,7 @@ public class Terrain extends Thread {
 		float yPosReset = yPos;
 
 
-		r.terrainVBO.write(r.textureManager.getTexture("blockAtlas"));
+		r.terrainVBO.write(r.textureManager.getTexture("blocks." + "blockAtlas"));
 		// Structure block outline
 		xPos = (float)((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0) - blockSize / 6;
 		yPosReset = (float)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0) - blockSize / 6;

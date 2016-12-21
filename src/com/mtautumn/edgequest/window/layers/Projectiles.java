@@ -2,7 +2,7 @@ package com.mtautumn.edgequest.window.layers;
 
 import org.newdawn.slick.opengl.Texture;
 
-import com.mtautumn.edgequest.Projectile;
+import com.mtautumn.edgequest.projectiles.Projectile;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Projectiles {
@@ -10,7 +10,7 @@ public class Projectiles {
 		for( int i = 0; i < r.dataManager.savable.projectiles.size(); i++) {
 			Projectile projectile = r.dataManager.savable.projectiles.get(i);
 			if (projectile.level == r.dataManager.savable.dungeonLevel) {
-				drawProjectile(r.textureManager.getTexture(projectile.texture), projectile.x, projectile.y, -projectile.angle, r);
+				drawProjectile(r.textureManager.getTexture("projectiles." + projectile.getTexture(r.dataManager)), projectile.x, projectile.y, -projectile.angle, r);
 			}
 		}
 	}

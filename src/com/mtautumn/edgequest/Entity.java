@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import org.newdawn.slick.geom.Vector2f;
 
 import com.mtautumn.edgequest.PathFinder.IntCoord;
+import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class Entity implements Externalizable {

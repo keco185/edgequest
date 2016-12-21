@@ -1,6 +1,9 @@
 package com.mtautumn.edgequest;
 
+import com.mtautumn.edgequest.blockitems.combat.Hands;
+import com.mtautumn.edgequest.blockitems.combat.Weapon;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.projectiles.Projectile;
 
 public class AttackManager extends Thread{
 	DataManager dm;
@@ -25,43 +28,65 @@ public class AttackManager extends Thread{
 	}
 	private boolean isWeapon(int slot) {
 		if (dm.characterManager.characterEntity.getHeldItem(slot) != null) {
-			return dm.characterManager.characterEntity.getHeldItem(slot).isWeapon;
+			if (dm.characterManager.characterEntity.getHeldItem(slot) instanceof Weapon) {
+				return true;
+			}
 		}
 		return false;
 	}
-	public void castAttack(BlockItem attackWeapon, Entity entity) {
-		String projectile = attackWeapon.projectile;
-
-		double maxRange = attackWeapon.range;
-		int maxDamage = attackWeapon.maxDamage;
-		double speed = attackWeapon.speed;
-		int damage = getDamage(maxDamage);
-		dm.savable.projectiles.add(new Projectile(speed, -entity.getRot(), maxRange, damage, projectile, entity.getX(), entity.getY(), entity.dungeonLevel,entity));
+	private boolean doesBackpackContainAmmo(Weapon weapon) {
+		for (int i = 0; i < dm.savable.backpackItems.length; i++) {
+			for (int j = 0; j < dm.savable.backpackItems[i].length; j++) {
+				ItemSlot slot = dm.savable.backpackItems[i][j];
+				for (int k = 0; k < weapon.ammoTypes.length; k++) {
+					if (dm.system.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
-	public void castAttack(BlockItem attackWeapon, Entity entity, double angle) {
-		String projectile = attackWeapon.projectile;
-
-		double maxRange = attackWeapon.range;
-		int maxDamage = attackWeapon.maxDamage;
-		double speed = attackWeapon.speed;
-		int damage = getDamage(maxDamage);
-		dm.savable.projectiles.add(new Projectile(speed, angle, maxRange, damage, projectile, entity.getX(), entity.getY(), entity.dungeonLevel,entity));
+	private ItemSlot getAmmoSlot(Weapon weapon) {
+		if (doesBackpackContainAmmo(weapon)) {
+			for (int i = 0; i < dm.savable.backpackItems.length; i++) {
+				for (int j = 0; j < dm.savable.backpackItems[i].length; j++) {
+					ItemSlot slot = dm.savable.backpackItems[i][j];
+					for (int k = 0; k < weapon.ammoTypes.length; k++) {
+						if (dm.system.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
+							return slot;
+						}
+					}
+				}
+			}
+		}
+		return null;
 	}
-	public void castAttack(BlockItem attackWeapon, Entity entity, double angle, double maxRange, double speed) {
-		String projectile = attackWeapon.projectile;
-
-		int maxDamage = attackWeapon.maxDamage;
-		int damage = getDamage(maxDamage);
-		dm.savable.projectiles.add(new Projectile(speed, angle, maxRange, damage, projectile, entity.getX(), entity.getY(), entity.dungeonLevel,entity));
+	private void removeAmmoFromSlot(Weapon weapon) {
+		if (doesBackpackContainAmmo(weapon)) {
+			for (int i = 0; i < dm.savable.backpackItems.length; i++) {
+				for (int j = 0; j < dm.savable.backpackItems[i].length; j++) {
+					ItemSlot slot = dm.savable.backpackItems[i][j];
+					for (int k = 0; k < weapon.ammoTypes.length; k++) {
+						if (dm.system.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
+							dm.savable.backpackItems[i][j].subtractOne();
+							if (dm.savable.backpackItems[i][j].getItemCount() <= 0) {
+								dm.savable.backpackItems[i][j] = new ItemSlot();
+							}
+						}
+					}
+				}
+			}
+		}
 	}
+	private boolean lastHand = false;
 	private void performAttack() {
-		BlockItem attackWeapon = null;
-		String projectile = "";
+		Weapon attackWeapon = null;
 		double offsetX = 0;
 		double offsetY = 0;
+		boolean handUsed = false; //left hand is false;
 		if (isWeapon(0)) {
-			attackWeapon = dm.characterManager.characterEntity.getHeldItem(0);
-			projectile = attackWeapon.projectile;
+			attackWeapon = (Weapon) dm.characterManager.characterEntity.getHeldItem(0);
 			offsetX = Math.cos(-dm.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
 			offsetY = -Math.sin(-dm.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
 			dm.characterManager.characterEntity.getHeldItemSlot(0).itemHealth -= 1;
@@ -69,50 +94,42 @@ public class AttackManager extends Thread{
 				dm.characterManager.characterEntity.removeHeldItem(0);
 			}
 		} else if (isWeapon(1)) {
-			attackWeapon = dm.characterManager.characterEntity.getHeldItem(1);
+			attackWeapon = (Weapon) dm.characterManager.characterEntity.getHeldItem(1);
 			offsetX = Math.cos(-dm.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
 			offsetY = -Math.sin(-dm.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
-			projectile = attackWeapon.projectile;
+			handUsed = true;
 			dm.characterManager.characterEntity.getHeldItemSlot(1).itemHealth -= 1;
 			if (dm.characterManager.characterEntity.getHeldItemSlot(1).itemHealth <= 0) {
 				dm.characterManager.characterEntity.removeHeldItem(1);
 			}
 		}
-		double maxRange = 0.5;
-		int maxDamage = 1;
-		double speed = 1.0;
-		boolean ammoGood = true;
+		Projectile[] projectiles;
 		if (attackWeapon != null) {
-			maxRange = attackWeapon.range;
-			maxDamage = attackWeapon.maxDamage;
-			speed = attackWeapon.speed;
-			if (!attackWeapon.ammo.equals("")) {
-				ammoGood = dm.backpackManager.removeItemFromBackpack(dm.system.blockNameMap.get(attackWeapon.ammo));
+			if (doesBackpackContainAmmo(attackWeapon)) {
+				ItemSlot slot = getAmmoSlot(attackWeapon);
+				removeAmmoFromSlot(attackWeapon);
+				projectiles = attackWeapon.createProjectiles(dm.system.blockIDMap.get(slot.getItemID()).getName(), dm.characterManager.characterEntity, offsetX, offsetY, handUsed);
+			} else if (attackWeapon.ammoTypes.length == 0) {
+				projectiles = attackWeapon.createProjectiles(null, dm.characterManager.characterEntity, offsetX, offsetY, handUsed);
+			} else {
+				projectiles = new Projectile[0];
 			}
+		} else {
+			if (lastHand) {
+				offsetX = Math.cos(-dm.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+				offsetY = -Math.sin(-dm.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+			} else {
+				offsetX = Math.cos(-dm.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+				offsetY = -Math.sin(-dm.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+			}
+			lastHand = !lastHand;
+			projectiles = Hands.createProjectiles(dm.characterManager.characterEntity, offsetX, offsetY);
 		}
-		if (ammoGood) {
-			int damage = getDamage(maxDamage);
-			dm.savable.projectiles.add(new Projectile(speed, -dm.characterManager.characterEntity.getRot(), maxRange, damage, projectile, dm.characterManager.characterEntity.getX() + offsetX, dm.characterManager.characterEntity.getY() + offsetY, dm.characterManager.characterEntity.dungeonLevel,dm.characterManager.characterEntity));
+		for (int i = 0; i < projectiles.length; i++) {
+			projectiles[i].x += offsetX;
+			projectiles[i].y += offsetY;
+			dm.savable.projectiles.add(projectiles[i]);
 		}
-	}
-	public int getDamage(int maxDamage) {
-		if (Math.random() > 0.8) {
-			return maxDamage;
-		}
-		return (int) (maxDamage / 2.0 * (1 + Math.random()));
-	}
-
-	public int diceRoll(double sides) {
-
-		// Roll dice, assuming sides is the number of sides on the die and the lowest face is one
-		int total = (int) Math.ceil((Math.random() * sides));
-		
-		if (total == sides) {
-			total += Math.ceil((Math.random() * sides));
-		}
-
-		return total;
-
 	}
 
 }

@@ -6,6 +6,9 @@ package com.mtautumn.edgequest;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mtautumn.edgequest.blockitems.BlockItem;
+import com.mtautumn.edgequest.blockitems.combat.DaggerWeapon;
+import com.mtautumn.edgequest.blockitems.combat.PistolWeapon;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class DefineBlockItems {
@@ -119,27 +122,15 @@ public class DefineBlockItems {
 		addToMaps(lantern);
 	}
 	private static void daggerDefinition() {
-		BlockItem dagger = new BlockItem(10, false, true, "dagger", null , new int[]{0}, dm);
+		BlockItem dagger = new DaggerWeapon(10, dm);
 		dagger.isStackable = false;
-		dagger.isWeapon = true;
-		dagger.maxDamage = 4;
-		dagger.range = 0.8;
-		dagger.weaponSpread = 1.2;
 		dagger.maxHealth = 50;
-		dagger.projectile = "dagger0";
-		dagger.speed = 0.2;
 		addToMaps(dagger);
 	}
 	private static void pistolDefinition() {
-		BlockItem pistol = new BlockItem(11, false, true, "pistol", null , new int[]{0}, dm);
+		BlockItem pistol = new PistolWeapon(11, dm);
 		pistol.isStackable = false;
-		pistol.isWeapon = true;
-		pistol.maxDamage = 8;
-		pistol.range = 15;
 		pistol.maxHealth = 50;
-		pistol.projectile = "bullet";
-		pistol.ammo = "bullet";
-		pistol.speed = 1.5;
 		addToMaps(pistol);
 	}
 	private static void bulletDefinition() {

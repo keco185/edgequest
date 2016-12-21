@@ -47,6 +47,7 @@ public class TextureManager {
 		addBlockTextures();
 		addItemTextures();
 		addEntityTextures();
+		addProjectileTextures();
 	}
 	public Texture getTexture(String texture) {
 		return textureList.get(texture);
@@ -69,7 +70,7 @@ public class TextureManager {
 				try {
 					if (getExtension(listOfFiles[i].getName()).equalsIgnoreCase("png")) {
 						System.out.println("Loaded: textures/entities/" + listOfFiles[i].getName());
-						textureList.put(getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/entities/" + listOfFiles[i].getName())));
+						textureList.put("entities." + getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/entities/" + listOfFiles[i].getName())));
 					}
 				} catch (Exception e) {
 					System.err.println("Could not load texture: textures/entities/" + listOfFiles[i].getName());
@@ -86,7 +87,7 @@ public class TextureManager {
 				try {
 					if (getExtension(listOfFiles[i].getName()).equalsIgnoreCase("png")) {
 						System.out.println("Loaded: textures/blocks/" + listOfFiles[i].getName());
-						textureList.put(getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/blocks/" + listOfFiles[i].getName())));
+						textureList.put("blocks." + getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/blocks/" + listOfFiles[i].getName())));
 					}
 				} catch (Exception e) {
 					System.err.println("Could not load texture: textures/blocks/" + listOfFiles[i].getName());
@@ -103,7 +104,7 @@ public class TextureManager {
 				try {
 					if (getExtension(listOfFiles[i].getName()).equalsIgnoreCase("png")) {
 						System.out.println("Loaded: textures/items/" + listOfFiles[i].getName());
-						textureList.put(getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/items/" + listOfFiles[i].getName())));
+						textureList.put("items." + getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/items/" + listOfFiles[i].getName())));
 					}
 				} catch (Exception e) {
 					System.err.println("Could not load texture: textures/items/" + listOfFiles[i].getName());
@@ -124,6 +125,23 @@ public class TextureManager {
 					}
 				} catch (Exception e) {
 					System.err.println("Could not load texture: textures/" + listOfFiles[i].getName());
+				}
+			}
+		}
+	}
+	private void addProjectileTextures() {
+		File folder = new File(jarLocal + "textures/projectiles");
+		File[] listOfFiles = folder.listFiles();
+
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
+				try {
+					if (getExtension(listOfFiles[i].getName()).equalsIgnoreCase("png")) {
+						System.out.println("Loaded: textures/projectiles/" + listOfFiles[i].getName());
+						textureList.put("projectiles." + getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/projectiles/" + listOfFiles[i].getName())));
+					}
+				} catch (Exception e) {
+					System.err.println("Could not load texture: textures/projectiles/" + listOfFiles[i].getName());
 				}
 			}
 		}

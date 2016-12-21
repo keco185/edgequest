@@ -9,7 +9,7 @@ import com.mtautumn.edgequest.DamagePost;
 import com.mtautumn.edgequest.Entity;
 import com.mtautumn.edgequest.FootPrint;
 import com.mtautumn.edgequest.ItemSlot;
-import com.mtautumn.edgequest.Projectile;
+import com.mtautumn.edgequest.projectiles.Projectile;
 
 public class SavableData implements Serializable {
 	private static final long serialVersionUID = 1L;

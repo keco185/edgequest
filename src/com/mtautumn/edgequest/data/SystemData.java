@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mtautumn.edgequest.BlockItem;
+import com.mtautumn.edgequest.blockitems.BlockItem;
 
 public class SystemData {
 	public boolean loadingWorld = true;

@@ -1,7 +1,7 @@
 /*This class is used as a datatype that defines what each block/item is.
  * These BlockItems are created in the DefineBlockItems class
  */
-package com.mtautumn.edgequest;
+package com.mtautumn.edgequest.blockitems;
 
 import java.io.Serializable;
 import java.net.URISyntaxException;
@@ -11,6 +11,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
+import com.mtautumn.edgequest.EdgeQuest;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class BlockItem implements Serializable {
@@ -27,16 +28,6 @@ public class BlockItem implements Serializable {
 	private Short id;
 
 	//---Battle---
-	public int attackDamage = 1; //hit points attributed to target
-	public byte wearPosition = -1; //-1 (nowhere), 0 (head), 1 (torso), 2 (legs), 3 (feet)
-	public double defence = 0.0; //Percentage of damage removed when worn
-	public boolean isWeapon = false;
-	public double range = 1.0;
-	public double weaponSpread = 0.6;
-	public String ammo = "";
-	public String projectile = "";
-	public double speed = 1.0;
-
 	public boolean isLightSource = false;
 	public boolean isHot = false;
 	public boolean melts = false;
@@ -52,7 +43,6 @@ public class BlockItem implements Serializable {
 
 	//Item Specific Attributes
 	public boolean isStackable = true;
-	public int maxDamage = 1;
 	public int damage = 1;
 	public int maxFuel = 1;
 	public int fuel = 1;

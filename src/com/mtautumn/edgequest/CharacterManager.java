@@ -4,6 +4,7 @@
  */
 package com.mtautumn.edgequest;
 
+import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.updates.BlockUpdateManager;
 
