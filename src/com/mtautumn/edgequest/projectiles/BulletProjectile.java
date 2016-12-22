@@ -8,7 +8,7 @@ public class BulletProjectile extends Projectile {
 	public BulletProjectile(double speed, double range, Entity entity, int damage) {
 		super();
 		this.speed = speed;
-		maxIncrement = range;
+		maxIncrement = range/speed;
 		firedBy = entity;
 		this.damage = damage;
 		angle = -entity.getRot();
@@ -22,7 +22,7 @@ public class BulletProjectile extends Projectile {
 	public BulletProjectile(double speed, double range, Entity entity, int damage, double offsetX, double offsetY) {
 		super();
 		this.speed = speed;
-		maxIncrement = range;
+		maxIncrement = range/speed;
 		firedBy = entity;
 		this.damage = damage;
 		angle = -entity.getRot();

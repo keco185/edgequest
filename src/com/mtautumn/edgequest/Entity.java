@@ -40,7 +40,7 @@ public class Entity implements Externalizable {
 	public DataManager dm;
 	protected long lastUpdate;
 	public boolean slide = false;
-	protected double lastSpeedX, lastSpeedY;
+	public double lastSpeedX, lastSpeedY;
 	public int[] stillAnimation = new int[]{0};
 	public int[] walkAnimation = new int[]{0};
 	public double lastPosX = 0;
