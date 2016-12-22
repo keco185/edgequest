@@ -87,22 +87,32 @@ public class RendererManager extends Thread {
 		findViewDimensions();
 		renderer.drawFrame();
 	}
+	private long lastZoomUpdate = -1;
 	private void updateZoom() {
+		double timeStep;
+		if (lastZoomUpdate == -1) {
+			lastZoomUpdate = System.currentTimeMillis();
+			timeStep = 1;
+		} else {
+			timeStep = System.currentTimeMillis() - lastZoomUpdate;
+			lastZoomUpdate = System.currentTimeMillis();
+		}
+		timeStep /= 17;
 		double pixelSize = 1.0 /dataManager.settings.blockSize;
 		double targetPixelSize = 1.0 /dataManager.settings.targetBlockSize;
 		if (pixelSize < targetPixelSize) {
-			if (pixelSize + dataManager.settings.zoomSpeed > targetPixelSize) {
+			if (pixelSize + dataManager.settings.zoomSpeed * timeStep > targetPixelSize) {
 				pixelSize = targetPixelSize;
 			} else {
-				pixelSize += dataManager.settings.zoomSpeed;
+				pixelSize += dataManager.settings.zoomSpeed * timeStep;
 			}
 			dataManager.settings.blockSize = (float) (1.0/pixelSize);
 			dataManager.system.requestScreenUpdate = true;
 		} else if (pixelSize > targetPixelSize) {
-			if (pixelSize - dataManager.settings.zoomSpeed < targetPixelSize) {
+			if (pixelSize - dataManager.settings.zoomSpeed * timeStep < targetPixelSize) {
 				pixelSize = targetPixelSize;
 			} else {
-				pixelSize -= dataManager.settings.zoomSpeed;
+				pixelSize -= dataManager.settings.zoomSpeed * timeStep;
 			}
 			dataManager.settings.blockSize = (float) (1.0/pixelSize);
 			dataManager.system.requestScreenUpdate = true;
