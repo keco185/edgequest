@@ -39,7 +39,7 @@ public class Entity implements Externalizable {
 	public ArrayList<IntCoord> path;
 	public DataManager dm;
 	protected long lastUpdate;
-	public boolean slide = false;
+	public boolean slide = true;
 	public double lastSpeedX, lastSpeedY;
 	public int[] stillAnimation = new int[]{0};
 	public int[] walkAnimation = new int[]{0};
@@ -153,6 +153,7 @@ public class Entity implements Externalizable {
 			}
 		}
 		lastUpdate = System.currentTimeMillis();
+		move(0,0);
 	}
 	protected boolean isImpassible(IntCoord point) {
 		if (dm.world.isStructBlock(this, point.x, point.y)) {

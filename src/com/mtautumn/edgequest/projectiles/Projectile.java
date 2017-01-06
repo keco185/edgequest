@@ -84,6 +84,9 @@ public class Projectile implements Serializable {
 		increment += deltaIncrement;
 		return false;
 	}
+	public void manipulateHitEntity(Entity entity) { //Run on entities hit by projectile: Should be overwritten
+		
+	}
 	protected boolean isInEntity(DataManager dm, double x, double y) {
 		for (int i = 0; i < dm.savable.entities.size(); i++) {
 			Entity entity = dm.savable.entities.get(i);
@@ -104,6 +107,7 @@ public class Projectile implements Serializable {
 		for (int i = 0; i < dm.savable.entities.size(); i++) {
 			Entity entity = dm.savable.entities.get(i);
 			if (checkEntity(entity, x, y)) {
+				manipulateHitEntity(entity);
 				hitEntities.add(entity);
 				entity.health -= damage;
 				double damageVal = damage;

@@ -16,6 +16,6 @@ public class PistolWeapon extends Weapon{
 	public Projectile[] createProjectiles(String ammo, Entity entity, double offsetX, double offsetY, boolean hand) { //Method is called when weapon is used. SHould be overwritten
 		entity.lastSpeedX -= Math.cos(-entity.getRot()) * 0.07;
 		entity.lastSpeedY += Math.sin(-entity.getRot()) * 0.07;
-		return new Projectile[]{new BulletProjectile(30, 15, entity, getDamage(8), offsetX, offsetY)};
+		return new Projectile[]{new BulletProjectile(30, 15, entity, getDamage(5), offsetX, offsetY)};
 	}
 }

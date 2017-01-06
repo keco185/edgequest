@@ -40,4 +40,9 @@ public class BulletProjectile extends Projectile {
 		newLocation[1] = startY - Math.sin(angle) * speed * newIncrement;
 		return newLocation;
 	}
+	
+	public void manipulateHitEntity(Entity entity) {
+		entity.lastSpeedX += Math.cos(angle) * speed / 450.0;
+		entity.lastSpeedY -= Math.sin(angle) * speed / 450.0;
+	}
 }
