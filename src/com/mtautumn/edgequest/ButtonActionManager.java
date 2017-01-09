@@ -4,8 +4,6 @@
  */
 package com.mtautumn.edgequest;
 
-import java.io.IOException;
-
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.GameSaves;
 
@@ -79,7 +77,7 @@ public class ButtonActionManager extends Thread {
 			try {
 				GameSaves.saveGame(dataManager.savable.saveName, dataManager);
 				setNoticeText("Game Saved!");
-			} catch (IOException e) {
+			} catch (Exception e) {
 				setNoticeText("Unable to save game");
 			}
 			break;
