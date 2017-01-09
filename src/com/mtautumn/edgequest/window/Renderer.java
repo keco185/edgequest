@@ -2,6 +2,7 @@ package com.mtautumn.edgequest.window;
 
 import java.awt.Font;
 import java.io.File;
+import java.net.URISyntaxException;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -79,7 +80,13 @@ public class Renderer {
 		glOrtho(0, width, height, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 		shader = new ShaderProgram();
-		shader.init("shaders/lighting.vert", "shaders/lighting.frag");
+		try {
+			shader.init("shaders/lighting.vert", "shaders/lighting.frag", TextureManager.getLocal());
+		} catch (URISyntaxException e) {
+			dataManager.system.running = false;
+			e.printStackTrace();
+			System.err.println("Fatal Error: Could not load shaders");
+		}
 	}
 	@SuppressWarnings("unchecked")
 	private static void setupFont(UnicodeFont font) {

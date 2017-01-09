@@ -12,10 +12,12 @@ public class ShaderProgram
 	// OpenGL handle that will point to the executable shader program
 	// that can later be used for rendering
 	private int programId;
+	private String jarLocal;
  
 	@SuppressWarnings("deprecation")
-	public void init(String vertexShaderFilename, String fragmentShaderFilename)
+	public void init(String vertexShaderFilename, String fragmentShaderFilename, String jarLocation)
 	{
+		jarLocal = jarLocation;
 		// create the shader program. If OK, create vertex and fragment shaders
 		programId = glCreateProgram();
  
@@ -85,14 +87,14 @@ public class ShaderProgram
 	/**
 	 * Load a text file and return it as a String.
 	 */
-	private static String loadFile(String filename)
+	private String loadFile(String filename)
 	{
 		StringBuilder vertexCode = new StringBuilder();
 		String line = null ;
 		try
 		{
 		    @SuppressWarnings("resource")
-			BufferedReader reader = new BufferedReader(new FileReader(filename));
+			BufferedReader reader = new BufferedReader(new FileReader(jarLocal + filename));
 		    while( (line = reader.readLine()) !=null )
 		    {
 		    	vertexCode.append(line);

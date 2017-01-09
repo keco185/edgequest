@@ -20,7 +20,7 @@ public class TextureManager {
 	public Map<String, int[]> textureAnimations = new HashMap<String, int[]>();
 	public String jarLocal;
 
-	private static String getLocal() throws URISyntaxException {
+	public static String getLocal() throws URISyntaxException {
 		String baseLocal = EdgeQuest.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
 		if (baseLocal.substring(baseLocal.length() - 1).equals("/") || baseLocal.substring(baseLocal.length() - 1).equals("\\")) {
 			baseLocal = baseLocal.substring(0, baseLocal.length() - 1);
