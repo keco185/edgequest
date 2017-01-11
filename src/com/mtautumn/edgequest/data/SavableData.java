@@ -9,6 +9,7 @@ import com.mtautumn.edgequest.DamagePost;
 import com.mtautumn.edgequest.Entity;
 import com.mtautumn.edgequest.FootPrint;
 import com.mtautumn.edgequest.ItemSlot;
+import com.mtautumn.edgequest.Particle;
 import com.mtautumn.edgequest.projectiles.Projectile;
 
 public class SavableData implements Serializable {
@@ -22,6 +23,7 @@ public class SavableData implements Serializable {
 	public ArrayList<Entity> entities = new ArrayList<Entity>();
 	public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public ArrayList<DamagePost> damagePosts = new ArrayList<DamagePost>();
+	public ArrayList<Particle> particles = new ArrayList<Particle>();
 	public ArrayList<String> generatedRegions = new ArrayList<String>();
 	public long seed = 7;
 	public int dungeonX = 0;

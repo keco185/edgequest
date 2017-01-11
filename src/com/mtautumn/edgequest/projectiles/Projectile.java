@@ -9,6 +9,7 @@ package com.mtautumn.edgequest.projectiles;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.mtautumn.edgequest.BloodParticle;
 import com.mtautumn.edgequest.DamagePost;
 import com.mtautumn.edgequest.Entity;
 import com.mtautumn.edgequest.Location;
@@ -111,10 +112,13 @@ public class Projectile implements Serializable {
 				hitEntities.add(entity);
 				entity.health -= damage;
 				double damageVal = damage;
-				if (entity.health < 0) {
+				if (entity.health <= 0) {
 					damageVal += entity.health;
 					entity.health = 0;
 					dm.savable.damagePosts.add(new DamagePost(entity, (int) damageVal));
+					for (int k = 0; k < 20; k++) {
+						dm.savable.particles.add(new BloodParticle(entity.getX(), entity.getY(), entity.dungeonLevel, speed * Math.cos(angle), speed * -Math.sin(angle), 0.2, 0.2));
+					}
 					dm.savable.entities.remove(i);
 					i--;
 				} else {

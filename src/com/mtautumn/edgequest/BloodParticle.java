@@ -1,0 +1,48 @@
+package com.mtautumn.edgequest;
+
+import com.mtautumn.edgequest.data.DataManager;
+
+public class BloodParticle extends Particle {
+	double startX;
+	double startY;
+	double angle;
+	double speed;
+	double finalY;
+	double height = 0;
+	double verticalSpeed;
+	double speedXInitial;
+	double speedYInitial;
+	public BloodParticle(double x, double y, int level, double speedXInitial, double speedYInitial, double width, double height) {
+		super(x, y, level, width, height, "blood");
+		angle = Math.random() * 2.0 * Math.PI - Math.PI;
+		speed = Math.pow(Math.random() * 0.5 + 0.2, 3) * 5.0;
+		verticalSpeed = speed * Math.random() / 15.0;
+		finalY = Math.random() * 3.0 - 1.5 + y;
+		startX = x;
+		startY = y;
+		double randMult = Math.pow(Math.random(),2);
+		this.speedXInitial = randMult * speedXInitial/10.0;
+		this.speedYInitial = randMult * speedYInitial/10.0;
+	}
+	public boolean update(DataManager dm) {
+		speed *= 0.4;
+		speedXInitial *= 0.4;
+		speedYInitial *= 0.4;
+		x += Math.cos(angle) * speed + speedXInitial;
+		y += Math.sin(angle) * speed + speedYInitial;
+		height += verticalSpeed;
+		y -= verticalSpeed;
+		if (height < 0) {
+			verticalSpeed = -verticalSpeed / 2.0;
+			y += height;
+			height = 0;
+			if (verticalSpeed < 0.001) {
+				verticalSpeed = 0;
+			}
+		} else if (height > 0){
+			verticalSpeed -= 0.01;
+		}
+		return false;
+	}
+
+}

@@ -15,6 +15,7 @@ public class Layers {
 			terrainThread.join();
 			Terrain.completionTasks(r);
 			Footprints.draw(r);
+			Particles.draw(r);
 			CharacterEffects.draw(r);
 			Projectiles.draw(r);
 			Entities.draw(r);
