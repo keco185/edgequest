@@ -28,7 +28,7 @@ public class Backpack {
 				int posY = r.dataManager.system.menuY + j * spaceYMult + spaceYAdd;
 				try {
 					if (r.dataManager.savable.backpackItems[i][j].getItemCount() > 0) {
-						r.drawTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.system.animationClock), posX, posY, (int)(48 * r.dataManager.system.uiZoom), (int)(48 * r.dataManager.system.uiZoom));
+						r.drawTexture(r.textureManager.getTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.system.animationClock)), posX, posY, (int)(48 * r.dataManager.system.uiZoom), (int)(48 * r.dataManager.system.uiZoom));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

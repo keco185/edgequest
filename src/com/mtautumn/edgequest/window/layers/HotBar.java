@@ -38,7 +38,7 @@ public class HotBar {
 			for (int j = 0; j < 6; j++) {
 				int posY = yPos + (int)(((j * DELTA_Y) + START_Y) * r.dataManager.system.uiZoom);
 				try {
-					r.drawTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.system.animationClock), posX, posY, itemSize, itemSize);
+					r.drawTexture(r.textureManager.getTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.backpackItems[i][j].getItemID()).getItemImg(r.dataManager.system.animationClock)), posX, posY, itemSize, itemSize);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

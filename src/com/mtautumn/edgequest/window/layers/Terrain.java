@@ -122,7 +122,7 @@ public class Terrain extends Thread {
 	}
 	private static Texture getStructureBlockTexture(Renderer r, int x, int y) {
 		short blockValue = getStructureBlockValue(r, x, y);
-		return r.dataManager.system.blockIDMap.get(blockValue).getBlockImg(r.dataManager.system.animationClock);
+		return r.textureManager.getTexture(r.dataManager.system.blockIDMap.get(blockValue).getBlockImg(r.dataManager.system.animationClock));
 	}
 	private static short getStructureBlockValue(Renderer r, int x, int y) {
 		return r.dataManager.world.getStructBlock(x, y, r.dataManager.savable.dungeonLevel);

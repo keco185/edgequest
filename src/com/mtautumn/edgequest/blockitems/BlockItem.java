@@ -4,22 +4,14 @@
 package com.mtautumn.edgequest.blockitems;
 
 import java.io.Serializable;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
-
-import com.mtautumn.edgequest.EdgeQuest;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class BlockItem implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private static final String blockImageDirectory = "blocks";
-	private static final String itemImageDirectory = "items";
-	private ArrayList<Texture> blockImg = new ArrayList<Texture>();
-	private ArrayList<Texture> itemImg = new ArrayList<Texture>();
+	private ArrayList<String> blockImg = new ArrayList<String>();
+	private ArrayList<String> itemImg = new ArrayList<String>();
 
 	private ArrayList<int[]> blockImgAtlas = new ArrayList<int[]>();
 	private boolean isItem;
@@ -56,26 +48,26 @@ public class BlockItem implements Serializable {
 		this.name = name;
 		if (isBlock) {
 			for (Short i = 0; i < blockAnimation.length; i++) {
-				blockImg.add(getTexture(name + blockAnimation[i], blockImageDirectory));
+				blockImg.add(name + blockAnimation[i]);
 				blockImgAtlas.add(dm.settings.atlasMap.get(name + blockAnimation[i]));
 			}
 		}
 		if (isItem) {
 			for (Short i = 0; i < itemAnimation.length; i++) {
-				itemImg.add(getTexture(name + itemAnimation[i], itemImageDirectory));
+				itemImg.add(name + itemAnimation[i]);
 			}
 		}
 	}
 
-	public Texture getItemImg(int time) {
-		if (isItem) return itemImg.get(time % itemImg.size());
-		if (isBlock) return blockImg.get(time % blockImg.size());
+	public String getItemImg(int time) {
+		if (isItem) return "items." + itemImg.get(time % itemImg.size());
+		if (isBlock) return "blocks." + blockImg.get(time % blockImg.size());
 		return null;
 	}
 
-	public Texture getBlockImg(int time) {
-		if (isBlock) return blockImg.get(time % blockImg.size());
-		if (isItem) return itemImg.get(time % itemImg.size());
+	public String getBlockImg(int time) {
+		if (isBlock) return "blocks." + blockImg.get(time % blockImg.size());
+		if (isItem) return "items." + itemImg.get(time % itemImg.size());
 		return null;
 	}
 	public int[] getAtlasedBlockImg(int time) {
@@ -92,28 +84,4 @@ public class BlockItem implements Serializable {
 	public boolean isName(String testName) { return testName.equals(name); }
 
 	public boolean isID(Short testID) { return testID.equals(id); }
-
-	private static Texture getTexture(String name, String directory) {
-		try {
-			return TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(getLocal() + "/textures/" + directory + "/" + name + ".png"));
-		} catch (Exception e) {
-			System.err.println("Could not load block/item texture: " + "textures/" + directory + "/" + name + ".png");
-			return null;
-		}
-	}
-	private static String getLocal() throws URISyntaxException {
-		String baseLocal = EdgeQuest.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-		if (baseLocal.substring(baseLocal.length() - 1).equals("/") || baseLocal.substring(baseLocal.length() - 1).equals("\\")) {
-			baseLocal = baseLocal.substring(0, baseLocal.length() - 1);
-		}
-		boolean removing = true;
-		while (removing) {
-			if (!baseLocal.substring(baseLocal.length() - 1).equals("/") && !baseLocal.substring(baseLocal.length() - 1).equals("\\")) {
-				baseLocal = baseLocal.substring(0, baseLocal.length() - 1);
-			} else {
-				removing = false;
-			}
-		}
-		return baseLocal;
-	}
 }
