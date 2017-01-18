@@ -68,8 +68,8 @@ public class LightingVBO {
 
 		int locationsBufferHandle = GL15.glGenBuffers();
 		int opacityBufferHandle = GL15.glGenBuffers();
-		int locationPos = GL20.glGetAttribLocation(r.shader.getProgramId(),"posIn");
-		int opacityPos = GL20.glGetAttribLocation(r.shader.getProgramId(),"opacity");
+		int locationPos = GL20.glGetAttribLocation(r.lightingShader.getProgramId(),"posIn");
+		int opacityPos = GL20.glGetAttribLocation(r.lightingShader.getProgramId(),"opacity");
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, locationsBufferHandle);
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, locations, GL15.GL_STATIC_DRAW);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, opacityBufferHandle);

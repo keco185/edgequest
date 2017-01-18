@@ -38,6 +38,7 @@ public class EntityUpdater extends Thread{
 							}
 							if (dm.savable.entities.get(i).health <= 0) {
 								if (dm.savable.entities.get(i).entityType != Entity.EntityType.character) {
+									dm.savable.entities.get(i).death();
 									dm.savable.entities.remove(i);
 									i--;
 								} else {

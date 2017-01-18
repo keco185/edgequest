@@ -119,6 +119,7 @@ public class Projectile implements Serializable {
 					for (int k = 0; k < 20; k++) {
 						dm.savable.particles.add(new BloodParticle(entity.getX(), entity.getY(), entity.dungeonLevel, speed * Math.cos(angle), speed * -Math.sin(angle), 0.2, 0.2));
 					}
+					dm.savable.entities.get(i).death();
 					dm.savable.entities.remove(i);
 					i--;
 				} else {

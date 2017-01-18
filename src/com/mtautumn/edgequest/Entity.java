@@ -132,6 +132,9 @@ public class Entity implements Externalizable {
 	public void changeNameTag(String tag) {
 		nameTag = tag;
 	}
+	public void death() {
+		
+	}
 	public void setDestination(int x, int y) {
 		destinationX = x;
 		destinationY = y;

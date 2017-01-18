@@ -212,6 +212,21 @@ public class ConsoleManager {
 			}
 			addLine("God Mode toggled", 1);
 			break;
+		case "drop":
+			if (args.size() == 1) {
+				ItemSlot item = new ItemSlot();
+				item.setItem(dataManager.system.blockNameMap.get(args.get(0)).getID());
+				item.setItemCount(1);
+				dataManager.savable.itemDrops.add(new ItemDrop(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), dataManager.characterManager.characterEntity.dungeonLevel, item, dataManager));
+			} else if (args.size() == 2) {
+				ItemSlot item = new ItemSlot();
+				item.setItem(dataManager.system.blockNameMap.get(args.get(0)).getID());
+				item.setItemCount(Integer.parseInt(args.get(1)));
+				dataManager.savable.itemDrops.add(new ItemDrop(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), dataManager.characterManager.characterEntity.dungeonLevel, item, dataManager));
+			} else {
+				addLine("use the format /drop <item name> [count]", 1);
+			}
+			break;
 		case "help":
 			int page = (args.size() > 0) ? Integer.parseInt(args.get(0)) : 1;
 			switch (page) {

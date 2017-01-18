@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.mtautumn.edgequest.DamagePost;
 import com.mtautumn.edgequest.Entity;
 import com.mtautumn.edgequest.FootPrint;
+import com.mtautumn.edgequest.ItemDrop;
 import com.mtautumn.edgequest.ItemSlot;
 import com.mtautumn.edgequest.Particle;
 import com.mtautumn.edgequest.projectiles.Projectile;
@@ -25,6 +26,7 @@ public class SavableData implements Serializable {
 	public ArrayList<DamagePost> damagePosts = new ArrayList<DamagePost>();
 	public ArrayList<Particle> particles = new ArrayList<Particle>();
 	public ArrayList<String> generatedRegions = new ArrayList<String>();
+	public ArrayList<ItemDrop> itemDrops = new ArrayList<ItemDrop>();
 	public long seed = 7;
 	public int dungeonX = 0;
 	public int dungeonY = 0;

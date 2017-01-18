@@ -20,6 +20,8 @@ public class SettingsData {
 	public boolean isFullScreen = false;
 	public boolean vSyncOn = true;
 	public double moveSpeed = 3;
+	public int maxItemDropAge = 300; //Age of item drops in seconds before they are removed
+
 
 	public int upKey = Keyboard.KEY_W;
 	public int downKey = Keyboard.KEY_S;

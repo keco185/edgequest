@@ -49,6 +49,7 @@ public class TextureManager {
 		addEntityTextures();
 		addProjectileTextures();
 		addParticleTextures();
+		addDropTextures();
 	}
 	public Texture getTexture(String texture) {
 		return textureList.get(texture);
@@ -160,6 +161,23 @@ public class TextureManager {
 					}
 				} catch (Exception e) {
 					System.err.println("Could not load texture: textures/projectiles/" + listOfFiles[i].getName());
+				}
+			}
+		}
+	}
+	private void addDropTextures() {
+		File folder = new File(jarLocal + "textures/drops");
+		File[] listOfFiles = folder.listFiles();
+
+		for (int i = 0; i < listOfFiles.length; i++) {
+			if (listOfFiles[i].isFile()) {
+				try {
+					if (getExtension(listOfFiles[i].getName()).equalsIgnoreCase("png")) {
+						System.out.println("Loaded: textures/drops/" + listOfFiles[i].getName());
+						textureList.put("drops." + getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/drops/" + listOfFiles[i].getName())));
+					}
+				} catch (Exception e) {
+					System.err.println("Could not load texture: textures/drops/" + listOfFiles[i].getName());
 				}
 			}
 		}

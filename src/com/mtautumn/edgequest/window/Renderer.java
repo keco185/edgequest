@@ -30,13 +30,15 @@ public class Renderer {
 	public UnicodeFont backpackFont;
 	public UnicodeFont buttonFont;
 	public UnicodeFont damageFont;
+	public UnicodeFont tooltipFont;
 	private double lastUIZoom;
 	private final double awtFontSize = 12;
 	private final double awt2FontSize = 36;
 	private final float buttonFontSize = 42;
 	private final double awtBackpackFontSize = 14;
 	private final double awtDamageFontSize = 14;
-	public ShaderProgram shader;
+	private final double awtTooltipFontSize = 12;
+	public ShaderProgram lightingShader;
 	public VBO terrainVBO;
 	public LightingVBO lightingVBODarkness;
 	public LightingVBO lightingVBOBrightness;
@@ -79,13 +81,13 @@ public class Renderer {
 		glLoadIdentity();
 		glOrtho(0, width, height, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
-		shader = new ShaderProgram();
+		lightingShader = new ShaderProgram();
 		try {
-			shader.init("shaders/lighting.vert", "shaders/lighting.frag", TextureManager.getLocal());
+			lightingShader.init("shaders/lighting.vert", "shaders/lighting.frag", TextureManager.getLocal());
 		} catch (URISyntaxException e) {
 			dataManager.system.running = false;
 			e.printStackTrace();
-			System.err.println("Fatal Error: Could not load shaders");
+			System.err.println("Fatal Error: Could not load lighting shaders");
 		}
 	}
 	@SuppressWarnings("unchecked")
@@ -104,14 +106,17 @@ public class Renderer {
 		Font awtFont2 = new Font("Helvetica", Font.PLAIN, (int) (awt2FontSize * lastUIZoom));
 		Font awtBackpackFont = new Font("Helvetica", Font.BOLD, (int) (awtBackpackFontSize * lastUIZoom));
 		Font awtDamageFont = new Font("Verdana", Font.BOLD, (int) (awtDamageFontSize * lastUIZoom));
+		Font awtTooltipFont = new Font("Arial", Font.PLAIN, (int) (awtTooltipFontSize * lastUIZoom));
 		font = new UnicodeFont(awtFont);
 		font2 = new UnicodeFont(awtFont2);
 		backpackFont = new UnicodeFont(awtBackpackFont);
 		damageFont = new UnicodeFont(awtDamageFont);
+		tooltipFont = new UnicodeFont(awtTooltipFont);
 		setupFont(font);
 		setupFont(font2);
 		setupFont(backpackFont);
 		setupFont(damageFont);
+		setupFont(tooltipFont);
 		try {
 			float fontSize = buttonFontSize;// * (float)lastUIZoom;
 			Font awtButtonFont = Font.createFont(Font.TRUETYPE_FONT, new File(textureManager.jarLocal + "/textures/fonts/buttons.otf")).deriveFont((float) (fontSize * lastUIZoom));
@@ -200,7 +205,7 @@ public class Renderer {
 	}
 	public void fillRect(float x, float y, float width, float height) {
 		Color.white.bind();
-		int location = GL20.glGetAttribLocation(shader.getProgramId(),"posIn");
+		int location = GL20.glGetAttribLocation(lightingShader.getProgramId(),"posIn");
 		glBegin(GL_QUADS);
 		GL20.glVertexAttrib2f(location,0.0f,0.0f);
 		//glColor4f (r,g,b,a1);

@@ -143,6 +143,7 @@ public class DefineBlockItems {
 		torch.isHot = true;
 		torch.isPassable = true;
 		torch.isSolid = false;
+		torch.addDropImgs(new int[]{0});
 		addToMaps(torch);
 	}
 	private static void lilyPadDefinition() {

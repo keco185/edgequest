@@ -58,6 +58,8 @@ public class SystemData {
 	public Point mousePosition = new Point(); //coordinates on window
 	public int mouseX = 0; //block location
 	public int mouseY = 0; //block location
+	public double mouseXExact = 0.0;
+	public double mouseYExact = 0.0;
 	public boolean leftMouseDown = false;
 	public boolean rightMouseDown = false;
 	public boolean isMouseFar = false;

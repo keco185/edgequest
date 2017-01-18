@@ -16,6 +16,7 @@ public class Layers {
 			Terrain.completionTasks(r);
 			Footprints.draw(r);
 			Particles.draw(r);
+			ItemDrops.draw(r);
 			CharacterEffects.draw(r);
 			Projectiles.draw(r);
 			Entities.draw(r);
@@ -31,6 +32,7 @@ public class Layers {
 			if (!r.dataManager.system.characterLocationSet || r.dataManager.system.loadingWorld)
 				LoadingScreen.draw(r);
 			if (r.dataManager.system.isKeyboardMenu) Menu.draw(r);
+			MouseTooltips.draw(r);
 			if (r.dataManager.settings.showDiag) DiagnosticsWindow.draw(r);
 			if (r.dataManager.system.showConsole) Console.draw(r);
 		}

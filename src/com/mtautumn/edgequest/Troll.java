@@ -150,6 +150,14 @@ public class Troll extends Entity {
 		}
 		attackTimer++;
 	}
+	public void death() {
+		if (Math.random() > 0.8) {
+			ItemSlot drop = new ItemSlot();
+			drop.setItem(dm.system.blockNameMap.get("dagger").getID());
+			drop.setItemCount(1);
+			dm.savable.itemDrops.add(new ItemDrop(posX, posY, dungeonLevel, drop, dm));
+		}
+	}
 	private boolean checkMove(int dir, double newVal) {
 		double newX = getX();
 		double newY = getY();

@@ -12,6 +12,7 @@ public class BlockItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private ArrayList<String> blockImg = new ArrayList<String>();
 	private ArrayList<String> itemImg = new ArrayList<String>();
+	private ArrayList<String> dropImg = new ArrayList<String>();
 
 	private ArrayList<int[]> blockImgAtlas = new ArrayList<int[]>();
 	private boolean isItem;
@@ -58,13 +59,22 @@ public class BlockItem implements Serializable {
 			}
 		}
 	}
-
+	public void addDropImgs(int[] dropAnimation) {
+		for (Short i = 0; i < dropAnimation.length; i++) {
+			dropImg.add(name + dropAnimation[i]);
+		}
+	}
 	public String getItemImg(int time) {
 		if (isItem) return "items." + itemImg.get(time % itemImg.size());
 		if (isBlock) return "blocks." + blockImg.get(time % blockImg.size());
 		return null;
 	}
-
+	public String getDropImg(int time) {
+		if (dropImg.size() > 0) {
+			return "drops." + dropImg.get(time % dropImg.size());
+		}
+		return getItemImg(time);
+	}
 	public String getBlockImg(int time) {
 		if (isBlock) return "blocks." + blockImg.get(time % blockImg.size());
 		if (isItem) return "items." + itemImg.get(time % itemImg.size());

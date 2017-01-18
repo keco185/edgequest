@@ -178,8 +178,10 @@ public class RendererManager extends Thread {
 			int mouseY = dataManager.system.mousePosition.y;
 			double offsetX = (dataManager.system.screenX * Double.valueOf(dataManager.settings.blockSize) - Double.valueOf(dataManager.settings.screenWidth) / 2.0);
 			double offsetY = (dataManager.system.screenY * Double.valueOf(dataManager.settings.blockSize) - Double.valueOf(dataManager.settings.screenHeight) / 2.0);
-			dataManager.system.mouseX = (int) Math.floor((offsetX + dataManager.system.mousePosition.getX())/Double.valueOf(dataManager.settings.blockSize));
-			dataManager.system.mouseY = (int) Math.floor((offsetY + dataManager.system.mousePosition.getY())/Double.valueOf(dataManager.settings.blockSize));
+			dataManager.system.mouseXExact = (offsetX + dataManager.system.mousePosition.getX())/Double.valueOf(dataManager.settings.blockSize);
+			dataManager.system.mouseYExact = (offsetY + dataManager.system.mousePosition.getY())/Double.valueOf(dataManager.settings.blockSize);
+			dataManager.system.mouseX = (int) Math.floor(dataManager.system.mouseXExact);
+			dataManager.system.mouseY = (int) Math.floor(dataManager.system.mouseYExact);
 			dataManager.system.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(dataManager.system.mouseX) - Math.floor(dataManager.characterManager.characterEntity.getX()), 2.0)+Math.pow(Double.valueOf(dataManager.system.mouseY) - Math.floor(dataManager.characterManager.characterEntity.getY()), 2.0)) > 3.0);
 			if (Mouse.isButtonDown(0) && !wasMouseDown) {
 				dataManager.system.autoWalk = false;
