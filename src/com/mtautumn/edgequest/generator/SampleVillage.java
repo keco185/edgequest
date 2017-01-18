@@ -68,9 +68,9 @@ public class SampleVillage {
 				for (int h = 0; h < room.height; h++) {
 					boolean bounds = (w + room.xLoc < x) && (h + room.yLoc < y) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0);
 					// Check bounds
-					if (bounds && (w == room.xLoc || h == room.yLoc || w == 0 || h == 0)) {
+					if (bounds && (w == room.width - 1|| h == room.height - 1|| w == 0 || h == 0)) {
 
-						this.map[w + room.xLoc][h + room.yLoc] = Tile.FLOOR;
+						this.map[w + room.xLoc][h + room.yLoc] = 1;
 
 					}
 
