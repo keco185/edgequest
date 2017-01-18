@@ -61,7 +61,7 @@ public class Character extends Entity {
 			if (super.path != null) {
 				super.path.clear();
 			}
-			double moveInterval = Double.valueOf(System.currentTimeMillis() - lastUpdate) / 1000.0 * dm.settings.moveSpeed;
+			double moveInterval = 30 / 1000.0 * dm.settings.moveSpeed;
 			double charYOffset = 0.0;
 			double charXOffset = 0.0;
 			if (dm.system.isKeyboardUp) {
@@ -93,13 +93,13 @@ public class Character extends Entity {
 				updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
 				charXOffset /= 1.5;
 				charYOffset /= 1.5;
-				super.move(charXOffset, charYOffset);
 			} else {
 				if (charXOffset != 0.0 || charYOffset != 0.0) {
 					updateRotation(charXOffset, charYOffset);
 				}
-				super.move(charXOffset, charYOffset);
 			}
+			super.move(charXOffset, charYOffset);
+
 
 		} else {
 			super.update();

@@ -156,7 +156,6 @@ public class Entity implements Externalizable {
 			}
 		}
 		lastUpdate = System.currentTimeMillis();
-		move(0,0);
 	}
 	protected boolean isImpassible(IntCoord point) {
 		if (dm.world.isStructBlock(this, point.x, point.y)) {
