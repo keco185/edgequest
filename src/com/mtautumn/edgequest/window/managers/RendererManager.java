@@ -98,15 +98,15 @@ public class RendererManager extends Thread {
 			lastZoomUpdate = System.currentTimeMillis();
 		}
 		timeStep /= 17;
-		double pixelSize = 1.0 /dataManager.settings.blockSize;
-		double targetPixelSize = 1.0 /dataManager.settings.targetBlockSize;
+		double pixelSize = 1.0 /(dataManager.settings.blockSize/dataManager.system.uiZoom);
+		double targetPixelSize = 1.0 /(dataManager.settings.targetBlockSize/dataManager.system.uiZoom);
 		if (pixelSize < targetPixelSize) {
 			if (pixelSize + dataManager.settings.zoomSpeed * timeStep > targetPixelSize) {
 				pixelSize = targetPixelSize;
 			} else {
 				pixelSize += dataManager.settings.zoomSpeed * timeStep;
 			}
-			dataManager.settings.blockSize = (float) (1.0/pixelSize);
+			dataManager.settings.blockSize = (float) ((float) (1.0/pixelSize) * dataManager.system.uiZoom);
 			dataManager.system.requestScreenUpdate = true;
 		} else if (pixelSize > targetPixelSize) {
 			if (pixelSize - dataManager.settings.zoomSpeed * timeStep < targetPixelSize) {
@@ -114,7 +114,7 @@ public class RendererManager extends Thread {
 			} else {
 				pixelSize -= dataManager.settings.zoomSpeed * timeStep;
 			}
-			dataManager.settings.blockSize = (float) (1.0/pixelSize);
+			dataManager.settings.blockSize = (float) ((float) (1.0/pixelSize) * dataManager.system.uiZoom);
 			dataManager.system.requestScreenUpdate = true;
 		}
 	}
@@ -146,7 +146,7 @@ public class RendererManager extends Thread {
 		} else {
 			dataManager.system.uiZoom = dataManager.settings.screenWidth / 1280;
 		}
-		if (dataManager.system.uiZoom < 1) dataManager.system.uiZoom = 0.5;
+		if (dataManager.system.uiZoom < 1) dataManager.system.uiZoom = 0.8;
 	}
 	private boolean wasMouseDown = false;
 	private void updateMouse() {
@@ -207,8 +207,8 @@ public class RendererManager extends Thread {
 			dataManager.system.maxTileX = (int) (dataManager.system.screenX + tileWidth);
 			dataManager.system.minTileY = (int) (dataManager.system.screenY - tileHeight - 1);
 			dataManager.system.maxTileY = (int) (dataManager.system.screenY + tileHeight);
-			tileWidth = Double.valueOf(dataManager.settings.screenWidth) / 16.0 / 2.0 + 1;
-			tileHeight = Double.valueOf(dataManager.settings.screenHeight) / 16.0 / 2.0 + 1;
+			tileWidth = Double.valueOf(dataManager.settings.screenWidth) / (16.0 * dataManager.system.uiZoom) / 2.0 + 1;
+			tileHeight = Double.valueOf(dataManager.settings.screenHeight) / (16.0 * dataManager.system.uiZoom) / 2.0 + 1;
 			dataManager.system.minTileXGen = (int) (dataManager.system.screenX - tileWidth - 1);
 			dataManager.system.maxTileXGen = (int) (dataManager.system.screenX + tileWidth);
 			dataManager.system.minTileYGen = (int) (dataManager.system.screenY - tileHeight - 1);
@@ -275,13 +275,13 @@ public class RendererManager extends Thread {
 
 					}
 					if (keyZoomIn && !wasKeyDown[dataManager.settings.zoomInKey]) {
-						if (dataManager.settings.targetBlockSize < 128) {
+						if (dataManager.settings.targetBlockSize < 128 * dataManager.system.uiZoom) {
 							dataManager.settings.targetBlockSize *= 2;
 							dataManager.system.blockGenerationLastTick = true;
 						}
 					}
 					if (keyZoomOut && !wasKeyDown[dataManager.settings.zoomOutKey]) {
-						if (dataManager.settings.targetBlockSize > 16) {
+						if (dataManager.settings.targetBlockSize > 16 * dataManager.system.uiZoom) {
 							dataManager.settings.targetBlockSize /= 2;
 							dataManager.system.blockGenerationLastTick = true;
 						}	
