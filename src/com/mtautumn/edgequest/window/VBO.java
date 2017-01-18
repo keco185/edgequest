@@ -38,12 +38,12 @@ public class VBO {
 		addVertex(x,y+height);
 	}
 	public void addTextureQuad(int[] pos) {
-		float x = pos[0] * invAtlasWidth;
-		float y = pos[1] * invAtlasHeight;
+		float x = pos[0] * invAtlasWidth + 0.001f;
+		float y = pos[1] * invAtlasHeight + 0.001f;
 		addTexture(x,y);
-		addTexture(x+invAtlasWidth,y);
-		addTexture(x+invAtlasWidth,y+invAtlasHeight);
-		addTexture(x,y+invAtlasHeight);
+		addTexture(x+invAtlasWidth - 0.002f,y);
+		addTexture(x+invAtlasWidth - 0.002f,y+invAtlasHeight - 0.002f);
+		addTexture(x,y+invAtlasHeight - 0.002f);
 	}
 	public void preWrite() {
 		verticies = BufferUtils.createFloatBuffer(verticiesArray.size());
