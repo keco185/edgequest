@@ -210,18 +210,34 @@ public class TerrainGeneratorThread extends Thread{
 			Random villageRandom = new Random(generateSeed(villageSeedBase, x, y));
 			int villageWidth = (int) (15 + villageRandom.nextDouble() * 50);
 			int villageHeight = (int) (15 + villageRandom.nextDouble() * 50);
-			int maxRooms = (int)(5+villageRandom.nextDouble() * villageWidth * villageHeight / 80);
-			
-			SampleVillage village = new SampleVillage(villageWidth, villageHeight, maxRooms, villageRandom.nextLong(), new Center(villageWidth/2, villageHeight/2));
-			int[][] villageMap = village.getSampleVillage();
+			int maxRooms = (int)(3+villageRandom.nextDouble() * villageWidth * villageHeight / 120);
 			int offsetX = (int) ((100 - villageWidth) * villageRandom.nextDouble());
 			int offsetY = (int) ((100 - villageHeight) * villageRandom.nextDouble());
+			
+			boolean[][] avoidanceMap = new boolean[villageWidth][villageHeight];
+			for (int i = x + offsetX; i < x+villageWidth+offsetX; i++) {
+				for (int j = y + offsetY; j < y+villageHeight+offsetY; j++) {
+					String name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i, j)).getName();
+					avoidanceMap[i-x-offsetX][j-y-offsetY] = (!name.equals("water") && !name.equals("ice"));
+				}
+			}
+			
+			SampleVillage village = new SampleVillage(villageWidth, villageHeight, maxRooms, villageRandom.nextLong(), new Center(villageWidth/2, villageHeight/2), avoidanceMap);
+			int[][] villageMap = village.getSampleVillage();
 			for(int i = 0; i < villageMap.length; i++) {
 				for(int j = 0; j < villageMap[i].length; j++) {
 					if (villageMap[i][j] == 1) {
-						String name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x, j+y)).getName();
+						String name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
 						if (!name.equals("water") && !name.equals("ice")) {
-							dm.world.ou.setStructBlock(i+x, j+y, dm.system.blockNameMap.get("stone").getID());
+							dm.world.ou.setStructBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("stone").getID());
+						}
+					} else if (villageMap[i][j] == 2) {
+						String name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
+						if (!name.equals("water") && !name.equals("ice")) {
+							dm.world.ou.setGroundBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("ground").getID());
+							if (dm.world.ou.isStructBlock(i+x+offsetX, j+y+offsetY)) {
+								dm.world.ou.removeStructBlock(i+x+offsetX, j+y+offsetY);
+							}
 						}
 					}
 				}

@@ -16,6 +16,9 @@ public class SampleVillage {
 	
 	// 2D Array to store the map
 	int[][] map;
+	
+	//2D array with false blocks being areas that cannot be built on
+	boolean[][] avoidanceArray;
 
 	// RNG
 	long seed;
@@ -24,13 +27,13 @@ public class SampleVillage {
 	// Start loc
 	Center start = new Center();
 
-	public SampleVillage(int x, int y, int maxRooms, long seed, Center start) {
+	public SampleVillage(int x, int y, int maxRooms, long seed, Center start, boolean[][] avoidanceMap) {
 		this.seed = seed;
 		rng = new Random(seed);
 		this.x = x;
 		this.y = y;
 		this.maxRooms = maxRooms;
-
+		this.avoidanceArray = avoidanceMap;
 		// Initialize a map. Default all values are set to 0s (walls)
 		this.map = new int[x][y];
 		
@@ -49,13 +52,39 @@ public class SampleVillage {
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
 		for (int i = 1; i < currentMaxRooms; i++ ) {
 			this.rooms[i] = new Room(rng.nextInt((int) Math.floor(this.x / 4) + 3), rng.nextInt((int) Math.floor(this.y / 4) + 3), rng.nextInt(this.x), rng.nextInt(this.y));
-			while (this.rooms[i].center.x > this.x || this.rooms[i].center.y > this.y) {
+			int tries = 0;
+			while (!roomOk(this.rooms[i]) && tries < 1000) {
 				this.rooms[i] = new Room(rng.nextInt((int) Math.floor(this.x / 4) + 3), rng.nextInt((int) Math.floor(this.y / 4) + 3), rng.nextInt(this.x), rng.nextInt(this.y));
+				tries++;
+			}
+			if (tries >= 1000) {
+				currentMaxRooms--;
+				Room[] roomsTemp = new Room[currentMaxRooms];
+				for (int j = 0; j < i; j++) {
+					roomsTemp[j] = this.rooms[i];
+				}
+				this.rooms = roomsTemp;
+				i--;
 			}
 		}
 
 	}
 	
+	private boolean roomOk(Room room) {
+		boolean roomOK = true;
+		if (room.width > 3 && room.height > 3 && room.center.x + room.width/2 < this.x && room.center.y + room.height/2 < this.y && room.center.x - room.width/2 > 0 && room.center.y - room.height/2 > 0) {
+			
+			for (int i = room.center.x - room.width / 2; i < room.center.x + room.width/2; i++) {
+				for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2; j++) {
+					if (!avoidanceArray[i][j]) {
+						return false;
+					}
+				}
+			}
+		return roomOK;
+		}
+		return false;
+	}
 	public int[][] getSampleVillage() {
 		
 		for (int i = 0; i < currentMaxRooms; i++ ) {
@@ -78,6 +107,15 @@ public class SampleVillage {
 				
 			}
 
+		}
+		for (int i = 0; i < currentMaxRooms; i++ ) {
+			Room room = this.rooms[i];
+			for (int w = 1; w + 1< room.width; w++) {
+
+				for (int h = 1; h + 1< room.height; h++) {
+					this.map[w + room.xLoc][h + room.yLoc] = 2;
+				}
+			}
 		}
 		
 		return this.map;
