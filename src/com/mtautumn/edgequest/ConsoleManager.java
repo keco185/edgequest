@@ -181,6 +181,9 @@ public class ConsoleManager {
 						case "troll":
 							dataManager.savable.entities.add(new Troll(entity));
 							break;
+						case "pet":
+							dataManager.savable.entities.add(new Pet(entity));
+							break;
 						default:
 							break;
 						}
