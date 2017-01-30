@@ -113,7 +113,9 @@ public class SampleVillage {
 			for (int w = 1; w + 1< room.width; w++) {
 
 				for (int h = 1; h + 1< room.height; h++) {
-					this.map[w + room.xLoc][h + room.yLoc] = 2;
+					if (w + room.xLoc > -1 && w + room.xLoc < this.x && h + room.yLoc > -1 && h + room.yLoc < this.y) {
+						this.map[w + room.xLoc][h + room.yLoc] = 2;
+					}
 				}
 			}
 		}
