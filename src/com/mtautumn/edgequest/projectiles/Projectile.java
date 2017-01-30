@@ -13,6 +13,7 @@ import com.mtautumn.edgequest.BloodParticle;
 import com.mtautumn.edgequest.DamagePost;
 import com.mtautumn.edgequest.Entity;
 import com.mtautumn.edgequest.Location;
+import com.mtautumn.edgequest.Pet;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class Projectile implements Serializable {
@@ -110,6 +111,14 @@ public class Projectile implements Serializable {
 			if (checkEntity(entity, x, y)) {
 				manipulateHitEntity(entity);
 				hitEntities.add(entity);
+				if (firedBy.getType() == Entity.EntityType.character) {
+					for (Entity testEntity : dm.savable.entities) {
+						if (testEntity.getType() == Entity.EntityType.pet) {
+							((Pet) testEntity).attackEntity(entity);
+						}
+					}
+
+				}
 				entity.health -= damage;
 				double damageVal = damage;
 				if (entity.health <= 0) {
