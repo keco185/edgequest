@@ -50,6 +50,9 @@ public class BloodParticle extends Particle {
 			y -= verticalSpeed;
 		}
 		if (height < 0) {
+			if (dm.world.getGroundBlock((int) x, (int) y, level) == dm.system.blockNameMap.get("water").getID()) {
+				return true;
+			}
 			if (Math.abs(verticalSpeed) < 0.001) {
 				verticalSpeed = 0;
 			} else {
