@@ -41,6 +41,11 @@ public class Pet extends Entity {
 	private int attackStage = 0;
 	public void update() {
 		if (attackEntity != null) {
+			if (attackEntity.health <= 0) {
+				attackEntity = null;
+			}
+		}
+		if (attackEntity != null) {
 			if (attackEntity.dungeonLevel == dungeonLevel) {
 				double deltaX = attackEntity.getX() - getX();
 				double deltaY = attackEntity.getY() - getY();
