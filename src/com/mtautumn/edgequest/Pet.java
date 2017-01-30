@@ -34,7 +34,9 @@ public class Pet extends Entity {
 	}
 	long lastPlayerPosUpdate = 0;
 	public void attackEntity(Entity entity) {
-		attackEntity = entity;
+		if (entity != this) {
+			attackEntity = entity;
+		}
 	}
 	private int attackStage = 0;
 	public void update() {
