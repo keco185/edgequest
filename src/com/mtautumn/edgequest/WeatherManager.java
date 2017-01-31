@@ -12,6 +12,7 @@ public class WeatherManager extends Thread {
 		iterator = 0;
 		targetDryness = -1;
 		deltaStep = 0;
+		dm.savable.dryness = -1;
 	}
 	int iterator = 0;
 	double targetDryness;
