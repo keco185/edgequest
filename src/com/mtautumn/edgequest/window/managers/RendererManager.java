@@ -238,6 +238,7 @@ public class RendererManager extends Thread {
 					boolean keyPlaceTorch = Keyboard.isKeyDown(dataManager.settings.placeTorchKey);
 					boolean keyConsole = Keyboard.isKeyDown(dataManager.settings.consoleKey);
 					boolean keyAction = Keyboard.isKeyDown(dataManager.settings.actionKey);
+					boolean keyExit = Keyboard.isKeyDown(dataManager.settings.exitKey);
 					dataManager.system.isKeyboardSprint = keySprint;
 					dataManager.system.isKeyboardTravel = keyTravel;
 					
@@ -300,7 +301,15 @@ public class RendererManager extends Thread {
 
 					if (keyConsole && !wasKeyDown[dataManager.settings.consoleKey])
 						dataManager.system.showConsole = true;
-
+					if (keyExit && !wasKeyDown[dataManager.settings.exitKey]) {
+						if (dataManager.system.showConsole) {
+							dataManager.system.showConsole = false;
+						} else if (dataManager.system.isKeyboardMenu) {
+							dataManager.system.isKeyboardMenu = false;
+						} else if (dataManager.system.isKeyboardBackpack) {
+							dataManager.system.isKeyboardBackpack = false;
+						}
+					}
 					if (keyAction && !wasKeyDown[dataManager.settings.actionKey]) {
 						if (dataManager.characterManager.characterEntity.getRelativeStructureBlock(0, 0).isName("dungeonUp")) {
 							dataManager.characterManager.characterEntity.dungeonLevel -= 1;

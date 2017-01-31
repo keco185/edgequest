@@ -29,11 +29,11 @@ public class SettingsData {
 	public int leftKey = Keyboard.KEY_A;
 	public int sprintKey = Keyboard.KEY_LSHIFT;
 	public int travelKey = Keyboard.KEY_TAB;
-	public int menuKey = Keyboard.KEY_ESCAPE;
+	public int menuKey = Keyboard.KEY_SPACE;
 	public int backpackKey = Keyboard.KEY_E;
 	public int zoomInKey = Keyboard.KEY_UP;
 	public int zoomOutKey = Keyboard.KEY_DOWN;
-	public int showDiagKey = Keyboard.KEY_SPACE;
+	public int showDiagKey = Keyboard.KEY_GRAVE;
 	public int placeTorchKey = Keyboard.KEY_Q;
 	public int consoleKey = Keyboard.KEY_T;
 	public int exitKey = Keyboard.KEY_ESCAPE;
