@@ -75,6 +75,7 @@ public class BackpackManager extends Thread {
 					}
 
 				} else {
+					dataManager.savable.itemDrops.add(new ItemDrop(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), dataManager.characterManager.characterEntity.dungeonLevel, dataManager.savable.mouseItem, dataManager));
 					dataManager.savable.mouseItem = new ItemSlot();
 					isItemGrabbed = false;
 				}
