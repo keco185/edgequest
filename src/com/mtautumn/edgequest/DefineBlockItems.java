@@ -32,6 +32,9 @@ public class DefineBlockItems {
 		daggerDefinition();
 		pistolDefinition();
 		bulletDefinition();
+		darkWoodDefinition();
+		lightWoodDefinition();
+		asphaltDefinition();
 
 		torchDefinition();
 		lilyPadDefinition();
@@ -62,6 +65,9 @@ public class DefineBlockItems {
 		dm.settings.atlasMap.put("none0", new int[]{3,3});
 		dm.settings.atlasMap.put("lilyPad0", new int[]{0,4});
 		dm.settings.atlasMap.put("ice0", new int[]{1,4});
+		dm.settings.atlasMap.put("darkWood0", new int[]{2,4});
+		dm.settings.atlasMap.put("lightWood0", new int[]{3,4});
+		dm.settings.atlasMap.put("asphalt0", new int[]{0,5});
 	}
 	private static void noneDefinition() {
 		BlockItem none = new BlockItem(-1, true, true, "none", new int[]{0} , new int[]{0}, dm);
@@ -136,6 +142,18 @@ public class DefineBlockItems {
 	private static void bulletDefinition() {
 		BlockItem bullet = new BlockItem(12, false, true, "bullet", null , new int[]{0}, dm);
 		addToMaps(bullet);
+	}
+	private static void darkWoodDefinition() {
+		BlockItem darkWood = new BlockItem(13, true, false, "darkWood", new int[]{0} , new int[]{0}, dm);
+		addToMaps(darkWood);
+	}
+	private static void lightWoodDefinition() {
+		BlockItem lightWood = new BlockItem(14, true, false, "lightWood", new int[]{0} , new int[]{0}, dm);
+		addToMaps(lightWood);
+	}
+	private static void asphaltDefinition() {
+		BlockItem asphalt = new BlockItem(15, true, false, "asphalt", new int[]{0} , new int[]{0}, dm);
+		addToMaps(asphalt);
 	}
 	private static void torchDefinition() {
 		BlockItem torch = new BlockItem(100, true, true, "torch", new int[]{0} , new int[]{0}, dm);

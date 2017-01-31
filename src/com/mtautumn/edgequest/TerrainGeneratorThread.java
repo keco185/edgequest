@@ -229,12 +229,12 @@ public class TerrainGeneratorThread extends Thread{
 					if (villageMap[i][j] == 1) {
 						String name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
 						if (!name.equals("water") && !name.equals("ice")) {
-							dm.world.ou.setStructBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("stone").getID());
+							dm.world.ou.setStructBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("darkWood").getID());
 						}
 					} else if (villageMap[i][j] == 2) {
 						String name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
 						if (!name.equals("water") && !name.equals("ice")) {
-							dm.world.ou.setGroundBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("ground").getID());
+							dm.world.ou.setGroundBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("lightWood").getID());
 							if (dm.world.ou.isStructBlock(i+x+offsetX, j+y+offsetY)) {
 								dm.world.ou.removeStructBlock(i+x+offsetX, j+y+offsetY);
 							}
