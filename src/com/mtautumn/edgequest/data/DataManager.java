@@ -14,6 +14,7 @@ import com.mtautumn.edgequest.ItemSlot;
 import com.mtautumn.edgequest.ParticleManager;
 import com.mtautumn.edgequest.ProjectileManager;
 import com.mtautumn.edgequest.TerrainManager;
+import com.mtautumn.edgequest.WeatherManager;
 import com.mtautumn.edgequest.WorldUtils;
 import com.mtautumn.edgequest.updates.AnimationClock;
 import com.mtautumn.edgequest.updates.BlockUpdateManager;
@@ -43,6 +44,7 @@ public class DataManager {
 	public LightingUpdater lightingUpdater = new LightingUpdater(this);
 	public ParticleManager particleManager = new ParticleManager(this);
 	public ItemDropManager itemDropManager = new ItemDropManager(this);
+	public WeatherManager weatherManager = new WeatherManager(this);
 
 	public WorldUtils world = new WorldUtils(this);
 	public EntityUpdater entityUpdater = new EntityUpdater(this);
@@ -92,6 +94,7 @@ public class DataManager {
 		lightingUpdater.start();
 		particleManager.start();
 		itemDropManager.start();
+		weatherManager.start();
 		system.requestGenUpdate = true;
 	}
 

@@ -25,8 +25,10 @@ public class SavableData implements Serializable {
 	public ArrayList<Projectile> projectiles = new ArrayList<Projectile>();
 	public ArrayList<DamagePost> damagePosts = new ArrayList<DamagePost>();
 	public ArrayList<Particle> particles = new ArrayList<Particle>();
+	public ArrayList<Particle> precipitationParticles = new ArrayList<Particle>();
 	public ArrayList<String> generatedRegions = new ArrayList<String>();
 	public ArrayList<ItemDrop> itemDrops = new ArrayList<ItemDrop>();
+	public double dryness = 0.5;
 	public long seed = 7;
 	public int dungeonX = 0;
 	public int dungeonY = 0;

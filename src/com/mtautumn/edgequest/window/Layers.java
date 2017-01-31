@@ -24,6 +24,7 @@ public class Layers {
 			Lighting.completionTasks(r);
 			BlockDamage.draw(r);
 			DamagePosts.draw(r);
+			PrecipitationParticles.draw(r);
 			if (!r.dataManager.system.hideMouse) MouseSelection.draw(r);
 			StatsBar.draw(r);
 			if (r.dataManager.system.isKeyboardBackpack) Backpack.draw(r);

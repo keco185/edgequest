@@ -13,7 +13,7 @@ public class Lighting extends Thread {
 		draw(r);
 	}
 	public static void completionTasks(Renderer r) {
-		if (r.dataManager.world.getBrightness() < 1) {
+		if (r.dataManager.world.getBrightness() < 1 || r.dataManager.savable.dryness < -0.2) {
 			GL20.glUseProgram( r.lightingShader.getProgramId() );
 			int colorLocation = GL20.glGetUniformLocation(r.lightingShader.getProgramId(),"color");
 			if (r.dataManager.savable.dungeonLevel > -1) {

@@ -207,7 +207,7 @@ public class ConsoleManager {
 			} else {
 				dataManager.characterManager.characterEntity.stamina = dataManager.characterManager.characterEntity.maxStamina;
 			}
-			addLine("Usain Bolt Mode toggled", 1);
+			addLine("Usain Bolt Mode toggled", 2);
 			break;
 		case "tgm":
 			// '20' is the max health of the character class
@@ -216,7 +216,7 @@ public class ConsoleManager {
 			} else {
 				dataManager.characterManager.characterEntity.health = dataManager.characterManager.characterEntity.maxHealth;
 			}
-			addLine("God Mode toggled", 1);
+			addLine("God Mode toggled", 2);
 			break;
 		case "drop":
 			if (args.size() == 1) {
@@ -232,6 +232,10 @@ public class ConsoleManager {
 			} else {
 				addLine("use the format /drop <item name> [count]", 1);
 			}
+			break;
+		case "rain":
+			dataManager.savable.dryness = -1;
+			addLine("Let it rain!", 2);
 			break;
 		case "help":
 			int page = (args.size() > 0) ? Integer.parseInt(args.get(0)) : 1;

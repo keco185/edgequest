@@ -87,6 +87,9 @@ public class WorldUtils {
 		}
 		if (brightness > 1) brightness = 1;
 		if (brightness < 0) brightness = 0;
+		if (dm.savable.dryness < - 0.2) {
+			brightness -= (brightness - 0.2) * (-dm.savable.dryness - 0.2) * 0.4;
+		}
 		return brightness;
 	}
 	
