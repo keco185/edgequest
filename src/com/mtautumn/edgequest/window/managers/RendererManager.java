@@ -218,30 +218,30 @@ public class RendererManager extends Thread {
 	private static boolean[] wasKeyDown = new boolean[256];
 	public void updateKeys() {
 		try {
+			Keyboard.poll();
+			boolean keyUp = Keyboard.isKeyDown(dataManager.settings.upKey);
+			boolean keyDown = Keyboard.isKeyDown(dataManager.settings.downKey);
+			boolean keyLeft = Keyboard.isKeyDown(dataManager.settings.leftKey);
+			boolean keyRight = Keyboard.isKeyDown(dataManager.settings.rightKey);
+			boolean keySprint = Keyboard.isKeyDown(dataManager.settings.sprintKey);
+			boolean keyTravel = Keyboard.isKeyDown(dataManager.settings.travelKey);
+			boolean keyMenu = Keyboard.isKeyDown(dataManager.settings.menuKey);
+			boolean keyBackpack = Keyboard.isKeyDown(dataManager.settings.backpackKey);
+			boolean keyZoomIn = Keyboard.isKeyDown(dataManager.settings.zoomInKey);
+			boolean keyZoomOut = Keyboard.isKeyDown(dataManager.settings.zoomOutKey);
+			boolean keyShowDiag = Keyboard.isKeyDown(dataManager.settings.showDiagKey);
+			boolean keyPlaceTorch = Keyboard.isKeyDown(dataManager.settings.placeTorchKey);
+			boolean keyConsole = Keyboard.isKeyDown(dataManager.settings.consoleKey);
+			boolean keyAction = Keyboard.isKeyDown(dataManager.settings.actionKey);
+			boolean keyExit = Keyboard.isKeyDown(dataManager.settings.exitKey);
 			if (dataManager.system.inputText.size() + dataManager.system.noticeText.size() > 0 || dataManager.system.showConsole) {
 				keyboard.poll();
 				keyboard.wasConsoleUp = dataManager.system.showConsole;
 			} else {
 				if (!dataManager.system.isGameOnLaunchScreen) {
-					Keyboard.poll();
-					boolean keyUp = Keyboard.isKeyDown(dataManager.settings.upKey);
-					boolean keyDown = Keyboard.isKeyDown(dataManager.settings.downKey);
-					boolean keyLeft = Keyboard.isKeyDown(dataManager.settings.leftKey);
-					boolean keyRight = Keyboard.isKeyDown(dataManager.settings.rightKey);
-					boolean keySprint = Keyboard.isKeyDown(dataManager.settings.sprintKey);
-					boolean keyTravel = Keyboard.isKeyDown(dataManager.settings.travelKey);
-					boolean keyMenu = Keyboard.isKeyDown(dataManager.settings.menuKey);
-					boolean keyBackpack = Keyboard.isKeyDown(dataManager.settings.backpackKey);
-					boolean keyZoomIn = Keyboard.isKeyDown(dataManager.settings.zoomInKey);
-					boolean keyZoomOut = Keyboard.isKeyDown(dataManager.settings.zoomOutKey);
-					boolean keyShowDiag = Keyboard.isKeyDown(dataManager.settings.showDiagKey);
-					boolean keyPlaceTorch = Keyboard.isKeyDown(dataManager.settings.placeTorchKey);
-					boolean keyConsole = Keyboard.isKeyDown(dataManager.settings.consoleKey);
-					boolean keyAction = Keyboard.isKeyDown(dataManager.settings.actionKey);
-					boolean keyExit = Keyboard.isKeyDown(dataManager.settings.exitKey);
 					dataManager.system.isKeyboardSprint = keySprint;
 					dataManager.system.isKeyboardTravel = keyTravel;
-					
+
 					if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
 						dataManager.savable.hotBarSelection = 0;
 					}
@@ -321,26 +321,29 @@ public class RendererManager extends Thread {
 							dataManager.savable.dungeonLevel += 1;
 						}
 					}
-
-					wasKeyDown[dataManager.settings.menuKey] = keyMenu;
-					wasKeyDown[dataManager.settings.backpackKey] = keyBackpack;
-					wasKeyDown[dataManager.settings.zoomInKey] = keyZoomIn;
-					wasKeyDown[dataManager.settings.zoomOutKey] = keyZoomOut;
-					wasKeyDown[dataManager.settings.showDiagKey] = keyShowDiag;
-					wasKeyDown[dataManager.settings.placeTorchKey] = keyPlaceTorch;
-					wasKeyDown[dataManager.settings.consoleKey] = keyConsole;
-					wasKeyDown[dataManager.settings.actionKey] = keyAction;
-					wasKeyDown[dataManager.settings.exitKey] = keyExit;
-					if (keyboard.wasConsoleUp) keyboard.wasConsoleUp = dataManager.system.showConsole;
 				}
 
 			}
-			Keyboard.poll();
-			boolean keyExit = Keyboard.isKeyDown(dataManager.settings.exitKey);
+			if (keyboard.wasConsoleUp) keyboard.wasConsoleUp = dataManager.system.showConsole;
 			if (keyExit && !wasKeyDown[dataManager.settings.exitKey]) {
-				if (dataManager.system.showConsole)
+				if (dataManager.system.noticeText.size() > 0) {
+					dataManager.system.noticeText.remove(dataManager.system.noticeText.size() - 1);
+				} else if (dataManager.system.inputText.size() > 0) {
+					dataManager.system.inputText.remove(dataManager.system.inputText.size() - 1);
+					dataManager.system.inputTextResponse.remove(dataManager.system.inputTextResponse.size() - 1);
+					dataManager.system.lastInputMessage = null;
+				} else if (dataManager.system.showConsole) {
 					dataManager.system.showConsole = false;
+				}
 			}
+			wasKeyDown[dataManager.settings.menuKey] = keyMenu;
+			wasKeyDown[dataManager.settings.backpackKey] = keyBackpack;
+			wasKeyDown[dataManager.settings.zoomInKey] = keyZoomIn;
+			wasKeyDown[dataManager.settings.zoomOutKey] = keyZoomOut;
+			wasKeyDown[dataManager.settings.showDiagKey] = keyShowDiag;
+			wasKeyDown[dataManager.settings.placeTorchKey] = keyPlaceTorch;
+			wasKeyDown[dataManager.settings.consoleKey] = keyConsole;
+			wasKeyDown[dataManager.settings.actionKey] = keyAction;
 			wasKeyDown[dataManager.settings.exitKey] = keyExit;
 		} catch (Exception e) {
 			e.printStackTrace();

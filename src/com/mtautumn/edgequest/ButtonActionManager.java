@@ -22,7 +22,7 @@ public class ButtonActionManager extends Thread {
 			}
 		}
 	}
-	
+
 	private void runButtonActions() {
 		int size = dataManager.system.buttonActionQueue.size();
 		if (size > 0) {
@@ -33,44 +33,53 @@ public class ButtonActionManager extends Thread {
 			}
 		}
 	}
-	
+
 	private void runButtonAction(String name, int index) {
 		dataManager.system.buttonActionQueue.remove(index);
+		String ans;
 		switch (name) {
 		case "newGame": //New Game
-			try {
-				dataManager.savable.saveName = getInputText("Enter Your World Name:");
-				dataManager.savable.seed = dataManager.savable.saveName.hashCode();
-				dataManager.newGame();
-				dataManager.system.characterLocationSet = false;
-				dataManager.system.loadingWorld = true;
-			} catch (Exception e) {
-				setNoticeText("An Error Has Occured");
+			ans = getInputText("Enter Your World Name:");
+			if (ans != null) {
+				try {
+					dataManager.savable.saveName = ans;
+					dataManager.savable.seed = dataManager.savable.saveName.hashCode();
+					dataManager.newGame();
+					dataManager.system.characterLocationSet = false;
+					dataManager.system.loadingWorld = true;
+				} catch (Exception e) {
+					setNoticeText("An Error Has Occured");
+				}
 			}
 			break;
 		case "loadGame": //load game
-			try {
-				GameSaves.loadGame(getInputText("Enter a File Name:"), dataManager);
-				dataManager.system.isGameOnLaunchScreen = false;
-				dataManager.system.isLaunchScreenLoaded = false;
-				dataManager.system.loadingWorld = false;
-				dataManager.system.characterLocationSet = true;
-			} catch (Exception e) {
-				setNoticeText("Could not load game");
-				e.printStackTrace();
+			ans = getInputText("Enter a File Name:");
+			if (ans != null) {
+				try {
+					GameSaves.loadGame(ans, dataManager);
+					dataManager.system.isGameOnLaunchScreen = false;
+					dataManager.system.isLaunchScreenLoaded = false;
+					dataManager.system.loadingWorld = false;
+					dataManager.system.characterLocationSet = true;
+				} catch (Exception e) {
+					setNoticeText("Could not load game");
+					e.printStackTrace();
+				}
 			}
 			break;
 		case "setFPS":
-			String ans = getInputText("Enter FPS Target:");
-			try {
-				int fps = Integer.parseInt(ans);
-				if (fps > 0) {
-					dataManager.settings.targetFPS = fps;
-				} else {
-					setNoticeText("FPS too low");
+			ans = getInputText("Enter FPS Target:");
+			if (ans != null) {
+				try {
+					int fps = Integer.parseInt(ans);
+					if (fps > 0) {
+						dataManager.settings.targetFPS = fps;
+					} else {
+						setNoticeText("FPS too low");
+					}
+				} catch (Exception e) {
+					setNoticeText("FPS not valid");
 				}
-			} catch (Exception e) {
-				setNoticeText("FPS not valid");
 			}
 			break;
 		case "saveGame":
@@ -133,7 +142,7 @@ public class ButtonActionManager extends Thread {
 		}
 		return dataManager.system.lastInputMessage;
 	}
-	
+
 	private void setNoticeText(String text) {
 		dataManager.system.noticeText.add(text);
 		int length = dataManager.system.noticeText.size();
