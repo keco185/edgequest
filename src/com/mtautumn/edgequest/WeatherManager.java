@@ -26,7 +26,7 @@ public class WeatherManager extends Thread {
 					iterator = 0;
 					if (targetDryness < -1) targetDryness = -1;
 					if (targetDryness > 1) targetDryness = 1;
-					deltaStep = (targetDryness - dm.savable.dryness) / 200.0;
+					deltaStep = (targetDryness - dm.savable.dryness) / 700.0;
 				} else {
 					dm.savable.dryness += deltaStep;
 				}
