@@ -311,7 +311,9 @@ public class RendererManager extends Thread {
 						}
 					}
 					if (keyAction && !wasKeyDown[dataManager.settings.actionKey]) {
-						if (dataManager.characterManager.characterEntity.getRelativeStructureBlock(0, 0).isName("dungeonUp")) {
+						if (dataManager.itemDropManager.isItemInRange(dataManager.characterManager.characterEntity)) {
+							dataManager.itemDropManager.putNearbyItemsInBackpack();
+						} else if (dataManager.characterManager.characterEntity.getRelativeStructureBlock(0, 0).isName("dungeonUp")) {
 							dataManager.characterManager.characterEntity.dungeonLevel -= 1;
 							dataManager.savable.dungeonLevel -= 1;
 						} else if (dataManager.characterManager.characterEntity.getRelativeStructureBlock(0, 0).isName("dungeon")) {
@@ -328,6 +330,7 @@ public class RendererManager extends Thread {
 					wasKeyDown[dataManager.settings.placeTorchKey] = keyPlaceTorch;
 					wasKeyDown[dataManager.settings.consoleKey] = keyConsole;
 					wasKeyDown[dataManager.settings.actionKey] = keyAction;
+					wasKeyDown[dataManager.settings.exitKey] = keyExit;
 					if (keyboard.wasConsoleUp) keyboard.wasConsoleUp = dataManager.system.showConsole;
 				}
 

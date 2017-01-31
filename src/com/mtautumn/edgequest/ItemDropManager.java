@@ -31,7 +31,7 @@ public class ItemDropManager extends Thread {
 						}
 					}
 					dm.savable.itemDrops.get(i).update();
-					if (dm.savable.itemDrops.get(i).age > dm.settings.maxItemDropAge) {
+					if (dm.savable.itemDrops.get(i).age > dm.settings.maxItemDropAge || dm.savable.itemDrops.get(i).item.getItemCount() <= 0) {
 						dm.savable.itemDrops.remove(i);
 						i--;
 					}
@@ -43,8 +43,32 @@ public class ItemDropManager extends Thread {
 		}
 		
 	}
-	private boolean isNear(ItemDrop drop1, ItemDrop drop2) {
+	private static boolean isNear(ItemDrop drop1, ItemDrop drop2) {
 		return Math.sqrt(Math.pow(drop1.x - drop2.x, 2) + Math.pow(drop1.y - drop2.y, 2)) < 1.0;
 	}
+	public boolean isItemInRange(Entity entity) {
+		for (ItemDrop drop : dm.savable.itemDrops) {
+			if (drop.level == entity.dungeonLevel) {
+				if (Math.sqrt(Math.pow(drop.x - entity.getX(), 2) + Math.pow(drop.y - entity.getY(), 2)) < 1) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	public void putNearbyItemsInBackpack() {
+		Entity entity = dm.characterManager.characterEntity;
+		for (ItemDrop drop : dm.savable.itemDrops) {
+			if (drop.level == entity.dungeonLevel) {
+				if (Math.sqrt(Math.pow(drop.x - entity.getX(), 2) + Math.pow(drop.y, entity.getY())) < 1) {
+					for(int i = 0; i < drop.item.getItemCount(); i++) {
+						dm.backpackManager.addItem(dm.system.blockIDMap.get(drop.item.getItemID()));
+					}
+					drop.item.setItemCount(0);
+				}
+			}
+		}
+	}
+	
 }
 
