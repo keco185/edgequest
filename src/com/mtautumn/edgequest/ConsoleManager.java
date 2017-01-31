@@ -234,7 +234,7 @@ public class ConsoleManager {
 			}
 			break;
 		case "rain":
-			dataManager.savable.dryness = -1;
+			dataManager.weatherManager.startRain();
 			addLine("Let it rain!", 2);
 			break;
 		case "help":
@@ -263,6 +263,14 @@ public class ConsoleManager {
 				addLine("     (8) /spawn <entity name> [count]", 2);
 				Thread.sleep(1);
 				addLine("     (9) /setHealth [percent health]", 2);
+				Thread.sleep(1);
+				addLine("     (10) /ubm", 2);
+				Thread.sleep(1);
+				addLine("     (11) /tgm", 2);
+				Thread.sleep(1);
+				addLine("     (12) /drop <item name> [count]", 2);
+				Thread.sleep(1);
+				addLine("     (13) /rain", 2);
 				break;
 			}
 			break;
