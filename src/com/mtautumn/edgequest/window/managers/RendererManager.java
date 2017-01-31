@@ -18,7 +18,7 @@ import com.mtautumn.edgequest.window.layers.OptionPane;
 
 public class RendererManager extends Thread {
 	private DataManager dataManager;
-	private Renderer renderer;
+	public Renderer renderer;
 	private CharacterManager characterManager;
 
 

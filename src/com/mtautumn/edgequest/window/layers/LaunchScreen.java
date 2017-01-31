@@ -1,6 +1,7 @@
 package com.mtautumn.edgequest.window.layers;
 
 import com.mtautumn.edgequest.window.Renderer;
+import com.mtautumn.edgequest.window.managers.LaunchScreenManager.LaunchScreenPane;
 import com.mtautumn.edgequest.window.managers.LaunchScreenManager.MenuButton;
 
 public class LaunchScreen {
@@ -24,12 +25,18 @@ public class LaunchScreen {
 	}
 
 	private static void drawButtons(Renderer r) {
-		for (int i = 0; i<r.launchScreenManager.buttonIDArray.size(); i++) {
-			MenuButton button = r.launchScreenManager.buttonIDArray.get(i);
-				r.drawTexture(button.buttonImage, button.getPosX(r.dataManager.settings.screenWidth), button.getPosY(r.dataManager.settings.screenHeight), button.getWidth(), button.getHeight());
+		LaunchScreenPane pane = r.launchScreenManager.getCurrentMenu();
+		for (int i = 0; i<pane.getCount(); i++) {
+			MenuButton button = pane.getButtons().get(i);
+			if (button.visible) {
+				r.drawTexture(button.buttonImage, r.dataManager.settings.screenWidth / 2.0f + button.getPosX(), r.dataManager.settings.screenHeight / 2.0f + button.getPosY(), button.getWidth(), button.getHeight());
 				int height = r.buttonFont.getHeight(button.displayName);
 				int width = r.buttonFont.getWidth(button.displayName);
-				r.buttonFont.drawString(button.getPosX(r.dataManager.settings.screenWidth) + (button.getWidth() - width) / 2, button.getPosY(r.dataManager.settings.screenHeight) + (button.getHeight() - height) / 2, button.displayName);
+				r.buttonFont.drawString(r.dataManager.settings.screenWidth / 2.0f + button.getPosX() + (button.getWidth() - width) / 2, r.dataManager.settings.screenHeight / 2.0f + button.getPosY() + (button.getHeight() - height) / 2, button.displayName);
+			}
+		}
+		if (pane.parent != null) {
+			r.drawTexture(r.textureManager.getTexture("back"), (int)(r.dataManager.settings.BACK_BUTTON_PADDING * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_PADDING * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom));
 		}
 	}
 }
