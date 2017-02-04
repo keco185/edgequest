@@ -8,6 +8,13 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.dataObjects.ItemDrop;
+import com.mtautumn.edgequest.dataObjects.ItemSlot;
+import com.mtautumn.edgequest.entities.Ant;
+import com.mtautumn.edgequest.entities.Character;
+import com.mtautumn.edgequest.entities.Entity;
+import com.mtautumn.edgequest.entities.Pet;
+import com.mtautumn.edgequest.entities.Troll;
 
 public class ConsoleManager {
 	DataManager dataManager;

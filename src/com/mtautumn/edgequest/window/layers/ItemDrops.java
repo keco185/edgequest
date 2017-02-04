@@ -2,7 +2,7 @@ package com.mtautumn.edgequest.window.layers;
 
 import org.newdawn.slick.opengl.Texture;
 
-import com.mtautumn.edgequest.ItemDrop;
+import com.mtautumn.edgequest.dataObjects.ItemDrop;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class ItemDrops {

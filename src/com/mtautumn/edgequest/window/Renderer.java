@@ -15,11 +15,12 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.opengl.Texture;
 
-import com.mtautumn.edgequest.ShaderProgram;
 import com.mtautumn.edgequest.TextureManager;
 import com.mtautumn.edgequest.data.DataManager;
-import com.mtautumn.edgequest.window.managers.LaunchScreenManager;
-import com.mtautumn.edgequest.window.managers.MenuButtonManager;
+import com.mtautumn.edgequest.window.layers.Layers;
+import com.mtautumn.edgequest.window.renderUtils.LightingVBO;
+import com.mtautumn.edgequest.window.renderUtils.ShaderProgram;
+import com.mtautumn.edgequest.window.renderUtils.TerrainVBO;
 
 public class Renderer {
 	public DataManager dataManager;
@@ -39,7 +40,7 @@ public class Renderer {
 	private final double awtDamageFontSize = 14;
 	private final double awtTooltipFontSize = 12;
 	public ShaderProgram lightingShader;
-	public VBO terrainVBO;
+	public TerrainVBO terrainVBO;
 	public LightingVBO lightingVBODarkness;
 	public LightingVBO lightingVBOBrightness;
 	public Renderer(DataManager dataManager) {

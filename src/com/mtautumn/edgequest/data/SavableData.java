@@ -6,11 +6,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.mtautumn.edgequest.DamagePost;
-import com.mtautumn.edgequest.Entity;
-import com.mtautumn.edgequest.FootPrint;
-import com.mtautumn.edgequest.ItemDrop;
-import com.mtautumn.edgequest.ItemSlot;
-import com.mtautumn.edgequest.Particle;
+import com.mtautumn.edgequest.dataObjects.FootPrint;
+import com.mtautumn.edgequest.dataObjects.ItemDrop;
+import com.mtautumn.edgequest.dataObjects.ItemSlot;
+import com.mtautumn.edgequest.entities.Entity;
+import com.mtautumn.edgequest.particles.Particle;
 import com.mtautumn.edgequest.projectiles.Projectile;
 
 public class SavableData implements Serializable {

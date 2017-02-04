@@ -1,6 +1,6 @@
 package com.mtautumn.edgequest.window.layers;
 
-import com.mtautumn.edgequest.FootPrint;
+import com.mtautumn.edgequest.dataObjects.FootPrint;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Footprints {

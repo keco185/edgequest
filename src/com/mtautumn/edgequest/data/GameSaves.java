@@ -8,9 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URISyntaxException;
 
-import com.mtautumn.edgequest.Character;
 import com.mtautumn.edgequest.EdgeQuest;
-import com.mtautumn.edgequest.Entity;
+import com.mtautumn.edgequest.entities.Character;
+import com.mtautumn.edgequest.entities.Entity;
 
 public class GameSaves {
 	public static void saveGame(String saveFile, DataManager dataManager) throws IOException, URISyntaxException {

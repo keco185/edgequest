@@ -1,6 +1,6 @@
 package com.mtautumn.edgequest.projectiles;
 
-import com.mtautumn.edgequest.Entity;
+import com.mtautumn.edgequest.entities.Entity;
 
 public class HandProjectile extends Projectile {
 	private static final long serialVersionUID = 1L;

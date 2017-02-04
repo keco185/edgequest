@@ -1,8 +1,8 @@
 package com.mtautumn.edgequest.window.layers;
 
 import com.mtautumn.edgequest.window.Renderer;
-import com.mtautumn.edgequest.window.managers.LaunchScreenManager.LaunchScreenPane;
-import com.mtautumn.edgequest.window.managers.LaunchScreenManager.MenuButton;
+import com.mtautumn.edgequest.window.LaunchScreenManager.LaunchScreenPane;
+import com.mtautumn.edgequest.window.LaunchScreenManager.MenuButton;
 
 public class LaunchScreen {
 	public static void draw(Renderer r) {

@@ -1,6 +1,6 @@
 package com.mtautumn.edgequest.blockitems.combat;
 
-import com.mtautumn.edgequest.Entity;
+import com.mtautumn.edgequest.entities.Entity;
 import com.mtautumn.edgequest.projectiles.HandProjectile;
 import com.mtautumn.edgequest.projectiles.Projectile;
 

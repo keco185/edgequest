@@ -2,7 +2,7 @@ package com.mtautumn.edgequest.window.layers;
 
 import org.newdawn.slick.opengl.Texture;
 
-import com.mtautumn.edgequest.Particle;
+import com.mtautumn.edgequest.particles.Particle;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class PrecipitationParticles {

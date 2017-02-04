@@ -1,8 +1,8 @@
 package com.mtautumn.edgequest.window.layers;
 
 import com.mtautumn.edgequest.window.Renderer;
-import com.mtautumn.edgequest.window.managers.MenuButtonManager.MenuButton;
-import com.mtautumn.edgequest.window.managers.MenuButtonManager.MenuPane;
+import com.mtautumn.edgequest.window.MenuButtonManager.MenuButton;
+import com.mtautumn.edgequest.window.MenuButtonManager.MenuPane;
 
 public class Menu {
 	public static void draw(Renderer r) {

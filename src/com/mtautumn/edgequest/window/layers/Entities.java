@@ -1,6 +1,6 @@
 package com.mtautumn.edgequest.window.layers;
 
-import com.mtautumn.edgequest.Entity;
+import com.mtautumn.edgequest.entities.Entity;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Entities {

@@ -1,26 +1,26 @@
 package com.mtautumn.edgequest.data;
 
-import com.mtautumn.edgequest.AttackManager;
-import com.mtautumn.edgequest.BackpackManager;
-import com.mtautumn.edgequest.ButtonActionManager;
-import com.mtautumn.edgequest.CharacterManager;
 import com.mtautumn.edgequest.ConsoleManager;
-import com.mtautumn.edgequest.DamagePostManager;
-import com.mtautumn.edgequest.EntitySpawn;
-import com.mtautumn.edgequest.EntityUpdater;
-import com.mtautumn.edgequest.GameClock;
-import com.mtautumn.edgequest.ItemDropManager;
-import com.mtautumn.edgequest.ItemSlot;
-import com.mtautumn.edgequest.ParticleManager;
-import com.mtautumn.edgequest.ProjectileManager;
-import com.mtautumn.edgequest.TerrainManager;
-import com.mtautumn.edgequest.WeatherManager;
-import com.mtautumn.edgequest.WorldUtils;
-import com.mtautumn.edgequest.updates.AnimationClock;
-import com.mtautumn.edgequest.updates.BlockUpdateManager;
-import com.mtautumn.edgequest.updates.LightingUpdater;
-import com.mtautumn.edgequest.window.managers.MenuButtonManager;
-import com.mtautumn.edgequest.window.managers.RendererManager;
+import com.mtautumn.edgequest.dataObjects.ItemSlot;
+import com.mtautumn.edgequest.threads.AnimationClock;
+import com.mtautumn.edgequest.threads.AttackManager;
+import com.mtautumn.edgequest.threads.BackpackManager;
+import com.mtautumn.edgequest.threads.BlockUpdateManager;
+import com.mtautumn.edgequest.threads.ButtonActionManager;
+import com.mtautumn.edgequest.threads.CharacterManager;
+import com.mtautumn.edgequest.threads.DamagePostManager;
+import com.mtautumn.edgequest.threads.EntitySpawn;
+import com.mtautumn.edgequest.threads.EntityUpdater;
+import com.mtautumn.edgequest.threads.GameClock;
+import com.mtautumn.edgequest.threads.ItemDropManager;
+import com.mtautumn.edgequest.threads.LightingUpdater;
+import com.mtautumn.edgequest.threads.ParticleManager;
+import com.mtautumn.edgequest.threads.ProjectileManager;
+import com.mtautumn.edgequest.threads.RendererManager;
+import com.mtautumn.edgequest.threads.TerrainManager;
+import com.mtautumn.edgequest.threads.WeatherManager;
+import com.mtautumn.edgequest.utils.WorldUtils;
+import com.mtautumn.edgequest.window.MenuButtonManager;
 
 public class DataManager {
 	public SystemData system = new SystemData();

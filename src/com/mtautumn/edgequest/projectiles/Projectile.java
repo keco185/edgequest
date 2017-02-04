@@ -9,12 +9,12 @@ package com.mtautumn.edgequest.projectiles;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.mtautumn.edgequest.BloodParticle;
 import com.mtautumn.edgequest.DamagePost;
-import com.mtautumn.edgequest.Entity;
-import com.mtautumn.edgequest.Location;
-import com.mtautumn.edgequest.Pet;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.dataObjects.Location;
+import com.mtautumn.edgequest.entities.Entity;
+import com.mtautumn.edgequest.entities.Pet;
+import com.mtautumn.edgequest.particles.BloodParticle;
 
 public class Projectile implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -1,9 +1,9 @@
 package com.mtautumn.edgequest.updates;
 
-import com.mtautumn.edgequest.ItemSlot;
-import com.mtautumn.edgequest.Location;
 import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.dataObjects.ItemSlot;
+import com.mtautumn.edgequest.dataObjects.Location;
 
 public class UpdateBlockPlace {
 	DataManager dataManager;

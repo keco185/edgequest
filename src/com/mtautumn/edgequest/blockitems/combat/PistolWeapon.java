@@ -1,7 +1,7 @@
 package com.mtautumn.edgequest.blockitems.combat;
 
-import com.mtautumn.edgequest.Entity;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.entities.Entity;
 import com.mtautumn.edgequest.projectiles.BulletProjectile;
 import com.mtautumn.edgequest.projectiles.Projectile;
 

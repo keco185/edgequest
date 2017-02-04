@@ -4,7 +4,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.Renderer;
-import com.mtautumn.edgequest.window.VBO;
+import com.mtautumn.edgequest.window.renderUtils.TerrainVBO;
 
 public class Terrain extends Thread {
 	Renderer r;
@@ -93,7 +93,7 @@ public class Terrain extends Thread {
 		double charX = r.dataManager.system.screenX;
 		double charY = r.dataManager.system.screenY;
 		boolean bright = r.dataManager.world.getBrightness() > 0;
-		r.terrainVBO = new VBO(r.dataManager);
+		r.terrainVBO = new TerrainVBO(r.dataManager);
 
 
 		float xPos = (float)((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);

@@ -1,8 +1,8 @@
 package com.mtautumn.edgequest.window.layers;
 import org.lwjgl.opengl.GL20;
 
-import com.mtautumn.edgequest.window.LightingVBO;
 import com.mtautumn.edgequest.window.Renderer;
+import com.mtautumn.edgequest.window.renderUtils.LightingVBO;
 
 public class Lighting extends Thread {
 	Renderer r;

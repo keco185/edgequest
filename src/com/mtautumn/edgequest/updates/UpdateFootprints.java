@@ -3,8 +3,8 @@
  */
 package com.mtautumn.edgequest.updates;
 
-import com.mtautumn.edgequest.FootPrint;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.dataObjects.FootPrint;
 
 public class UpdateFootprints {
 	DataManager dataManager;

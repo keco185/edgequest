@@ -6,8 +6,8 @@ package com.mtautumn.edgequest.updates;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mtautumn.edgequest.Location;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.dataObjects.Location;
 
 public class UpdateLighting {
 	private int lightDiffuseDistance = 8;

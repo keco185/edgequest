@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
 
-import com.mtautumn.edgequest.ItemDrop;
+import com.mtautumn.edgequest.dataObjects.ItemDrop;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class MouseTooltips {

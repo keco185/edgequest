@@ -2,6 +2,8 @@ package com.mtautumn.edgequest;
 
 import java.io.Serializable;
 
+import com.mtautumn.edgequest.entities.Entity;
+
 public class DamagePost implements Serializable {
 	private static final long serialVersionUID = 1L;
 	double posX;
