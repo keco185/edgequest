@@ -1,13 +1,7 @@
 #version 120
-varying vec4 opac;
-varying vec2 position;
-varying vec3 outColor;
-attribute vec4 opacity;
-uniform vec3 color;
-attribute vec2 posIn;
+varying float radiusOut;
+attribute float radius;
 void main() {
-	opac = opacity;
 	gl_Position = ftransform();
-	position = posIn;
-	outColor = color;
+	radiusOut = radius;
 }

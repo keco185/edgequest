@@ -50,7 +50,6 @@ public class BlockUpdateManager extends Thread {
 					blockPlace.update();
 					footprints.update();
 					
-					lighting.urc.update(dataManager.characterManager.characterEntity.light);
 				}
 				Thread.sleep(dataManager.settings.tickLength);
 			} catch (Exception e) {

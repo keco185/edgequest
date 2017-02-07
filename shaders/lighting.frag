@@ -1,7 +1,6 @@
 #version 120
-varying vec4 opac;
-varying vec2 position;
-varying vec3 outColor;
+varying float radiusOut;
 void main() {
-	gl_FragColor = vec4(outColor, mix(mix(opac.x,opac.y,position.x), mix(opac.w,opac.z,position.x), position.y));
+	vec4 color = vec4(1.0,1.0,1.0, radiusOut * radiusOut);
+	gl_FragColor = color;
 }

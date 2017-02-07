@@ -14,7 +14,6 @@ import com.mtautumn.edgequest.data.DataManager;
 public class EdgeQuest {
 	public static DataManager dataManager = new DataManager();
 	public static void main(String[] args) throws InterruptedException {
-		
 		// Detect the OS
 		byte os = (byte) System.getProperty("os.name").toLowerCase().charAt(0);
 		

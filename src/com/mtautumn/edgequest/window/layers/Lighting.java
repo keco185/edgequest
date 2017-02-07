@@ -14,6 +14,7 @@ public class Lighting extends Thread {
 		this.r = r;
 	}
 	public void run() {
+		r.dataManager.blockUpdateManager.lighting.urc.update(r.dataManager.characterManager.characterEntity.light);
 		draw(r);
 	}
 	public static void completionTasks(Renderer r) {
@@ -29,12 +30,17 @@ public class Lighting extends Thread {
 			GL20.glUniform3f(colorLocation,1.0f,0.6f,0.05f);
 			r.lightingVBOBrightness.write(r);
 			GL20.glUseProgram(0);*/
-			int opacLocation = GL20.glGetUniformLocation(r.raycastShader.getProgramId(),"opacity");
 			r.lightingFBO.enableBuffer();
+			GL20.glUseProgram(r.lightingShader.getProgramId());
 			for (LightSource light : r.dataManager.savable.lightSources) {
-				drawTriangles(light.triangles, light.range, r);
+				if (light.level == r.dataManager.savable.dungeonLevel) {
+					drawTriangles(light.triangles, light.range, r);
+				}
 			}
+			GL20.glUseProgram(0);
 			r.lightingFBO.disableBuffer();
+			
+			int opacLocation = GL20.glGetUniformLocation(r.raycastShader.getProgramId(),"opacity");
 			GL20.glUseProgram(r.raycastShader.getProgramId());
 			GL20.glUniform1f(opacLocation, 1.0f - (float) r.dataManager.world.getBrightness(r.dataManager.characterManager.characterEntity));
 			r.lightingFBO.drawBuffer(0, 0, r.dataManager.settings.screenWidth, r.dataManager.settings.screenHeight);

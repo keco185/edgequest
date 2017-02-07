@@ -40,7 +40,7 @@ public class Character extends Entity {
 		maxStamina = 10;
 		health = 20;
 		maxHealth = 20;
-		light = new LightSource(getX(), getY(), 8, -1);
+		light = new LightSource(getX(), getY(), 14, -1);
 		light.onEntity = true;
 		dm.savable.lightSources.add(light);
 	}
