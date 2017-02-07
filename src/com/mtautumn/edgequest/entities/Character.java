@@ -3,6 +3,7 @@ package com.mtautumn.edgequest.entities;
 import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
+import com.mtautumn.edgequest.dataObjects.LightSource;
 
 public class Character extends Entity {
 	private static final long serialVersionUID = 1L;
@@ -11,6 +12,7 @@ public class Character extends Entity {
 	private double lastY = 0;
 	public double stamina = 10;
 	public double maxStamina = 10;
+	public LightSource light;
 
 	public Character(double posX, double posY, double rotation, int dungeonLevel, DataManager dm) {
 		super("character",EntityType.character, posX, posY, rotation, dungeonLevel, dm);
@@ -22,6 +24,9 @@ public class Character extends Entity {
 		maxHealth = 20;
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
+		light = new LightSource(getX(), getY(), 8, -1);
+		light.onEntity = true;
+		dm.savable.lightSources.add(light);
 	}
 	public Character(Entity entity) {
 		super("character", EntityType.character, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dm);
@@ -35,6 +40,9 @@ public class Character extends Entity {
 		maxStamina = 10;
 		health = 20;
 		maxHealth = 20;
+		light = new LightSource(getX(), getY(), 8, -1);
+		light.onEntity = true;
+		dm.savable.lightSources.add(light);
 	}
 	public Character() {
 		super();
@@ -52,6 +60,9 @@ public class Character extends Entity {
 		return entityTexture + "still" + stillAnimation[dm.system.animationClock % stillAnimation.length];
 	}
 	public void update() {
+		light.posX = getX();
+		light.posY = getY();
+		light.level = dungeonLevel;
 		dungeonLevel = dm.savable.dungeonLevel;
 		if (super.dm.system.isKeyboardSprint) super.moveSpeed = super.dm.settings.moveSpeed * 2.0;
 		else super.moveSpeed = super.dm.settings.moveSpeed;

@@ -5,6 +5,7 @@
 package com.mtautumn.edgequest.utils;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.entities.Entity;
 
@@ -55,23 +56,15 @@ public class WorldUtils {
 		dm.savable.map.remove(x+","+y+","+level);
 	}
 
-	public void setLight(int x, int y, int level, byte val) {
-		if (val > -127) {
-			dm.savable.lightMap.put(x+","+y+","+level, val);
-		} else
-			removeLight(x,y,level);
+	public void addLightSource(int x, int y, int level) {
+		LightSource light = new LightSource(Double.valueOf(x) + 0.5, Double.valueOf(y) + 0.5, 8, level);
+		dm.savable.lightMap.put(x+","+y+","+level, light);
+		dm.savable.lightSources.add(light);
 	}
-	public byte getLight(int x, int y, int level) {
-		if (isLight(x, y, level)) {
-			return dm.savable.lightMap.get(x+","+y+","+level);
-		}
-		return Byte.MIN_VALUE;
-	}
-	public boolean isLight(int x, int y, int level) {
-		return dm.savable.lightMap.containsKey(x+","+y+","+level);
-	}
-	public void removeLight(int x, int y, int level) {
-		dm.savable.lightMap.remove(x+","+y+","+level);
+	public void removeLightSource(int x, int y, int level) {
+		LightSource light = dm.savable.lightMap.get(x+","+y+","+level);
+		dm.savable.lightSources.remove(light);
+		dm.savable.lightMap.remove(x+","+y+","+-1);
 	}
 	public double getBrightness() {
 		if (dm.savable.dungeonLevel > -1)
@@ -120,19 +113,11 @@ public class WorldUtils {
 	public void removeGroundBlock(Entity entity, int x, int y) {
 		removeGroundBlock(x, y, entity.dungeonLevel);
 	}
-
-	public void setLight(Entity entity, int x, int y, byte val) {
-		setLight(x,y,entity.dungeonLevel,val);
+	public void addLightSource(Entity entity, int x, int y) {
+		addLightSource(x, y, entity.dungeonLevel);
 	}
-	public byte getLight(Entity entity, int x, int y) {
-		return getLight(x,y,entity.dungeonLevel);
-	}
-	public boolean isLight(Entity entity, int x, int y) {
-		return isLight(x,y,entity.dungeonLevel);
-	}
-	public void removeLight(Entity entity, int x, int y) {
-		removeLight(x,y,entity.dungeonLevel);
-
+	public void removeLightSource(Entity entity, int x, int y) {
+		removeLightSource(x, y, entity.dungeonLevel);
 	}
 	public double getBrightness(Entity entity) {
 		if (entity.dungeonLevel > -1)
@@ -179,21 +164,11 @@ public class WorldUtils {
 	public void removeGroundBlock(Location location) {
 		removeGroundBlock(location.x, location.y, location.level);
 	}
-
-	public void setLight(Location location, byte val) {
-		if (val > -127) {
-			setLight(location.x, location.y, location.level, val);
-		} else
-			removeLight(location);
+	public void addLightSource(Location location) {
+		addLightSource(location.x, location.y, location.level);
 	}
-	public byte getLight(Location location) {
-		return getLight(location.x, location.y, location.level);
-	}
-	public boolean isLight(Location location) {
-		return isLight(location.x, location.y, location.level);
-	}
-	public void removeLight(Location location) {
-		removeLight(location.x, location.y, location.level);
+	public void removeLightSource(Location location) {
+		removeLightSource(location.x, location.y, location.level);
 	}
 	public double getBrightness(Location location) {
 		if (location.level > -1)

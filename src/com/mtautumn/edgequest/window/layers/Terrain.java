@@ -16,7 +16,7 @@ public class Terrain extends Thread {
 		r.terrainVBO.preWrite();
 	}
 	private static boolean isLight(DataManager dm, int x, int y, int level) {
-		return dm.world.isLight(x, y, level) || dm.world.isLight(x, y + 1, level) || dm.world.isLight(x + 1, y, level) || dm.world.isLight(x + 1, y + 1, level);   
+		return true;
 	}
 	public static void completionTasks(Renderer r) {
 		float blockSize = r.dataManager.settings.blockSize;

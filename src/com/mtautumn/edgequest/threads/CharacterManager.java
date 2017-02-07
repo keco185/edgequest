@@ -21,10 +21,12 @@ public class CharacterManager extends Thread{
 		if (!dataManager.world.isStructBlock(location)) {
 			if (!characterEntity.getRelativeGroundBlock(0, 0).isLiquid) {
 				dataManager.world.setStructBlock(location, dataManager.system.blockNameMap.get("torch").getID());
+				dataManager.world.addLightSource(location);
 				blockUpdateManager.updateBlock(location);
 			}
 		} else if (dataManager.world.getStructBlock(location) == dataManager.system.blockNameMap.get("torch").getID()) {
 			dataManager.world.removeStructBlock(location);
+			dataManager.world.removeLightSource(location);
 			blockUpdateManager.updateBlock(location);
 		}
 	}
@@ -51,7 +53,7 @@ public class CharacterManager extends Thread{
 		}
 	}
 	public double[] getCharaterBlockInfo() {
-		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
+		double[] blockInfo = {0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome
 		int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
 		int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
 			if (dataManager.world.isGroundBlock(dataManager.characterManager.characterEntity, charX, charY)) {
@@ -59,9 +61,6 @@ public class CharacterManager extends Thread{
 			}
 			if (dataManager.world.isStructBlock(dataManager.characterManager.characterEntity, charX, charY)) {
 				blockInfo[1] = dataManager.world.getStructBlock(dataManager.characterManager.characterEntity, charX, charY);
-			}
-			if (dataManager.world.isLight(dataManager.characterManager.characterEntity, charX, charY)) {
-				blockInfo[3] = dataManager.world.getLight(dataManager.characterManager.characterEntity, charX, charY);
 			}
 		return blockInfo;
 	}

@@ -39,31 +39,18 @@ public class BlockUpdateManager extends Thread {
 		}
 		updateLighting(location);
 	}
-	private boolean updateCharLighting = true;
-	private boolean didUpdateLighting = false;
-	private Location lastCharLocation = new Location(0,0,-1);
 	public void run() {
-		int i = 0;
+		//int i = 0;
 		while (dataManager.system.running) {
 			try {
 				if (!dataManager.system.isGameOnLaunchScreen) {
-					i++;
-					if (i % 30 == 0) melt();
+					//i++;
+					//if (i % 30 == 0) melt();
 					mining.update();
 					blockPlace.update();
 					footprints.update();
-					if (updateCharLighting) {
-						if (!lastCharLocation.isEqual(new Location(dataManager.characterManager.characterEntity)) || !didUpdateLighting) {
-							updateLighting(lastCharLocation);
-							lastCharLocation = new Location(dataManager.characterManager.characterEntity);
-							updateLighting(lastCharLocation);
-						}
-						didUpdateLighting = true;
-					} else if (didUpdateLighting) {
-						didUpdateLighting = false;
-						updateLighting(new Location(dataManager.characterManager.characterEntity));
-					}
-					updateCharLighting = (dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[0].getItemID()).isName("lantern") || dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[1].getItemID()).isName("lantern"));
+					
+					lighting.urc.update(dataManager.characterManager.characterEntity.light);
 				}
 				Thread.sleep(dataManager.settings.tickLength);
 			} catch (Exception e) {
@@ -71,6 +58,7 @@ public class BlockUpdateManager extends Thread {
 			}
 		}
 	}
+	/*
 	private void melt() {
 		Location updateLocation = new Location(dataManager.characterManager.characterEntity);
 		for(int x = dataManager.system.minTileX; x <= dataManager.system.maxTileX; x++) {
@@ -94,4 +82,5 @@ public class BlockUpdateManager extends Thread {
 			}	
 		}
 	}
+	*/
 }

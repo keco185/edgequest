@@ -5,6 +5,7 @@
 package com.mtautumn.edgequest.utils;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.dataObjects.LightSource;
 
 public class OverwordUtils {
 	DataManager dm;
@@ -44,20 +45,14 @@ public class OverwordUtils {
 	public void removeGroundBlock(int x, int y) {
 		dm.savable.map.remove(x+","+y+","+-1);
 	}
-
-	public void setLight(int x, int y, byte val) {
-		dm.savable.lightMap.put(x+","+y+","+-1, val);
+	public void addLightSource(int x, int y) {
+		LightSource light = new LightSource(Double.valueOf(x) + 0.5, Double.valueOf(y) + 0.5, 8, -1);
+		dm.savable.lightMap.put(x+","+y+","+-1, light);
+		dm.savable.lightSources.add(light);
 	}
-	public byte getLight(int x, int y) {
-		if (isLight(x, y)) {
-			return dm.savable.lightMap.get(x+","+y+","+-1);
-		}
-		return Byte.MIN_VALUE;
-	}
-	public boolean isLight(int x, int y) {
-		return dm.savable.lightMap.containsKey(x+","+y+","+-1);
-	}
-	public void removeLight(int x, int y) {
+	public void removeLightSource(int x, int y) {
+		LightSource light = dm.savable.lightMap.get(x+","+y+","+-1);
+		dm.savable.lightSources.remove(light);
 		dm.savable.lightMap.remove(x+","+y+","+-1);
 	}
 }

@@ -9,6 +9,7 @@ import com.mtautumn.edgequest.DamagePost;
 import com.mtautumn.edgequest.dataObjects.FootPrint;
 import com.mtautumn.edgequest.dataObjects.ItemDrop;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
+import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.entities.Entity;
 import com.mtautumn.edgequest.particles.Particle;
 import com.mtautumn.edgequest.projectiles.Projectile;
@@ -17,7 +18,7 @@ public class SavableData implements Serializable {
 	private static final long serialVersionUID = 1L;
 	public int time = 800;
 	public Map<String, Short> map = new ConcurrentHashMap<String, Short>(60000);
-	public Map<String, Byte> lightMap = new ConcurrentHashMap<String, Byte>();
+	public Map<String, LightSource> lightMap = new ConcurrentHashMap<String, LightSource>();
 	public Map<String, Short> playerStructuresMap = new ConcurrentHashMap<String, Short>();
 	public Map<String, int[]> dungeonStairs = new ConcurrentHashMap<String, int[]>();
 	public ArrayList<FootPrint> footPrints = new ArrayList<FootPrint>();
@@ -28,6 +29,7 @@ public class SavableData implements Serializable {
 	public ArrayList<Particle> precipitationParticles = new ArrayList<Particle>();
 	public ArrayList<String> generatedRegions = new ArrayList<String>();
 	public ArrayList<ItemDrop> itemDrops = new ArrayList<ItemDrop>();
+	public ArrayList<LightSource> lightSources = new ArrayList<LightSource>();
 	public double dryness = 0.5;
 	public long seed = 7;
 	public int dungeonX = 0;

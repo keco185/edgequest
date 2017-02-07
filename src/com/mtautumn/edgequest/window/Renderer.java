@@ -18,6 +18,7 @@ import org.newdawn.slick.opengl.Texture;
 import com.mtautumn.edgequest.TextureManager;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.layers.Layers;
+import com.mtautumn.edgequest.window.renderUtils.FBO;
 import com.mtautumn.edgequest.window.renderUtils.LightingVBO;
 import com.mtautumn.edgequest.window.renderUtils.ShaderProgram;
 import com.mtautumn.edgequest.window.renderUtils.TerrainVBO;
@@ -43,6 +44,8 @@ public class Renderer {
 	public TerrainVBO terrainVBO;
 	public LightingVBO lightingVBODarkness;
 	public LightingVBO lightingVBOBrightness;
+	public ShaderProgram raycastShader;
+	public FBO lightingFBO;
 	public Renderer(DataManager dataManager) {
 		this.dataManager = dataManager;
 		lastUIZoom = dataManager.system.uiZoom;
@@ -83,7 +86,10 @@ public class Renderer {
 		glOrtho(0, width, height, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 		lightingShader = new ShaderProgram();
+		raycastShader = new ShaderProgram();
+		lightingFBO = new FBO(width, height);
 		try {
+			raycastShader.init("shaders/raycast.vert", "shaders/raycast.frag", TextureManager.getLocal());
 			lightingShader.init("shaders/lighting.vert", "shaders/lighting.frag", TextureManager.getLocal());
 		} catch (URISyntaxException e) {
 			dataManager.system.running = false;
@@ -176,6 +182,7 @@ public class Renderer {
 			glScaled(oldX/Display.getWidth(), oldY/Display.getHeight(), 1);
 			oldX = Display.getWidth();
 			oldY = Display.getHeight();
+			lightingFBO = new FBO(Display.getWidth(), Display.getHeight());
 		}
 		glClear(GL_COLOR_BUFFER_BIT);
 
@@ -202,6 +209,18 @@ public class Renderer {
 		glVertex2f(x+width,y);
 		glVertex2f(x+width,y+height);
 		glVertex2f(x,y+height);
+		glEnd();
+	}
+	public void fillTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float alpha1, float alpha2, float alpha3) {
+		glBindTexture(GL_TEXTURE_2D, 0);
+		Color.white.bind();
+		glColor4f (1.0f,1.0f,1.0f,alpha1);
+		glBegin(GL_TRIANGLES);
+		glVertex2f(x1,y1);
+		glColor4f (1.0f,1.0f,1.0f,alpha2);
+		glVertex2f(x2,y2);
+		glColor4f (1.0f,1.0f,1.0f,alpha3);
+		glVertex2f(x3,y3);
 		glEnd();
 	}
 	public void fillRect(float x, float y, float width, float height) {
@@ -274,7 +293,7 @@ public class Renderer {
 
 
 	public double[] getCharaterBlockInfo() {
-		double[] blockInfo = {0.0,0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome 3 - lighting
+		double[] blockInfo = {0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome
 		int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
 		int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
 		if (dataManager.world.isGroundBlock(dataManager.characterManager.characterEntity, charX, charY)) {
@@ -282,9 +301,6 @@ public class Renderer {
 		}
 		if (dataManager.world.isStructBlock(dataManager.characterManager.characterEntity, charX, charY)) {
 			blockInfo[1] = dataManager.world.getStructBlock(dataManager.characterManager.characterEntity, charX, charY);
-		}
-		if (dataManager.world.isLight(dataManager.characterManager.characterEntity, charX, charY)) {
-			blockInfo[3] = dataManager.world.getLight(dataManager.characterManager.characterEntity, charX, charY);
 		}
 		return blockInfo;
 	}

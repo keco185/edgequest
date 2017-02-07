@@ -6,21 +6,30 @@ package com.mtautumn.edgequest.updates;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.dataObjects.LightSource;
+import com.mtautumn.edgequest.dataObjects.Location;
 
 
 public class UpdateRayCast {
 	DataManager dataManager;
-	public ArrayList<Torch> torches = new ArrayList<Torch>();
+	public ArrayList<LightSource> lightSources;
 	public ArrayList<Line> lines = new ArrayList<Line>();
 	public UpdateRayCast(DataManager dataManager) {
 		this.dataManager = dataManager;
-		Torch testTorch = new Torch(0.5, 6.5);
-		Torch testTorch2 = new Torch(20.5, 20.5);
-		torches.add(testTorch);
-		torches.add(testTorch2);
+		lightSources = dataManager.savable.lightSources;
 	}
 	public void update() {
-		updateTorch(torches.get(0));
+		
+	}
+	public void update(Location location) {
+		for (LightSource light : lightSources) {
+			if (Math.sqrt(Math.pow(light.posX - Double.valueOf(location.x), 2) + Math.pow(light.posY - Double.valueOf(location.y), 2)) < light.range) {
+				updateLightSource(light);
+			}
+		}
+	}
+	public void update(LightSource light) {
+		updateLightSource(light);
 	}
 	public class Point {
 		public double angle;
@@ -48,7 +57,7 @@ public class UpdateRayCast {
 	}
 	
 	
-	private void addVertex(double angle, double radius, double range, ArrayList<Point> points, ArrayList<Line> lines, Torch torch) {
+	private void addVertex(double angle, double radius, double range, ArrayList<Point> points, ArrayList<Line> lines, LightSource light) {
 		double correctedAngle = angle;
 		double correctedRadius = radius;
 		if (correctedAngle > Math.PI)
@@ -61,18 +70,18 @@ public class UpdateRayCast {
 			correctedRadius = range;
 		double dX = Math.cos(angle) * radius;
 		double dY = Math.sin(angle) * radius;
-		double x = torch.posX + dX;
-		double y = torch.posY - dY;
+		double x = light.posX + dX;
+		double y = light.posY - dY;
 		for (int i = 0; i < lines.size(); i++) {
-			if (linesIntersect(torch.posX, torch.posY, x, y, lines.get(i).x1, lines.get(i).y1, lines.get(i).x2, lines.get(i).y2)) {
-				CartesianPoint intersection = getLineLineIntersection(torch.posX, torch.posY, x, y, lines.get(i).x1, lines.get(i).y1, lines.get(i).x2, lines.get(i).y2);
-				double intersectionRadius = Math.sqrt(Math.pow(intersection.x - torch.posX, 2) + Math.pow(intersection.y - torch.posY, 2));
+			if (linesIntersect(light.posX, light.posY, x, y, lines.get(i).x1, lines.get(i).y1, lines.get(i).x2, lines.get(i).y2)) {
+				CartesianPoint intersection = getLineLineIntersection(light.posX, light.posY, x, y, lines.get(i).x1, lines.get(i).y1, lines.get(i).x2, lines.get(i).y2);
+				double intersectionRadius = Math.sqrt(Math.pow(intersection.x - light.posX, 2) + Math.pow(intersection.y - light.posY, 2));
 				if (!Double.isNaN(intersectionRadius)) {
 					if (intersectionRadius < correctedRadius)
 					correctedRadius = intersectionRadius;
 				}
-				x = torch.posX + Math.cos(angle) * radius;
-				y = torch.posY - Math.sin(angle) * radius;
+				x = light.posX + Math.cos(angle) * radius;
+				y = light.posY - Math.sin(angle) * radius;
 			}
 		}
 			points.add(new Point(correctedAngle, correctedRadius));
@@ -165,13 +174,13 @@ public class UpdateRayCast {
 	protected static double det(double a, double b, double c, double d) {
 		return a * d - b * c;
 	}
-	private void updateTorch(Torch torch) {
+	private void updateLightSource(LightSource light) {
 		this.lines.clear();
-		createLines(torch.posX, torch.posY, torch.range);
+		createLines(light.posX, light.posY, light.range, light.level);
 		ArrayList<Line> lines = new ArrayList<Line>();
 
 		for (int i = 0; i < this.lines.size(); i++) {
-			if (this.lines.get(i).isInRange(torch.posX, torch.posY, torch.range)) {
+			if (this.lines.get(i).isInRange(light.posX, light.posY, light.range)) {
 				lines.add(this.lines.get(i));
 			}
 		}
@@ -181,12 +190,12 @@ public class UpdateRayCast {
 
 		ArrayList<Point> points = new ArrayList<Point>();
 		for (int i = 0; i < lines.size(); i++) {
-			double angle1 = Math.atan2(torch.posY-lines.get(i).y1, lines.get(i).x1 - torch.posX);
-			double radius1 = Math.sqrt(Math.pow(torch.posY-lines.get(i).y1, 2) + Math.pow(torch.posX - lines.get(i).x1, 2));
-			double angle2 = Math.atan2(torch.posY-lines.get(i).y2, lines.get(i).x2 - torch.posX);
-			double radius2 = Math.sqrt(Math.pow(torch.posY-lines.get(i).y2, 2) + Math.pow(torch.posX - lines.get(i).x2, 2));
-			addVertex(angle1, radius1, torch.range, points, lines, torch);
-			addVertex(angle2, radius2, torch.range, points, lines, torch);
+			double angle1 = Math.atan2(light.posY-lines.get(i).y1, lines.get(i).x1 - light.posX);
+			double radius1 = Math.sqrt(Math.pow(light.posY-lines.get(i).y1, 2) + Math.pow(light.posX - lines.get(i).x1, 2));
+			double angle2 = Math.atan2(light.posY-lines.get(i).y2, lines.get(i).x2 - light.posX);
+			double radius2 = Math.sqrt(Math.pow(light.posY-lines.get(i).y2, 2) + Math.pow(light.posX - lines.get(i).x2, 2));
+			addVertex(angle1, radius1, light.range, points, lines, light);
+			addVertex(angle2, radius2, light.range, points, lines, light);
 		}
 		
 		int currentPoint = 0;
@@ -209,41 +218,41 @@ public class UpdateRayCast {
 		
 		
 		double angle = -Math.PI;
-		double lastRadius = torch.range;
-		final double increment = 0.1;
+		double lastRadius = light.range;
+		final double increment = 0.02;
 
-		addVertex(angle, lastRadius, torch.range, points, lines, torch);
+		addVertex(angle, lastRadius, light.range, points, lines, light);
 
 		while (angle < Math.PI) {
-			Point nextPoint = getNextArrayPoint(points, angle, torch.posX, torch.posY);
+			Point nextPoint = getNextArrayPoint(points, angle, light.posX, light.posY);
 			if (nextPoint != null) {
 				if (nextPoint.angle < angle + increment) {
-					addVertex(nextPoint.angle, lastRadius, torch.range, points, lines, torch);					
+					addVertex(nextPoint.angle, lastRadius, light.range, points, lines, light);					
 					lastRadius = nextPoint.radius;
 					angle = nextPoint.angle;
 				} else {
-					addVertex(angle, torch.range, torch.range, points, lines, torch);
-					addVertex(angle + increment, torch.range, torch.range, points, lines, torch);
-					lastRadius = torch.range;
+					addVertex(angle, light.range, light.range, points, lines, light);
+					addVertex(angle + increment, light.range, light.range, points, lines, light);
+					lastRadius = light.range;
 					angle += increment;
 				}
 			} else {
-				addVertex(angle, torch.range, torch.range, points, lines, torch);
-				addVertex(angle + increment, torch.range, torch.range, points, lines, torch);
-				lastRadius = torch.range;
+				addVertex(angle, light.range, light.range, points, lines, light);
+				addVertex(angle + increment, light.range, light.range, points, lines, light);
+				lastRadius = light.range;
 				angle += increment;
 			}
 		}
 
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 		angle = -Math.PI;
-		Point lastPoint = getNextArrayPoint(points, angle - 0.001, torch.posX, torch.posY);
+		Point lastPoint = getNextArrayPoint(points, angle - 0.001, light.posX, light.posY);
 		angle = lastPoint.angle;
 		boolean drawing = true;
 		while (drawing) {
-			Point nextPoint = getNextArrayPoint(points, angle, torch.posX, torch.posY);
+			Point nextPoint = getNextArrayPoint(points, angle, light.posX, light.posY);
 			if (nextPoint != null) {
-				Triangle triangle = new Triangle(torch.posX, torch.posY, lastPoint.angle, lastPoint.radius, nextPoint.angle, nextPoint.radius);
+				Triangle triangle = new Triangle(light.posX, light.posY, lastPoint.angle, lastPoint.radius, nextPoint.angle, nextPoint.radius);
 				triangles.add(triangle);
 				lastPoint = nextPoint;
 				angle = nextPoint.angle;
@@ -255,18 +264,17 @@ public class UpdateRayCast {
 		}
 		
 		
-		torch.points = points;
+		light.points = points;
 		
 		
 		
-		torch.triangles = triangles;
-		//torch.removeZeroTriangles();
+		light.triangles = triangles;
 
 	}
-	private void createLines(double x, double y, double range) {
+	private void createLines(double x, double y, double range, int level) {
 		for (double x1 = x - range; x1 <= x + range; x1++) {
 			for (double y1 = y - range; y1 <= y + range; y1++) {
-				if (doesContainStructure(x1, y1)) {
+				if (doesContainStructure(x1, y1, level)) {
 					Line line1 = new Line(Math.floor(x1), Math.floor(y1), Math.ceil(x1), Math.floor(y1));
 					Line line2 = new Line(Math.floor(x1), Math.floor(y1), Math.floor(x1), Math.ceil(y1));
 					Line line3 = new Line(Math.floor(x1), Math.ceil(y1), Math.ceil(x1), Math.ceil(y1));
@@ -279,33 +287,16 @@ public class UpdateRayCast {
 			}
 		}
 	}
-	public boolean doesContainStructure(double x, double y) {
+	public boolean doesContainStructure(double x, double y, int level) {
 		int x1 = (int) Math.floor(x);
 		int y1 = (int) Math.floor(y);
-		if (dataManager.world.isStructBlock(dataManager.characterManager.characterEntity,x1, y1)) {
-			return !dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(dataManager.characterManager.characterEntity,x1, y1)).isPassable;
+		if (dataManager.world.isStructBlock(x1, y1, level)) {
+			return !dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(x1, y1, level)).isPassable;
 		}
 		return false;
 	}
-	public void addTorch(double x, double y) {
+	public void addLightSource(double x, double y) {
 
-	}
-	public class Torch {
-		public double posX;
-		public double posY;
-		public final double range = 8;
-		public ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-		public ArrayList<Point> points = new ArrayList<Point>();
-		public Torch(double posX, double posY) {
-			this.posX = posX;
-			this.posY = posY;
-		}
-		public void removeZeroTriangles() {
-			for (int i = 0; i < triangles.size(); i++) {
-				if (triangles.get(i).isZeroTriangle())
-					triangles.remove(i);
-			}
-		}
 	}
 	public class Triangle {
 		public double angle1;
