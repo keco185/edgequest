@@ -4,6 +4,7 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 
 import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
 
 import com.mtautumn.edgequest.DefineBlockItems;
 import com.mtautumn.edgequest.data.DataManager;
@@ -73,6 +74,13 @@ public class RendererManager extends Thread {
 		System.exit(0);
 	}
 	
+	private static void printOpenGLInfo() {
+	    System.out.println("OS name " + System.getProperty("os.name"));
+	    System.out.println("OS version " + System.getProperty("os.version"));
+	    System.out.println("LWJGL version " + org.lwjgl.Sys.getVersion());
+	    System.out.println("OpenGL version " + GL11.glGetString(GL11.GL_VERSION));	
+	}
+
 	private void updateWindow() {
 		updateZoom();
 		findViewDimensions();
@@ -176,6 +184,7 @@ public class RendererManager extends Thread {
 		}
 		lastNanoPause = (1000000000.0/Double.valueOf(dataManager.settings.targetFPS));
 		renderer.initGL(dataManager.settings.screenWidth, dataManager.settings.screenHeight);
+		printOpenGLInfo();
 		renderer.loadManagers();
 		DefineBlockItems.setDefinitions(dataManager);
 		dataManager.system.gameLoaded = true;
