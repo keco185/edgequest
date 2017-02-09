@@ -38,6 +38,9 @@ public class WorldUtils {
 	}
 	public void removeStructBlock(int x, int y, int level) {
 		dm.savable.playerStructuresMap.remove(x+","+y+","+level);
+		if (isLightSource(x, y, level)) {
+			removeLightSource(x, y, level);
+		}
 	}
 
 	public void setGroundBlock(int x, int y, int level, short id) {
@@ -65,6 +68,9 @@ public class WorldUtils {
 		LightSource light = dm.savable.lightMap.get(x+","+y+","+level);
 		dm.savable.lightSources.remove(light);
 		dm.savable.lightMap.remove(x+","+y+","+-1);
+	}
+	public boolean isLightSource(int x, int y, int level) {
+		return dm.savable.lightMap.containsKey(x+","+y+","+level);
 	}
 	public double getBrightness() {
 		if (dm.savable.dungeonLevel > -1)
@@ -119,6 +125,9 @@ public class WorldUtils {
 	public void removeLightSource(Entity entity, int x, int y) {
 		removeLightSource(x, y, entity.dungeonLevel);
 	}
+	public boolean isLightSource(Entity entity, int x, int y) {
+		return isLightSource(x, y, entity.dungeonLevel);
+	}
 	public double getBrightness(Entity entity) {
 		if (entity.dungeonLevel > -1)
 			return 0.0;
@@ -169,6 +178,9 @@ public class WorldUtils {
 	}
 	public void removeLightSource(Location location) {
 		removeLightSource(location.x, location.y, location.level);
+	}
+	public boolean isLightSource(Location location) {
+		return isLightSource(location.x, location.y, location.level);
 	}
 	public double getBrightness(Location location) {
 		if (location.level > -1)

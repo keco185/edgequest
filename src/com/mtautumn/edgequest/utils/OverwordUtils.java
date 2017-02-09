@@ -28,6 +28,9 @@ public class OverwordUtils {
 	}
 	public void removeStructBlock(int x, int y) {
 		dm.savable.playerStructuresMap.remove(x+","+y+","+-1);
+		if (isLightSource(x, y)) {
+			removeLightSource(x, y);
+		}
 	}
 
 	public void setGroundBlock(int x, int y, short id) {
@@ -54,5 +57,8 @@ public class OverwordUtils {
 		LightSource light = dm.savable.lightMap.get(x+","+y+","+-1);
 		dm.savable.lightSources.remove(light);
 		dm.savable.lightMap.remove(x+","+y+","+-1);
+	}
+	public boolean isLightSource(int x, int y) {
+		return dm.savable.lightMap.containsKey(x+","+y+","+-1);
 	}
 }
