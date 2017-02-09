@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.lwjgl.opengl.GL20;
 
 import com.mtautumn.edgequest.dataObjects.LightSource;
+import com.mtautumn.edgequest.updates.UpdateRayCast.Point;
 import com.mtautumn.edgequest.updates.UpdateRayCast.Triangle;
 import com.mtautumn.edgequest.window.Renderer;
 import com.mtautumn.edgequest.window.renderUtils.LightingVBO;
@@ -14,6 +15,9 @@ public class Lighting extends Thread {
 		this.r = r;
 	}
 	public void run() {
+		r.dataManager.characterManager.characterEntity.light.posX = r.dataManager.characterManager.characterEntity.frameX;
+		r.dataManager.characterManager.characterEntity.light.posY = r.dataManager.characterManager.characterEntity.frameY;
+		r.dataManager.characterManager.characterEntity.light.level = r.dataManager.characterManager.characterEntity.dungeonLevel;
 		r.dataManager.blockUpdateManager.lighting.urc.update(r.dataManager.characterManager.characterEntity.light);
 		draw(r);
 	}
@@ -45,6 +49,17 @@ public class Lighting extends Thread {
 			GL20.glUniform1f(opacLocation, 1.0f - (float) r.dataManager.world.getBrightness(r.dataManager.characterManager.characterEntity));
 			r.lightingFBO.drawBuffer(0, 0, r.dataManager.settings.screenWidth, r.dataManager.settings.screenHeight);
 			GL20.glUseProgram(0);
+			
+			for (LightSource light : r.dataManager.savable.lightSources) {
+				float offsetX = (float) (r.dataManager.settings.screenWidth / 2.0 - (r.dataManager.system.screenX - light.posX) * r.dataManager.settings.blockSize);
+				float offsetY = (float) (r.dataManager.settings.screenHeight / 2.0 - (r.dataManager.system.screenY - light.posY) * r.dataManager.settings.blockSize);
+				if (light.level == r.dataManager.savable.dungeonLevel) {
+					for (Point p : light.points) {
+						r.fillRect((float) (Math.cos(p.angle) * p.radius * r.dataManager.settings.blockSize) + offsetX, (float) (-Math.sin(p.angle) * p.radius * r.dataManager.settings.blockSize) + offsetY, 5f, 5f, 1.0f, 0.0f, 0.0f, 1.0f);
+
+					}
+				}
+			}
 		}
 	}
 	public static void draw(Renderer r) {
