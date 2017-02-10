@@ -57,6 +57,8 @@ public class TerrainVBO {
 	}
 	public void write(Texture texture) {	
 		Color.white.bind();
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 		glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -72,9 +74,6 @@ public class TerrainVBO {
 		glTexCoordPointer(2, GL_FLOAT, 0, 0);
 
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-
-		glEnableClientState(GL_VERTEX_ARRAY);
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 		glDrawArrays(GL_QUADS, 0, verticiesArray.size());
 

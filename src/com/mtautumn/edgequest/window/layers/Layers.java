@@ -1,6 +1,8 @@
 package com.mtautumn.edgequest.window.layers;
 
 
+import org.lwjgl.opengl.Display;
+
 import com.mtautumn.edgequest.window.Renderer;
 import com.mtautumn.edgequest.window.layers.*;
 
@@ -9,6 +11,7 @@ public class Layers {
 		if (r.dataManager.system.isGameOnLaunchScreen) {
 			LaunchScreen.draw(r);
 		} else {
+			r.preLightingFBO.enableBuffer();
 			Terrain terrainThread = new Terrain(r);
 			terrainThread.start();
 			Lighting lightingThread = new Lighting(r);
@@ -21,6 +24,8 @@ public class Layers {
 			CharacterEffects.draw(r);
 			Projectiles.draw(r);
 			Entities.draw(r);
+			r.preLightingFBO.disableBuffer();
+			r.preLightingFBO.drawBuffer(0, 0, Display.getWidth(), Display.getHeight());
 			lightingThread.join();
 			Lighting.completionTasks(r);
 			BlockDamage.draw(r);

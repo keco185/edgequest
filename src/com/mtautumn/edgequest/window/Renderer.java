@@ -46,6 +46,8 @@ public class Renderer {
 	public LightingVBO lightingVBOBrightness;
 	public ShaderProgram raycastShader;
 	public FBO lightingFBO;
+	public FBO preLightingFBO;
+	public FBO lightingColorFBO;
 	public Renderer(DataManager dataManager) {
 		this.dataManager = dataManager;
 		lastUIZoom = dataManager.system.uiZoom;
@@ -88,6 +90,8 @@ public class Renderer {
 		lightingShader = new ShaderProgram();
 		raycastShader = new ShaderProgram();
 		lightingFBO = new FBO(width, height);
+		preLightingFBO = new FBO(width, height);
+		lightingColorFBO = new FBO(width, height);
 		try {
 			raycastShader.init("shaders/raycast.vert", "shaders/raycast.frag", TextureManager.getLocal());
 			lightingShader.init("shaders/lighting.vert", "shaders/lighting.frag", TextureManager.getLocal());
@@ -130,7 +134,6 @@ public class Renderer {
 			buttonFont = new UnicodeFont(awtButtonFont);
 			setupFont(buttonFont);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -183,6 +186,8 @@ public class Renderer {
 			oldX = Display.getWidth();
 			oldY = Display.getHeight();
 			lightingFBO = new FBO(Display.getWidth(), Display.getHeight());
+			preLightingFBO = new FBO(Display.getWidth(), Display.getHeight());
+			lightingColorFBO = new FBO(Display.getWidth(), Display.getHeight());
 		}
 		glClear(GL_COLOR_BUFFER_BIT);
 
