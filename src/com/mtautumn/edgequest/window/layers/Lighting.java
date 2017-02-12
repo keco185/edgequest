@@ -1,6 +1,7 @@
 package com.mtautumn.edgequest.window.layers;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glColor4f;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,7 @@ public class Lighting extends Thread {
 	}
 	public static void completionTasks(Renderer r) {
 		glBindTexture(GL_TEXTURE_2D, 0);
+		glColor4f (1.0f,1.0f,1.0f,1.0f);
 		if (r.dataManager.world.getBrightness() < 1 || r.dataManager.savable.dryness < -0.2) {
 			r.lightingFBO.enableBuffer();
 			GL20.glUseProgram(r.lightingShader.getProgramId());

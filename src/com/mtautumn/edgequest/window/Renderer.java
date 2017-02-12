@@ -91,7 +91,7 @@ public class Renderer {
 		lightingShader = new ShaderProgram();
 		lightingColorShader = new ShaderProgram();
 		terrainDrawShader = new ShaderProgram();
-		lightingFBO = new FBO(width, height);
+		lightingFBO = new FBO(width, height, true);
 		preLightingFBO = new FBO(width, height);
 		lightingColorFBO = new FBO(width, height);
 		try {
@@ -221,14 +221,11 @@ public class Renderer {
 	}
 	public void fillLightingTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float alpha1, float alpha2, float alpha3) {
 		int location = GL20.glGetAttribLocation(lightingShader.getProgramId(),"radius");
-		glColor4f (1.0f,1.0f,1.0f,alpha1);
 		glBegin(GL_TRIANGLES);
 		GL20.glVertexAttrib1f(location, alpha1);
 		glVertex2f(x1,y1);
-		glColor4f (1.0f,1.0f,1.0f,alpha2);
 		GL20.glVertexAttrib1f(location, alpha2);
 		glVertex2f(x2,y2);
-		glColor4f (1.0f,1.0f,1.0f,alpha3);
 		GL20.glVertexAttrib1f(location, alpha3);
 		glVertex2f(x3,y3);
 		glEnd();

@@ -29,6 +29,29 @@ public class FBO {
 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);                                    // Swithch back to normal framebuffer rendering
 	}
+	public FBO(int width, int height, boolean grayscale) {
+		this.width = nearestPower2(width);
+		this.height = nearestPower2(height);
+		intendedWidth = width;
+		intendedHeight = height;
+		framebufferID = glGenFramebuffersEXT();
+		colorTextureID = glGenTextures();
+		
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebufferID);
+		
+		glBindTexture(GL_TEXTURE_2D, colorTextureID);                                   // Bind the colorbuffer texture
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);               // make it linear filterd
+
+		if (grayscale) {
+	        glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE8, this.width, this.height, 0,GL_LUMINANCE, GL_INT, (java.nio.ByteBuffer) null);  // Create the texture data
+		} else {
+	        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, this.width, this.height, 0,GL_RGB, GL_INT, (java.nio.ByteBuffer) null);  // Create the texture data
+		}
+        glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT,GL_COLOR_ATTACHMENT0_EXT,GL_TEXTURE_2D, colorTextureID, 0); // attach it to the framebuffer
+
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);                                    // Swithch back to normal framebuffer rendering
+	
+	}
 	
 	public void enableBuffer() {
 		glBindTexture(GL_TEXTURE_2D, 0);                                // unlink textures because if we dont it all is gonna fail
