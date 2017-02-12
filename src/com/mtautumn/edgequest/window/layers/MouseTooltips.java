@@ -41,7 +41,7 @@ public class MouseTooltips {
 			int length = r.tooltipFont.getWidth(string);
 			if (length > tooltipWidth) tooltipWidth = length;
 		}
-		double lineHeight = (double) r.tooltipFont.getLineHeight() * 1.5;
+		double lineHeight = r.tooltipFont.getLineHeight() * 1.5;
 		int tooltipHeight = (int) (lineHeight * lines.size());
 		int startX = mousePos.x + 12;
 		int startY = mousePos.y + 12;

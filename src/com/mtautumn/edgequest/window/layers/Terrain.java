@@ -92,7 +92,6 @@ public class Terrain extends Thread {
 		int maxTileY = r.dataManager.system.maxTileY;
 		double charX = r.dataManager.system.screenX;
 		double charY = r.dataManager.system.screenY;
-		boolean bright = r.dataManager.world.getBrightness() > 0;
 		r.terrainVBO = new TerrainVBO(r.dataManager);
 
 
@@ -102,13 +101,8 @@ public class Terrain extends Thread {
 		for(int x = minTileX; x < maxTileX; x++) {
 			yPos = yPosReset;
 			for (int y = minTileY; y < maxTileY; y++) {
-				if (bright) {
 					r.terrainVBO.addQuad(xPos, yPos, blockSize, blockSize);
 					r.terrainVBO.addTextureQuad(getTerrainBlockTexture(r,x,y));
-				} else if (isLight(r.dataManager, x, y, r.dataManager.savable.dungeonLevel)) {
-					r.terrainVBO.addQuad(xPos, yPos, blockSize, blockSize);
-					r.terrainVBO.addTextureQuad(getTerrainBlockTexture(r,x,y));
-				}
 				yPos += blockSize;
 			}
 			xPos += blockSize;

@@ -40,23 +40,6 @@ public class UpdateRayCast {
 		}
 	}
 
-	private static Point getNextArrayPoint(ArrayList<Point> points, double angle, double x, double y) {
-		double smallestAngle = 10;
-		for (int i = 0; i < points.size(); i++) {
-			double angle1 = points.get(i).angle;
-			if (angle1 < smallestAngle && angle1 > angle && !Double.isNaN(points.get(i).radius)) {
-				smallestAngle = angle1;
-			}
-		}
-		for (int i = 0; i < points.size(); i++) {
-			double angle1 = points.get(i).angle;
-			if (angle1 == smallestAngle)
-				return points.get(i);
-		}
-		return null;
-	}
-
-
 	private void addVertex(double angle, double radius, double range, ArrayList<Point> points, ArrayList<Line> lines, LightSource light) {
 		double correctedAngle = angle;
 		double correctedRadius = radius;
@@ -84,7 +67,9 @@ public class UpdateRayCast {
 				y = light.posY - Math.sin(angle) * radius;
 			}
 		}
-		points.add(new Point(correctedAngle, correctedRadius));
+		if ((correctedRadius > radius - 0.1) || radius >= light.range) {
+			points.add(new Point(correctedAngle, correctedRadius));
+		}
 	}
 	public class CartesianPoint {
 		double x,y;
@@ -221,7 +206,7 @@ public class UpdateRayCast {
 
 		double angle = -Math.PI;
 		double lastRadius = light.range;
-		final double increment = 0.04;
+		final double increment = 0.1;
 		points.sort((p1,p2) -> (int)((p1.angle - p2.angle)*341782637.788216));
 		ArrayList<Point> pointArray = new ArrayList<Point>();
 		pointArray.add(new Point(angle, lastRadius));
@@ -247,50 +232,12 @@ public class UpdateRayCast {
 				}
 			}
 		}
+		
 		ArrayList<Point> finalizedPoints = new ArrayList<Point>();
 		for (int i = 0; i < pointArray.size(); i++) {
 			addVertex(pointArray.get(i).angle, pointArray.get(i).radius, light.range, finalizedPoints, lines, light);
 		}
-		/*addVertex(angle, lastRadius, light.range, points, lines, light);
-		while (angle < Math.PI) {
-			Point nextPoint = getNextArrayPoint(points, angle, light.posX, light.posY);
-			if (nextPoint != null) {
-				if (nextPoint.angle < angle + increment) {
-					addVertex(nextPoint.angle, lastRadius, light.range, points, lines, light);					
-					lastRadius = nextPoint.radius;
-					angle = nextPoint.angle;
-				} else {
-					addVertex(angle, light.range, light.range, points, lines, light);
-					addVertex(angle + increment, light.range, light.range, points, lines, light);
-					lastRadius = light.range;
-					angle += increment;
-				}
-			} else {
-				addVertex(angle, light.range, light.range, points, lines, light);
-				addVertex(angle + increment, light.range, light.range, points, lines, light);
-				lastRadius = light.range;
-				angle += increment;
-			}
-		}*/
 
-		/*ArrayList<Triangle> triangles = new ArrayList<Triangle>();
-		angle = -Math.PI;
-		Point lastPoint = getNextArrayPoint(points, angle - 0.001, light.posX, light.posY);
-		angle = lastPoint.angle;
-		boolean drawing = true;
-		while (drawing) {
-			Point nextPoint = getNextArrayPoint(points, angle, light.posX, light.posY);
-			if (nextPoint != null) {
-				Triangle triangle = new Triangle(light.posX, light.posY, lastPoint.angle, lastPoint.radius, nextPoint.angle, nextPoint.radius);
-				triangles.add(triangle);
-				lastPoint = nextPoint;
-				angle = nextPoint.angle;
-			} else {
-				drawing = false;
-			}
-
-
-		}*/
 		finalizedPoints.sort((p1,p2) -> (int)((p1.angle - p2.angle)*341782637.788216));
 		ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 		for (int i = 0; i < finalizedPoints.size() - 1; i++) {

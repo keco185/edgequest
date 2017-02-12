@@ -41,10 +41,11 @@ public class Renderer {
 	private final double awtDamageFontSize = 14;
 	private final double awtTooltipFontSize = 12;
 	public ShaderProgram lightingShader;
+	public ShaderProgram lightingColorShader;
+	public ShaderProgram terrainDrawShader;
 	public TerrainVBO terrainVBO;
 	public LightingVBO lightingVBODarkness;
 	public LightingVBO lightingVBOBrightness;
-	public ShaderProgram raycastShader;
 	public FBO lightingFBO;
 	public FBO preLightingFBO;
 	public FBO lightingColorFBO;
@@ -88,12 +89,14 @@ public class Renderer {
 		glOrtho(0, width, height, 0, 1, -1);
 		glMatrixMode(GL_MODELVIEW);
 		lightingShader = new ShaderProgram();
-		raycastShader = new ShaderProgram();
+		lightingColorShader = new ShaderProgram();
+		terrainDrawShader = new ShaderProgram();
 		lightingFBO = new FBO(width, height);
 		preLightingFBO = new FBO(width, height);
 		lightingColorFBO = new FBO(width, height);
 		try {
-			raycastShader.init("shaders/raycast.vert", "shaders/raycast.frag", TextureManager.getLocal());
+			terrainDrawShader.init("shaders/terrainDraw.vert", "shaders/terrainDraw.frag", TextureManager.getLocal());
+			lightingColorShader.init("shaders/lightingColor.vert", "shaders/lightingColor.frag", TextureManager.getLocal());
 			lightingShader.init("shaders/lighting.vert", "shaders/lighting.frag", TextureManager.getLocal());
 		} catch (URISyntaxException e) {
 			dataManager.system.running = false;
@@ -216,10 +219,22 @@ public class Renderer {
 		glVertex2f(x,y+height);
 		glEnd();
 	}
-	public void fillTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float alpha1, float alpha2, float alpha3) {
-		glBindTexture(GL_TEXTURE_2D, 0);
+	public void fillLightingTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float alpha1, float alpha2, float alpha3) {
 		int location = GL20.glGetAttribLocation(lightingShader.getProgramId(),"radius");
-		Color.white.bind();
+		glColor4f (1.0f,1.0f,1.0f,alpha1);
+		glBegin(GL_TRIANGLES);
+		GL20.glVertexAttrib1f(location, alpha1);
+		glVertex2f(x1,y1);
+		glColor4f (1.0f,1.0f,1.0f,alpha2);
+		GL20.glVertexAttrib1f(location, alpha2);
+		glVertex2f(x2,y2);
+		glColor4f (1.0f,1.0f,1.0f,alpha3);
+		GL20.glVertexAttrib1f(location, alpha3);
+		glVertex2f(x3,y3);
+		glEnd();
+	}
+	public void fillLightingColorTriangle(float x1, float y1, float x2, float y2, float x3, float y3, float alpha1, float alpha2, float alpha3) {
+		int location = GL20.glGetAttribLocation(lightingColorShader.getProgramId(),"radius");
 		glColor4f (1.0f,1.0f,1.0f,alpha1);
 		glBegin(GL_TRIANGLES);
 		GL20.glVertexAttrib1f(location, alpha1);

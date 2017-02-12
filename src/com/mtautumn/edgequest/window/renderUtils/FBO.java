@@ -6,12 +6,12 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.EXTFramebufferObject.*;
 
 public class FBO {
-    int colorTextureID;
+   public int colorTextureID;
     int framebufferID;
-    int width;
-    int height;
-    int intendedWidth;
-    int intendedHeight;
+    public int width;
+    public int height;
+    public int intendedWidth;
+    public int intendedHeight;
 	public FBO(int width, int height) {
 		this.width = nearestPower2(width);
 		this.height = nearestPower2(height);
@@ -35,6 +35,12 @@ public class FBO {
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebufferID);        // switch to rendering on our FBO
         glClearColor (0.0f, 0.0f, 0.0f, 1.0f);
         glClear (GL_COLOR_BUFFER_BIT);         
+	}
+	public void enableBuffer(float r, float g, float b) {
+		glBindTexture(GL_TEXTURE_2D, 0);                                // unlink textures because if we dont it all is gonna fail
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, framebufferID);        // switch to rendering on our FBO
+        glClearColor (r, g, b, 1.0f);
+        glClear (GL_COLOR_BUFFER_BIT);    
 	}
 	public void disableBuffer() {
 		glEnable(GL_TEXTURE_2D);                                        // enable texturing

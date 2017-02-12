@@ -143,6 +143,16 @@ public class ConsoleManager {
 			else
 				addLine("To change the current seed, type /reseed <seed>", 1);
 			break;
+		case "color":
+			if (args.size() == 3) {
+				float r = new Float(args.get(0));
+				float g = new Float(args.get(1));
+				float b = new Float(args.get(2));
+				dataManager.characterManager.characterEntity.light.r = r;
+				dataManager.characterManager.characterEntity.light.g = g;
+				dataManager.characterManager.characterEntity.light.b = b;
+				addLine("Set light color to R: " + r + " G: " + g + " B: " + b);
+			}
 		case "give":
 			if (args.size() == 1) {
 				dataManager.backpackManager.addItem(dataManager.system.blockNameMap.get(args.get(0)));
