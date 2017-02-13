@@ -75,6 +75,7 @@ public class DefineBlockItems {
 	}
 	private static void noTextureDefinition() {
 		BlockItem noTexture = new BlockItem(0, true, true, "noTexture", new int[]{0} , new int[]{0}, dm);
+		noTexture.isSolid = false;
 		addToMaps(noTexture);
 	}
 	private static void grassDefinition() {

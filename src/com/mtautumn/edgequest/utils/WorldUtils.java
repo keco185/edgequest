@@ -33,6 +33,9 @@ public class WorldUtils {
 		return 0;
 
 	}
+	public short getStructBlockFast(int x, int y, int level) {
+		return dm.savable.playerStructuresMap.get(x+","+y+","+level);
+	}
 	public boolean isStructBlock(int x, int y, int level) {
 		return dm.savable.playerStructuresMap.containsKey(x+","+y+","+level);
 	}

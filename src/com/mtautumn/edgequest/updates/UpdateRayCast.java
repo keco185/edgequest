@@ -160,13 +160,13 @@ public class UpdateRayCast {
 		return a * d - b * c;
 	}
 	private void updateLightSource(LightSource light) {
-		this.lines.clear();
-		createLines(light.posX, light.posY, light.range, light.level);
+		ArrayList<Line> rawLines = new ArrayList<Line>();
+		createLines(light.posX, light.posY, light.range, light.level, rawLines);
 		ArrayList<Line> lines = new ArrayList<Line>();
 
-		for (int i = 0; i < this.lines.size(); i++) {
-			if (this.lines.get(i).isInRange(light.posX, light.posY, light.range)) {
-				lines.add(this.lines.get(i));
+		for (int i = 0; i < rawLines.size(); i++) {
+			if (rawLines.get(i).isInRange(light.posX, light.posY, light.range)) {
+				lines.add(rawLines.get(i));
 			}
 		}
 
@@ -249,7 +249,7 @@ public class UpdateRayCast {
 		light.triangles = triangles;
 
 	}
-	private void createLines(double x, double y, double range, int level) {
+	private void createLines(double x, double y, double range, int level, ArrayList<Line> lines) {
 		for (double x1 = x - range; x1 <= x + range; x1++) {
 			for (double y1 = y - range; y1 <= y + range; y1++) {
 				if (doesContainStructure(x1, y1, level)) {
