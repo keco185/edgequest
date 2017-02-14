@@ -1,6 +1,7 @@
 package com.mtautumn.edgequest.threads;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.dataObjects.LightSource;
 
 public class LightingUpdater extends Thread {
 	DataManager dm;
@@ -14,6 +15,9 @@ public class LightingUpdater extends Thread {
 					dm.blockUpdateManager.lighting.update(dm.blockUpdateManager.lightingQueue.get(i));
 					dm.blockUpdateManager.lightingQueue.remove(i);
 					i--;
+				}
+				for (LightSource light : dm.savable.lightSources) {
+					light.update();
 				}
 				Thread.sleep(5);
 			} catch (Exception e) {
