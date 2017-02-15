@@ -11,7 +11,7 @@ public class Generator {
 	 * 0s represent wall tiles, and 1s represent floor, or open tiles
 	 * 
 	 */
-
+	
 	// Variables asked for in the constructor
 	int x;
 	int y;

@@ -7,9 +7,9 @@ package com.mtautumn.edgequest.utils;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 
-public class OverwordUtils {
+public class OverworldUtils {
 	DataManager dm;
-	public OverwordUtils(DataManager dm) {
+	public OverworldUtils(DataManager dm) {
 		this.dm = dm;
 	}
 

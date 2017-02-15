@@ -5,10 +5,17 @@ import java.util.Random;
 
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.dataObjects.Location;
+import com.mtautumn.edgequest.dataObjects.LightSource;
+import com.mtautumn.edgequest.threads.BlockUpdateManager;
+
+//import com.mtautumn.edgequest.updates.UpdateLighting;
 
 public class TerrainGeneratorThread extends Thread {
-	TerrainGenerator terrainGenerator;
-	DataManager dm;
+	//private UpdateLighting updateLight;
+	private LightSource light;
+	public BlockUpdateManager blockUpdatManager;
+	private TerrainGenerator terrainGenerator;
+	private DataManager dm;
 	private int x;
 	private int y;
 	private int level;
@@ -84,10 +91,9 @@ public class TerrainGeneratorThread extends Thread {
 			if (level == 0) {
 				dm.world.setStructBlock(stairs[0] + x, stairs[1] + y, -1, dm.system.blockNameMap.get("dungeon").getID());
 			}
-
+			
 			int[][] dungeonMap = new Generator(100, 100, 10, generateSeed(dungeonSeedBase,x,y,level), new Center(stairs[0], stairs[1])).getNewDungeon();
-
-
+			
 			for (int i = 0; i < dungeonMap.length; i++) {
 				for (int j = 0; j < dungeonMap[1].length; j++) {
 					int pX = i + x;
@@ -101,6 +107,14 @@ public class TerrainGeneratorThread extends Thread {
 						dm.entitySpawn.considerEntity(new Location(pX, pY, level));
 						break;
 					case Tile.UP_STAIR:
+						//make ladders into small light sources
+						light = new LightSource(pX, pY, 4, level);
+						light.onEntity = true;
+						dm.savable.lightSources.add(light);
+						light.posX += 0.5;
+						light.posY += 0.5;
+						dm.blockUpdateManager.lighting.urc.update(light);
+						
 						dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("dungeonUp").getID());
 						break;
 					case Tile.DOWN_STAIR:

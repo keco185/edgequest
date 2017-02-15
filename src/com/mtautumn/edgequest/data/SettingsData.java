@@ -28,16 +28,17 @@ public class SettingsData {
 	public int rightKey = Keyboard.KEY_D;
 	public int leftKey = Keyboard.KEY_A;
 	public int sprintKey = Keyboard.KEY_LSHIFT;
+	public int dodgeKey = Keyboard.KEY_SPACE;
 	public int travelKey = Keyboard.KEY_TAB;
-	public int menuKey = Keyboard.KEY_SPACE;
-	public int backpackKey = Keyboard.KEY_E;
+	public int menuKey = Keyboard.KEY_R;
+	public int backpackKey = Keyboard.KEY_Q;
 	public int zoomInKey = Keyboard.KEY_UP;
 	public int zoomOutKey = Keyboard.KEY_DOWN;
 	public int showDiagKey = Keyboard.KEY_GRAVE;
-	public int placeTorchKey = Keyboard.KEY_Q;
+	public int placeTorchKey = Keyboard.KEY_F;
 	public int consoleKey = Keyboard.KEY_T;
 	public int exitKey = Keyboard.KEY_ESCAPE;
-	public int actionKey = Keyboard.KEY_RETURN;
+	public int actionKey = Keyboard.KEY_E;
 	public int aimKey = Keyboard.KEY_LMETA;
 
 	public Map<String, int[]> atlasMap = new ConcurrentHashMap<String, int[]>();

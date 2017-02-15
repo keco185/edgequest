@@ -19,7 +19,7 @@ public class Layers {
 			Lighting lightingThread = new Lighting(r);
 			lightingThread.start();
 			terrainThread.join();
-			Terrain.completionTasks(r);
+			terrainThread.completionTasks(r);
 			Footprints.draw(r);
 			Particles.draw(r);
 			ItemDrops.draw(r);

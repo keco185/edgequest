@@ -11,6 +11,23 @@ public class KeyboardUpdater {
 	private CharacterManager characterManager;
 	private static boolean[] wasKeyDown = new boolean[256];
 	
+	public boolean keyUp;
+	public boolean keyDown;
+	public boolean keyLeft;
+	public boolean keyRight;
+	public boolean keySprint;
+	public boolean keyDodge;
+	public boolean keyTravel;
+	public boolean keyMenu;
+	public boolean keyBackpack;
+	public boolean keyZoomIn;
+	public boolean keyZoomOut;
+	public boolean keyShowDiag;
+	public boolean keyPlaceTorch;
+	public boolean keyConsole;
+	public boolean keyAction;
+	public boolean keyExit;
+	
 	public KeyboardUpdater(DataManager dm) {
 		this.dataManager = dm;
 		keyboard = new TextFieldInputUpdater(dataManager);
@@ -19,25 +36,30 @@ public class KeyboardUpdater {
 	public void updateKeys() {
 		try {
 			Keyboard.poll();
-			boolean keyUp = Keyboard.isKeyDown(dataManager.settings.upKey);
-			boolean keyDown = Keyboard.isKeyDown(dataManager.settings.downKey);
-			boolean keyLeft = Keyboard.isKeyDown(dataManager.settings.leftKey);
-			boolean keyRight = Keyboard.isKeyDown(dataManager.settings.rightKey);
-			boolean keySprint = Keyboard.isKeyDown(dataManager.settings.sprintKey);
-			boolean keyTravel = Keyboard.isKeyDown(dataManager.settings.travelKey);
-			boolean keyMenu = Keyboard.isKeyDown(dataManager.settings.menuKey);
-			boolean keyBackpack = Keyboard.isKeyDown(dataManager.settings.backpackKey);
-			boolean keyZoomIn = Keyboard.isKeyDown(dataManager.settings.zoomInKey);
-			boolean keyZoomOut = Keyboard.isKeyDown(dataManager.settings.zoomOutKey);
-			boolean keyShowDiag = Keyboard.isKeyDown(dataManager.settings.showDiagKey);
-			boolean keyPlaceTorch = Keyboard.isKeyDown(dataManager.settings.placeTorchKey);
-			boolean keyConsole = Keyboard.isKeyDown(dataManager.settings.consoleKey);
-			boolean keyAction = Keyboard.isKeyDown(dataManager.settings.actionKey);
-			boolean keyExit = Keyboard.isKeyDown(dataManager.settings.exitKey);
+			keyUp = Keyboard.isKeyDown(dataManager.settings.upKey);
+			keyDown = Keyboard.isKeyDown(dataManager.settings.downKey);
+			keyLeft = Keyboard.isKeyDown(dataManager.settings.leftKey);
+			keyRight = Keyboard.isKeyDown(dataManager.settings.rightKey);
+			keySprint = Keyboard.isKeyDown(dataManager.settings.sprintKey);
+			keyDodge = Keyboard.isKeyDown(dataManager.settings.dodgeKey);
+			keyTravel = Keyboard.isKeyDown(dataManager.settings.travelKey);
+			keyMenu = Keyboard.isKeyDown(dataManager.settings.menuKey);
+			keyBackpack = Keyboard.isKeyDown(dataManager.settings.backpackKey);
+			keyZoomIn = Keyboard.isKeyDown(dataManager.settings.zoomInKey);
+			keyZoomOut = Keyboard.isKeyDown(dataManager.settings.zoomOutKey);
+			keyShowDiag = Keyboard.isKeyDown(dataManager.settings.showDiagKey);
+			keyPlaceTorch = Keyboard.isKeyDown(dataManager.settings.placeTorchKey);
+			keyConsole = Keyboard.isKeyDown(dataManager.settings.consoleKey);
+			keyAction = Keyboard.isKeyDown(dataManager.settings.actionKey);
+			keyExit = Keyboard.isKeyDown(dataManager.settings.exitKey);
+			
+			
 			if (dataManager.system.inputText.size() + dataManager.system.noticeText.size() > 0 || dataManager.system.showConsole) {
 				keyboard.poll();
 				keyboard.wasConsoleUp = dataManager.system.showConsole;
-			} else {
+			} 
+			
+			else {
 				if (!dataManager.system.isGameOnLaunchScreen) {
 					dataManager.system.isKeyboardSprint = keySprint;
 					dataManager.system.isKeyboardTravel = keyTravel;
@@ -163,6 +185,12 @@ public class KeyboardUpdater {
 		dataManager.system.isKeyboardRight = keyRight;
 		dataManager.system.isKeyboardDown = keyDown;
 		dataManager.system.isKeyboardLeft = keyLeft;
+		
+		if (keyUp || keyRight || keyDown || keyLeft){
+			dataManager.system.isMoveInput = true;
+		} else {
+			dataManager.system.isMoveInput = false;
+		}
 	}
 	
 	private boolean isPlayerAiming() {

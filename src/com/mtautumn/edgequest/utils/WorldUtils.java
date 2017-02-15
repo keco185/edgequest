@@ -3,7 +3,6 @@
  * level.
  */
 package com.mtautumn.edgequest.utils;
-
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.dataObjects.Location;
@@ -11,10 +10,10 @@ import com.mtautumn.edgequest.entities.Entity;
 
 public class WorldUtils {
 	private DataManager dm;
-	public OverwordUtils ou;
+	public OverworldUtils ou;
 	public WorldUtils(DataManager dm) {
 		this.dm = dm;
-		ou = new OverwordUtils(dm);
+		ou = new OverworldUtils(dm);
 	}
 	public void wipeMaps() {
 		dm.savable.playerStructuresMap.clear();
@@ -22,7 +21,6 @@ public class WorldUtils {
 		dm.savable.lightMap.clear();
 		dm.savable.generatedRegions.clear();
 	}
-
 	public void setStructBlock(int x, int y, int level, short id) {
 		dm.savable.playerStructuresMap.put(x+","+y+","+level, id);
 	}
@@ -31,7 +29,9 @@ public class WorldUtils {
 			return dm.savable.playerStructuresMap.get(x+","+y+","+level);
 		}
 		return 0;
-
+	}
+	public short getStructBlockFast(int x, int y, int level) {
+		return dm.savable.playerStructuresMap.get(x+","+y+","+level);
 	}
 	public boolean isStructBlock(int x, int y, int level) {
 		return dm.savable.playerStructuresMap.containsKey(x+","+y+","+level);
@@ -42,7 +42,6 @@ public class WorldUtils {
 			removeLightSource(x, y, level);
 		}
 	}
-
 	public void setGroundBlock(int x, int y, int level, short id) {
 		dm.savable.map.put(x+","+y+","+level, id);
 	}
@@ -58,7 +57,6 @@ public class WorldUtils {
 	public void removeGroundBlock(int x, int y, int level) {
 		dm.savable.map.remove(x+","+y+","+level);
 	}
-
 	public void addLightSource(int x, int y, int level) {
 		LightSource light = new LightSource(Double.valueOf(x) + 0.5, Double.valueOf(y) + 0.5, 8, level);
 		dm.savable.lightMap.put(x+","+y+","+level, light);
@@ -106,7 +104,6 @@ public class WorldUtils {
 	public void removeStructBlock(Entity entity, int x, int y) {
 		removeStructBlock(x, y, entity.dungeonLevel);
 	}
-
 	public void setGroundBlock(Entity entity, int x, int y, short id) {
 		setGroundBlock(x, y, entity.dungeonLevel, id);
 	}
@@ -149,7 +146,6 @@ public class WorldUtils {
 	
 	public void setStructBlock(Location location, short id) {
 		setStructBlock(location.x, location.y, location.level, id);
-
 	}
 	public short getStructBlock(Location location) {
 		return getStructBlock(location.x, location.y, location.level);
@@ -160,7 +156,6 @@ public class WorldUtils {
 	public void removeStructBlock(Location location) {
 		removeStructBlock(location.x, location.y, location.level);
 	}
-
 	public void setGroundBlock(Location location, short id) {
 		setGroundBlock(location.x, location.y, location.level, id);
 	}

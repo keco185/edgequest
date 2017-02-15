@@ -6,9 +6,9 @@ public class Location {
 	public int x = 0;
 	public int y = 0;
 	public int level = -1;
-	public Location(int x, int y, int level) {
-		this.x = x;
-		this.y = y;
+	public Location(int d, int e, int level) {
+		this.x = d;
+		this.y = e;
 		this.level = level;
 	}
 	public Location(Location location) {

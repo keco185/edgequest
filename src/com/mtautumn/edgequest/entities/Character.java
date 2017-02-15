@@ -10,21 +10,28 @@ public class Character extends Entity {
 	long lastUpdate;
 	private double lastX = 0;
 	private double lastY = 0;
+	public double health = 20;
+	public double maxHealth = 20;
 	public double stamina = 10;
 	public double maxStamina = 10;
 	public LightSource light;
+	
+	private double regenTimerSet = 60; // 1 second if 60 fps; need to change this if we don't have a frame cap.
+	private double timeToRegen = 60;
+	private double staminaRegenBase = 0.2;
+	private double staminaRegenFactor = 1;
+	private double staminaConsumeRunning = 0.03;
+	private double staminaConsumeFactor = 1;
+	private double defaultFactor = 1; // Reset the factor. there's probably a smarter way to do that
+	
 
 	public Character(double posX, double posY, double rotation, int dungeonLevel, DataManager dm) {
 		super("character",EntityType.character, posX, posY, rotation, dungeonLevel, dm);
 		lastUpdate = System.currentTimeMillis();
 		super.slide = true;
-		stamina = 10;
-		maxStamina = 10;
-		health = 20;
-		maxHealth = 20;
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
-		light = new LightSource(getX(), getY(), 8, -1);
+		light = new LightSource(getX(), getY(), 14, -1); //light use to be 8, you can't see enemies until they're already on top of you...
 		light.onEntity = true;
 		dm.savable.lightSources.add(light);
 	}
@@ -35,11 +42,7 @@ public class Character extends Entity {
 		dungeonLevel = entity.dungeonLevel;
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
-		super.moveSpeed = dm.settings.moveSpeed;
-		stamina = 10;
-		maxStamina = 10;
-		health = 20;
-		maxHealth = 20;
+		super.moveSpeed = dm.settings.moveSpeed; // why is move speed not just a var of the player or entity class
 		light = new LightSource(getX(), getY(), 14, -1);
 		light.onEntity = true;
 		dm.savable.lightSources.add(light);
@@ -95,7 +98,6 @@ public class Character extends Entity {
 			if (dm.system.isKeyboardSprint && stamina > 0.03) {
 				charXOffset *= 1.7;
 				charYOffset *= 1.7;
-				stamina -= 0.03;
 			}
 			if (dm.system.blockIDMap.get((short)dm.characterManager.getCharaterBlockInfo()[0]).isLiquid && dm.characterManager.getCharaterBlockInfo()[1] == 0.0) {
 				charXOffset /= 1.7;
@@ -128,11 +130,11 @@ public class Character extends Entity {
 				}
 			}
 		}
-		if (!dm.system.isKeyboardSprint) {
-			if (stamina < maxStamina) {
-				stamina += 0.01;
-			}
-		}
+		
+		
+		// -----------------------------------------
+		// Check if player moving
+		// -----------------------------------------
 		lastUpdate = System.currentTimeMillis();
 		if (lastX != super.getX() || lastY != super.getY()) {
 			dm.system.characterMoving = true;
@@ -141,10 +143,31 @@ public class Character extends Entity {
 		} else {
 			dm.system.characterMoving = false;
 		}
+		
+		// -----------------------------------------
+		// Stamina Consumption and Regeneration
+		// -----------------------------------------
+		if (dm.system.isKeyboardSprint && dm.system.characterMoving && dm.system.isMoveInput){
+			stamina -= (staminaConsumeRunning * staminaConsumeFactor);
+			timeToRegen = regenTimerSet;
+		} else if (!dm.system.isKeyboardSprint || !dm.system.characterMoving || !dm.system.isMoveInput) {
+			if (stamina < maxStamina) {
+				if (timeToRegen <= 0){
+					timeToRegen = 0;
+					stamina += (staminaRegenBase * staminaRegenFactor);
+				} else {
+					--timeToRegen;
+				}
+			}
+		}
 	}
+	
+	
 	public void initializeClass(DataManager dm) {
 		super.initializeClass(dm);
 	}
+	
+	
 	public BlockItem getHeldItem(int slot) {
 		switch (slot) {
 		case 0:

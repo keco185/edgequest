@@ -41,7 +41,7 @@ public class EdgeQuest {
 		while(!dataManager.system.gameLoaded) {
 			Thread.sleep(100);
 		}
-		dataManager.system.buttonActionQueue.add("fullScreen"); //Sets the game to full screen
+		//dataManager.system.buttonActionQueue.add("fullScreen"); //Sets the game to full screen
 		Thread.sleep(2000);
 		dataManager.settings.targetBlockSize = (float) (16 * dataManager.system.uiZoom);
 		dataManager.settings.blockSize = (float) (16 * dataManager.system.uiZoom);

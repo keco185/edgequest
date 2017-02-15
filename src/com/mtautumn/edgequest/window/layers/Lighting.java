@@ -2,15 +2,11 @@ package com.mtautumn.edgequest.window.layers;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glColor4f;
-
 import java.util.ArrayList;
-
 import org.lwjgl.opengl.GL20;
-
 import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.updates.UpdateRayCast.Triangle;
 import com.mtautumn.edgequest.window.Renderer;
-
 public class Lighting extends Thread {
 	Renderer r;
 	public Lighting(Renderer r) {
@@ -29,7 +25,7 @@ public class Lighting extends Thread {
 			float offsetY = (float) (r.dataManager.settings.screenHeight / 2.0 - r.dataManager.system.screenY * r.dataManager.settings.blockSize);
 			for (LightSource light : r.dataManager.savable.lightSources) {
 				if (light.level == r.dataManager.savable.dungeonLevel) {
-					drawLightingTriangles(light.triangles, light.range, offsetX, offsetY, r);
+					drawLightingTriangles(light.triangles, light.range, offsetX, offsetY, light.brightness, r);
 				}
 			}
 			GL20.glUseProgram(0);
@@ -41,7 +37,7 @@ public class Lighting extends Thread {
 			for (LightSource light : r.dataManager.savable.lightSources) {
 				if (light.level == r.dataManager.savable.dungeonLevel) {
 					GL20.glUniform3f(location, light.r, light.g, light.b);
-					drawColorTriangles(light.triangles, light.range, offsetX, offsetY, r);
+					drawColorTriangles(light.triangles, light.range, offsetX, offsetY, light.brightness, r);
 				}
 			}
 			GL20.glUseProgram(0);
@@ -49,19 +45,19 @@ public class Lighting extends Thread {
 			
 		}
 	}
-	private static void drawLightingTriangles(ArrayList<Triangle> triangles, double radius, float offsetX, float offsetY, Renderer r) {
+	private static void drawLightingTriangles(ArrayList<Triangle> triangles, double radius, float offsetX, float offsetY, float brightness, Renderer r) {
 		for (Triangle triangle : triangles) {
-			float brightness1 = 1;
-			float brightness2 = (float) (1.0 - triangle.radius1 / radius);
-			float brightness3 = (float) (1.0 - triangle.radius2 / radius);
+			float brightness1 = brightness;
+			float brightness2 = (float) (1.0 - triangle.radius1 / radius) * brightness;
+			float brightness3 = (float) (1.0 - triangle.radius2 / radius) * brightness;
 			r.fillLightingTriangle((float) triangle.x1 * r.dataManager.settings.blockSize + offsetX, (float) triangle.y1 * r.dataManager.settings.blockSize + offsetY,(float) triangle.x2 * r.dataManager.settings.blockSize + offsetX,(float) triangle.y2 * r.dataManager.settings.blockSize + offsetY,(float) triangle.x3 * r.dataManager.settings.blockSize + offsetX,(float) triangle.y3 * r.dataManager.settings.blockSize + offsetY, brightness1, brightness2, brightness3);
 		}
 	}
-	private static void drawColorTriangles(ArrayList<Triangle> triangles, double radius, float offsetX, float offsetY, Renderer r) {
+	private static void drawColorTriangles(ArrayList<Triangle> triangles, double radius, float offsetX, float offsetY, float brightness, Renderer r) {
 		for (Triangle triangle : triangles) {
-			float brightness1 = 1;
-			float brightness2 = (float) (1.0 - triangle.radius1 / radius);
-			float brightness3 = (float) (1.0 - triangle.radius2 / radius);
+			float brightness1 = brightness;
+			float brightness2 = (float) (1.0 - triangle.radius1 / radius) * brightness;
+			float brightness3 = (float) (1.0 - triangle.radius2 / radius) * brightness;
 			if (brightness2 < 0) brightness2 = 0;
 			if (brightness3 < 0) brightness3 = 0;
 			r.fillLightingColorTriangle((float) triangle.x1 * r.dataManager.settings.blockSize + offsetX, (float) triangle.y1 * r.dataManager.settings.blockSize + offsetY,(float) triangle.x2 * r.dataManager.settings.blockSize + offsetX,(float) triangle.y2 * r.dataManager.settings.blockSize + offsetY,(float) triangle.x3 * r.dataManager.settings.blockSize + offsetX,(float) triangle.y3 * r.dataManager.settings.blockSize + offsetY, brightness1, brightness2, brightness3);

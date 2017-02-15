@@ -1,0 +1,17 @@
+/AnimationClock.class
+/AttackManager.class
+/BackpackManager.class
+/BlockUpdateManager.class
+/ButtonActionManager.class
+/CharacterManager.class
+/DamagePostManager.class
+/EntitySpawn.class
+/EntityUpdater.class
+/GameClock.class
+/ItemDropManager.class
+/LightingUpdater.class
+/ParticleManager.class
+/ProjectileManager.class
+/RendererManager.class
+/TerrainManager.class
+/WeatherManager.class
