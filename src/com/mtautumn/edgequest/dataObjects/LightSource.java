@@ -47,6 +47,7 @@ public class LightSource {
 	public void update() {
 		float oldFlickerMultiplier = flickerMultiplier;
 		flickerMultiplier = 1.0f;
+
 		if (flicker) {
 			if (flickerLowPassTimeLeft == 0) {
 				if (Math.random() > 0.99) {
@@ -83,5 +84,4 @@ public class LightSource {
 		
 		brightness = maxBrightness * flickerMultiplier * brightnessMultiplier;
 	}
-	
 }

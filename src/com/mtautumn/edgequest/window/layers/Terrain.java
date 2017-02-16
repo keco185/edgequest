@@ -1,5 +1,6 @@
 package com.mtautumn.edgequest.window.layers;
 import org.newdawn.slick.opengl.Texture;
+
 import com.mtautumn.edgequest.window.Renderer;
 import com.mtautumn.edgequest.window.renderUtils.TerrainVBO;
 public class Terrain extends Thread {
@@ -19,6 +20,7 @@ public class Terrain extends Thread {
 		int maxTileY = r.dataManager.system.maxTileY;
 		double charX = r.dataManager.system.screenX;
 		double charY = r.dataManager.system.screenY;
+		
 		float xPos = (float)((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
 		float yPos = (float)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
 		float yPosReset = yPos;
