@@ -31,7 +31,7 @@ public class Character extends Entity {
 		super.slide = true;
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
-		light = new LightSource(getX(), getY(), 14, -1); //light use to be 8, you can't see enemies until they're already on top of you...
+		light = new LightSource(getX(), getY(), 8, -1); //light use to be 8, you can't see enemies until they're already on top of you...
 		light.onEntity = true;
 		dm.savable.lightSources.add(light);
 	}
@@ -43,7 +43,7 @@ public class Character extends Entity {
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 		super.moveSpeed = dm.settings.moveSpeed; // why is move speed not just a var of the player or entity class
-		light = new LightSource(getX(), getY(), 14, -1);
+		light = new LightSource(getX(), getY(), 8, -1);
 		light.onEntity = true;
 		dm.savable.lightSources.add(light);
 	}
