@@ -265,6 +265,8 @@ public class Renderer {
 	public void drawTexture(Texture texture, float x, float y, float width, float height) {
 		Color.white.bind();
 		glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		float paddingX = texture.getImageWidth();
 		paddingX /= nearestPower2(paddingX);
 		float paddingY = texture.getImageHeight();
@@ -293,6 +295,8 @@ public class Renderer {
 		float paddingY = texture.getImageHeight();
 		paddingY /= nearestPower2(paddingY);
 		glBindTexture(GL_TEXTURE_2D, texture.getTextureID());
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0,0);
 		glVertex2f(-halfWidth,-halfHeight);
