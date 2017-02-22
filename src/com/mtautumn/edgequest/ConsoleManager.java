@@ -101,33 +101,71 @@ public class ConsoleManager {
 	}
 	private void runCommand(String cmdName, ArrayList<String> args) throws InterruptedException {
 		switch (cmdName) {
-		case "time":
-			if (args.size() == 1) {
-				dataManager.savable.time = Integer.parseInt(args.get(0));
-				addLine("Time set to: " + dataManager.savable.time, 2);
-			} else if (args.size() == 0)
-				addLine("Time: " + dataManager.savable.time, 2);
-			else
-				addLine("use the format /time [0-2399]", 1);
+		case "clear":
+			dataManager.weatherManager.endRain();
+			addLine("Here comes the sun", 2);
 			break;
-		case "tp":
-			if (args.size() == 2) {
-				dataManager.characterManager.characterEntity.setPos(Double.parseDouble(args.get(0)),Double.parseDouble(args.get(1)));
-				dataManager.system.characterMoving = true;
-				dataManager.system.requestGenUpdate = true;
-				dataManager.system.requestScreenUpdate = true;
-				addLine("Teleported to: " + args.get(0) + ", " + args.get(1), 2);
-			} else
-				addLine("use the format /tp <posX> <posY>", 1);
+		case "color":
+			if (args.size() == 3) {
+				float r = new Float(args.get(0));
+				float g = new Float(args.get(1));
+				float b = new Float(args.get(2));
+				dataManager.characterManager.characterEntity.light.r = r;
+				dataManager.characterManager.characterEntity.light.g = g;
+				dataManager.characterManager.characterEntity.light.b = b;
+				addLine("Set light color to R: " + r + " G: " + g + " B: " + b);
+			} if (args.size() == 4) {
+				float r = new Float(args.get(0));
+				float g = new Float(args.get(1));
+				float b = new Float(args.get(2));
+				float a = new Float(args.get(3));
+				dataManager.characterManager.characterEntity.light.r = r;
+				dataManager.characterManager.characterEntity.light.g = g;
+				dataManager.characterManager.characterEntity.light.b = b;
+				dataManager.characterManager.characterEntity.light.maxBrightness = a;
+				dataManager.characterManager.characterEntity.light.brightness = a;
+				addLine("Set light color to R: " + r + " G: " + g + " B: " + b);
+			}
 			break;
-		case "speed":
+		case "drop":
 			if (args.size() == 1) {
-				dataManager.settings.moveSpeed = Double.parseDouble(args.get(0));
-				addLine("Speed set to: " + dataManager.settings.moveSpeed, 2);
-			} else if (args.size() == 0)
-				addLine("Speed is: " + dataManager.settings.moveSpeed, 2);
-			else
-				addLine("use the format /speed [value]", 1);
+				ItemSlot item = new ItemSlot();
+				item.setItem(dataManager.system.blockNameMap.get(args.get(0)).getID());
+				item.setItemCount(1);
+				dataManager.savable.itemDrops.add(new ItemDrop(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), dataManager.characterManager.characterEntity.dungeonLevel, item, dataManager));
+			} else if (args.size() == 2) {
+				ItemSlot item = new ItemSlot();
+				item.setItem(dataManager.system.blockNameMap.get(args.get(0)).getID());
+				item.setItemCount(Integer.parseInt(args.get(1)));
+				dataManager.savable.itemDrops.add(new ItemDrop(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), dataManager.characterManager.characterEntity.dungeonLevel, item, dataManager));
+			} else {
+				addLine("use the format /drop <item name> [count]", 1);
+			}
+			break;
+		case "give":
+			if (args.size() == 1) {
+				dataManager.backpackManager.addItem(dataManager.system.blockNameMap.get(args.get(0)));
+				addLine("Gave you 1 " + dataManager.system.blockNameMap.get(args.get(0)).getName(), 2);
+			} else if (args.size() == 2) {
+				for (int i = 0; i < Integer.parseInt(args.get(1)); i++) {
+					dataManager.backpackManager.addItem(dataManager.system.blockNameMap.get(args.get(0)));
+				}
+				addLine("Gave you " + Integer.parseInt(args.get(1)) + " " + dataManager.system.blockNameMap.get(args.get(0)).getName(), 2);
+			} else {
+				addLine("use the format /give <item name> [count]", 1);
+			}
+			break;
+		case "killall":
+			for (int i = 0; i < dataManager.savable.entities.size(); i++) {
+				if (dataManager.savable.entities.get(i).entityType != Entity.EntityType.character) {
+					dataManager.savable.entities.remove(i);
+					i--;
+				}
+			}
+			break;
+		case "rain":
+			dataManager.weatherManager.startRain();
+			addLine("Let it rain!", 2);
 			break;
 		case "reseed":
 			if (args.size() > 0) {
@@ -143,28 +181,14 @@ public class ConsoleManager {
 			else
 				addLine("To change the current seed, type /reseed <seed>", 1);
 			break;
-		case "color":
-			if (args.size() == 3) {
-				float r = new Float(args.get(0));
-				float g = new Float(args.get(1));
-				float b = new Float(args.get(2));
-				dataManager.characterManager.characterEntity.light.r = r;
-				dataManager.characterManager.characterEntity.light.g = g;
-				dataManager.characterManager.characterEntity.light.b = b;
-				addLine("Set light color to R: " + r + " G: " + g + " B: " + b);
-			}
-		case "give":
-			if (args.size() == 1) {
-				dataManager.backpackManager.addItem(dataManager.system.blockNameMap.get(args.get(0)));
-				addLine("Gave you 1 " + dataManager.system.blockNameMap.get(args.get(0)).getName(), 2);
-			} else if (args.size() == 2) {
-				for (int i = 0; i < Integer.parseInt(args.get(1)); i++) {
-					dataManager.backpackManager.addItem(dataManager.system.blockNameMap.get(args.get(0)));
-				}
-				addLine("Gave you " + Integer.parseInt(args.get(1)) + " " + dataManager.system.blockNameMap.get(args.get(0)).getName(), 2);
-			} else {
-				addLine("use the format /give <item name> [count]", 1);
-			}
+		case "setHealth":
+			if (args.size() > 0) {
+				double health = Double.parseDouble(args.get(0));
+				if (health > 100) health = 100;
+				dataManager.characterManager.characterEntity.health = (int)(health/100.0 * dataManager.characterManager.characterEntity.maxHealth);
+				addLine("set health to: " + dataManager.characterManager.characterEntity.health, 2);
+			} else
+				addLine("use the format /setHealth <percent health>", 1);
 			break;
 		case "spawn":
 			if (args.size() == 1) {
@@ -209,22 +233,14 @@ public class ConsoleManager {
 				addLine("use the format /spawn <entity name> [count]", 1);
 			}
 			break;
-		case "setHealth":
-			if (args.size() > 0) {
-				double health = Double.parseDouble(args.get(0));
-				if (health > 100) health = 100;
-				dataManager.characterManager.characterEntity.health = (int)(health/100.0 * dataManager.characterManager.characterEntity.maxHealth);
-				addLine("set health to: " + dataManager.characterManager.characterEntity.health, 2);
-			} else
-				addLine("use the format /setHealth <percent health>", 1);
-			break;
-		case "ubm":
-			if (dataManager.characterManager.characterEntity.stamina <= dataManager.characterManager.characterEntity.maxStamina) {
-				dataManager.characterManager.characterEntity.stamina = 2147483647;
-			} else {
-				dataManager.characterManager.characterEntity.stamina = dataManager.characterManager.characterEntity.maxStamina;
-			}
-			addLine("Usain Bolt Mode toggled", 2);
+		case "speed":
+			if (args.size() == 1) {
+				dataManager.settings.moveSpeed = Double.parseDouble(args.get(0));
+				addLine("Speed set to: " + dataManager.settings.moveSpeed, 2);
+			} else if (args.size() == 0)
+				addLine("Speed is: " + dataManager.settings.moveSpeed, 2);
+			else
+				addLine("use the format /speed [value]", 1);
 			break;
 		case "tgm":
 			// '20' is the max health of the character class
@@ -235,24 +251,41 @@ public class ConsoleManager {
 			}
 			addLine("God Mode toggled", 2);
 			break;
-		case "drop":
+		case "time":
 			if (args.size() == 1) {
-				ItemSlot item = new ItemSlot();
-				item.setItem(dataManager.system.blockNameMap.get(args.get(0)).getID());
-				item.setItemCount(1);
-				dataManager.savable.itemDrops.add(new ItemDrop(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), dataManager.characterManager.characterEntity.dungeonLevel, item, dataManager));
-			} else if (args.size() == 2) {
-				ItemSlot item = new ItemSlot();
-				item.setItem(dataManager.system.blockNameMap.get(args.get(0)).getID());
-				item.setItemCount(Integer.parseInt(args.get(1)));
-				dataManager.savable.itemDrops.add(new ItemDrop(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), dataManager.characterManager.characterEntity.dungeonLevel, item, dataManager));
+				dataManager.savable.time = Integer.parseInt(args.get(0));
+				addLine("Time set to: " + dataManager.savable.time, 2);
+			} else if (args.size() == 0)
+				addLine("Time: " + dataManager.savable.time, 2);
+			else
+				addLine("use the format /time [0-2399]", 1);
+			break;
+		case "tp":
+			if (args.size() == 2) {
+				dataManager.characterManager.characterEntity.setPos(Double.parseDouble(args.get(0)),Double.parseDouble(args.get(1)));
+				dataManager.system.characterMoving = true;
+				dataManager.system.requestGenUpdate = true;
+				dataManager.system.requestScreenUpdate = true;
+				addLine("Teleported to: " + args.get(0) + ", " + args.get(1), 2);
+			} else if (args.size() == 3) {
+				dataManager.characterManager.characterEntity.setPos(Double.parseDouble(args.get(0)),Double.parseDouble(args.get(1)));
+				dataManager.system.characterMoving = true;
+				dataManager.system.requestGenUpdate = true;
+				dataManager.system.requestScreenUpdate = true;
+				dataManager.savable.dungeonLevel = Integer.parseInt(args.get(2));
+				dataManager.characterManager.characterEntity.dungeonLevel = dataManager.savable.dungeonLevel;
+				addLine("Teleported to: " + args.get(0) + ", " + args.get(1) + ", " + args.get(2), 2);
 			} else {
-				addLine("use the format /drop <item name> [count]", 1);
+				addLine("use the format /tp <posX> <posY> [dungeon level]", 1);
 			}
 			break;
-		case "rain":
-			dataManager.weatherManager.startRain();
-			addLine("Let it rain!", 2);
+		case "ubm":
+			if (dataManager.characterManager.characterEntity.stamina <= dataManager.characterManager.characterEntity.maxStamina) {
+				dataManager.characterManager.characterEntity.stamina = 2147483647;
+			} else {
+				dataManager.characterManager.characterEntity.stamina = dataManager.characterManager.characterEntity.maxStamina;
+			}
+			addLine("Usain Bolt Mode toggled", 2);
 			break;
 		case "help":
 			int page = (args.size() > 0) ? Integer.parseInt(args.get(0)) : 1;
@@ -262,32 +295,39 @@ public class ConsoleManager {
 				Thread.sleep(1);
 				addLine("     (1) /help [page number]", 2);
 				Thread.sleep(1);
-				addLine("     (2) /time [0-2399]", 2);
+				addLine("     (2) /color <red 0-1> <green 0-1> <blue 0-1> [brightness]", 2);
 				Thread.sleep(1);
-				addLine("     (3) /tp <posX> <posY>", 2);
+				addLine("     (3) /drop <item> [amount]", 2);
 				Thread.sleep(1);
-				addLine("     (4) /seed", 2);
+				addLine("     (4) /give <item name> [count]", 2);
 				Thread.sleep(1);
-				addLine("     (5) /speed [value]", 2);
+				addLine("     (5) /killall", 2);
 				Thread.sleep(1);
-				addLine("     (6) /reseed <seed>", 2);
+				addLine("     (6) /rain", 2);
 				Thread.sleep(1);
-				addLine("     (7) /give <item name> [count]", 2);
+				addLine("     (7) /reseed <seed>", 2);
 				break;
 			case 2:
 				addLine("Command List: (Page 2)", 2);
 				Thread.sleep(1);
-				addLine("     (8) /spawn <entity name> [count]", 2);
+				addLine("     (8) /seed", 2);
 				Thread.sleep(1);
 				addLine("     (9) /setHealth [percent health]", 2);
 				Thread.sleep(1);
-				addLine("     (10) /ubm", 2);
+				addLine("     (10) /spawn <entity name> [count]", 2);
 				Thread.sleep(1);
-				addLine("     (11) /tgm", 2);
+				addLine("     (11) /speed [value]", 2);
 				Thread.sleep(1);
-				addLine("     (12) /drop <item name> [count]", 2);
+				addLine("     (12) /tgm", 2);
 				Thread.sleep(1);
-				addLine("     (13) /rain", 2);
+				addLine("     (13) /time [0-2399]", 2);
+				Thread.sleep(1);
+				addLine("     (14) /tp <posX> <posY>", 2);
+				break;
+			case 3:
+				addLine("Command List: (Page 3)", 2);
+				Thread.sleep(1);
+				addLine("     (15) /ubm", 2);
 				break;
 			}
 			break;
