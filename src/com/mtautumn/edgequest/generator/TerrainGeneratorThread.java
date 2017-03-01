@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.dataObjects.Location;
+import com.mtautumn.edgequest.dataObjects.RoadState;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.threads.BlockUpdateManager;
 
@@ -69,19 +70,71 @@ public class TerrainGeneratorThread extends Thread {
 			}
 			generated(x,y,-1);
 		}
-		double dungeonChance = new Random(generateSeed(dungeonSeedBase,x,y)).nextDouble();
-		if (dungeonChance > 0.5) {
+		if (doesContainDungeon(x,y)) {
 			genDungeon(x,y,dm.savable.dungeonLevel);
 		} else {
 			genEmptyGround(x,y,dm.savable.dungeonLevel);
-			double villageChance = new Random(generateSeed(villageSeedBase,x,y)).nextDouble();
-			if (villageChance > 0.5) {
+			if (doesContainVillage(x,y)) {
 				genVillage(x,y);
 			} else {
 				if (!beenGenerated(x, y, -2)) {
 					generated(x,y,-2);
 				}
 			}
+		}
+		genRoad(x,y);
+		
+	}
+	public void genRoad(int x, int y) {
+		if (!beenGenerated(x,y,-3)) {
+			int chunkX = x / 100;
+			int chunkY = y / 100;
+			int range = 5;
+			ArrayList<Integer> villageXCoords = new ArrayList<Integer>();
+			ArrayList<Integer> villageYCoords = new ArrayList<Integer>();
+			for (int i = chunkX - range; i <= chunkX + range; i++) {
+				for (int j = chunkY - range; j <= chunkY + range; j++) {
+					if (doesContainVillage(i * 100, j * 100)) {
+						villageXCoords.add(i);
+						villageYCoords.add(j);
+					}
+				}
+			}
+			RoadState roadState = new RoadState();
+			for (int i = 0; i < villageXCoords.size(); i++) {
+				for (int j = i + 1; j < villageXCoords.size(); j++) {
+					int dX = villageXCoords.get(i) - villageXCoords.get(j);
+					int dY = villageYCoords.get(i) - villageYCoords.get(j);
+					double distance = Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
+					if (distance <= range) {
+						RoadGenerator roadGenerator = new RoadGenerator(villageXCoords.get(i), villageYCoords.get(i), villageXCoords.get(j), villageYCoords.get(j), dm.savable.seed);
+						roadGenerator.generate();
+						roadState.add(roadGenerator.getRoads(chunkX, chunkY));
+					}
+				}
+			}
+			
+			if (roadState.roadLeft) {
+				for (int i = 0; i <= 50; i++) {
+					dm.world.setGroundBlock(x + i, y + 50, -1, dm.system.blockNameMap.get("asphalt").getID());
+				}
+			}
+			if (roadState.roadRight) {
+				for (int i = 50; i <= 100; i++) {
+					dm.world.setGroundBlock(x + i, y + 50, -1, dm.system.blockNameMap.get("asphalt").getID());
+				}
+			}
+			if (roadState.roadTop) {
+				for (int i = 0; i <= 50; i++) {
+					dm.world.setGroundBlock(x + 50, y + i, -1, dm.system.blockNameMap.get("asphalt").getID());
+				}
+			}
+			if (roadState.roadBottom) {
+				for (int i = 50; i <= 100; i++) {
+					dm.world.setGroundBlock(x + 50, y + i, -1, dm.system.blockNameMap.get("asphalt").getID());
+				}
+			}
+			generated(x,y,-3);
 		}
 	}
 	public void genDungeon(int x, int y, int level) {
@@ -268,6 +321,24 @@ public class TerrainGeneratorThread extends Thread {
 			newSeed = new Random(newSeed + vals[i]).nextLong();
 		}
 		return newSeed;
+	}
+	
+	public boolean doesContainVillage(int x, int y) {
+		if (doesContainDungeon(x,y)) {
+			return false;
+		}
+		double villageChance = new Random(generateSeed(villageSeedBase,x,y)).nextDouble();
+		if (villageChance > 0.97) {
+			return true;
+		}
+		return false;
+	}
+	public boolean doesContainDungeon(int x, int y) {
+		double dungeonChance = new Random(generateSeed(dungeonSeedBase,x,y)).nextDouble();
+		if (dungeonChance > 0.7) {
+			return true;
+		}
+		return false;
 	}
 	public boolean beenGenerated(int x, int y, int level) {
 		return dm.savable.generatedRegions.contains(x + "," + y + "," + level);
