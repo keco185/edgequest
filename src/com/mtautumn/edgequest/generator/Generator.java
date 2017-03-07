@@ -1,19 +1,30 @@
 package com.mtautumn.edgequest.generator;
 
-/*
- * Interface for Terrain Generators such as dungeons, villages, etc
+/**
+ * Interface for feature generators such as dungeons and villages
  */
-
 public interface Generator {
 
-	// Build method returns a 2d array of integers that is parsed to
-	// create features in the game world.
+	/**
+	 * Build the feature and return it
+	 *
+	 * @return      2D array of ints that represent the feature as tiles
+	 * @see         Generator
+	 */
 	public int[][] build();
 	
-	// Clear the map to a blank state
+	/**
+	 * Clears the map object that the feature stores tile data to
+	 * 
+	 * @see         Generator
+	 */
 	public void clearMap();
 	
-	// Print map to console
+	/**
+	 * Prints the map object to the console as integers
+	 * 
+	 * @see         Generator
+	 */
 	public void debugPrintMap();
 	
 }

@@ -286,16 +286,16 @@ public class TerrainGeneratorThread extends Thread {
 				}
 			}
 			
-			SampleVillage village = new SampleVillage(villageWidth, villageHeight, maxRooms, villageRandom.nextLong(), new Center(villageWidth/2, villageHeight/2), avoidanceMap);
-			int[][] villageMap = village.getSampleVillage();
+			int[][] villageMap = new VillageGenerator(villageWidth, villageHeight, maxRooms, villageRandom.nextLong(), new Center(villageWidth/2, villageHeight/2), avoidanceMap).build();
+			
 			for(int i = 0; i < villageMap.length; i++) {
 				for(int j = 0; j < villageMap[i].length; j++) {
-					if (villageMap[i][j] == 1) {
+					if (villageMap[i][j] == Tile.DARK_WOOD) {
 						String name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
 						if (!name.equals("water") && !name.equals("ice")) {
 							dm.world.ou.setStructBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("darkWood").getID());
 						}
-					} else if (villageMap[i][j] == 2) {
+					} else if (villageMap[i][j] == Tile.LIGHT_WOOD) {
 						String name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
 						if (!name.equals("water") && !name.equals("ice")) {
 							dm.world.ou.setGroundBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("lightWood").getID());

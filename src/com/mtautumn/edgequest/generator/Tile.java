@@ -1,13 +1,12 @@
 package com.mtautumn.edgequest.generator;
 
-// NOTE: final kwrd might be a problem
-/*
- * Tile class holds the number that corresponds to each tile
+/**
+ * This class holds all the tile data as integers for 
+ * easy reading in the rest of the generator class
  */
 public final class Tile {
 	
 	// Can't have anyone just making tiles all of a sudden
-	// What is this? Python?
 	private Tile() {}
 	
 	// Tile constants
@@ -20,6 +19,8 @@ public final class Tile {
 	public final static int SNOW = 5;
 	public final static int SAND = 6;
 	public final static int GRASS = 7;
+	public final static int DARK_WOOD = 8;
+	public final static int LIGHT_WOOD = 9;
 	
 }
 

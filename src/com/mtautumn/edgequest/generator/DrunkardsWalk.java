@@ -6,6 +6,9 @@ import java.util.Random;
  * Cellular automata that goes through a 2D array of ints and replaces tiles 
  */
 
+/**
+ * This class is used to create chaotic cellular automata to create dungeon features.
+ */
 public class DrunkardsWalk {
 	
 	// RNG needs to be used persistently
@@ -61,7 +64,23 @@ public class DrunkardsWalk {
 		
 	}
 	
-	// Does most of the heavy lifting
+	/**
+	 * Returns a 2D array of integers that represent 'walked' locations. It will take a dungeon map,
+	 * and then proceed to replace a selected tile with another according to the Drunkard's Walk
+	 * Cellular Automata. 
+	 * <p>
+	 * This method does most of the heavy lifting of this class. All other walking methods use this in some way
+	 *
+	 * @param  dunMap       a 2D int array, like the dungeon map from DungeonGenerator for example
+	 * @param  passes       number of times to walk
+	 * @param  chaosChance  chance between 0 and 1 for the automata to change directions. Higher chance = more likely to not change direction
+	 * @param  find         tile integer to replace. Think: we want to find this tile and replace it
+	 * @param  replace      tile integer to replace found tiles with. Think: we need to replace tiles with it
+	 * @param  x            starting x location
+	 * @param  y            starting y location
+	 * @return              a 2D int array of the dungeon map with the walk applied
+	 * @see                 DrunkardsWalk
+	 */
 	public int[][] walk(int[][] map, int passes, float chaosChance, int find, int replace, int x, int y) {
 		
 		int xMax = map.length;

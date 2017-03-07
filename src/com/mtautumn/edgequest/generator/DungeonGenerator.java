@@ -90,6 +90,10 @@ public class DungeonGenerator implements Generator {
 
 	}
 	
+	/*
+	 * Private methods
+	 */
+	
 	// Add ponds to the dungeon
 	private void addPonds() {
 		// NOTE: Lower value when not testing
