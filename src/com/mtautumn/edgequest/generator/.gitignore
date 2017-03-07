@@ -11,3 +11,6 @@
 /TerrainGenerator.class
 /TerrainGeneratorThread.class
 /Tile.class
+/RoadGenerator.class
+/DungeonGenerator.class
+/VillageGenerator.class

@@ -145,7 +145,7 @@ public class TerrainGeneratorThread extends Thread {
 				dm.world.setStructBlock(stairs[0] + x, stairs[1] + y, -1, dm.system.blockNameMap.get("dungeon").getID());
 			}
 			
-			int[][] dungeonMap = new Generator(100, 100, 10, generateSeed(dungeonSeedBase,x,y,level), new Center(stairs[0], stairs[1])).getNewDungeon();
+			int[][] dungeonMap = new DungeonGenerator(100, 100, 10, generateSeed(dungeonSeedBase,x,y,level), new Center(stairs[0], stairs[1])).build();
 			
 			for (int i = 0; i < dungeonMap.length; i++) {
 				for (int j = 0; j < dungeonMap[1].length; j++) {
@@ -256,7 +256,8 @@ public class TerrainGeneratorThread extends Thread {
 	}
 	public void genEmptyGround(int x, int y, int level) {
 		if (!beenGenerated(x,y,level)) {
-			int[][] caves = Cave.generateCave(generateSeed(dungeonSeedBase,x,y,level), 0.1f);
+			Cave c = new Cave(100, 100, generateSeed(dungeonSeedBase,x,y,level));
+			int[][] caves = c.generateCave(0.1f);
 			for (int i = 0; i < caves.length; i++) {
 				for (int j = 0; j < caves[i].length; j++) {
 					dm.world.setGroundBlock(x + i,y + j, level, dm.system.blockNameMap.get("stone").getID());

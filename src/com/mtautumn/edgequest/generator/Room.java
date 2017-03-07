@@ -14,6 +14,7 @@ public class Room {
 	Center center;
 	
 	public Room(int width, int height, int xLoc, int yLoc) {
+		
 		// Dimensions of the room
 		this.width = width;
 		this.height = height;
@@ -28,9 +29,11 @@ public class Room {
 		// Set room array to all 1s, as 1s signify open floor tiles
 		// NOTE: Maybe it's possible to remove this in the future, this is mostly wasted cpu cycles
 		for(int w = 0; w < width; w++) {
+			
 			for(int h = 0; h < height; h++) {
 				this.room[w][h] = Tile.FLOOR;
 			}
+			
 		}
 		
 		// Center of the new room
@@ -39,6 +42,7 @@ public class Room {
 	}
 	
 	public Room(int width, int height, Center center) {
+		
 		// Dimensions of the room
 		this.width = width;
 		this.height = height;
@@ -60,16 +64,21 @@ public class Room {
 				
 		// Center of the new room
 		this.center = center;
+		
 	}
 	
 	// Return the room array. Not really necessary for most uses
 	public int[][] getRoom() {
+		
 		return this.room;
+		
 	}
 	
 	// Get the center of the room. Useful for making corridors
 	public Center getCenter() {
+		
 		return this.center;
+		
 	}
 
 }
