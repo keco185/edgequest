@@ -76,6 +76,18 @@ public class VillageGenerator implements Generator {
 	 */
 	
 	/**
+	 * Get a random value around some value n
+	 * <p>
+	 * Used to be n * 4 / 3... If this doesn't work, think about using that
+	 * 
+	 * @param n number to get a value around
+	 * @see     Random
+	 */
+	private int getValueAround(int n) {
+		return (int) (n + (this.rng.nextInt(1) - 0.5));
+	}
+	
+	/**
 	 * Prepare a set of test houses
 	 * <p>
 	 * This will be removed
@@ -85,12 +97,15 @@ public class VillageGenerator implements Generator {
 	private void prepareTestHouses() {
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
 		for (int i = 1; i < currentMaxRooms; i++ ) {
-			this.rooms[i] = new Room(rng.nextInt((int) Math.floor(width / 4) + 3), rng.nextInt((int) Math.floor(height / 4) + 3), rng.nextInt(width), rng.nextInt(height));
+			
+			this.rooms[i] = new Room(getValueAround(width), getValueAround(height), this.rng.nextInt(width), this.rng.nextInt(height));
 			int tries = 0;
+			
 			while (!roomOk(this.rooms[i]) && tries < 1000) {
-				this.rooms[i] = new Room(rng.nextInt((int) Math.floor(width / 4) + 3), rng.nextInt((int) Math.floor(height / 4) + 3), rng.nextInt(width), rng.nextInt(height));
+				this.rooms[i] = new Room(getValueAround(width), getValueAround(height), this.rng.nextInt(width), this.rng.nextInt(height));
 				tries++;
 			}
+			
 			if (tries >= 1000) {
 				currentMaxRooms--;
 				Room[] roomsTemp = new Room[currentMaxRooms];

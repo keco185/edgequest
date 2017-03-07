@@ -13,11 +13,13 @@ public interface Generator {
 	public void clearMap();
 	
 	/**
-	 * Prints the map object to the console as integers
+	 * Prints the map object to the console as integers.
+	 * <p>
+	 * This is for debugging and is optional.
 	 * 
 	 * @see         Generator
 	 */
-	public void debugPrintMap();
+	default void debugPrintMap() {};
 	
 	/**
 	 * Build the feature and return it

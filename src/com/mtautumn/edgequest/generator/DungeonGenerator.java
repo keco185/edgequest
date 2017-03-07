@@ -80,9 +80,9 @@ public class DungeonGenerator implements Generator {
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
 		// TODO: This should really be simplified
 		for (int i = 1; i < currentMaxRooms; i++ ) {
-			this.rooms[i] = new Room(this.rng.nextInt((int) Math.floor(width / 4) + 3), this.rng.nextInt((int) Math.floor(height / 4) + 3), this.rng.nextInt(width), this.rng.nextInt(height));
+			this.rooms[i] = new Room(getValueAround(width), getValueAround(height), this.rng.nextInt(width), this.rng.nextInt(height));
 			while (this.rooms[i].center.x > this.width || this.rooms[i].center.y > this.height) {
-				this.rooms[i] = new Room(this.rng.nextInt((int) Math.floor(width / 4) + 3), this.rng.nextInt((int) Math.floor(height / 4) + 3), this.rng.nextInt(width), this.rng.nextInt(height));
+				this.rooms[i] = new Room(getValueAround(width), getValueAround(height), this.rng.nextInt(width), this.rng.nextInt(height));
 			}
 		}
 		
@@ -183,6 +183,18 @@ public class DungeonGenerator implements Generator {
 
 		}
 
+	}
+	
+	/**
+	 * Get a random value around some value n
+	 * <p>
+	 * Used to be n * 4 / 3... If this doesn't work, think about using that
+	 * 
+	 * @param n number to get a value around
+	 * @see     Random
+	 */
+	private int getValueAround(int n) {
+		return (int) (n + (this.rng.nextInt(1) - 0.5));
 	}
 	
 	/**
