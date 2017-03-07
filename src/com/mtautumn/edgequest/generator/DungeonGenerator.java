@@ -3,10 +3,11 @@ package com.mtautumn.edgequest.generator;
 import java.util.Arrays;
 import java.util.Random;
 
-/*
- * 
- * The Dungeon generator is used to make a 2D Array of 'Tiles' as a representation
+/**
+ * This class is used to make a 2D Array of 'Tiles' as a representation
  * of dungeons that will be converted into actual blocks in the game world.
+ * 
+ * @see Generator
  * 
  */
 public class DungeonGenerator implements Generator {
@@ -41,13 +42,15 @@ public class DungeonGenerator implements Generator {
 	// DrukardsWalk object to be created
 	DrunkardsWalk drunkWalk;
 
-	/*
-	 * Constructor for DungeonGenerator
-	 * @param x: Width
-	 * @param y: Height
-	 * @param maxRooms: Maximum number of rooms to create
-	 * @param seed: Seed for the random number generator
-	 * @param start: Center object to define the coordinate where the first room spawns
+	/**
+	 * This is the main constructor for the dungeon generator
+	 * 
+	 * @param width     width of map
+	 * @param height    height of map
+	 * @param maxRooms: maximum number of rooms to create
+	 * @param seed      seed for the random number generator
+	 * @param start     center object to define the coordinate where the first room spawns
+	 * @see             Center
 	 */
 	public DungeonGenerator(int width, int height, int maxRooms, long seed, Center start) {
 		this.seed = seed;
@@ -94,7 +97,11 @@ public class DungeonGenerator implements Generator {
 	 * Private methods
 	 */
 	
-	// Add ponds to the dungeon
+	/**
+	 * Add ponds to the dungeon via a Drunkard's Walk
+	 * 
+	 * @see  DrunkardsWalk
+	 */
 	private void addPonds() {
 		// NOTE: Lower value when not testing
 		int ponds = this.rng.nextInt(3) - 1;
@@ -112,7 +119,12 @@ public class DungeonGenerator implements Generator {
 		
 	}
 	
-	// Create staircase to go up and down, centered in a room
+	/**
+	 * Create staircase to go up and down, centered in a room
+	 * 
+	 * @see Room
+	 * @see Center
+	 */
 	private void addStairs() {
 		
 		int roomDown = this.rng.nextInt(rooms.length);
@@ -127,14 +139,23 @@ public class DungeonGenerator implements Generator {
 	
 	}
 	
-	// Apply caves to the dungeon
+	/**
+	 * Apply caves to the dungeon
+	 * 
+	 * @see Cave
+	 */
 	private void applyCave() {	
 		
 		this.map = this.cave.makeAndApplyCave(this.map, 0.1f);	
 	
 	}
 	
-	// Connect all the rooms by making corridors between them
+	/** 
+	 * Connect all the rooms by making corridors between them
+	 * 
+	 * @see Room
+	 * @See Center
+	 */
 	private void connectRooms() {
 
 		for (int i = 0; i < currentMaxRooms; i++ ) {
@@ -164,7 +185,9 @@ public class DungeonGenerator implements Generator {
 
 	}
 	
-	// Make a basic dungeon
+	/**
+	 * Make a basic dungeon with rooms and corridors. Bland and uninteresting.
+	 */
 	private void makeDungeon() {
 		
 		this.makeRooms();
@@ -172,7 +195,11 @@ public class DungeonGenerator implements Generator {
 
 	}
 
-	// Make rooms
+	/**
+	 * Make rooms in the dungeon
+	 * 
+	 * @see Room
+	 */
 	private void makeRooms() {
 
 		for (int i = 0; i < currentMaxRooms; i++ ) {
@@ -200,7 +227,12 @@ public class DungeonGenerator implements Generator {
 		
 	}
 
-	// Make horizontal corridor between two coordinates
+	/**
+	 * Make horizontal corridor between two coordinates
+	 * 
+	 * @param center1  coordinate of first room
+	 * @param center2  coordinate of second room
+	 */
 	private void makeHCorridor(Center center1, Center center2) {
 
 		// Different formulas based on which center is at a larger location
@@ -229,7 +261,12 @@ public class DungeonGenerator implements Generator {
 
 	}
 
-	// Make vertical corridor between two coordinates
+	/**
+	 * Make vertical corridor between two coordinates
+	 * 
+	 * @param center1  coordinate of first room
+	 * @param center2  coordinate of second room
+	 */
 	private void makeVCorridor(Center center1, Center center2) {
 
 		// Different formulas based on which center is at a larger location
@@ -264,7 +301,11 @@ public class DungeonGenerator implements Generator {
 	 * Interface methods
 	 */
 
-	// Clear the map to a blank state
+	/**
+	 * Clears the map object that the feature stores tile data to
+	 * 
+	 * @see         Generator
+	 */
 	public void clearMap() {
 		
 		this.map = new int[this.width][this.height];
@@ -272,7 +313,11 @@ public class DungeonGenerator implements Generator {
 		
 	}
 	
-	// Print the map to the console
+	/**
+	 * Prints the map object to the console as integers
+	 * 
+	 * @see         Generator
+	 */
 	public void debugPrintMap() {
 		
 		for (int[] row : this.map) {
@@ -281,7 +326,12 @@ public class DungeonGenerator implements Generator {
 		
 	}
 
-	// Returns a 2d map
+	/**
+	 * Build the feature and return it
+	 *
+	 * @return      2D array of ints that represent the feature as tiles
+	 * @see         Generator
+	 */
 	public int[][] build() {
 		
 		this.clearMap();

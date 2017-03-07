@@ -6,14 +6,6 @@ package com.mtautumn.edgequest.generator;
 public interface Generator {
 
 	/**
-	 * Build the feature and return it
-	 *
-	 * @return      2D array of ints that represent the feature as tiles
-	 * @see         Generator
-	 */
-	public int[][] build();
-	
-	/**
 	 * Clears the map object that the feature stores tile data to
 	 * 
 	 * @see         Generator
@@ -26,5 +18,14 @@ public interface Generator {
 	 * @see         Generator
 	 */
 	public void debugPrintMap();
+	
+	/**
+	 * Build the feature and return it
+	 *
+	 * @return      2D array of ints that represent the feature as tiles
+	 * @see         Generator
+	 */
+	public int[][] build();
+	
 	
 }

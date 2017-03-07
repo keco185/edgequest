@@ -3,6 +3,13 @@ package com.mtautumn.edgequest.generator;
 import java.util.Arrays;
 import java.util.Random;
 
+/**
+ * This class is used to make a 2D Array of 'Tiles' as a representation
+ * of villages that will be converted into actual blocks in the game world.
+ * 
+ * @see Generator
+ * 
+ */
 public class VillageGenerator implements Generator {
 	
 	// Variables asked for in the constructor
@@ -29,13 +36,15 @@ public class VillageGenerator implements Generator {
 	// Start loc
 	Center start = new Center();
 	
-	/*
-	 * Constructor for DungeonGenerator
-	 * @param x: Width
-	 * @param y: Height
-	 * @param maxHouses: Maximum number of houses to create
-	 * @param seed: Seed for the random number generator
-	 * @param start: Center object to define the coordinate where the first room spawns
+	/**
+	 * This is the main constructor for the village generator
+	 * 
+	 * @param width     width of map
+	 * @param height    height of map
+	 * @param maxHouses maximum number of houses to create
+	 * @param seed      seed for the random number generator
+	 * @param start     center object to define the coordinate where the first house spawns
+	 * @see             Center
 	 */
 	public VillageGenerator(int width, int height, int maxHouses, long seed, Center start, boolean[][] avoidanceMap) {
 		this.seed = seed;
@@ -66,6 +75,13 @@ public class VillageGenerator implements Generator {
 	 * Private methods
 	 */
 	
+	/**
+	 * Prepare a set of test houses
+	 * <p>
+	 * This will be removed
+	 * 
+	 * @see Room
+	 */
 	private void prepareTestHouses() {
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
 		for (int i = 1; i < currentMaxRooms; i++ ) {
@@ -87,6 +103,13 @@ public class VillageGenerator implements Generator {
 		}
 	}
 	
+	/**
+	 * Construct test houses by putting them on the map
+	 * <p>
+	 * This will be removed
+	 * 
+	 * @see Room
+	 */
 	private void buildTestHouses() {
 		for (int i = 0; i < currentMaxRooms; i++ ) {
 			// Get current room
@@ -125,6 +148,15 @@ public class VillageGenerator implements Generator {
 		
 	}
 	
+	/**
+	 * Check to see if the house is in a good location
+	 * <p>
+	 * This may or may not be removed, haven't decided
+	 * @param room  Room object to check
+	 * @return      true if the room is in a good postion, false if not
+	 * @see         Room
+	 * @see         Center
+	 */
 	private boolean roomOk(Room room) {
 		if (room.width > 3 && room.height > 3 && room.center.x + room.width/2 < this.width && room.center.y + room.height/2 < height && room.center.x - room.width/2 > 0 && room.center.y - room.height/2 > 0) {
 			
@@ -152,20 +184,33 @@ public class VillageGenerator implements Generator {
 	 * Interface methods
 	 */
 	
-	// Clear the map to a blank state
+	/**
+	 * Clears the map object that the feature stores tile data to
+	 * 
+	 * @see         Generator
+	 */
 	public void clearMap() {
 		this.map = new int[this.width][this.height];
 		// Arrays.fill(this.map, dunTemp.getWall(this.tempurature));
 	}
 	
-	// Print map to console
+	/**
+	 * Prints the map object to the console as integers
+	 * 
+	 * @see         Generator
+	 */
 	public void debugPrintMap() {
 		for (int[] row : this.map) {
 		    System.out.println(Arrays.toString(row));
 		}
 	}
 	
-	// Build the village and return the map
+	/**
+	 * Build the feature and return it
+	 *
+	 * @return      2D array of ints that represent the feature as tiles
+	 * @see         Generator
+	 */
 	public int[][] build() {
 		
 		this.prepareTestHouses();
