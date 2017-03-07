@@ -8,15 +8,13 @@ import java.util.Random;
 
 /**
  * This class is used to create chaotic cellular automata to create dungeon features.
+ * 
+ * @author Gray
  */
-public class DrunkardsWalk {
+public class DrunkardsWalk implements Automata {
 	
 	// RNG needs to be used persistently
 	Random rng;
-	
-	// Lengths of various walks to be used
-	int shortWalkPasses = 600;
-	int longWalkPasses = 2000;
 	
 	public DrunkardsWalk(long seed) {
 		
@@ -27,27 +25,27 @@ public class DrunkardsWalk {
 	// Random walk types
 	
 	public int[][] shortRandomWalk(int[][] map) {
-		return randomWalk(map, shortWalkPasses, 1.0f);
+		return randomWalk(map, shortWalkPasses, chaosFull);
 	}
 	
 	public int[][] longRandomWalk(int[][] map) {
-		return randomWalk(map, longWalkPasses, 1.0f);
+		return randomWalk(map, longWalkPasses, chaosFull);
 	}
 	
 	public int[][] shortSemiDrunkWalk(int[][] map) {
-		return randomWalk(map, shortWalkPasses, 0.5f);
+		return randomWalk(map, shortWalkPasses, chaosHalf);
 	}
 	
 	public int[][] longSemiDrunkWalk(int[][] map) {
-		return randomWalk(map, longWalkPasses, 0.5f);
+		return randomWalk(map, longWalkPasses, chaosHalf);
 	}
 	
 	public int[][] shortAntWalk(int[][] map) {
-		return randomWalk(map, shortWalkPasses, 0.25f);
+		return randomWalk(map, shortWalkPasses, chaosQuarter);
 	}
 	
 	public int[][] longAntWalk(int[][] map) {
-		return randomWalk(map, longWalkPasses, 0.25f);
+		return randomWalk(map, longWalkPasses, chaosQuarter);
 	}
 	
 	// Wrap walk method to randomize inputs
@@ -73,7 +71,7 @@ public class DrunkardsWalk {
 	 *
 	 * @param  dunMap       a 2D int array, like the dungeon map from DungeonGenerator for example
 	 * @param  passes       number of times to walk
-	 * @param  chaosChance  chance between 0 and 1 for the automata to change directions. Higher chance = more likely to not change direction
+	 * @param  chaosChance  chance between 0 and 1 for the automata to change directions. Higher chance = more likely to change direction
 	 * @param  find         tile integer to replace. Think: we want to find this tile and replace it
 	 * @param  replace      tile integer to replace found tiles with. Think: we need to replace tiles with it
 	 * @param  x            starting x location
@@ -81,12 +79,10 @@ public class DrunkardsWalk {
 	 * @return              a 2D int array of the dungeon map with the walk applied
 	 * @see                 DrunkardsWalk
 	 */
-	public int[][] walk(int[][] map, int passes, float chaosChance, int find, int replace, int x, int y) {
+	public int[][] walk(int[][] dunMap, int passes, float chaosChance, int find, int replace, int x, int y) {
 		
-		int xMax = map.length;
-		int yMax = map[0].length;
-		
-		int[][] tempMap = map;
+		int xMax = dunMap.length;
+		int yMax = dunMap[0].length;
 		
 		// Hold the old direction
 		int[] oldDir = {0, 0};
@@ -110,14 +106,14 @@ public class DrunkardsWalk {
 			
 			// Empty tiles get deleted regardless, otherwise replace the find tiles specified
 			if (find == Tile.EMPTY) {
-				tempMap[x][y] = replace;
-			} else if (tempMap[x][y] == find) { 
-				tempMap[x][y] = replace; 
+				dunMap[x][y] = replace;
+			} else if (dunMap[x][y] == find) { 
+				dunMap[x][y] = replace; 
 			}
 			
 		}
 		
-		return tempMap;
+		return dunMap;
 		
 	}
 	

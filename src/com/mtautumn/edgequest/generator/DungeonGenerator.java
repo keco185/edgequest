@@ -8,6 +8,7 @@ import java.util.Random;
  * of dungeons that will be converted into actual blocks in the game world.
  * 
  * @see Generator
+ * @author Gray
  * 
  */
 public class DungeonGenerator implements Generator {
@@ -194,7 +195,7 @@ public class DungeonGenerator implements Generator {
 	 * @see     Random
 	 */
 	private int getValueAround(int n) {
-		return (int) (n + (this.rng.nextInt(1) - 0.5));
+		return (int) (this.rng.nextInt(n) * (4/3));
 	}
 	
 	/**

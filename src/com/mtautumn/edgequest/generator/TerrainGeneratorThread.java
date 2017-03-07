@@ -12,6 +12,7 @@ import com.mtautumn.edgequest.threads.BlockUpdateManager;
 //import com.mtautumn.edgequest.updates.UpdateLighting;
 
 public class TerrainGeneratorThread extends Thread {
+	
 	//private UpdateLighting updateLight;
 	private LightSource light;
 	public BlockUpdateManager blockUpdatManager;
@@ -22,23 +23,31 @@ public class TerrainGeneratorThread extends Thread {
 	private int level;
 	private long dungeonSeedBase;
 	private long villageSeedBase;
+	
 	public TerrainGeneratorThread(TerrainGenerator terrainGenerator, DataManager dm, int x, int y, int level) {
+		
 		this.terrainGenerator = terrainGenerator;
 		this.x = x;
 		this.y = y;
 		this.level = level;
 		this.dm = dm;
+		
 	}
+	
 	public void run() {
+		
 		dungeonSeedBase = generateSeed(dm.savable.seed,213);
 		villageSeedBase = generateSeed(dm.savable.seed,625);
+		
 		if (level == -1) {
+			
 			genArea(x,y);
 			if (isDungeonBlock(x,y)) {
 				genDungeon(x,y,level + 1);
 			} else {
 				genEmptyGround(x,y,level + 1);
 			}
+			
 		} else if (level == 0) {
 			genArea(x,y);
 			if (isDungeonBlock(x,y)) {
@@ -60,6 +69,7 @@ public class TerrainGeneratorThread extends Thread {
 			}
 		}
 	}
+	
 	public void genArea(int x, int y) {
 		if (!beenGenerated(x,y,-1)) {
 			for (int i = x; i < x + 100; i++) {
@@ -119,28 +129,36 @@ public class TerrainGeneratorThread extends Thread {
 					dm.world.setGroundBlock(x + i, y + 50, -1, dm.system.blockNameMap.get("asphalt").getID());
 				}
 			}
+			
 			if (roadState.roadRight) {
 				for (int i = 50; i <= 100; i++) {
 					dm.world.setGroundBlock(x + i, y + 50, -1, dm.system.blockNameMap.get("asphalt").getID());
 				}
 			}
+			
 			if (roadState.roadTop) {
 				for (int i = 0; i <= 50; i++) {
 					dm.world.setGroundBlock(x + 50, y + i, -1, dm.system.blockNameMap.get("asphalt").getID());
 				}
 			}
+			
 			if (roadState.roadBottom) {
 				for (int i = 50; i <= 100; i++) {
 					dm.world.setGroundBlock(x + 50, y + i, -1, dm.system.blockNameMap.get("asphalt").getID());
 				}
 			}
+			
 			generated(x,y,-3);
+			
 		}
+		
 	}
+	
 	public void genDungeon(int x, int y, int level) {
 		if (!beenGenerated(x,y,level)) {
 			//generate dungeon
 			int[] stairs = getDungeonStairs(x,y,level-1);
+			
 			if (level == 0) {
 				dm.world.setStructBlock(stairs[0] + x, stairs[1] + y, -1, dm.system.blockNameMap.get("dungeon").getID());
 			}
@@ -180,44 +198,60 @@ public class TerrainGeneratorThread extends Thread {
 					default:
 						break;
 					}
+					
 				}
+				
 			}
+			
 			generated(x,y,level);
+			
 		}
+		
 	}
 	public int[] getDungeonStairs(int x, int y, int level) { //Stairs going down from level
 		double dungeonChance = new Random(generateSeed(dungeonSeedBase,x,y)).nextDouble();
 		if (dungeonChance > 0.5) {
+			
 			if (dm.savable.dungeonStairs.containsKey(x+","+y+","+level)) {
 				return dm.savable.dungeonStairs.get(x+","+y+","+level);
 			}
+			
 			if (level == -1) {
+				
 				Random rng = new Random(generateSeed(dungeonSeedBase,x,y,421));
 				boolean stairsOk = false;
 				int stairsX = 0;
 				int stairsY = 0;
 				int tryCount = 0;
+				
 				while (!stairsOk && tryCount < 1000) {
+					
 					tryCount++;
 					stairsX = (int) (rng.nextDouble() * 100);
 					stairsY = (int) (rng.nextDouble() * 100);
+					
 					do {
-					if (!dm.system.blockIDMap.get(dm.world.getGroundBlock(stairsX + x, stairsY + y, level)).isName("water") && !dm.system.blockIDMap.get(dm.world.getGroundBlock(stairsX + x, stairsY + y, level)).isName("ice")) {
-						stairsOk = true;
-					}
-					if (!dm.world.isGroundBlock(stairsX + x, stairsY + y, -1)) {
-						try {
-							Thread.sleep(50);
-						} catch (Exception e) {
-							e.printStackTrace();
+						if (!dm.system.blockIDMap.get(dm.world.getGroundBlock(stairsX + x, stairsY + y, level)).isName("water") && !dm.system.blockIDMap.get(dm.world.getGroundBlock(stairsX + x, stairsY + y, level)).isName("ice")) {
+							stairsOk = true;
 						}
-					}
+						if (!dm.world.isGroundBlock(stairsX + x, stairsY + y, -1)) {
+							try {
+								Thread.sleep(50);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
 					} while (!dm.world.isGroundBlock(stairsX + x, stairsY + y, -1));
+					
 				}
+				
 				if (tryCount >= 1000) {
+					
 					rng = new Random(generateSeed(dungeonSeedBase,x,y,421));
+					
 					stairsX = (int) (rng.nextDouble() * 100);
 					stairsY = (int) (rng.nextDouble() * 100);
+					
 					ArrayList<int[]> island = new ArrayList<int[]>();
 					island.add(new int[]{-1,-1});
 					island.add(new int[]{-1,-2});
@@ -242,39 +276,58 @@ public class TerrainGeneratorThread extends Thread {
 					island.add(new int[]{-1,1});
 					island.add(new int[]{-1,2});
 					island.add(new int[]{-2,1});
+					
 					for (int i = 0; i < island.size(); i++) {
 						dm.world.setGroundBlock(stairsX + x + island.get(i)[0],stairsY + y + island.get(i)[1], level, dm.system.blockNameMap.get("grass").getID());
 					}
+					
 				}
+				
 				dm.savable.dungeonStairs.put(x+","+y+","+level,new int[]{stairsX,stairsY});
 				return new int[]{stairsX,stairsY};
+				
 			}
+			
 			genDungeon(x, y, level);
 			return getDungeonStairs(x,y,level);
+			
 		}
+		
 		return null;
+		
 	}
 	public void genEmptyGround(int x, int y, int level) {
+		
 		if (!beenGenerated(x,y,level)) {
+			
 			Cave c = new Cave(100, 100, generateSeed(dungeonSeedBase,x,y,level));
 			int[][] caves = c.generateCave(0.1f);
+			
 			for (int i = 0; i < caves.length; i++) {
 				for (int j = 0; j < caves[i].length; j++) {
+					
 					dm.world.setGroundBlock(x + i,y + j, level, dm.system.blockNameMap.get("stone").getID());
+					
 					if (caves[i][j] == 0) {
 						dm.world.setStructBlock(x + i,y + j, level, dm.system.blockNameMap.get("dirt").getID());
 					}
+					
 				}
+				
 			}
+			
 			generated(x,y,level);
+			
 		}
+		
 	}
 	public void genVillage(int x, int y) {
 		if (!beenGenerated(x,y,-2)) {
+			
 			Random villageRandom = new Random(generateSeed(villageSeedBase, x, y));
 			int villageWidth = (int) (15 + villageRandom.nextDouble() * 50);
 			int villageHeight = (int) (15 + villageRandom.nextDouble() * 50);
-			int maxRooms = (int)(3+villageRandom.nextDouble() * villageWidth * villageHeight / 120);
+			int maxRooms = (int)(3+villageRandom.nextDouble() * villageWidth * villageHeight / 240);
 			int offsetX = (int) ((100 - villageWidth) * villageRandom.nextDouble());
 			int offsetY = (int) ((100 - villageHeight) * villageRandom.nextDouble());
 			
@@ -290,38 +343,59 @@ public class TerrainGeneratorThread extends Thread {
 			
 			for(int i = 0; i < villageMap.length; i++) {
 				for(int j = 0; j < villageMap[i].length; j++) {
-					if (villageMap[i][j] == Tile.DARK_WOOD) {
-						String name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
-						if (!name.equals("water") && !name.equals("ice")) {
-							dm.world.ou.setStructBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("darkWood").getID());
-						}
-					} else if (villageMap[i][j] == Tile.LIGHT_WOOD) {
-						String name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
-						if (!name.equals("water") && !name.equals("ice")) {
-							dm.world.ou.setGroundBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("lightWood").getID());
-							if (dm.world.ou.isStructBlock(i+x+offsetX, j+y+offsetY)) {
-								dm.world.ou.removeStructBlock(i+x+offsetX, j+y+offsetY);
+					String name = "";
+					switch (villageMap[i][j]) {
+						case (Tile.DARK_WOOD):
+							name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
+							if (!name.equals("water") && !name.equals("ice")) {
+								dm.world.ou.setStructBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("darkWood").getID());
 							}
-						}
+							break;
+						case (Tile.LIGHT_WOOD):
+							name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
+							if (!name.equals("water") && !name.equals("ice")) {
+								dm.world.ou.setGroundBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("lightWood").getID());
+								if (dm.world.ou.isStructBlock(i+x+offsetX, j+y+offsetY)) {
+									dm.world.ou.removeStructBlock(i+x+offsetX, j+y+offsetY);
+								}
+							}
+							break;
+						default:
+							break;
 					}
+
 				}
+				
 			}
+			
 			generated(x,y,-2);
+			
 		}
+		
 	}
+	
 	public boolean isDungeonBlock(int x, int y) {
+		
 		double dungeonChance = new Random(generateSeed(dungeonSeedBase,x,y)).nextDouble();
+		
 		if (dungeonChance > 0.5) {
 			return true;
 		}
+		
 		return false;
+		
 	}
+	
 	public static long generateSeed(long... vals) {
+		
 		long newSeed = vals[0];
+		
 		for (int i = 1; i < vals.length; i++) {
 			newSeed = new Random(newSeed + vals[i]).nextLong();
 		}
+		
 		return newSeed;
+		
 	}
 	
 	public boolean doesContainVillage(int x, int y) {

@@ -5,6 +5,8 @@ import java.util.Random;
 /**
  * This class provides a suite of utilities for generating caves from Simplex Noise maps for
  * dungeon generation.
+ * 
+ * @author Gray
  */
 public class Cave {
 	

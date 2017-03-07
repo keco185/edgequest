@@ -4,6 +4,8 @@ package com.mtautumn.edgequest.generator;
  * This class is essentially a coordinate class to maintain the position
  * of the center of rooms within the dungeon. It's useful to define certain positions
  * and locations, but is primarily used for rooms.
+ * 
+ * @author Gray
  */
 public class Center { 
 	

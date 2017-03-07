@@ -3,6 +3,8 @@ package com.mtautumn.edgequest.generator;
 /**
  * This class manages rooms by defining their center coordinates and width and lengths.
  * Think of it as a Rectangle class.
+ * 
+ * @author Gray
  */
 public class Room {
 	

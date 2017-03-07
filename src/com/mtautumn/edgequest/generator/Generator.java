@@ -2,6 +2,8 @@ package com.mtautumn.edgequest.generator;
 
 /**
  * Interface for feature generators such as dungeons and villages
+ * 
+ * @author Gray
  */
 public interface Generator {
 
@@ -28,6 +30,5 @@ public interface Generator {
 	 * @see         Generator
 	 */
 	public int[][] build();
-	
 	
 }

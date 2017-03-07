@@ -9,6 +9,8 @@ package com.mtautumn.edgequest.generator;
  * Class to manage dungeon temperature and modify tiles based on it.
  * <p>
  * Currently unimplemented
+ * 
+ * @author Gray
  */
 public class Temperature {
 

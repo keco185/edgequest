@@ -8,7 +8,7 @@ import java.util.Random;
  * of villages that will be converted into actual blocks in the game world.
  * 
  * @see Generator
- * 
+ * @author Gray
  */
 public class VillageGenerator implements Generator {
 	
@@ -52,6 +52,7 @@ public class VillageGenerator implements Generator {
 		this.width = width;
 		this.height = height;
 		this.maxHouses = maxHouses;
+		
 		this.avoidanceArray = avoidanceMap;
 		
 		// Initialize a map. Default all values are set to 0s (walls)
@@ -77,14 +78,12 @@ public class VillageGenerator implements Generator {
 	
 	/**
 	 * Get a random value around some value n
-	 * <p>
-	 * Used to be n * 4 / 3... If this doesn't work, think about using that
 	 * 
 	 * @param n number to get a value around
 	 * @see     Random
 	 */
 	private int getValueAround(int n) {
-		return (int) (n + (this.rng.nextInt(1) - 0.5));
+		return (int) (this.rng.nextInt(n) * (4/3));
 	}
 	
 	/**
@@ -98,12 +97,15 @@ public class VillageGenerator implements Generator {
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
 		for (int i = 1; i < currentMaxRooms; i++ ) {
 			
-			this.rooms[i] = new Room(getValueAround(width), getValueAround(height), this.rng.nextInt(width), this.rng.nextInt(height));
 			int tries = 0;
 			
-			while (!roomOk(this.rooms[i]) && tries < 1000) {
-				this.rooms[i] = new Room(getValueAround(width), getValueAround(height), this.rng.nextInt(width), this.rng.nextInt(height));
+			do {
+				this.rooms[i] = new Room(getValueAround(10), getValueAround(10), this.rng.nextInt(width), this.rng.nextInt(height));
 				tries++;
+			} while(!roomOk(this.rooms[i]) && tries < 1000);
+			
+			if (roomOk(this.rooms[i])) {
+				this.addRoomAvoid(this.rooms[i]);
 			}
 			
 			if (tries >= 1000) {
@@ -136,7 +138,7 @@ public class VillageGenerator implements Generator {
 				for (int h = 0; h < room.height; h++) {
 					boolean bounds = (w + room.xLoc < this.width) && (h + room.yLoc < height) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0);
 					// Check bounds
-					if (bounds && (w == room.width - 1|| h == room.height - 1|| w == 0 || h == 0)) {
+					if (bounds && (w == room.width - 1 || h == room.height - 1 || w == 0 || h == 0)) {
 	
 						this.map[w + room.xLoc][h + room.yLoc] = Tile.DARK_WOOD;
 	
@@ -173,13 +175,13 @@ public class VillageGenerator implements Generator {
 	 * @see         Center
 	 */
 	private boolean roomOk(Room room) {
-		if (room.width > 3 && room.height > 3 && room.center.x + room.width/2 < this.width && room.center.y + room.height/2 < height && room.center.x - room.width/2 > 0 && room.center.y - room.height/2 > 0) {
+		if (room.width > 3 && room.height > 3 && room.center.x + (int) room.width / 2 + 1 < this.width && room.center.y + (int) room.height/2 + 1 < height && room.center.x - (int) room.width/2 + 1> 0 && room.center.y - (int) room.height/2 + 1 > 0) {
 			
 			for (int i = room.center.x - room.width / 2; i < room.center.x + room.width/2; i++) {
 				
 				for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2; j++) {
 					
-					if (!avoidanceArray[i][j]) {
+					if (!this.avoidanceArray[i][j]) {
 						return false;
 					}
 					
@@ -192,6 +194,19 @@ public class VillageGenerator implements Generator {
 		}
 		
 		return false;
+		
+	}
+	
+	private void addRoomAvoid(Room room) {
+		for (int i = room.center.x - room.width / 2; i < room.center.x + room.width/2 + 1; i++) {
+			
+			for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2 + 1; j++) {
+				
+				this.avoidanceArray[i][j] = false;
+				
+			}
+			
+		}
 		
 	}
 	

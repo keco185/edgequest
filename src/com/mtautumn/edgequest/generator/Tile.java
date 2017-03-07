@@ -3,6 +3,8 @@ package com.mtautumn.edgequest.generator;
 /**
  * This class holds all the tile data as integers for 
  * easy reading in the rest of the generator class
+ * 
+ * @author Gray
  */
 public final class Tile {
 	
