@@ -140,7 +140,7 @@ public class VillageGenerator implements Generator {
 					// Check bounds
 					if (bounds && (w == room.width - 1 || h == room.height - 1 || w == 0 || h == 0)) {
 	
-						this.map[w + room.xLoc][h + room.yLoc] = Tile.DARK_WOOD;
+						this.map[w + room.xLoc][h + room.yLoc] = Tiles.DARK_WOOD;
 	
 					}
 	
@@ -154,7 +154,7 @@ public class VillageGenerator implements Generator {
 				for (int h = 1; h + 1< room.height; h++) {
 						
 					if (w + room.xLoc > -1 && w + room.xLoc < this.width && h + room.yLoc > -1 && h + room.yLoc < this.height) {
-						this.map[w + room.xLoc][h + room.yLoc] = Tile.LIGHT_WOOD;
+						this.map[w + room.xLoc][h + room.yLoc] = Tiles.LIGHT_WOOD;
 					}
 						
 				}

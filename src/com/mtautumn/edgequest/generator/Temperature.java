@@ -25,7 +25,7 @@ public class Temperature {
 	 * @see                Temperature
 	 */
 	public int getWall(double temperature) {
-		return Tile.DIRT;
+		return Tiles.DIRT;
 	}
 	
 }

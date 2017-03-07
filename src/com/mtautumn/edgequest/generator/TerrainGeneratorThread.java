@@ -171,13 +171,13 @@ public class TerrainGeneratorThread extends Thread {
 					int pY = j + y;
 					dm.world.setGroundBlock(pX,pY, level, dm.system.blockNameMap.get("stone").getID());
 					switch (dungeonMap[i][j]) {
-					case Tile.DIRT:
+					case Tiles.DIRT:
 						dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("dirt").getID());
 						break;
-					case Tile.FLOOR:
+					case Tiles.FLOOR:
 						dm.entitySpawn.considerEntity(new Location(pX, pY, level));
 						break;
-					case Tile.UP_STAIR:
+					case Tiles.UP_STAIR:
 						//make ladders into small light sources
 						light = new LightSource(pX, pY, 4, level);
 						light.onEntity = true;
@@ -188,11 +188,11 @@ public class TerrainGeneratorThread extends Thread {
 						
 						dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("dungeonUp").getID());
 						break;
-					case Tile.DOWN_STAIR:
+					case Tiles.DOWN_STAIR:
 						dm.world.setStructBlock(pX,pY,level, dm.system.blockNameMap.get("dungeon").getID());
 						dm.savable.dungeonStairs.put(x+","+y+","+level,new int[]{i,j});
 						break;
-					case Tile.WATER:
+					case Tiles.WATER:
 						dm.world.setGroundBlock(pX,pY,level, dm.system.blockNameMap.get("water").getID());
 						break;
 					default:
@@ -345,13 +345,13 @@ public class TerrainGeneratorThread extends Thread {
 				for(int j = 0; j < villageMap[i].length; j++) {
 					String name = "";
 					switch (villageMap[i][j]) {
-						case (Tile.DARK_WOOD):
+						case (Tiles.DARK_WOOD):
 							name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
 							if (!name.equals("water") && !name.equals("ice")) {
 								dm.world.ou.setStructBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("darkWood").getID());
 							}
 							break;
-						case (Tile.LIGHT_WOOD):
+						case (Tiles.LIGHT_WOOD):
 							name = dm.system.blockIDMap.get(dm.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
 							if (!name.equals("water") && !name.equals("ice")) {
 								dm.world.ou.setGroundBlock(i+x+offsetX, j+y+offsetY, dm.system.blockNameMap.get("lightWood").getID());

@@ -135,8 +135,8 @@ public class DungeonGenerator implements Generator {
 			roomDown = this.rng.nextInt(rooms.length);
 		}
 		
-		map[rooms[0].center.x][rooms[0].center.y] = Tile.UP_STAIR;
-		map[rooms[roomDown].center.x][rooms[roomDown].center.y] = Tile.DOWN_STAIR;
+		map[rooms[0].center.x][rooms[0].center.y] = Tiles.UP_STAIR;
+		map[rooms[roomDown].center.x][rooms[roomDown].center.y] = Tiles.DOWN_STAIR;
 	
 	}
 	
@@ -228,7 +228,7 @@ public class DungeonGenerator implements Generator {
 					// Check bounds
 					if ((w + room.xLoc < this.width) && (h + room.yLoc < this.height) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0)) {
 
-						this.map[w + room.xLoc][h + room.yLoc] = Tile.FLOOR;
+						this.map[w + room.xLoc][h + room.yLoc] = Tiles.FLOOR;
 
 					}
 					
@@ -256,7 +256,7 @@ public class DungeonGenerator implements Generator {
 
 			for (int i = 1; i < center2.x - center1.x + 1; i++) {
 				if (center1.x + i < this.width && center1.y < this.height) {
-					this.map[center1.x + i][center1.y] = Tile.FLOOR;
+					this.map[center1.x + i][center1.y] = Tiles.FLOOR;
 				}
 
 			}
@@ -265,7 +265,7 @@ public class DungeonGenerator implements Generator {
 
 			for (int i = 1; i < center1.x - center2.x + 1; i++) {
 				if (center2.x + i < this.width && center2.y < this.height) {
-					this.map[center2.x + i][center2.y] = Tile.FLOOR;
+					this.map[center2.x + i][center2.y] = Tiles.FLOOR;
 				}
 			}
 
@@ -291,7 +291,7 @@ public class DungeonGenerator implements Generator {
 			for (int i = 1; i < center2.y - center1.y + 1; i++) {
 				
 				if (center1.x < this.width && center1.y + i < this.height) {
-					this.map[center1.x][center1.y + i] = Tile.FLOOR;
+					this.map[center1.x][center1.y + i] = Tiles.FLOOR;
 				}
 				
 			}
@@ -301,7 +301,7 @@ public class DungeonGenerator implements Generator {
 			for (int i = 1; i < center1.y - center2.y + 1; i++) {
 				
 				if (center2.x < this.width && center2.y + i < this.height) {
-					this.map[center2.x][center2.y + i] = Tile.FLOOR;
+					this.map[center2.x][center2.y + i] = Tiles.FLOOR;
 				}
 
 			}

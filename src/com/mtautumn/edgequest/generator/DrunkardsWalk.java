@@ -51,14 +51,14 @@ public class DrunkardsWalk implements Automata {
 	// Wrap walk method to randomize inputs
 	public int[][] randomWalk(int[][] map, int passes, float chaosChance) {
 		
-		return walk(map, passes, chaosChance, Tile.DIRT, Tile.FLOOR, rng.nextInt(map.length), rng.nextInt(map[0].length));
+		return walk(map, passes, chaosChance, Tiles.DIRT, Tiles.FLOOR, rng.nextInt(map.length), rng.nextInt(map[0].length));
 	
 	}
 	
 	// Walk for ponds
 	public int[][] pondWalk(int[][] map, int x, int y) {
 		
-		return walk(map, 2000, 1.0f, Tile.EMPTY, Tile.WATER, x, y);
+		return walk(map, 2000, 1.0f, Tiles.EMPTY, Tiles.WATER, x, y);
 		
 	}
 	
@@ -105,7 +105,7 @@ public class DrunkardsWalk implements Automata {
 			if (x > xMax-1 || y > yMax-1 || x < 0 || y < 0) {x -= dir[0]; y -= dir[1]; }
 			
 			// Empty tiles get deleted regardless, otherwise replace the find tiles specified
-			if (find == Tile.EMPTY) {
+			if (find == Tiles.EMPTY) {
 				dunMap[x][y] = replace;
 			} else if (dunMap[x][y] == find) { 
 				dunMap[x][y] = replace; 

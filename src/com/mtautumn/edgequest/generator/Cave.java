@@ -138,8 +138,8 @@ public class Cave {
 			for (int j = 0; j < threshMap[0].length; j++) {
 				
 				// Only knock down walls
-				if (threshMap[i][j] == REPLACE && dunMap[i][j] != Tile.FLOOR) {
-					dunMap[i][j] = Tile.FLOOR;
+				if (threshMap[i][j] == REPLACE && dunMap[i][j] != Tiles.FLOOR) {
+					dunMap[i][j] = Tiles.FLOOR;
 				}
 				
 			}
