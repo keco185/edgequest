@@ -8,7 +8,7 @@ public class Entities {
 		for( int i = 0; i < r.dataManager.savable.entities.size(); i++) {
 			Entity entity = r.dataManager.savable.entities.get(i);
 			if (entity.dungeonLevel == r.dataManager.savable.dungeonLevel) {
-					if (entity.getType() != Entity.EntityType.character) {
+					if (entity != r.dataManager.characterManager.characterEntity) {
 						drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r, Double.valueOf(entity.health)/Double.valueOf(entity.maxHealth));
 					}
 			}

@@ -2,7 +2,6 @@ package com.mtautumn.edgequest.entities;
 
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.dataObjects.Location;
-import com.mtautumn.edgequest.entities.Entity.EntityType;
 
 public class Ant extends Entity {
 	private static final long serialVersionUID = 1L;

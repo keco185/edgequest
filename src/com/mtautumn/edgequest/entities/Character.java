@@ -58,9 +58,9 @@ public class Character extends Entity {
 				dm.system.isKeyboardUp ||
 				dm.system.isKeyboardRight ||
 				dm.system.isKeyboardDown) {
-			return entityTexture + "walk" + walkAnimation[dm.system.animationClock % walkAnimation.length];
+			return entityTexture + "." + entityTexture + "walk" + walkAnimation[dm.system.animationClock % walkAnimation.length];
 		}
-		return entityTexture + "still" + stillAnimation[dm.system.animationClock % stillAnimation.length];
+		return entityTexture + "." + entityTexture + "still" + stillAnimation[dm.system.animationClock % stillAnimation.length];
 	}
 	public void update() {
 		light.posX = getX();

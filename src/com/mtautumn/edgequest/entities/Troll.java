@@ -6,9 +6,7 @@ import com.mtautumn.edgequest.blockitems.combat.Weapon;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.dataObjects.ItemDrop;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
-import com.mtautumn.edgequest.entities.Entity.EntityType;
 import com.mtautumn.edgequest.projectiles.DaggerProjectile;
-import com.mtautumn.edgequest.utils.PathFinder;
 import com.mtautumn.edgequest.utils.PathFinder.IntCoord;
 
 public class Troll extends Entity {

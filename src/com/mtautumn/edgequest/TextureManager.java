@@ -68,14 +68,25 @@ public class TextureManager {
 		File[] listOfFiles = folder.listFiles();
 
 		for (int i = 0; i < listOfFiles.length; i++) {
-			if (listOfFiles[i].isFile()) {
+			if (!listOfFiles[i].isFile()) {
 				try {
-					if (getExtension(listOfFiles[i].getName()).equalsIgnoreCase("png")) {
-						System.out.println("Loaded: textures/entities/" + listOfFiles[i].getName());
-						textureList.put("entities." + getBaseName(listOfFiles[i].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/entities/" + listOfFiles[i].getName())));
+					File subFolder = new File(jarLocal + "textures/entities/" + listOfFiles[i].getName());
+					File[] listOfSubFiles = subFolder.listFiles();
+					for (int j = 0; j < listOfSubFiles.length; j++) {
+						if (listOfSubFiles[j].isFile()) {
+							try {
+							if (getExtension(listOfSubFiles[j].getName()).equalsIgnoreCase("png")) {
+									System.out.println("Loaded: textures/entities/"  + listOfFiles[i].getName() + "/" + listOfSubFiles[j].getName());
+									textureList.put("entities." + listOfFiles[i].getName() + "." + getBaseName(listOfSubFiles[j].getName()), TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream(jarLocal + "textures/entities/" + listOfFiles[i].getName() + "/" + listOfSubFiles[j].getName())));
+							}
+							} catch (Exception e) {
+								System.err.println("Could not load texture: textures/entities/"  + listOfFiles[i].getName() + "/" + listOfSubFiles[j].getName());
+							}
+						}
+						
 					}
 				} catch (Exception e) {
-					System.err.println("Could not load texture: textures/entities/" + listOfFiles[i].getName());
+					System.err.println("Could not load textures in: textures/entities/" + listOfFiles[i].getName());
 				}
 			}
 		}

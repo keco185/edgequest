@@ -1,7 +1,6 @@
 package com.mtautumn.edgequest.entities;
 
 import com.mtautumn.edgequest.data.DataManager;
-import com.mtautumn.edgequest.entities.Entity.EntityType;
 import com.mtautumn.edgequest.projectiles.HandProjectile;
 
 public class Pet extends Entity {

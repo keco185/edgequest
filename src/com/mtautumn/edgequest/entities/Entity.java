@@ -62,9 +62,9 @@ public class Entity implements Externalizable {
 		if (lastPosX != posX || lastPosY != posY || walking) {
 			lastPosX = posX;
 			lastPosY = posY;
-			return entityTexture + "walk" + walkAnimation[dm.system.animationClock % walkAnimation.length];
+			return entityTexture + "." + entityTexture + "walk" + walkAnimation[dm.system.animationClock % walkAnimation.length];
 		}
-		return entityTexture + "still" + stillAnimation[dm.system.animationClock % stillAnimation.length];
+		return entityTexture + "." + entityTexture + "still" + stillAnimation[dm.system.animationClock % stillAnimation.length];
 	}
 	public Entity(String texture, EntityType type, DataManager dm) {
 		this.entityID = dm.savable.entityID++;
