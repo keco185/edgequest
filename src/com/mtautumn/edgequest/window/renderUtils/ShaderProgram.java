@@ -47,7 +47,7 @@ public class ShaderProgram
 		}
 	}
  
-   /*
+   /**
     * With the exception of syntax, setting up vertex and fragment shaders
     * is the same.
     * @param the name and path to the vertex shader

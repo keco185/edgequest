@@ -10,11 +10,11 @@ import org.newdawn.slick.Color;
 
 import com.mtautumn.edgequest.window.Renderer;
 
-public class LightingVBO {
+public class LightingVBO implements VBO {
 	FloatBuffer verticies;
 	FloatBuffer locations;
 	FloatBuffer opacities;
-	ArrayList<Float> verticiesArray = new ArrayList<Float>(); //2 per vertex
+	ArrayList<Float> verticiesArray = new ArrayList<Float>(); // 2 per vertex
 	ArrayList<Float> locationAttributeArray = new ArrayList<Float>(); //2 per vertex
 	ArrayList<Float> opacityAttributeArray = new ArrayList<Float>(); //4 per vertex
 	public void addVertex(float x, float y) {

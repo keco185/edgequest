@@ -6,7 +6,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.projectiles.Projectile;
 
-public class AttackManager extends Thread{
+public class AttackManager extends Thread {
 	DataManager dm;
 	public AttackManager(DataManager dm) {
 		this.dm = dm;

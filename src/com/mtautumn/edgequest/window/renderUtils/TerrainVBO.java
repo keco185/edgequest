@@ -11,7 +11,7 @@ import org.newdawn.slick.opengl.Texture;
 
 import com.mtautumn.edgequest.data.DataManager;
 
-public class TerrainVBO {
+public class TerrainVBO implements VBO {
 	FloatBuffer verticies;
 	FloatBuffer textCoords;
 	ArrayList<Float> verticiesArray = new ArrayList<Float>();
