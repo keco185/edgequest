@@ -68,7 +68,7 @@ public class VillageGenerator implements Generator {
 		this.rooms = new Room[currentMaxRooms];
 		
 		// Init start house (Temp)
-		this.rooms[0] = new Room(10, 10, start);
+		this.rooms[0] = new Room(Houses.townhall, start);
 
 	}
 	
@@ -86,6 +86,11 @@ public class VillageGenerator implements Generator {
 		return (int) (this.rng.nextInt(n) * (4/3));
 	}
 	
+	private House getRandomHouse() {
+		int h = this.rng.nextInt(Houses.HouseList.length);
+	    return Houses.HouseList[h];
+	}
+	
 	/**
 	 * Prepare a set of test houses
 	 * <p>
@@ -100,7 +105,9 @@ public class VillageGenerator implements Generator {
 			int tries = 0;
 			
 			do {
-				this.rooms[i] = new Room(getValueAround(10), getValueAround(10), this.rng.nextInt(width), this.rng.nextInt(height));
+				House h = this.getRandomHouse();
+				h.rotate(this.rng.nextInt(4));
+				this.rooms[i] = new Room(h, this.rng.nextInt(width), this.rng.nextInt(height));
 				tries++;
 			} while(!roomOk(this.rooms[i]) && tries < 1000);
 			
@@ -129,38 +136,19 @@ public class VillageGenerator implements Generator {
 	 */
 	private void buildTestHouses() {
 		for (int i = 0; i < currentMaxRooms; i++ ) {
+			
 			// Get current room
 			Room room = this.rooms[i];
 			
-			// Draw it to the map as a floor
 			for (int w = 0; w < room.width; w++) {
-	
 				for (int h = 0; h < room.height; h++) {
 					boolean bounds = (w + room.xLoc < this.width) && (h + room.yLoc < height) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0);
-					// Check bounds
-					if (bounds && (w == room.width - 1 || h == room.height - 1 || w == 0 || h == 0)) {
-	
-						this.map[w + room.xLoc][h + room.yLoc] = Tiles.DARK_WOOD;
-	
+					if (bounds) {
+						this.map[w + room.xLoc][h + room.yLoc] = room.room[h][w];
 					}
-	
 				}
-					
 			}
 				
-			// Draw to the map as a wall
-			for (int w = 1; w + 1 < room.width; w++) {
-	
-				for (int h = 1; h + 1< room.height; h++) {
-						
-					if (w + room.xLoc > -1 && w + room.xLoc < this.width && h + room.yLoc > -1 && h + room.yLoc < this.height) {
-						this.map[w + room.xLoc][h + room.yLoc] = Tiles.LIGHT_WOOD;
-					}
-						
-				}
-					
-			}
-		
 		}
 		
 	}

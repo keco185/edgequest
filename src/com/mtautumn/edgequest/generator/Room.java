@@ -21,8 +21,8 @@ public class Room {
 	/**
 	 * This constructor takes basic area and coordinate location to create a room
 	 * 
-	 * @param  width  an absolute URL giving the base location of the image
-	 * @param  height the location of the image, relative to the url argument
+	 * @param  width  width of the room
+	 * @param  height height of the room
 	 * @param  xLoc   the x coordinate location
 	 * @param  yLoc   the y coordinate location
 	 * @see           Room
@@ -59,8 +59,8 @@ public class Room {
 	 * This constructor takes basic area and a Center location to create a room
 	 * Similar to the other constructor, but uses a center instead of 2 ints
 	 * 
-	 * @param  width  an absolute URL giving the base location of the image
-	 * @param  height the location of the image, relative to the url argument
+	 * @param  width  width of room
+	 * @param  height height of room
 	 * @param  center the center coordinate of the room
 	 * @see    Room
 	 * @see    Center
@@ -88,6 +88,56 @@ public class Room {
 				
 		// Center of the new room
 		this.center = center;
+		
+	}
+	
+	/**
+	 * Documentation Pending
+	 * @param house
+	 * @param center
+	 */
+	Room(House house, Center center) {
+		
+		// Dimensions of the room
+		this.width = house.struct[0].length;
+		this.height = house.struct.length;
+						
+		// Location of top left corner on map
+		this.xLoc = (int) (center.x - Math.floor(width/2));
+		this.yLoc = (int) (center.y - Math.floor(height / 2));
+						
+		// 2D Array
+		this.room = house.struct;
+						
+		// Center of the new room
+		this.center = center;
+		
+	}
+	
+	/**
+	 * Documentation Pending
+	 * 
+	 * @param  width  width of room
+	 * @param  height height of the room
+	 * @param  xLoc   the x coordinate location
+	 * @param  yLoc   the y coordinate location
+	 * @see           Room
+	 */
+	public Room(House house, int xLoc, int yLoc) {
+		
+		// Dimensions of the room
+		this.width = house.struct[0].length;
+		this.height = house.struct.length;
+		
+		// Location of top left corner on map
+		this.xLoc = xLoc;
+		this.yLoc = yLoc;
+		
+		// 2D Array
+		this.room = house.struct;
+		
+		// Center of the new room
+		this.center = new Center((int) Math.floor(width / 2) + xLoc, (int) Math.floor(height / 2) + yLoc);
 		
 	}
 	
