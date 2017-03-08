@@ -4,6 +4,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class OptionPane {
+	
 	public static void draw(Renderer r) {
 		for (int i = 0; i < r.dataManager.system.inputText.size(); i++) {
 			drawInput(r, r.dataManager.system.inputText.get(i), i);

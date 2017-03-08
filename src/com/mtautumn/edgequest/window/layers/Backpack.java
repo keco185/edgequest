@@ -5,6 +5,7 @@ import org.newdawn.slick.Color;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Backpack {
+	
 	public static void draw(Renderer r) {
 		r.fillRect(0, 0, r.dataManager.settings.screenWidth, r.dataManager.settings.screenHeight, 0.2f,0.2f,0.2f, 0.7f);
 		drawBackground(r);

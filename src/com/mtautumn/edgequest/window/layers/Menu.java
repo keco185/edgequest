@@ -5,6 +5,7 @@ import com.mtautumn.edgequest.window.MenuButtonManager.MenuButton;
 import com.mtautumn.edgequest.window.MenuButtonManager.MenuPane;
 
 public class Menu {
+	
 	public static void draw(Renderer r) {
 		
 		r.fillRect(0, 0, r.dataManager.settings.screenWidth, r.dataManager.settings.screenHeight, 0.2f,0.2f,0.2f, 0.7f);
