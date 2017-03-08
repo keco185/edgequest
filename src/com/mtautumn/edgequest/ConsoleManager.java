@@ -15,6 +15,7 @@ import com.mtautumn.edgequest.entities.Character;
 import com.mtautumn.edgequest.entities.Entity;
 import com.mtautumn.edgequest.entities.Pet;
 import com.mtautumn.edgequest.entities.Troll;
+import com.mtautumn.edgequest.entities.Villager;
 
 public class ConsoleManager {
 	DataManager dataManager;
@@ -206,6 +207,9 @@ public class ConsoleManager {
 				case "pet":
 					dataManager.savable.entities.add(new Pet(entity));
 					break;
+				case "villager":
+					dataManager.savable.entities.add(new Villager(entity));
+					break;
 				default:
 					break;
 				}
@@ -224,6 +228,9 @@ public class ConsoleManager {
 							break;
 						case "pet":
 							dataManager.savable.entities.add(new Pet(entity));
+							break;
+						case "villager":
+							dataManager.savable.entities.add(new Villager(entity));
 							break;
 						default:
 							break;
