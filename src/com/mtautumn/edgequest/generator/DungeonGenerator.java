@@ -107,6 +107,7 @@ public class DungeonGenerator implements Generator {
 	 * Add ponds to the dungeon via a Drunkard's Walk
 	 * 
 	 * @see  DrunkardsWalk
+	 * @see DungeonGenerator
 	 */
 	private void addPonds() {
 		// NOTE: Lower value when not testing
@@ -130,6 +131,7 @@ public class DungeonGenerator implements Generator {
 	 * 
 	 * @see Room
 	 * @see Center
+	 * @see DungeonGenerator
 	 */
 	private void addStairs() {
 		
@@ -149,6 +151,7 @@ public class DungeonGenerator implements Generator {
 	 * Apply caves to the dungeon
 	 * 
 	 * @see Cave
+	 * @see DungeonGenerator
 	 */
 	private void applyCave() {	
 		
@@ -156,11 +159,22 @@ public class DungeonGenerator implements Generator {
 	
 	}
 	
+	/**
+	 * Apply temperature map to dungeon
+	 * 
+	 * @see Temperature
+	 * @see DungeonGenerator
+	 */
+	private void applyTemperature() {
+		dunTemp.overlay(this.temperatureMap, this.map);
+	}
+	
 	/** 
 	 * Connect all the rooms by making corridors between them
 	 * 
 	 * @see Room
 	 * @See Center
+	 * @see DungeonGenerator
 	 */
 	private void connectRooms() {
 
@@ -198,6 +212,7 @@ public class DungeonGenerator implements Generator {
 	 * 
 	 * @param n number to get a value around
 	 * @see     Random
+	 * @see     DungeonGenerator
 	 */
 	private int getValueAround(int n) {
 		return (int) (this.rng.nextInt(n) * (4/3));
@@ -217,6 +232,7 @@ public class DungeonGenerator implements Generator {
 	 * Make rooms in the dungeon
 	 * 
 	 * @see Room
+	 * @see DungeonGenerator
 	 */
 	private void makeRooms() {
 
@@ -250,6 +266,7 @@ public class DungeonGenerator implements Generator {
 	 * 
 	 * @param center1  coordinate of first room
 	 * @param center2  coordinate of second room
+	 * @see   DungeonGenerator
 	 */
 	private void makeHCorridor(Center center1, Center center2) {
 
@@ -284,6 +301,7 @@ public class DungeonGenerator implements Generator {
 	 * 
 	 * @param center1  coordinate of first room
 	 * @param center2  coordinate of second room
+	 * @see   DungeonGenerator
 	 */
 	private void makeVCorridor(Center center1, Center center2) {
 

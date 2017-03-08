@@ -8,7 +8,7 @@ import java.util.Random;
  * 
  * @author Gray
  */
-public class Cave {
+public class Cave implements Overlay {
 	
 	// Constant to set a tile to be replaced
 	final static int REPLACE = 1;
@@ -49,13 +49,14 @@ public class Cave {
 	 */
 	public int[][] makeAndApplyCave(int[][] dunMap, float thresh) {
 		
-		return overlayCave(thresholdMap(makeSimplexNoise(), thresh), dunMap);
+		return overlay(thresholdMap(makeSimplexNoise(), thresh), dunMap);
 		
 	}
 	
 	/**
 	 * Returns a threshold map ran on a map of Simplex Noise. Unlike makeAndApplyCave(), this does not overlay to another map.
 	 * <p>
+	 * Purely returns as 0.0 for not a cave and 1.0 for is a cave
 	 *
 	 * @param  thresh  the threshold value to determine what tile becomes a cave. Values between 0-1 work best
 	 * @return         the threshold map as a 2D array of floats
@@ -63,25 +64,25 @@ public class Cave {
 	 */
 	public int[][] generateCave(float thresh) {
 		
-		return thresholdMap(makeSimplexNoise(), thresh);
+		return polarizeThreshold(thresholdMap(makeSimplexNoise(), thresh));
 		
 	}
 	
 	/**
-	 * Returns a 2D array of floats based on Simplex Noise. Essentially a 2D simplex noise generator.
+	 * Returns a 2D array of doubles based on Simplex Noise. Essentially a 2D simplex noise generator.
 	 *
 	 * @return      2D array of floats from 0 - 1
 	 * @see         Cave
 	 */
-	private float[][] makeSimplexNoise() {
+	private double[][] makeSimplexNoise() {
 		SimplexNoise smplxNoise = new SimplexNoise(this.width/4, 0.5, this.seed + this.rng.nextInt());
 		
-		float[][] simplexMap = new float[this.width][this.height];
+		double[][] simplexMap = new double[this.width][this.height];
 		
 		for (int x = 0; x < simplexMap.length; x++) {
 			
 			for (int y = 0; y < simplexMap[x].length; y++) {
-				simplexMap[x][y] = (float) smplxNoise.getNoise(x, y);
+				simplexMap[x][y] = smplxNoise.getNoise(x, y);
 			}
 			
 		}
@@ -91,23 +92,23 @@ public class Cave {
 	}
 	
 	/**
-	 * Returns a 2D array of ints based on a simplex noise map after a threshold is applied.
+	 * Returns a 2D array of doubles based on a simplex noise map after a threshold is applied.
 	 *
 	 * @param  simplexMap  2D array of floats from a Simplex Noise Generator
 	 * @param  thresh      the threshold value to determine what tile becomes a cave. Values between 0-1 work best
-	 * @return             2D array of ints as a threshold map
+	 * @return             2D array of doubles as a threshold map
 	 * @see                Cave
 	 */
-	private static int[][] thresholdMap(float[][] simplexMap, float thresh) {
+	private static double[][] thresholdMap(double[][] simplexMap, float thresh) {
 		
-		int[][] threshMap = new int[simplexMap.length][simplexMap[0].length];
+		double[][] threshMap = new double[simplexMap.length][simplexMap[0].length];
 		
 		for (int x = 0; x < simplexMap.length; x++) {
 			
 			for (int y = 0; y < simplexMap[x].length; y++) {
 				
 				if (simplexMap[x][y] > thresh) {
-					threshMap[x][y] = REPLACE;
+					threshMap[x][y] = simplexMap[x][y];
 				}
 				
 			}
@@ -115,6 +116,33 @@ public class Cave {
 		}
 		
 		return threshMap;
+		
+	}
+	
+	/**
+	 * Documentation pending
+	 * @param threshMap
+	 * @return
+	 */
+	public int[][] polarizeThreshold(double[][] threshMap) {
+		
+		int[][] polarizedMap = new int[threshMap.length][threshMap[0].length];
+		
+		for (int x = 0; x < threshMap.length; x++) {
+			
+			for (int y = 0; y < threshMap[x].length; y++) {
+				
+				if (threshMap[x][y] != 0) {
+					polarizedMap[x][y] = REPLACE;
+				} else {
+					polarizedMap[x][y] = 0;
+				}
+				
+			}
+			
+		}
+		
+		return polarizedMap;
 		
 	}
 	
@@ -131,14 +159,15 @@ public class Cave {
 	 * @return            2D array of ints after the threshold map is 'subtracted' from the dungeon map
 	 * @see               Cave
 	 */
-	private static int[][] overlayCave(int[][] threshMap, int[][] dunMap) {
+
+	public int[][] overlay(double[][] threshMap, int[][] dunMap) {
 		
 		for (int i = 0; i < threshMap.length ; i++) {
 			
 			for (int j = 0; j < threshMap[0].length; j++) {
 				
 				// Only knock down walls
-				if (threshMap[i][j] == REPLACE && dunMap[i][j] != Tiles.FLOOR) {
+				if (threshMap[i][j] != 0 && dunMap[i][j] != Tiles.FLOOR) {
 					dunMap[i][j] = Tiles.FLOOR;
 				}
 				
