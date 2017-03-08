@@ -81,11 +81,19 @@ public class VillageGenerator implements Generator {
 	 * 
 	 * @param n number to get a value around
 	 * @see     Random
+	 * @see VillageGenerator
 	 */
 	private int getValueAround(int n) {
 		return (int) (this.rng.nextInt(n) * (4/3));
 	}
 	
+	/**
+	 * Get a random house from the list of houses to use
+	 * @return a random house object
+	 * @see House
+	 * @see Houses
+	 * @see VillageGenerator
+	 */
 	private House getRandomHouse() {
 		int h = this.rng.nextInt(Houses.HouseList.length);
 	    return Houses.HouseList[h];
@@ -97,6 +105,7 @@ public class VillageGenerator implements Generator {
 	 * This will be removed
 	 * 
 	 * @see Room
+	 * @see VillageGenerator
 	 */
 	private void prepareTestHouses() {
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
@@ -133,6 +142,7 @@ public class VillageGenerator implements Generator {
 	 * This will be removed
 	 * 
 	 * @see Room
+	 * @see VillageGenerator
 	 */
 	private void buildTestHouses() {
 		for (int i = 0; i < currentMaxRooms; i++ ) {
@@ -161,6 +171,7 @@ public class VillageGenerator implements Generator {
 	 * @return      true if the room is in a good postion, false if not
 	 * @see         Room
 	 * @see         Center
+	 * @see         VillageGenerator
 	 */
 	private boolean roomOk(Room room) {
 		if (room.width > 3 && room.height > 3 && room.center.x + (int) room.width / 2 + 1 < this.width && room.center.y + (int) room.height/2 + 1 < height && room.center.x - (int) room.width/2 + 1> 0 && room.center.y - (int) room.height/2 + 1 > 0) {
@@ -185,6 +196,11 @@ public class VillageGenerator implements Generator {
 		
 	}
 	
+	/**
+	 * Take a room and mark it as off limits for future rooms
+	 * @param room Room to avoid
+	 * @see   VillageGenerator
+	 */
 	private void addRoomAvoid(Room room) {
 		for (int i = room.center.x - room.width / 2; i < room.center.x + room.width/2 + 1; i++) {
 			

@@ -92,9 +92,12 @@ public class Room {
 	}
 	
 	/**
-	 * Documentation Pending
-	 * @param house
-	 * @param center
+	 * This constructor takes a house and a center and makes a room from them
+	 * @param  house
+	 * @param  center
+	 * @see    House
+	 * @see    Center
+	 * @see    Room
 	 */
 	Room(House house, Center center) {
 		
@@ -115,12 +118,13 @@ public class Room {
 	}
 	
 	/**
-	 * Documentation Pending
+	 * This constructor takes a House and an x, y coordinate int pair to
+	 * make a room with
 	 * 
-	 * @param  width  width of room
-	 * @param  height height of the room
+	 * @param  house  house object to set the room to
 	 * @param  xLoc   the x coordinate location
 	 * @param  yLoc   the y coordinate location
+	 * @see           House
 	 * @see           Room
 	 */
 	public Room(House house, int xLoc, int yLoc) {
