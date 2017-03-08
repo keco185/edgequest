@@ -163,7 +163,15 @@ public class TerrainGeneratorThread extends Thread {
 				dm.world.setStructBlock(stairs[0] + x, stairs[1] + y, -1, dm.system.blockNameMap.get("dungeon").getID());
 			}
 			
-			int[][] dungeonMap = new DungeonGenerator(100, 100, 10, generateSeed(dungeonSeedBase,x,y,level), new Center(stairs[0], stairs[1])).build();
+			// Get Temperature map
+			double[][] tempMap = new double[100][100];
+			for (int i = 0 ; i < 100; i++) {
+				for (int j = 0; j < 100; j++) {
+					tempMap[i][j] = terrainGenerator.temperatureMapFiltered.get(x+i+","+y+j);
+				}
+			}
+			
+			int[][] dungeonMap = new DungeonGenerator(100, 100, 10, generateSeed(dungeonSeedBase,x,y,level), new Center(stairs[0], stairs[1]), tempMap).build();
 			
 			for (int i = 0; i < dungeonMap.length; i++) {
 				for (int j = 0; j < dungeonMap[1].length; j++) {

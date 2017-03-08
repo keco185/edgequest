@@ -1,6 +1,8 @@
 package com.mtautumn.edgequest.generator;
 
+import java.awt.List;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -38,6 +40,9 @@ public class DungeonGenerator implements Generator {
 	// Location to spawn center of first room
 	Center start = new Center();
 	
+	// Temperature hash map
+	double[][] temperatureMap;
+	
 	// Cave object to be created
 	Cave cave;
 	// DrukardsWalk object to be created
@@ -53,7 +58,7 @@ public class DungeonGenerator implements Generator {
 	 * @param start     center object to define the coordinate where the first room spawns
 	 * @see             Center
 	 */
-	public DungeonGenerator(int width, int height, int maxRooms, long seed, Center start) {
+	public DungeonGenerator(int width, int height, int maxRooms, long seed, Center start, double[][] temperatureMap) {
 		this.seed = seed;
 		this.rng = new Random(seed);
 		this.width = width;
@@ -61,8 +66,8 @@ public class DungeonGenerator implements Generator {
 		this.maxRooms = maxRooms;
 		
 		// TODO: Pass temp to dungeon
-		this.tempurature = 100;
-
+		this.temperatureMap = temperatureMap;
+		
 		// Initialize a map. Default all values are set to 0s (walls)
 		this.map = new int[width][height];
 		
