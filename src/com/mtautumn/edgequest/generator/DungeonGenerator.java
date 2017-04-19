@@ -86,9 +86,9 @@ public class DungeonGenerator implements Generator {
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
 		// TODO: This should really be simplified
 		for (int i = 1; i < currentMaxRooms; i++ ) {
-			this.rooms[i] = new Room(getValueAround(width), getValueAround(height), this.rng.nextInt(width), this.rng.nextInt(height));
+			this.rooms[i] = new Room(getValueAround(10), getValueAround(10), this.rng.nextInt(width), this.rng.nextInt(height));
 			while (this.rooms[i].center.x > this.width || this.rooms[i].center.y > this.height) {
-				this.rooms[i] = new Room(getValueAround(width), getValueAround(height), this.rng.nextInt(width), this.rng.nextInt(height));
+				this.rooms[i] = new Room(getValueAround(10), getValueAround(10), this.rng.nextInt(width), this.rng.nextInt(height));
 			}
 		}
 		
@@ -357,7 +357,10 @@ public class DungeonGenerator implements Generator {
 	public void debugPrintMap() {
 		
 		for (int[] row : this.map) {
-		    System.out.println(Arrays.toString(row));
+			for (int col : row) {
+				 System.out.print(col);
+			}
+			System.out.print("\n");
 		}
 		
 	}
@@ -376,7 +379,7 @@ public class DungeonGenerator implements Generator {
 		this.addPonds();
 		this.addStairs();
 		
-		// this.debugPrintMap();
+		this.debugPrintMap();
 		
 		return this.map;
 
