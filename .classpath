@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="jars/slick-examples.jar"/>
 	<classpathentry kind="lib" path="jars/slick.jar"/>
 	<classpathentry kind="lib" path="jars/tinylinepp.jar"/>
+	<classpathentry kind="lib" path="jars/json.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

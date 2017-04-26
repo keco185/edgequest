@@ -1,7 +1,13 @@
 package com.mtautumn.edgequest.generator;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Random;
+
+import org.json.*;
 
 /**
  * This class is used to make a 2D Array of 'Tiles' as a representation
@@ -249,8 +255,16 @@ public class VillageGenerator implements Generator {
 		
 		this.prepareTestHouses();
 		this.buildTestHouses();
+		this.jsonTest();
 		
 		return this.map;
+		
+	}
+	
+	public void jsonTest() {
+		
+		JSONObject obj = new JSONObject("{\"error\": \"message\" }");
+		System.out.println(obj.get("if you're reading this, JSON works"));
 		
 	}
 	

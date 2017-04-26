@@ -379,7 +379,7 @@ public class DungeonGenerator implements Generator {
 		this.addPonds();
 		this.addStairs();
 		
-		this.debugPrintMap();
+		// this.debugPrintMap();
 		
 		return this.map;
 
