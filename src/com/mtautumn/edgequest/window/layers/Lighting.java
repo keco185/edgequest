@@ -12,6 +12,7 @@ public class Lighting extends Thread {
 	public Lighting(Renderer r) {
 		this.r = r;
 	}
+	@Override
 	public void run() {
 		if (r.dataManager.world.getBrightness() < 1 && !r.dataManager.world.noLighting) {
 			updatePlayerLight(r);
@@ -60,8 +61,12 @@ public class Lighting extends Thread {
 			float brightness1 = brightness;
 			float brightness2 = (float) (1.0 - triangle.radius1 / radius) * brightness;
 			float brightness3 = (float) (1.0 - triangle.radius2 / radius) * brightness;
-			if (brightness2 < 0) brightness2 = 0;
-			if (brightness3 < 0) brightness3 = 0;
+			if (brightness2 < 0) {
+				brightness2 = 0;
+			}
+			if (brightness3 < 0) {
+				brightness3 = 0;
+			}
 			r.fillLightingColorTriangle((float) triangle.x1 * r.dataManager.settings.blockSize + offsetX, (float) triangle.y1 * r.dataManager.settings.blockSize + offsetY,(float) triangle.x2 * r.dataManager.settings.blockSize + offsetX,(float) triangle.y2 * r.dataManager.settings.blockSize + offsetY,(float) triangle.x3 * r.dataManager.settings.blockSize + offsetX,(float) triangle.y3 * r.dataManager.settings.blockSize + offsetY, brightness1, brightness2, brightness3);
 		}
 	}

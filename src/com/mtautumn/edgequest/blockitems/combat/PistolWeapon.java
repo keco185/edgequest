@@ -13,6 +13,7 @@ public class PistolWeapon extends Weapon{
 		ammoTypes = new String[]{"bullet"};
 		maxHealth = 50;
 	}
+	@Override
 	public Projectile[] createProjectiles(String ammo, Entity entity, double offsetX, double offsetY, boolean hand) { //Method is called when weapon is used. SHould be overwritten
 		entity.lastSpeedX -= Math.cos(-entity.getRot()) * 0.07;
 		entity.lastSpeedY += Math.sin(-entity.getRot()) * 0.07;

@@ -60,7 +60,11 @@ public class ItemSlot implements Serializable {
 		correctItemCount();
 	}
 	private void correctItemCount() {
-		if (itemCount > maxItemCount) itemCount = maxItemCount;
-		if (itemCount < 0) itemCount = 0;
+		if (itemCount > maxItemCount) {
+			itemCount = maxItemCount;
+		}
+		if (itemCount < 0) {
+			itemCount = 0;
+		}
 	}
 }

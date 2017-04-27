@@ -43,14 +43,18 @@ public class UpdateRayCast {
 	private void addVertex(double angle, double radius, double range, ArrayList<Point> points, ArrayList<Line> lines, LightSource light) {
 		double correctedAngle = angle;
 		double correctedRadius = radius;
-		if (correctedAngle > Math.PI)
+		if (correctedAngle > Math.PI) {
 			correctedAngle = Math.PI;
-		if (correctedAngle < -Math.PI)
+		}
+		if (correctedAngle < -Math.PI) {
 			correctedAngle = -Math.PI;
-		if (correctedRadius < 0)
+		}
+		if (correctedRadius < 0) {
 			correctedRadius = 0;
-		if (correctedRadius > range)
+		}
+		if (correctedRadius > range) {
 			correctedRadius = range;
+		}
 		double dX = Math.cos(angle) * radius;
 		double dY = Math.sin(angle) * radius;
 		double x = light.posX + dX;
@@ -60,8 +64,9 @@ public class UpdateRayCast {
 				CartesianPoint intersection = getLineLineIntersection(light.posX, light.posY, x, y, lines.get(i).x1, lines.get(i).y1, lines.get(i).x2, lines.get(i).y2);
 				double intersectionRadius = Math.sqrt(Math.pow(intersection.x - light.posX, 2) + Math.pow(intersection.y - light.posY, 2));
 				if (!Double.isNaN(intersectionRadius)) {
-					if (intersectionRadius < correctedRadius)
+					if (intersectionRadius < correctedRadius) {
 						correctedRadius = intersectionRadius;
+					}
 				}
 				x = light.posX + Math.cos(angle) * radius;
 				y = light.posY - Math.sin(angle) * radius;
@@ -321,27 +326,31 @@ public class UpdateRayCast {
 
 		}
 		public double getSmallestAngle() {
-			if (angle1 < angle2)
+			if (angle1 < angle2) {
 				return angle1;
+			}
 			return angle2;
 		}
 		public double getLargestAngle() {
-			if (angle2 < angle1)
+			if (angle2 < angle1) {
 				return angle1;
+			}
 			return angle2;
 		}
 		public void rotateSide(int line, double x, double y, boolean adjustLength) {
 			double angle = Math.atan2(originY - y, x-originX);
-			if (line == 1) 
+			if (line == 1) {
 				angle1 = angle;
-			else
+			} else {
 				angle2 = angle;
+			}
 			if (adjustLength) {
 				double length = Math.sqrt(Math.pow(x-originX, 2)+Math.pow(y-originY, 2));
-				if (line == 1)
+				if (line == 1) {
 					radius1 = length;
-				else
+				} else {
 					radius2 = length;
+				}
 			}
 		}
 		public boolean isZeroTriangle() {
@@ -379,8 +388,9 @@ public class UpdateRayCast {
 			return false;
 		}
 		private double getDistance(double x, double y, int point) {
-			if (point == 1)
+			if (point == 1) {
 				return Math.sqrt(Math.pow(x-x1, y-y1));
+			}
 			return Math.sqrt(Math.pow(x-x2, y-y2));
 		}
 		public double getPolarAngle(double x, double y, int point) {

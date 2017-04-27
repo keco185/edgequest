@@ -12,10 +12,18 @@ public class RoadState {
 	}
 	public int countRoads() {
 		int i = 0;
-		if (roadTop) i++;
-		if (roadLeft) i++;
-		if (roadRight) i++;
-		if (roadBottom) i++;
+		if (roadTop) {
+			i++;
+		}
+		if (roadLeft) {
+			i++;
+		}
+		if (roadRight) {
+			i++;
+		}
+		if (roadBottom) {
+			i++;
+		}
 		return i;
 	}
 

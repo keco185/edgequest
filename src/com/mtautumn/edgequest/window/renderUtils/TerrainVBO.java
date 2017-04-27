@@ -23,6 +23,7 @@ public class TerrainVBO implements VBO {
 		invAtlasWidth = 1f/dm.settings.atlasMap.get("dimensions")[0];
 		invAtlasHeight = 1f/dm.settings.atlasMap.get("dimensions")[1];
 	}
+	@Override
 	public void addVertex(float x, float y) {
 		verticiesArray.add(x);
 		verticiesArray.add(y);
@@ -31,6 +32,7 @@ public class TerrainVBO implements VBO {
 		textCoordsArray.add(x);
 		textCoordsArray.add(y);
 	}
+	@Override
 	public void addQuad(float x, float y, float width, float height) {
 		addVertex(x,y);
 		addVertex(x+width,y);
@@ -45,6 +47,7 @@ public class TerrainVBO implements VBO {
 		addTexture(x+invAtlasWidth - 0.002f,y+invAtlasHeight - 0.002f);
 		addTexture(x,y+invAtlasHeight - 0.002f);
 	}
+	@Override
 	public void preWrite() {
 		verticies = BufferUtils.createFloatBuffer(verticiesArray.size());
 		textCoords = BufferUtils.createFloatBuffer(textCoordsArray.size());

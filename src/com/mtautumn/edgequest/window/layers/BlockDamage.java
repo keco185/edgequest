@@ -8,7 +8,9 @@ public class BlockDamage {
 		float posY = getMousePosY(r);
 		float blockSize = r.dataManager.settings.blockSize;
 		
-		if (!r.dataManager.system.isMouseFar) drawBlockHealth(r, posX, posY, blockSize);		
+		if (!r.dataManager.system.isMouseFar) {
+			drawBlockHealth(r, posX, posY, blockSize);
+		}		
 	}
 	
 	

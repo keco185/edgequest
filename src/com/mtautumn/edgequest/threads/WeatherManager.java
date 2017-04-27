@@ -25,6 +25,7 @@ public class WeatherManager extends Thread {
 	int iterator = 0;
 	double targetDryness;
 	double deltaStep = 0;
+	@Override
 	public void run() {
 		while(dm.system.running) {
 			try {
@@ -32,8 +33,12 @@ public class WeatherManager extends Thread {
 				if (iterator > 700) {
 					targetDryness = dm.savable.dryness + (Math.random() - 0.5) / 2.0;
 					iterator = 0;
-					if (targetDryness < -1) targetDryness = -1;
-					if (targetDryness > 1) targetDryness = 1;
+					if (targetDryness < -1) {
+						targetDryness = -1;
+					}
+					if (targetDryness > 1) {
+						targetDryness = 1;
+					}
 					deltaStep = (targetDryness - dm.savable.dryness) / 700.0;
 				} else {
 					dm.savable.dryness += deltaStep;

@@ -53,6 +53,7 @@ public class Character extends Entity {
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 	}
+	@Override
 	public String getTexture() {
 		if (dm.system.isKeyboardLeft ||
 				dm.system.isKeyboardUp ||
@@ -62,13 +63,17 @@ public class Character extends Entity {
 		}
 		return entityTexture + "." + entityTexture + "still" + stillAnimation[dm.system.animationClock % stillAnimation.length];
 	}
+	@Override
 	public void update() {
 		light.posX = getX();
 		light.posY = getY();
 		light.level = dungeonLevel;
 		dungeonLevel = dm.savable.dungeonLevel;
-		if (super.dm.system.isKeyboardSprint) super.moveSpeed = super.dm.settings.moveSpeed * 2.0;
-		else super.moveSpeed = super.dm.settings.moveSpeed;
+		if (super.dm.system.isKeyboardSprint) {
+			super.moveSpeed = super.dm.settings.moveSpeed * 2.0;
+		} else {
+			super.moveSpeed = super.dm.settings.moveSpeed;
+		}
 		if (super.dm.system.isKeyboardLeft ||
 				super.dm.system.isKeyboardUp ||
 				super.dm.system.isKeyboardRight ||
@@ -163,6 +168,7 @@ public class Character extends Entity {
 	}
 	
 	
+	@Override
 	public void initializeClass(DataManager dm) {
 		super.initializeClass(dm);
 	}

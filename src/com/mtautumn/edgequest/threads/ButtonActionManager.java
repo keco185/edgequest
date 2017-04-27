@@ -12,6 +12,7 @@ public class ButtonActionManager extends Thread {
 	public ButtonActionManager(DataManager dataManager) {
 		this.dataManager = dataManager;
 	}
+	@Override
 	public void run() {
 		while (dataManager.system.running) {
 			runButtonActions();

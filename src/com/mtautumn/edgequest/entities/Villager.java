@@ -57,6 +57,7 @@ public class Villager extends Entity {
 		villagerType = type;
 	}
 	
+	@Override
 	public void update() {
 		if (path != null) {
 			if (path.size() > 0) {

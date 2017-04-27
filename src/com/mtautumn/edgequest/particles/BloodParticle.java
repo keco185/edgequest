@@ -27,6 +27,7 @@ public class BloodParticle extends Particle {
 		this.speedYInitial = randMult * speedYInitial/10.0;
 		disappearTime = (int) (3600 + Math.random() * 3600);
 	}
+	@Override
 	public boolean update(DataManager dm) {
 		time++;
 		if (disappearTime < time) {

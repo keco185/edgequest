@@ -1,8 +1,5 @@
 package com.mtautumn.edgequest.generator;
 
-import java.awt.List;
-import java.util.Arrays;
-import java.util.Map;
 import java.util.Random;
 
 /**
@@ -342,6 +339,7 @@ public class DungeonGenerator implements Generator {
 	 * 
 	 * @see         Generator
 	 */
+	@Override
 	public void clearMap() {
 		
 		this.map = new int[this.width][this.height];
@@ -354,6 +352,7 @@ public class DungeonGenerator implements Generator {
 	 * 
 	 * @see         Generator
 	 */
+	@Override
 	public void debugPrintMap() {
 		
 		for (int[] row : this.map) {
@@ -371,6 +370,7 @@ public class DungeonGenerator implements Generator {
 	 * @return      2D array of ints that represent the feature as tiles
 	 * @see         Generator
 	 */
+	@Override
 	public int[][] build() {
 		
 		this.clearMap();

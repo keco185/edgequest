@@ -40,8 +40,9 @@ public class LightSource {
 	}
 	public void removeZeroTriangles() {
 		for (int i = 0; i < triangles.size(); i++) {
-			if (triangles.get(i).isZeroTriangle())
+			if (triangles.get(i).isZeroTriangle()) {
 				triangles.remove(i);
+			}
 		}
 	}
 	public void update() {

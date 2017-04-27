@@ -11,10 +11,11 @@ public class Time extends Command {
 		if (args.size() == 1) {
 			dm.savable.time = Integer.parseInt(args.get(0));
 			addInfoLine("Time set to: " + dm.savable.time, dm);
-		} else if (args.size() == 0)
+		} else if (args.size() == 0) {
 			addInfoLine("Time: " + dm.savable.time, dm);
-		else
+		} else {
 			addErrorLine("use the format " + usage(), dm);
+		}
 		return false;
 	}
 

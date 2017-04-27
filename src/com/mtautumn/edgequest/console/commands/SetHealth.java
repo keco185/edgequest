@@ -10,11 +10,14 @@ public class SetHealth extends Command {
 	public boolean execute(DataManager dm, ArrayList<String> args) {
 		if (args.size() > 0) {
 			double health = Double.parseDouble(args.get(0));
-			if (health > 100) health = 100;
+			if (health > 100) {
+				health = 100;
+			}
 			dm.characterManager.characterEntity.health = (int)(health/100.0 * dm.characterManager.characterEntity.maxHealth);
 			addInfoLine("set health to: " + dm.characterManager.characterEntity.health, dm);
-		} else
+		} else {
 			addErrorLine("use the format " + usage(), dm);
+		}
 		return true;
 	}
 

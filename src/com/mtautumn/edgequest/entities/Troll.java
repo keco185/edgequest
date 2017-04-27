@@ -42,6 +42,7 @@ public class Troll extends Entity {
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 		super.moveSpeed = 0.83;
 	}
+	@Override
 	public void update() {
 		if (checkCount == 10) {
 			checkCount = 0;
@@ -152,6 +153,7 @@ public class Troll extends Entity {
 		}
 		attackTimer++;
 	}
+	@Override
 	public void death() {
 		if (Math.random() > 0.8) {
 			ItemSlot drop = new ItemSlot();
@@ -182,6 +184,7 @@ public class Troll extends Entity {
 		return false;
 
 	}
+	@Override
 	public void initializeClass(DataManager dm) {
 		super.initializeClass(dm);
 	}

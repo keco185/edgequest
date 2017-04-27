@@ -9,10 +9,15 @@ public class MouseSelection {
 			float posY = getMousePosY(r);
 			float blockSize = r.dataManager.settings.blockSize;
 
-			if (r.dataManager.system.isMouseFar) drawFarSelection(r, posX, posY, blockSize);
-			else drawNearSelection(r, posX, posY, blockSize);
+			if (r.dataManager.system.isMouseFar) {
+				drawFarSelection(r, posX, posY, blockSize);
+			} else {
+				drawNearSelection(r, posX, posY, blockSize);
+			}
 
-			if (r.dataManager.system.isKeyboardTravel) drawFlag(r, posX, posY, blockSize);
+			if (r.dataManager.system.isKeyboardTravel) {
+				drawFlag(r, posX, posY, blockSize);
+			}
 		}
 	}
 

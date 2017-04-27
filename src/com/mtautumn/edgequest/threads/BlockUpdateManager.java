@@ -39,6 +39,7 @@ public class BlockUpdateManager extends Thread {
 		}
 		updateLighting(location);
 	}
+	@Override
 	public void run() {
 		//int i = 0;
 		while (dataManager.system.running) {

@@ -8,6 +8,7 @@ public class LightingUpdater extends Thread {
 	public LightingUpdater(DataManager dm) {
 		this.dm = dm;
 	}
+	@Override
 	public void run() {
 		while(dm.system.running) {
 			try {

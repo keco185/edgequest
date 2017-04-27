@@ -11,10 +11,11 @@ public class Speed extends Command {
 		if (args.size() == 1) {
 			dm.settings.moveSpeed = Double.parseDouble(args.get(0));
 			addInfoLine("Speed set to: " + dm.settings.moveSpeed, dm);
-		} else if (args.size() == 0)
+		} else if (args.size() == 0) {
 			addInfoLine("Speed is: " + dm.settings.moveSpeed, dm);
-		else
+		} else {
 			addErrorLine("use the format " + usage(), dm);
+		}
 		return true;
 	}
 

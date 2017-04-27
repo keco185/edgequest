@@ -312,7 +312,9 @@ public class Renderer {
 	}
 	private static float nearestPower2(float size) {
 		int i = 1;
-		for (; i < size; i *= 2);
+		for (; i < size; i *= 2) {
+			;
+		}
 		return i;
 	}
 

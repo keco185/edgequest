@@ -138,7 +138,9 @@ public class Projectile implements Serializable {
 		}
 	}
 	protected boolean checkEntity(Entity entity, double x, double y) {
-		if (entity == firedBy) return false;
+		if (entity == firedBy) {
+			return false;
+		}
 		for (int i = 0; i < hitEntities.size(); i++) {
 			if (entity == hitEntities.get(i)) {
 				return false;

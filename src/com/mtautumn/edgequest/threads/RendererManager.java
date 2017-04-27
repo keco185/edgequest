@@ -34,6 +34,7 @@ public class RendererManager extends Thread {
 		keyboardUpdater = new KeyboardUpdater(dataManager);
 	}
 	
+	@Override
 	public void run() {
 		prepareFPSCounting();
 		setupWindow();
@@ -65,7 +66,9 @@ public class RendererManager extends Thread {
 				keyboardUpdater.updateKeys();
 				updateWindow();
 				lastNanoPause += (1.0/Double.valueOf(dataManager.settings.targetFPS) - 1.0/Double.valueOf(dataManager.system.averagedFPS)) * 50000000.0;
-				if (lastNanoPause < 0) lastNanoPause = 0;
+				if (lastNanoPause < 0) {
+					lastNanoPause = 0;
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -120,7 +123,9 @@ public class RendererManager extends Thread {
 	}
 	
 	private void updateAverageFPS(int FPS) {
-		if (FPS / 5.0 > dataManager.system.averagedFPS) FPS = dataManager.system.averagedFPS+1;
+		if (FPS / 5.0 > dataManager.system.averagedFPS) {
+			FPS = dataManager.system.averagedFPS+1;
+		}
 		int fpsSum = 0;
 		for (int i = lastXFPS.length - 1; i > 0; i--) {
 			lastXFPS[i] = lastXFPS[i - 1];
@@ -149,7 +154,9 @@ public class RendererManager extends Thread {
 		} else {
 			dataManager.system.uiZoom = dataManager.settings.screenWidth / 1280;
 		}
-		if (dataManager.system.uiZoom < 1) dataManager.system.uiZoom = 0.8;
+		if (dataManager.system.uiZoom < 1) {
+			dataManager.system.uiZoom = 0.8;
+		}
 	}
 	
 	private void findViewDimensions() {

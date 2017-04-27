@@ -34,6 +34,7 @@ public class BulletProjectile extends Projectile {
 		texture = new String[]{"bullet0"};
 	}
 	
+	@Override
 	protected double[] increment(double newIncrement) {
 		double[] newLocation = new double[2];
 		newLocation[0] = startX + Math.cos(angle) * speed * newIncrement;
@@ -41,6 +42,7 @@ public class BulletProjectile extends Projectile {
 		return newLocation;
 	}
 	
+	@Override
 	public void manipulateHitEntity(Entity entity) {
 		entity.lastSpeedX += Math.cos(angle) * speed / 450.0;
 		entity.lastSpeedY -= Math.sin(angle) * speed / 450.0;

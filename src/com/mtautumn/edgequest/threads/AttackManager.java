@@ -11,6 +11,7 @@ public class AttackManager extends Thread {
 	public AttackManager(DataManager dm) {
 		this.dm = dm;
 	}
+	@Override
 	public void run() {
 		boolean wasLeftMouseDown = false;
 		while (dm.system.running) {

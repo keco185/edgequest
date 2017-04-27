@@ -7,6 +7,7 @@ public class DamagePostManager extends Thread{
 	public DamagePostManager(DataManager dm) {
 		this.dm = dm;
 	}
+	@Override
 	public void run() {
 		while (dm.system.running) {
 			try {

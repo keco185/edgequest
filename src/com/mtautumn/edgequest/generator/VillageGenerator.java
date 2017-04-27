@@ -225,6 +225,7 @@ public class VillageGenerator implements Generator {
 	 * 
 	 * @see         Generator
 	 */
+	@Override
 	public void clearMap() {
 		this.map = new int[this.width][this.height];
 		// Arrays.fill(this.map, dunTemp.getWall(this.tempurature));
@@ -235,6 +236,7 @@ public class VillageGenerator implements Generator {
 	 * 
 	 * @see         Generator
 	 */
+	@Override
 	public void debugPrintMap() {
 		for (int[] row : this.map) {
 		    System.out.println(Arrays.toString(row));
@@ -247,6 +249,7 @@ public class VillageGenerator implements Generator {
 	 * @return      2D array of ints that represent the feature as tiles
 	 * @see         Generator
 	 */
+	@Override
 	public int[][] build() {
 		
 		this.prepareTestHouses();

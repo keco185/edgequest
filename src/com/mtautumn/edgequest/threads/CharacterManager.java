@@ -30,6 +30,7 @@ public class CharacterManager extends Thread{
 			blockUpdateManager.updateBlock(location);
 		}
 	}
+	@Override
 	public void run() {
 		createCharacterEntity();
 		while (dataManager.system.running) {

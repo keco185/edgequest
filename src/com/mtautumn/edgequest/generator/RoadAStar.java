@@ -97,42 +97,51 @@ public class RoadAStar {
 		boolean nodeClear = true;
 		boolean diag1Clear = true;
 		boolean diag2Clear = true;
-		if (dm.world.isStructBlock(x, y, level))
+		if (dm.world.isStructBlock(x, y, level)) {
 			nodeClear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, y, level)).isPassable;
-		if (dm.world.isStructBlock(firstX, y, level))
+		}
+		if (dm.world.isStructBlock(firstX, y, level)) {
 			diag1Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(firstX, y, level)).isPassable;
-		if (dm.world.isStructBlock(x, firstY, level))
+		}
+		if (dm.world.isStructBlock(x, firstY, level)) {
 			diag2Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, firstY, level)).isPassable;
+		}
 
-		if (nodeClear)
+		if (nodeClear) {
 			nodeClear = x % 100 != 0 && y % 100 != 0;
-		if (diag1Clear)
+		}
+		if (diag1Clear) {
 			diag1Clear = firstX % 100 != 0 && y % 100 != 0;
-		if (diag2Clear)
+		}
+		if (diag2Clear) {
 			diag2Clear = x % 100 != 0 && firstY % 100 != 0;
+		}
 
 		return nodeClear && (diag1Clear || diag2Clear);
 
 	}
 	private static int getNode(int x, int y, ArrayList<Node> nodes) {
 		for (int i = 0; i < nodes.size(); i++) {
-			if (nodes.get(i).x == x && nodes.get(i).y == y)
+			if (nodes.get(i).x == x && nodes.get(i).y == y) {
 				return i;
+			}
 		}
 		return -1;
 	}
 	private static boolean doesNodeExist(int x, int y, ArrayList<Node> nodes) {
 		for (int i = 0; i < nodes.size(); i++) {
-			if (nodes.get(i).x == x && nodes.get(i).y == y)
+			if (nodes.get(i).x == x && nodes.get(i).y == y) {
 				return true;
+			}
 		}
 		return false;
 	}
 	private static Node getLowestFCost(ArrayList<Node> nodes) {
 		Node bestNode = nodes.get(0);
 		for (int i = 1; i < nodes.size(); i++) {
-			if (nodes.get(i).fCost < bestNode.fCost)
+			if (nodes.get(i).fCost < bestNode.fCost) {
 				bestNode = nodes.get(i);
+			}
 		}
 		return bestNode;
 	}

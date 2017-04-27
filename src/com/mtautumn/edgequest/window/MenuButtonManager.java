@@ -63,7 +63,9 @@ public class MenuButtonManager {
 		for (int i = 0; i < getCurrentMenu().getButtons().size(); i++) {
 			MenuButton button = getCurrentMenu().getButtons().get(i);
 			if (adjustedX > button.getX() && adjustedX < button.getX() + button.getWidth() && adjustedY > button.getY() && adjustedY < button.getY() + button.getHeight()) {
-				if (button.visible) runButtonAction(button.name);
+				if (button.visible) {
+					runButtonAction(button.name);
+				}
 			}
 		}
 	}

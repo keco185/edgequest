@@ -39,6 +39,7 @@ public class Pet extends Entity {
 		}
 	}
 	private int attackStage = 0;
+	@Override
 	public void update() {
 		if (attackEntity != null) {
 			if (attackEntity.health <= 0) {
@@ -103,6 +104,7 @@ public class Pet extends Entity {
 		}
 	}
 
+	@Override
 	public void initializeClass(DataManager dm) {
 		super.initializeClass(dm);
 	}

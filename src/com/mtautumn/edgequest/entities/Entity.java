@@ -150,7 +150,9 @@ public class Entity implements Externalizable {
 		}
 	}
 	public void update() {
-		if (lastUpdate == 0L) lastUpdate = System.currentTimeMillis();
+		if (lastUpdate == 0L) {
+			lastUpdate = System.currentTimeMillis();
+		}
 		if (path != null) {
 			if (path.size() > 0) {
 				if (approachPoint(path.get(path.size() - 1), 30) || isImpassible(path.get(path.size() - 1))) { //returns true if arrived at point

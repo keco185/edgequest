@@ -65,8 +65,12 @@ public class BlockItem implements Serializable {
 		}
 	}
 	public String getItemImg(int time) {
-		if (isItem) return "items." + itemImg.get(time % itemImg.size());
-		if (isBlock) return "blocks." + blockImg.get(time % blockImg.size());
+		if (isItem) {
+			return "items." + itemImg.get(time % itemImg.size());
+		}
+		if (isBlock) {
+			return "blocks." + blockImg.get(time % blockImg.size());
+		}
 		return null;
 	}
 	public String getDropImg(int time) {
@@ -76,8 +80,12 @@ public class BlockItem implements Serializable {
 		return getItemImg(time);
 	}
 	public String getBlockImg(int time) {
-		if (isBlock) return "blocks." + blockImg.get(time % blockImg.size());
-		if (isItem) return "items." + itemImg.get(time % itemImg.size());
+		if (isBlock) {
+			return "blocks." + blockImg.get(time % blockImg.size());
+		}
+		if (isItem) {
+			return "items." + itemImg.get(time % itemImg.size());
+		}
 		return null;
 	}
 	public int[] getAtlasedBlockImg(int time) {

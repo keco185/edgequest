@@ -72,11 +72,14 @@ public class WorldUtils {
 		return dm.savable.lightMap.containsKey(x+","+y+","+level);
 	}
 	public double getBrightness() {
-		if (dm.savable.dungeonLevel > -1)
+		if (dm.savable.dungeonLevel > -1) {
 			return 0.0;
+		}
 		int tempTime = dm.savable.time - 200;
 		double brightness = 0.0;
-		if (tempTime < 1200) tempTime += 2400;
+		if (tempTime < 1200) {
+			tempTime += 2400;
+		}
 		double distFromMidnight = Math.abs(tempTime - 2400);
 		if (distFromMidnight > 600) {
 			brightness = 1;
@@ -85,8 +88,12 @@ public class WorldUtils {
 		} else {
 			brightness = 0.2;
 		}
-		if (brightness > 1) brightness = 1;
-		if (brightness < 0) brightness = 0;
+		if (brightness > 1) {
+			brightness = 1;
+		}
+		if (brightness < 0) {
+			brightness = 0;
+		}
 		if (dm.savable.dryness < - 0.2) {
 			brightness -= (brightness - 0.2) * (-dm.savable.dryness - 0.2) * 0.4;
 		}
@@ -127,11 +134,14 @@ public class WorldUtils {
 		return isLightSource(x, y, entity.dungeonLevel);
 	}
 	public double getBrightness(Entity entity) {
-		if (entity.dungeonLevel > -1)
+		if (entity.dungeonLevel > -1) {
 			return 0.0;
+		}
 		int tempTime = dm.savable.time - 200;
 		double brightness = 0.0;
-		if (tempTime < 1200) tempTime += 2400;
+		if (tempTime < 1200) {
+			tempTime += 2400;
+		}
 		double distFromMidnight = Math.abs(tempTime - 2400);
 		if (distFromMidnight > 600) {
 			brightness = 1;
@@ -140,8 +150,12 @@ public class WorldUtils {
 		} else {
 			brightness = 0.2;
 		}
-		if (brightness > 1) brightness = 1;
-		if (brightness < 0) brightness = 0;
+		if (brightness > 1) {
+			brightness = 1;
+		}
+		if (brightness < 0) {
+			brightness = 0;
+		}
 		if (dm.savable.dryness < - 0.2) {
 			brightness -= (brightness - 0.2) * (-dm.savable.dryness - 0.2) * 0.4;
 		}
@@ -182,11 +196,14 @@ public class WorldUtils {
 		return isLightSource(location.x, location.y, location.level);
 	}
 	public double getBrightness(Location location) {
-		if (location.level > -1)
+		if (location.level > -1) {
 			return 0.0;
+		}
 		int tempTime = dm.savable.time - 200;
 		double brightness = 0.0;
-		if (tempTime < 1200) tempTime += 2400;
+		if (tempTime < 1200) {
+			tempTime += 2400;
+		}
 		double distFromMidnight = Math.abs(tempTime - 2400);
 		if (distFromMidnight > 600) {
 			brightness = 1;
@@ -195,8 +212,12 @@ public class WorldUtils {
 		} else {
 			brightness = 0.2;
 		}
-		if (brightness > 1) brightness = 1;
-		if (brightness < 0) brightness = 0;
+		if (brightness > 1) {
+			brightness = 1;
+		}
+		if (brightness < 0) {
+			brightness = 0;
+		}
 		if (dm.savable.dryness < - 0.2) {
 			brightness -= (brightness - 0.2) * (-dm.savable.dryness - 0.2) * 0.4;
 		}

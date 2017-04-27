@@ -17,6 +17,7 @@ public class LightingVBO implements VBO {
 	ArrayList<Float> verticiesArray = new ArrayList<Float>(); // 2 per vertex
 	ArrayList<Float> locationAttributeArray = new ArrayList<Float>(); //2 per vertex
 	ArrayList<Float> opacityAttributeArray = new ArrayList<Float>(); //4 per vertex
+	@Override
 	public void addVertex(float x, float y) {
 		verticiesArray.add(x);
 		verticiesArray.add(y);
@@ -25,6 +26,7 @@ public class LightingVBO implements VBO {
 		locationAttributeArray.add(x);
 		locationAttributeArray.add(y);
 	}
+	@Override
 	public void addQuad(float x, float y, float width, float height) {
 		addVertex(x,y);
 		addLocation(0,0);
@@ -43,6 +45,7 @@ public class LightingVBO implements VBO {
 			opacityAttributeArray.add(d);
 		}
 	}
+	@Override
 	public void preWrite() {
 		verticies = BufferUtils.createFloatBuffer(verticiesArray.size());
 		locations = BufferUtils.createFloatBuffer(locationAttributeArray.size());

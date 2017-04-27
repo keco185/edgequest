@@ -27,7 +27,9 @@ public class UpdateMining {
 				}
 				if (getBlockAt(dataManager.system.mouseX, dataManager.system.mouseY,dataManager.savable.dungeonLevel) != null && (wasStructBlock || (!wasStructBlock && dataManager.world.isStructBlock(dataManager.system.mouseX, dataManager.system.mouseY, dataManager.savable.dungeonLevel)))) {
 					dataManager.system.blockDamage += 1.0/getBlockAt(dataManager.system.mouseX, dataManager.system.mouseY, dataManager.savable.dungeonLevel).hardness/dataManager.settings.tickLength;
-					if (dataManager.system.blockDamage < 0) dataManager.system.blockDamage = 0;
+					if (dataManager.system.blockDamage < 0) {
+						dataManager.system.blockDamage = 0;
+					}
 					if (dataManager.system.blockDamage >= 10) {
 						dataManager.system.blockDamage = 0;
 						breakBlock(dataManager.system.mouseX, dataManager.system.mouseY, dataManager.savable.dungeonLevel);

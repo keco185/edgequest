@@ -39,7 +39,9 @@ public class MouseTooltips {
 		int padding = (int) (12 * r.dataManager.system.uiZoom);
 		for (String string : lines) {
 			int length = r.tooltipFont.getWidth(string);
-			if (length > tooltipWidth) tooltipWidth = length;
+			if (length > tooltipWidth) {
+				tooltipWidth = length;
+			}
 		}
 		double lineHeight = r.tooltipFont.getLineHeight() * 1.5;
 		int tooltipHeight = (int) (lineHeight * lines.size());

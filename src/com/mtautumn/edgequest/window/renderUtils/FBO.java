@@ -90,7 +90,9 @@ public class FBO {
 	
 	private static int nearestPower2(int size) {
 		int i = 1;
-		for (; i < size; i *= 2);
+		for (; i < size; i *= 2) {
+			;
+		}
 		return i;
 	}
 }

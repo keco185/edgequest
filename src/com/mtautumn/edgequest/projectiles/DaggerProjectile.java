@@ -65,6 +65,7 @@ public class DaggerProjectile extends Projectile {
 		hitsLeft = maxHits;
 	}
 	
+	@Override
 	protected double[] increment(double newIncrement) {
 		if (returns && newIncrement > maxIncrement / 2.0) {
 			double[] newLocation = new double[2];

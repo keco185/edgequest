@@ -34,6 +34,7 @@ public class HandProjectile extends Projectile {
 		texture = new String[]{"none"};
 	}
 	
+	@Override
 	protected double[] increment(double newIncrement) {
 		double[] newLocation = new double[2];
 		newLocation[0] = startX + Math.cos(angle) * speed * newIncrement;

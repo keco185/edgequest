@@ -12,8 +12,9 @@ public class Reseed extends Command {
 			dm.savable.seed = (long) Double.parseDouble(args.get(0));
 			dm.resetTerrain();
 			addInfoLine("reseeded to seed: " + args.get(0), dm);
-		} else
+		} else {
 			addErrorLine("use the format " + usage(), dm);
+		}
 		return true;
 	}
 

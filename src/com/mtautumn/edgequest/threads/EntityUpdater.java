@@ -17,6 +17,7 @@ public class EntityUpdater extends Thread{
 			entity.setPos(deltaX + x, deltaY + y);
 		}
 	}
+	@Override
 	public void run() {
 		while(dm.system.running) {
 			try {

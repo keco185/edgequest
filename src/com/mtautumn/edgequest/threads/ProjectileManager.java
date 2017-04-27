@@ -8,6 +8,7 @@ public class ProjectileManager extends Thread {
 	public ProjectileManager(DataManager dm) {
 		this.dm = dm;
 	}
+	@Override
 	public void run() {
 		while(dm.system.running) {
 			try {

@@ -79,6 +79,7 @@ public class DrunkardsWalk implements Automata {
 	 * @return              a 2D int array of the dungeon map with the walk applied
 	 * @see                 DrunkardsWalk
 	 */
+	@Override
 	public int[][] walk(int[][] dunMap, int passes, float chaosChance, int find, int replace, int x, int y) {
 		
 		int xMax = dunMap.length;

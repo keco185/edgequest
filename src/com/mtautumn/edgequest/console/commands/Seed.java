@@ -8,10 +8,11 @@ public class Seed extends Command {
 
 	@Override
 	public boolean execute(DataManager dm, ArrayList<String> args) {
-		if (args.size() == 0)
+		if (args.size() == 0) {
 			addInfoLine("seed: " + dm.savable.seed, dm);
-		else
+		} else {
 			addErrorLine("Usage: " + usage(), dm);
+		}
 		addErrorLine("To change the current seed, type /reseed <seed>", dm);
 		return true;
 	}

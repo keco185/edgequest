@@ -62,19 +62,20 @@ public class ConsoleManager {
 
 	public void addLine(String text) {
 		// Linux doesn't like colons
-		if (text.startsWith("/"))
+		if (text.startsWith("/")) {
 			parseCommand(text);
-		else
+		} else {
 			lines.add(new Line(text));
+		}
 	}
 	public void addCommandFreeLine(String text) {
 		lines.add(new Line(text));
 	}
 	public void addLine(String text, int type) {
 		// Linux doesn't like colons
-		if (text.startsWith("/"))
+		if (text.startsWith("/")) {
 			parseCommand(text);
-		else
+		} else {
 			switch (type) {
 			case 1:
 				lines.add(new Line(text,Color.red));
@@ -86,6 +87,7 @@ public class ConsoleManager {
 				lines.add(new Line(text));
 				break;
 			}
+		}
 	}
 	public void addCommandFreeLine(String text, int type) {
 		switch (type) {
@@ -154,8 +156,9 @@ public class ConsoleManager {
 		for (int i = 0; i < count; i++) {
 			Line newest = getNewest(lineDB);
 			lines[i] = newest;
-			if (newest != null)
+			if (newest != null) {
 				lineDB.remove(newest);
+			}
 		}
 		return lines;
 	}
@@ -164,8 +167,9 @@ public class ConsoleManager {
 		Line newest = null;
 		for (int i = 0; i < lines.size(); i++) {
 			if (newest != null) {
-				if (newest.creationTime < lines.get(i).creationTime)
+				if (newest.creationTime < lines.get(i).creationTime) {
 					newest = lines.get(i);
+				}
 			} else {
 				newest = lines.get(i);
 			}

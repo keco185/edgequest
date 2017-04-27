@@ -33,17 +33,28 @@ public class Layers {
 			BlockDamage.draw(r);
 			DamagePosts.draw(r);
 			PrecipitationParticles.draw(r);
-			if (!r.dataManager.system.hideMouse) MouseSelection.draw(r);
+			if (!r.dataManager.system.hideMouse) {
+				MouseSelection.draw(r);
+			}
 			StatsBar.draw(r);
-			if (r.dataManager.system.isKeyboardBackpack) Backpack.draw(r);
+			if (r.dataManager.system.isKeyboardBackpack) {
+				Backpack.draw(r);
+			}
 			HotBar.draw(r);
 			MouseItem.draw(r);
-			if (!r.dataManager.system.characterLocationSet || r.dataManager.system.loadingWorld)
+			if (!r.dataManager.system.characterLocationSet || r.dataManager.system.loadingWorld) {
 				LoadingScreen.draw(r);
-			if (r.dataManager.system.isKeyboardMenu) Menu.draw(r);
+			}
+			if (r.dataManager.system.isKeyboardMenu) {
+				Menu.draw(r);
+			}
 			MouseTooltips.draw(r);
-			if (r.dataManager.settings.showDiag) DiagnosticsWindow.draw(r);
-			if (r.dataManager.system.showConsole) Console.draw(r);
+			if (r.dataManager.settings.showDiag) {
+				DiagnosticsWindow.draw(r);
+			}
+			if (r.dataManager.system.showConsole) {
+				Console.draw(r);
+			}
 		}
 		OptionPane.draw(r);
 	}
@@ -64,7 +75,9 @@ public class Layers {
 		
 		int ambientColorLocation = GL20.glGetUniformLocation(r.terrainDrawShader.getProgramId(),"ambientLight");
 		float brightness = (float) r.dataManager.world.getBrightness(r.dataManager.characterManager.characterEntity);
-		if (r.dataManager.world.noLighting) brightness = 1;
+		if (r.dataManager.world.noLighting) {
+			brightness = 1;
+		}
 		GL20.glUniform3f(ambientColorLocation, (brightness * brightness + brightness)/2f, (brightness * brightness + brightness)/2f, brightness);
 		
 		

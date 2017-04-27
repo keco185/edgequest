@@ -51,8 +51,9 @@ public class TerrainGenerator {
 	}
 	private double getAltNoise(long x, long y) {
 		try {
-			if (!altNoiseMap.containsKey(x + "," + y))
+			if (!altNoiseMap.containsKey(x + "," + y)) {
 				altNoiseMap.put(x+","+y, new Random(generateSeed(altSeedBase,x,y)).nextDouble());
+			}
 			return altNoiseMap.get(x + "," + y);
 		} catch (Exception e) {
 			altNoiseMap.put(x+","+y, new Random(generateSeed(altSeedBase,x,y)).nextDouble());
@@ -61,8 +62,9 @@ public class TerrainGenerator {
 	}
 	private double getTempNoise(long x, long y) {
 		try {
-			if (!tempNoiseMap.containsKey(x + "," + y))
+			if (!tempNoiseMap.containsKey(x + "," + y)) {
 				tempNoiseMap.put(x+","+y, new Random(generateSeed(tempSeedBase,x,y)).nextDouble());
+			}
 			return tempNoiseMap.get(x+","+y);
 		} catch (Exception e) {
 			tempNoiseMap.put(x+","+y, new Random(generateSeed(tempSeedBase,x,y)).nextDouble());
@@ -77,8 +79,9 @@ public class TerrainGenerator {
 				if (altitudeMap.containsKey(x + "," + y)) {
 					stats[0] = altitudeMap.get(x + "," + y);
 				}
-				if (temperatureMap.containsKey(x + "," + y))
+				if (temperatureMap.containsKey(x + "," + y)) {
 					stats[1] = temperatureMap.get(x + "," + y);
+				}
 				tryIt = false;
 			} catch (Exception e) {
 			}
@@ -89,8 +92,9 @@ public class TerrainGenerator {
 			double chunkRNGSum = 0;
 			for (int i = -2; i <= 2; i++) {
 				for (int j = -2; j <= 2; j++) {
-					if (i != 0 || j != 0)
+					if (i != 0 || j != 0) {
 						chunkRNGSum += getAltNoise(chunkX + i, chunkY + j);
+					}
 				}
 			}
 			stats[0] = chunkRNGSum + 1;
@@ -100,8 +104,9 @@ public class TerrainGenerator {
 			double chunkRNGSum = 0;
 			for (int i = -2; i <= 2; i++) {
 				for (int j = -2; j <= 2; j++) {
-					if (i != 0 || j != 0)
+					if (i != 0 || j != 0) {
 						chunkRNGSum += getTempNoise(chunkX + i, chunkY + j);
+					}
 				}
 			}
 			stats[1] = chunkRNGSum + 1;

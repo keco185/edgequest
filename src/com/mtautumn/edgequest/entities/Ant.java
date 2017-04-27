@@ -31,6 +31,7 @@ public class Ant extends Entity {
 		super.walkAnimation = new int[]{0,1,2,3,4};
 		super.moveSpeed = 0.05;
 	}
+	@Override
 	public void update() {
 		int tries = 0;
 		while ((!checkMove(0, getX() + lastX * moveSpeed) || !checkMove(1, getY() + lastY * moveSpeed) || tries == 0) && tries < 20) {
@@ -91,6 +92,7 @@ public class Ant extends Entity {
 		return false;
 		
 	}
+	@Override
 	public void initializeClass(DataManager dm) {
 		super.initializeClass(dm);
 	}

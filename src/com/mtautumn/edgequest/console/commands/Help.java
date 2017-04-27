@@ -57,7 +57,9 @@ public class Help extends Command {
 				if (dm.consoleManager.commands.size() >= startCommand && page > 0) {
 					int pages = (int) Math.ceil(dm.consoleManager.commands.size() / 7.0);
 					addInfoLine("Command List: (Page " + page + " of " + pages + ")", dm);
-					if (endCommand > dm.consoleManager.commands.size()) endCommand = dm.consoleManager.commands.size();
+					if (endCommand > dm.consoleManager.commands.size()) {
+						endCommand = dm.consoleManager.commands.size();
+					}
 					for (int i = startCommand; i <= endCommand; i++) {
 						addInfoLine("(" + i + ") " + dm.consoleManager.commands.get(i - 1).usage(), dm);
 					}

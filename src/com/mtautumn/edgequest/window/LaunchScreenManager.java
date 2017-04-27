@@ -38,7 +38,9 @@ public class LaunchScreenManager {
 		for (int i = 0; i < getCurrentMenu().getButtons().size(); i++) {
 			MenuButton button = getCurrentMenu().getButtons().get(i);
 			if (posX > button.getX() && posX < button.getX() + button.getWidth() && posY > button.getY() && posY < button.getY() + button.getHeight()) {
-				if (button.visible) runButtonAction(button.name);
+				if (button.visible) {
+					runButtonAction(button.name);
+				}
 			}
 		}
 	}

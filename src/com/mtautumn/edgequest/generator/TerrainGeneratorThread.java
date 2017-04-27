@@ -35,6 +35,7 @@ public class TerrainGeneratorThread extends Thread {
 
 	}
 
+	@Override
 	public void run() {
 
 		dungeonSeedBase = generateSeed(dm.savable.seed,213);

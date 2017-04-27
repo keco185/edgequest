@@ -75,8 +75,9 @@ public class KeyboardUpdater {
 					if (!dataManager.system.autoWalk) {
 						updateMovementKeys(keyUp, keyRight, keyDown, keyLeft);
 					} else {
-						if (keyUp || keyDown || keyRight || keyLeft) //If player tries to walk, end A* walking
+						if (keyUp || keyDown || keyRight || keyLeft) {
 							dataManager.system.autoWalk = false;
+						}
 					}
 					
 					if (keyZoomIn && !wasKeyDown[dataManager.settings.zoomInKey]) { //If zoom in key was just pressed
@@ -91,20 +92,25 @@ public class KeyboardUpdater {
 							dataManager.system.blockGenerationLastTick = true;
 						}	
 					}
-					if (keyShowDiag && !wasKeyDown[dataManager.settings.showDiagKey]) //If diagnostic key was just pressed
+					if (keyShowDiag && !wasKeyDown[dataManager.settings.showDiagKey]) {
 						dataManager.settings.showDiag = !dataManager.settings.showDiag;
+					}
 
-					if (keyMenu && !wasKeyDown[dataManager.settings.menuKey]) //If menu key was just pressed
+					if (keyMenu && !wasKeyDown[dataManager.settings.menuKey]) {
 						dataManager.system.isKeyboardMenu = !dataManager.system.isKeyboardMenu;
+					}
 
-					if (keyPlaceTorch && !wasKeyDown[dataManager.settings.placeTorchKey]) //If torch place key was just pressed
+					if (keyPlaceTorch && !wasKeyDown[dataManager.settings.placeTorchKey]) {
 						characterManager.charPlaceTorch();
+					}
 
-					if (keyBackpack && !wasKeyDown[dataManager.settings.backpackKey]) //If backpack/inventory key was just pressed
+					if (keyBackpack && !wasKeyDown[dataManager.settings.backpackKey]) {
 						dataManager.system.isKeyboardBackpack = !dataManager.system.isKeyboardBackpack;
+					}
 
-					if (keyConsole && !wasKeyDown[dataManager.settings.consoleKey]) //If console key was just pressed
+					if (keyConsole && !wasKeyDown[dataManager.settings.consoleKey]) {
 						dataManager.system.showConsole = true;
+					}
 					if (keyExit && !wasKeyDown[dataManager.settings.exitKey]) { //If exit/escape key was just pressed
 						if (dataManager.system.showConsole) {
 							dataManager.system.showConsole = false;
@@ -129,7 +135,9 @@ public class KeyboardUpdater {
 
 			}
 			
-			if (keyboard.wasConsoleUp) keyboard.wasConsoleUp = dataManager.system.showConsole;
+			if (keyboard.wasConsoleUp) {
+				keyboard.wasConsoleUp = dataManager.system.showConsole;
+			}
 			
 			// Perform exit/escape key actions
 			if (keyExit && !wasKeyDown[dataManager.settings.exitKey]) {

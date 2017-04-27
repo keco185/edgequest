@@ -8,6 +8,7 @@ public class GameClock extends Thread {
 	public GameClock(DataManager dataManager) {
 		this.dataManager = dataManager;
 	}
+	@Override
 	public void run() {
 		while(dataManager.system.running) {
 			try {
@@ -19,7 +20,9 @@ public class GameClock extends Thread {
 					}
 					int hours = (int) Math.floor(dataManager.savable.time / 100) % 12;
 					int minutes = (int) Math.round(Double.valueOf(dataManager.savable.time % 100) * 0.05);
-					if (hours == 0) hours = 12;
+					if (hours == 0) {
+						hours = 12;
+					}
 
 					if (dataManager.savable.time < 1200) {
 						dataManager.system.timeReadable = "" + hours + ":" + minutes + "0 AM";

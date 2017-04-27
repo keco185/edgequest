@@ -11,6 +11,7 @@ public class AnimationClock extends Thread {
 	public AnimationClock(DataManager dataManager) {
 		this.dataManager = dataManager;
 	}
+	@Override
 	public void run() {
 		while (dataManager.system.running) {
 			try {

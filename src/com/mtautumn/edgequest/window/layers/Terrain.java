@@ -8,6 +8,7 @@ public class Terrain extends Thread {
 	public Terrain(Renderer r) {
 		this.r = r;
 	}
+	@Override
 	public void run() {
 		draw(r);
 		r.terrainVBO.preWrite();

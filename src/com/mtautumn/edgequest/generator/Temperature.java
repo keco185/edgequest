@@ -56,6 +56,7 @@ public class Temperature implements Overlay {
 		return Tiles.WATER;
 	}
 	
+	@Override
 	public int[][] overlay(double[][] tempMap, int[][] dunMap) {
 		for (int i = 0; i < dunMap[0].length; i++) {
 			

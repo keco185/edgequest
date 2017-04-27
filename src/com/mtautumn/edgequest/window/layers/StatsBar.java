@@ -13,8 +13,12 @@ public class StatsBar {
 	
 	private static void drawHealth(Renderer r) {
 		double health = Double.valueOf(r.dataManager.characterManager.characterEntity.health) / Double.valueOf(r.dataManager.characterManager.characterEntity.maxHealth);
-		if (health > 1) health = 1.0;
-		if (health < 0) health = 0;
+		if (health > 1) {
+			health = 1.0;
+		}
+		if (health < 0) {
+			health = 0;
+		}
 		int xPos = (r.dataManager.settings.screenWidth - (int)(BAR_WIDTH * r.dataManager.system.uiZoom))/2 + (int)(26 * r.dataManager.system.uiZoom);
 		int yPos = (int)(8 * r.dataManager.system.uiZoom);
 		int width = (int) (647.0 * health * r.dataManager.system.uiZoom);
@@ -30,8 +34,12 @@ public class StatsBar {
 	}
 	private static void drawStamina(Renderer r) {
 		double stamina = r.dataManager.characterManager.characterEntity.stamina / r.dataManager.characterManager.characterEntity.maxStamina;
-		if (stamina > 1) stamina = 1.0;
-		if (stamina < 0) stamina = 0;
+		if (stamina > 1) {
+			stamina = 1.0;
+		}
+		if (stamina < 0) {
+			stamina = 0;
+		}
 		int xPos = (r.dataManager.settings.screenWidth - (int)(BAR_WIDTH * r.dataManager.system.uiZoom))/2 + (int)(69 * r.dataManager.system.uiZoom);
 		int yPos = (int)(33 * r.dataManager.system.uiZoom);
 		int width = (int) (562.0 * r.dataManager.system.uiZoom * stamina);

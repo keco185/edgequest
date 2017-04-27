@@ -16,6 +16,7 @@ public class TerrainManager extends Thread {
 		this.dataManager = dataManager;
 		terrainGenerator = new TerrainGenerator(dataManager);
 	}
+	@Override
 	public void run() {
 		while (dataManager.system.running) {
 			try {
