@@ -3,9 +3,11 @@
  */
 
 package com.mtautumn.edgequest.dataObjects;
+import java.io.Serializable;
 import java.util.ArrayList;
-import com.mtautumn.edgequest.updates.UpdateRayCast.Triangle;
-public class LightSource {
+
+public class LightSource implements Serializable {
+	private static final long serialVersionUID = 1L;
 	public double posX;
 	public double posY;
 	public int level;
@@ -85,4 +87,5 @@ public class LightSource {
 		
 		brightness = maxBrightness * flickerMultiplier * brightnessMultiplier;
 	}
+	
 }

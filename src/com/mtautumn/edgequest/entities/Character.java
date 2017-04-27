@@ -1,9 +1,16 @@
 package com.mtautumn.edgequest.entities;
 
+import java.io.IOException;
+import java.io.ObjectInput;
+import java.io.ObjectOutput;
+import java.util.ArrayList;
+
 import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.dataObjects.LightSource;
+import com.mtautumn.edgequest.entities.Entity.EntityType;
+import com.mtautumn.edgequest.utils.PathFinder.IntCoord;
 
 public class Character extends Entity {
 	private static final long serialVersionUID = 1L;
@@ -208,5 +215,17 @@ public class Character extends Entity {
 		default:
 			return null;
 		}
+	}
+	
+	@Override
+	public void writeExternal(ObjectOutput out) throws IOException {
+		super.writeExternal(out);
+		out.writeObject(light);
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+		super.readExternal(in);
+		light = (LightSource) in.readObject();
 	}
 }
