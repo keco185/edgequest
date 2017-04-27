@@ -1,6 +1,6 @@
 package com.mtautumn.edgequest.data;
 
-import com.mtautumn.edgequest.ConsoleManager;
+import com.mtautumn.edgequest.console.ConsoleManager;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.threads.AnimationClock;
 import com.mtautumn.edgequest.threads.AttackManager;
