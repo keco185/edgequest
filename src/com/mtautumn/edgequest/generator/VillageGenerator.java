@@ -254,7 +254,7 @@ public class VillageGenerator implements Generator {
 		
 		this.prepareTestHouses();
 		this.buildTestHouses();
-		this.jsonTest();
+		// this.jsonTest();
 		
 		return this.map;
 		
@@ -262,7 +262,7 @@ public class VillageGenerator implements Generator {
 	
 	public void jsonTest() {
 		
-		JSONObject obj = new JSONObject("{\"error\": \"message\" }");
+		JSONObject obj = new JSONObject("{\"error\": \"village generated\" }");
 		System.out.println(obj.get("error"));
 		
 	}
