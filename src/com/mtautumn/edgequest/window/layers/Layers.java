@@ -64,6 +64,7 @@ public class Layers {
 		
 		int ambientColorLocation = GL20.glGetUniformLocation(r.terrainDrawShader.getProgramId(),"ambientLight");
 		float brightness = (float) r.dataManager.world.getBrightness(r.dataManager.characterManager.characterEntity);
+		if (r.dataManager.world.noLighting) brightness = 1;
 		GL20.glUniform3f(ambientColorLocation, (brightness * brightness + brightness)/2f, (brightness * brightness + brightness)/2f, brightness);
 		
 		

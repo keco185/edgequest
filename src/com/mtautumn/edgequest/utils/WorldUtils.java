@@ -11,6 +11,7 @@ import com.mtautumn.edgequest.entities.Entity;
 public class WorldUtils {
 	private DataManager dm;
 	public OverworldUtils ou;
+	public boolean noLighting = false;
 	public WorldUtils(DataManager dm) {
 		this.dm = dm;
 		ou = new OverworldUtils(dm);

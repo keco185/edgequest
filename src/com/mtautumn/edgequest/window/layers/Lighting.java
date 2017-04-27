@@ -13,14 +13,14 @@ public class Lighting extends Thread {
 		this.r = r;
 	}
 	public void run() {
-		if (r.dataManager.world.getBrightness() < 1) {
+		if (r.dataManager.world.getBrightness() < 1 && !r.dataManager.world.noLighting) {
 			updatePlayerLight(r);
 		}
 	}
 	public static void completionTasks(Renderer r) {
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glColor4f (1.0f,1.0f,1.0f,1.0f);
-		if (r.dataManager.world.getBrightness() < 1) {
+		if (r.dataManager.world.getBrightness() < 1 && !r.dataManager.world.noLighting) {
 			r.lightingFBO.enableBuffer();
 			GL20.glUseProgram(r.lightingShader.getProgramId());
 			float offsetX = (float) (r.dataManager.settings.screenWidth / 2.0 - r.dataManager.system.screenX * r.dataManager.settings.blockSize);

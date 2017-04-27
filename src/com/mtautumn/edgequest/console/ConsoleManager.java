@@ -44,6 +44,7 @@ public class ConsoleManager {
 		commands.add(new God());
 		commands.add(new Help());
 		commands.add(new KillAll());
+		commands.add(new Lighting());
 		commands.add(new Reseed());
 		commands.add(new Seed());
 		commands.add(new SetHealth());
