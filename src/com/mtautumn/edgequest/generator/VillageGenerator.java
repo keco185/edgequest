@@ -1,9 +1,5 @@
 package com.mtautumn.edgequest.generator;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -264,7 +260,7 @@ public class VillageGenerator implements Generator {
 	public void jsonTest() {
 		
 		JSONObject obj = new JSONObject("{\"error\": \"message\" }");
-		System.out.println(obj.get("if you're reading this, JSON works"));
+		System.out.println(obj.get("error"));
 		
 	}
 	
