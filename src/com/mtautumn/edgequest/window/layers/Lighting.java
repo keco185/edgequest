@@ -5,7 +5,7 @@ import static org.lwjgl.opengl.GL11.glColor4f;
 import java.util.ArrayList;
 import org.lwjgl.opengl.GL20;
 import com.mtautumn.edgequest.dataObjects.LightSource;
-import com.mtautumn.edgequest.updates.UpdateRayCast.Triangle;
+import com.mtautumn.edgequest.dataObjects.Triangle;
 import com.mtautumn.edgequest.window.Renderer;
 public class Lighting extends Thread {
 	Renderer r;

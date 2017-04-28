@@ -23,8 +23,12 @@ public class TerrainManager extends Thread {
 				if (!dataManager.system.isGameOnLaunchScreen) {
 					ArrayList<int[]> regionsToGen = new ArrayList<int[]>();
 					ArrayList<TerrainGeneratorThread> threads = new ArrayList<TerrainGeneratorThread>();
-					for (int i = (int) (Math.floor((dataManager.system.minTileXGen - 20.0) / 100.0)*100); i <=  dataManager.system.maxTileXGen + 20; i+= 100) {
-						for (int j = (int) (Math.floor((dataManager.system.minTileYGen - 20.0) / 100.0)*100); j <=  dataManager.system.maxTileYGen + 20; j+= 100) {
+					int minX = (dataManager.system.minTileX < dataManager.system.minTileXGen) ? dataManager.system.minTileX : dataManager.system.minTileXGen;
+					int maxX = (dataManager.system.maxTileX > dataManager.system.maxTileXGen) ? dataManager.system.maxTileX : dataManager.system.maxTileXGen;
+					int minY = (dataManager.system.minTileY < dataManager.system.minTileYGen) ? dataManager.system.minTileY : dataManager.system.minTileYGen;
+					int maxY = (dataManager.system.maxTileY > dataManager.system.maxTileYGen) ? dataManager.system.maxTileY : dataManager.system.maxTileYGen;
+					for (int i = (int) (Math.floor((minX - 20.0) / 100.0)*100); i <=  maxX + 20; i+= 100) {
+						for (int j = (int) (Math.floor((minY - 20.0) / 100.0)*100); j <=  maxY + 20; j+= 100) {
 							regionsToGen.add(new int[]{i,j});
 						}
 					}
