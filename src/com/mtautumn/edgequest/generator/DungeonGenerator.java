@@ -172,7 +172,7 @@ public class DungeonGenerator implements Generator {
 		Room structs[] = new Room[numStructures];
 		
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
-		for (int i = 1; i < numStructures; i++ ) {
+		for (int i = 0; i < numStructures; i++ ) {
 					
 			int tries = 0;
 					
