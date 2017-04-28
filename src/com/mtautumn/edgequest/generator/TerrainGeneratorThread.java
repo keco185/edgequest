@@ -44,7 +44,7 @@ public class TerrainGeneratorThread extends Thread {
 		if (level == -1) {
 
 			genArea(x,y);
-			if (isDungeonBlock(x,y)) {
+			if (doesContainDungeon(x,y)) {
 				genDungeon(x,y,level + 1);
 			} else {
 				genEmptyGround(x,y,level + 1);
@@ -52,7 +52,7 @@ public class TerrainGeneratorThread extends Thread {
 
 		} else if (level == 0) {
 			genArea(x,y);
-			if (isDungeonBlock(x,y)) {
+			if (doesContainDungeon(x,y)) {
 				genDungeon(x,y, level);
 				genDungeon(x,y,level + 1);
 			} else {
@@ -60,7 +60,7 @@ public class TerrainGeneratorThread extends Thread {
 				genEmptyGround(x, y, level + 1);
 			}
 		} else {
-			if (isDungeonBlock(x,y)) {
+			if (doesContainDungeon(x,y)) {
 				genDungeon(x,y,level - 1);
 				genDungeon(x,y,level);
 				genDungeon(x,y,level + 1);
@@ -482,18 +482,6 @@ public class TerrainGeneratorThread extends Thread {
 
 	}
 
-	public boolean isDungeonBlock(int x, int y) {
-
-		double dungeonChance = new Random(generateSeed(dungeonSeedBase,x,y)).nextDouble();
-
-		if (dungeonChance > 0.5) {
-			return true;
-		}
-
-		return false;
-
-	}
-
 	public static long generateSeed(long... vals) {
 
 		long newSeed = vals[0];
@@ -518,7 +506,7 @@ public class TerrainGeneratorThread extends Thread {
 	}
 	public boolean doesContainDungeon(int x, int y) {
 		double dungeonChance = new Random(generateSeed(dungeonSeedBase,x,y)).nextDouble();
-		if (dungeonChance > 0.7) {
+		if (dungeonChance > 0.5) {
 			return true;
 		}
 		return false;
