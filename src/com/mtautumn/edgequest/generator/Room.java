@@ -92,25 +92,25 @@ public class Room {
 	}
 	
 	/**
-	 * This constructor takes a house and a center and makes a room from them
-	 * @param  house
+	 * This constructor takes a structure and a center and makes a room from them
+	 * @param  struct
 	 * @param  center
-	 * @see    House
+	 * @see    Strucutre
 	 * @see    Center
 	 * @see    Room
 	 */
-	Room(House house, Center center) {
+	Room(Structure struct, Center center) {
 		
 		// Dimensions of the room
-		this.width = house.struct[0].length;
-		this.height = house.struct.length;
+		this.width = struct.struct[0].length;
+		this.height = struct.struct.length;
 						
 		// Location of top left corner on map
 		this.xLoc = (int) (center.x - Math.floor(width/2));
 		this.yLoc = (int) (center.y - Math.floor(height / 2));
 						
 		// 2D Array
-		this.room = house.struct;
+		this.room = struct.struct;
 						
 		// Center of the new room
 		this.center = center;
@@ -118,27 +118,27 @@ public class Room {
 	}
 	
 	/**
-	 * This constructor takes a House and an x, y coordinate int pair to
+	 * This constructor takes a structure and an x, y coordinate int pair to
 	 * make a room with
 	 * 
 	 * @param  house  house object to set the room to
 	 * @param  xLoc   the x coordinate location
 	 * @param  yLoc   the y coordinate location
-	 * @see           House
+	 * @see           Structure
 	 * @see           Room
 	 */
-	public Room(House house, int xLoc, int yLoc) {
+	public Room(Structure struct, int xLoc, int yLoc) {
 		
 		// Dimensions of the room
-		this.width = house.struct[0].length;
-		this.height = house.struct.length;
+		this.width = struct.struct[0].length;
+		this.height = struct.struct.length;
 		
 		// Location of top left corner on map
 		this.xLoc = xLoc;
 		this.yLoc = yLoc;
 		
 		// 2D Array
-		this.room = house.struct;
+		this.room = struct.struct;
 		
 		// Center of the new room
 		this.center = new Center((int) Math.floor(width / 2) + xLoc, (int) Math.floor(height / 2) + yLoc);

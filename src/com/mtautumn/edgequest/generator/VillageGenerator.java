@@ -92,11 +92,11 @@ public class VillageGenerator implements Generator {
 	/**
 	 * Get a random house from the list of houses to use
 	 * @return a random house object
-	 * @see House
+	 * @see VillageFeature
 	 * @see Houses
 	 * @see VillageGenerator
 	 */
-	private House getRandomHouse() {
+	private VillageFeature getRandomHouse() {
 		int h = this.rng.nextInt(Houses.HouseList.length);
 	    return Houses.HouseList[h];
 	}
@@ -116,14 +116,14 @@ public class VillageGenerator implements Generator {
 			int tries = 0;
 			
 			do {
-				House h = this.getRandomHouse();
+				VillageFeature h = this.getRandomHouse();
 				h.rotate(this.rng.nextInt(4));
 				this.rooms[i] = new Room(h, this.rng.nextInt(width), this.rng.nextInt(height));
 				tries++;
 			} while(!roomOk(this.rooms[i]) && tries < 1000);
 			
 			if (roomOk(this.rooms[i])) {
-				this.addRoomAvoid(this.rooms[i]);
+				addRoomAvoid(this.rooms[i]);
 			}
 			
 			if (tries >= 1000) {
@@ -175,14 +175,15 @@ public class VillageGenerator implements Generator {
 	 * @see         Center
 	 * @see         VillageGenerator
 	 */
-	private boolean roomOk(Room room) {
+	@Override
+	public boolean roomOk(Room room) {
 		if (room.width > 3 && room.height > 3 && room.center.x + (int) room.width / 2 + 1 < this.width && room.center.y + (int) room.height/2 + 1 < height && room.center.x - (int) room.width/2 + 1> 0 && room.center.y - (int) room.height/2 + 1 > 0) {
 			
 			for (int i = room.center.x - room.width / 2; i < room.center.x + room.width/2; i++) {
 				
 				for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2; j++) {
 					
-					if (!this.avoidanceArray[i][j]) {
+					if (avoidanceArray[i][j]) {
 						return false;
 					}
 					
@@ -195,24 +196,6 @@ public class VillageGenerator implements Generator {
 		}
 		
 		return false;
-		
-	}
-	
-	/**
-	 * Take a room and mark it as off limits for future rooms
-	 * @param room Room to avoid
-	 * @see   VillageGenerator
-	 */
-	private void addRoomAvoid(Room room) {
-		for (int i = room.center.x - room.width / 2; i < room.center.x + room.width/2 + 1; i++) {
-			
-			for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2 + 1; j++) {
-				
-				this.avoidanceArray[i][j] = false;
-				
-			}
-			
-		}
 		
 	}
 	
@@ -264,6 +247,20 @@ public class VillageGenerator implements Generator {
 		
 		JSONObject obj = new JSONObject("{\"error\": \"village generated\" }");
 		System.out.println(obj.get("error"));
+		
+	}
+
+	@Override
+	public void addRoomAvoid(Room room) {
+		for (int i = room.center.x - room.width / 2; i < room.center.x + room.width/2 + 1; i++) {
+			
+			for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2 + 1; j++) {
+				
+				avoidanceArray[i][j] = false;
+				
+			}
+			
+		}
 		
 	}
 	

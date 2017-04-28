@@ -5,7 +5,7 @@ package com.mtautumn.edgequest.generator;
  * <p>
  * This will most definitely be replaced with JSON sometime soon.
  * @author Gray
- * @see    House
+ * @see    VillageFeature
  */
 public final class Houses {
 	
@@ -21,7 +21,7 @@ public final class Houses {
 	  	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 	};
 	
-	public static House house1 = new House(house1Arr);
+	public static VillageFeature house1 = new VillageFeature(house1Arr);
 	
 	// House 2
 	public final static int[][] house2Arr = new int[][]{
@@ -35,7 +35,7 @@ public final class Houses {
 	  	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 	};
 	
-	public static House house2 = new House(house2Arr);
+	public static VillageFeature house2 = new VillageFeature(house2Arr);
 	
 	// House 3
 	public final static int[][] house3Arr = new int[][]{
@@ -49,7 +49,7 @@ public final class Houses {
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
 	};
 	
-	public static House house3 = new House(house3Arr);
+	public static VillageFeature house3 = new VillageFeature(house3Arr);
 	
 	// Town Hall
 	public final static int[][] townhallArr = new int[][] {
@@ -67,9 +67,9 @@ public final class Houses {
 		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 	};
 	
-	public static House townhall = new House(townhallArr);
+	public static VillageFeature townhall = new VillageFeature(townhallArr);
 	
 	// List of houses
-	public static House[] HouseList = {house1, house2, house3};
+	public static VillageFeature[] HouseList = {house1, house2, house3};
 	
 }

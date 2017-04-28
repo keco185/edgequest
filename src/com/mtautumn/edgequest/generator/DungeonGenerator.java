@@ -12,6 +12,9 @@ import java.util.Random;
  */
 public class DungeonGenerator implements Generator {
 	
+	//2D array with false blocks being areas that cannot be built on
+	boolean[][] avoidanceArray;
+	
 	// Variables asked for in the constructor
 	int width;
 	int height;
@@ -61,6 +64,7 @@ public class DungeonGenerator implements Generator {
 		this.width = width;
 		this.height = height;
 		this.maxRooms = maxRooms;
+		this.avoidanceArray = new boolean[width][height];
 		
 		// TODO: Pass temp to dungeon
 		this.temperatureMap = temperatureMap;
@@ -144,6 +148,74 @@ public class DungeonGenerator implements Generator {
 	
 	}
 	
+	@Override
+	public void addRoomAvoid(Room room) {
+		for (int i = room.center.x - room.width / 2; i < room.center.x + room.width/2 + 1; i++) {
+			
+			for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2 + 1; j++) {
+				
+				this.avoidanceArray[i][j] = false;
+				
+			}
+			
+		}
+		
+	}
+	
+	/**
+	 * Add structures to the dungeon map
+	 * 
+	 * @see DungeonGenerator
+	 */
+	private void addStructures() {
+		int numStructures = getValueAround(10);
+		Room structs[] = new Room[numStructures];
+		
+		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
+		for (int i = 1; i < numStructures; i++ ) {
+					
+			int tries = 0;
+					
+				do {
+					DungeonFeature h = new DungeonFeature(DungeonFormations.struct1arr);
+					h.rotate(this.rng.nextInt(4));
+					structs[i] = new Room(h, this.rng.nextInt(width), this.rng.nextInt(height));
+					tries++;
+				} while(!roomOk(this.rooms[i]) && tries < 1000);
+					
+				if (roomOk(this.rooms[i])) {
+					addRoomAvoid(this.rooms[i]);
+				}
+					
+				if (tries >= 1000) {
+					numStructures--;
+					Room[] roomsTemp = new Room[numStructures];
+					for (int j = 0; j < i; j++) {
+						roomsTemp[j] = structs[i];
+					}
+					structs = roomsTemp;
+					i--;
+				}
+			}
+		
+		for (int i = 0; i < numStructures; i++ ) {
+			
+			// Get current room
+			Room room = structs[i];
+			
+			for (int w = 0; w < room.width; w++) {
+				for (int h = 0; h < room.height; h++) {
+					boolean bounds = (w + room.xLoc < this.width-1) && (h + room.yLoc < height-1) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0);
+					if (bounds) {
+						this.map[w + room.xLoc][h + room.yLoc] = room.room[h][w];
+					}
+				}
+			}
+				
+		}
+		
+	}
+	
 	/**
 	 * Apply caves to the dungeon
 	 * 
@@ -216,12 +288,13 @@ public class DungeonGenerator implements Generator {
 	}
 	
 	/**
-	 * Make a basic dungeon with rooms and corridors. Bland and uninteresting.
+	 * Make a basic dungeon with rooms, corridors, and features
 	 */
 	private void makeDungeon() {
 		
 		this.makeRooms();
 		this.connectRooms();
+		this.addStructures();
 
 	}
 
@@ -333,6 +406,45 @@ public class DungeonGenerator implements Generator {
 	/*
 	 * Interface methods
 	 */
+	
+	/**
+	 * Check to see if the house is in a good location
+	 * <p>
+	 * This may or may not be removed, haven't decided
+	 * @param room  Room object to check
+	 * @return      true if the room is in a good postion, false if not
+	 * @see         Room
+	 * @see         Center
+	 * @see         VillageGenerator
+	 */
+	@Override
+	public boolean roomOk(Room room) {
+		if (room.width > 3 && room.height > 3 && room.center.x + (int) room.width / 2 + 1 < this.width && room.center.y + (int) room.height/2 + 1 < height && room.center.x - (int) room.width/2 + 1> 0 && room.center.y - (int) room.height/2 + 1 > 0) {
+			
+			for (int i = room.center.x - room.width / 2; i < room.center.x + room.width/2; i++) {
+				
+				for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2; j++) {
+					
+					// TODO can prob get rid of this
+					try {
+						if (this.avoidanceArray[i][j]) {
+							return false;
+						}
+					} catch ( NullPointerException e ) {
+					    return true;
+					}
+					
+				}
+				
+			}
+			
+			return true;
+			
+		}
+		
+		return false;
+		
+	}
 
 	/**
 	 * Clears the map object that the feature stores tile data to
