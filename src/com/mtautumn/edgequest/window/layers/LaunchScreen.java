@@ -32,11 +32,11 @@ public class LaunchScreen {
 				r.drawTexture(button.buttonImage, r.dataManager.settings.screenWidth / 2.0f + button.getPosX(), r.dataManager.settings.screenHeight / 2.0f + button.getPosY(), button.getWidth(), button.getHeight());
 				int height = r.buttonFont.getHeight(button.displayName);
 				int width = r.buttonFont.getWidth(button.displayName);
-				r.buttonFont.drawString(r.dataManager.settings.screenWidth / 2.0f + button.getPosX() + (button.getWidth() - width) / 2, r.dataManager.settings.screenHeight / 2.0f + button.getPosY() + (button.getHeight() - height) / 2, button.displayName);
+				r.buttonFont.drawString(r.dataManager.settings.screenWidth / 2.0f + button.getPosX() + (button.getWidth() - width) / 2, r.dataManager.settings.screenHeight / 2.0f + button.getPosY() + (button.getHeight() * 0.85f - height) / 2, button.displayName);
 			}
 		}
 		if (pane.parent != null) {
-			r.drawTexture(r.textureManager.getTexture("back"), (int)(r.dataManager.settings.BACK_BUTTON_PADDING * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_PADDING * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom));
+			r.drawTexture(r.textureManager.getTexture("back"), (int)(r.dataManager.settings.BACK_BUTTON_PADDING_LEFT * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_PADDING_TOP * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom));
 		}
 	}
 }

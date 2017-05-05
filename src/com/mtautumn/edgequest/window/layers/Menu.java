@@ -23,12 +23,12 @@ public class Menu {
 				r.drawTexture(button.buttonImage, button.getPosX(r.dataManager.system.menuX), button.getPosY(r.dataManager.system.menuY), button.getWidth(), button.getHeight());
 				int height = r.buttonFont.getHeight(button.displayName);
 				int width = r.buttonFont.getWidth(button.displayName);
-				r.buttonFont.drawString(button.getPosX(r.dataManager.system.menuX) + (button.getWidth() - width) / 2, button.getPosY(r.dataManager.system.menuY) + (button.getHeight() - height) / 2, button.displayName);
+				r.buttonFont.drawString(button.getPosX(r.dataManager.system.menuX) + (button.getWidth() - width) / 2, button.getPosY(r.dataManager.system.menuY) + (button.getHeight() * 0.85f - height) / 2, button.displayName);
 			}
 			if (menu.parent == null) {
-				r.drawTexture(r.textureManager.getTexture("exit"), r.dataManager.system.menuX + (int)(r.dataManager.settings.BACK_BUTTON_PADDING * r.dataManager.system.uiZoom), r.dataManager.system.menuY + (int)(r.dataManager.settings.BACK_BUTTON_PADDING * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom));
+				r.drawTexture(r.textureManager.getTexture("exit"), r.dataManager.system.menuX + (int)(r.dataManager.settings.BACK_BUTTON_PADDING_LEFT * r.dataManager.system.uiZoom), r.dataManager.system.menuY + (int)(r.dataManager.settings.BACK_BUTTON_PADDING_TOP * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom));
 			} else {
-				r.drawTexture(r.textureManager.getTexture("back"), r.dataManager.system.menuX + (int)(r.dataManager.settings.BACK_BUTTON_PADDING * r.dataManager.system.uiZoom), r.dataManager.system.menuY + (int)(r.dataManager.settings.BACK_BUTTON_PADDING * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom));
+				r.drawTexture(r.textureManager.getTexture("back"), r.dataManager.system.menuX + (int)(r.dataManager.settings.BACK_BUTTON_PADDING_LEFT * r.dataManager.system.uiZoom), r.dataManager.system.menuY + (int)(r.dataManager.settings.BACK_BUTTON_PADDING_TOP * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom), (int)(r.dataManager.settings.BACK_BUTTON_SIZE * r.dataManager.system.uiZoom));
 			}
 		}
 	}

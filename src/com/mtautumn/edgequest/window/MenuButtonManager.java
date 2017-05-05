@@ -57,7 +57,7 @@ public class MenuButtonManager {
 	public void buttonPressed(int posX, int posY) {
 		int adjustedX = posX - dataManager.system.menuX;
 		int adjustedY = posY - dataManager.system.menuY;
-		if (adjustedX < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING * dataManager.system.uiZoom && adjustedX > 0 && adjustedY < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING * dataManager.system.uiZoom && adjustedY > 0) {
+		if (adjustedX < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING_LEFT * dataManager.system.uiZoom && adjustedX > 0 && adjustedY < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING_TOP * dataManager.system.uiZoom && adjustedY > 0) {
 			runButtonAction("Go To Parent");
 		}
 		for (int i = 0; i < getCurrentMenu().getButtons().size(); i++) {
@@ -73,12 +73,12 @@ public class MenuButtonManager {
 		dataManager.system.buttonActionQueue.add(name);
 	}
 	public class MenuPane {
-		private static final int BUTTON_WIDTH = 197;
-		private static final int BUTTON_HEIGHT = 73;
+		private static final int BUTTON_WIDTH = 186;
+		private static final int BUTTON_HEIGHT = 72;
 		private static final int SPACING_X = 256;
 		private static final int SPACING_Y = 57;
 		private static final int START_X = 50;
-		private static final int START_Y = 100;
+		private static final int START_Y = 120;
 		private int currentX = START_X;
 		private int currentY = START_Y;
 		private ArrayList<MenuButton> buttons = new ArrayList<MenuButton>();

@@ -7,7 +7,8 @@ import org.lwjgl.input.Keyboard;
 
 public class SettingsData {
 	public final int BACK_BUTTON_SIZE = 64;
-	public final int BACK_BUTTON_PADDING = 12;
+	public final int BACK_BUTTON_PADDING_LEFT = 50;
+	public final int BACK_BUTTON_PADDING_TOP = 36;
 	public int tickLength = 30;
 	public int targetFPS = 60;
 	public int chunkSize = 12;

@@ -27,7 +27,7 @@ public class LaunchScreenManager {
 		menus.add(settingsMenu);
 	}
 	public void buttonPressed(int posX, int posY) {
-		if (posX < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING * dataManager.system.uiZoom && posX > 0 && posY < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING * dataManager.system.uiZoom && posY > 0) {
+		if (posX < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING_LEFT * dataManager.system.uiZoom && posX > 0 && posY < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING_TOP * dataManager.system.uiZoom && posY > 0) {
 			String parent = getCurrentMenu().parent;
 			if (parent != null) {
 				currentMenu = parent;
@@ -77,8 +77,8 @@ public class LaunchScreenManager {
 		}
 	}
 	public class LaunchScreenPane {
-		private static final int BUTTON_WIDTH = 197;
-		private static final int BUTTON_HEIGHT = 73;
+		private static final int BUTTON_WIDTH = 186;
+		private static final int BUTTON_HEIGHT = 72;
 		//private static final int SPACING_X = 256;
 		private static final int SPACING_Y = 57;
 		private static final int START_X = -128;
