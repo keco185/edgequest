@@ -28,7 +28,7 @@ public class BloodParticle extends Particle {
 		disappearTime = (int) (3600 + Math.random() * 3600);
 	}
 	@Override
-	public boolean update(DataManager dm) {
+	public boolean update() {
 		time++;
 		if (disappearTime < time) {
 			return true;
@@ -36,29 +36,29 @@ public class BloodParticle extends Particle {
 		speed *= 0.4;
 		speedXInitial *= 0.4;
 		speedYInitial *= 0.4;
-		if (checkMove(x + Math.cos(angle) * speed + speedXInitial, y, dm)) {
+		if (checkMove(x + Math.cos(angle) * speed + speedXInitial, y)) {
 			x += Math.cos(angle) * speed + speedXInitial;
 		} else {
 			x = Math.round(x);
 		}
-		if (checkMove(x, y + Math.sin(angle) * speed + speedYInitial, dm)) {
+		if (checkMove(x, y + Math.sin(angle) * speed + speedYInitial)) {
 			y += Math.sin(angle) * speed + speedYInitial;
 		} else {
 			y = Math.round(y);
 		}
-		if (checkMove(x, y - verticalSpeed, dm) && Math.abs(verticalSpeed) > 0.001) {
+		if (checkMove(x, y - verticalSpeed) && Math.abs(verticalSpeed) > 0.001) {
 			height += verticalSpeed;
 			y -= verticalSpeed;
 		}
 		if (height < 0) {
-			if (dm.world.getGroundBlock((int) x, (int) y, level) == dm.system.blockNameMap.get("water").getID()) {
+			if (DataManager.world.getGroundBlock((int) x, (int) y, level) == DataManager.system.blockNameMap.get("water").getID()) {
 				return true;
 			}
 			if (Math.abs(verticalSpeed) < 0.001) {
 				verticalSpeed = 0;
 			} else {
 				verticalSpeed = -verticalSpeed / 2.0;
-				if (checkMove(x,y + height, dm)) {
+				if (checkMove(x,y + height)) {
 					y += height;
 				}
 				height = 0;

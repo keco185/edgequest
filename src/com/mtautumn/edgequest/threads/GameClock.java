@@ -4,30 +4,26 @@ package com.mtautumn.edgequest.threads;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class GameClock extends Thread {
-	DataManager dataManager;
-	public GameClock(DataManager dataManager) {
-		this.dataManager = dataManager;
-	}
 	@Override
 	public void run() {
-		while(dataManager.system.running) {
+		while(DataManager.system.running) {
 			try {
-				if (!dataManager.system.isGameOnLaunchScreen) {
-					if (dataManager.savable.time < 2399) {
-						dataManager.savable.time++;
+				if (!DataManager.system.isGameOnLaunchScreen) {
+					if (DataManager.savable.time < 2399) {
+						DataManager.savable.time++;
 					} else {
-						dataManager.savable.time = 0;
+						DataManager.savable.time = 0;
 					}
-					int hours = (int) Math.floor(dataManager.savable.time / 100) % 12;
-					int minutes = (int) Math.round(Double.valueOf(dataManager.savable.time % 100) * 0.05);
+					int hours = (int) Math.floor(DataManager.savable.time / 100) % 12;
+					int minutes = (int) Math.round(Double.valueOf(DataManager.savable.time % 100) * 0.05);
 					if (hours == 0) {
 						hours = 12;
 					}
 
-					if (dataManager.savable.time < 1200) {
-						dataManager.system.timeReadable = "" + hours + ":" + minutes + "0 AM";
+					if (DataManager.savable.time < 1200) {
+						DataManager.system.timeReadable = "" + hours + ":" + minutes + "0 AM";
 					} else {
-						dataManager.system.timeReadable = "" + hours + ":" + minutes + "0 PM";
+						DataManager.system.timeReadable = "" + hours + ":" + minutes + "0 PM";
 					}
 				}
 				Thread.sleep(250);

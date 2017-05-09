@@ -6,62 +6,62 @@ import com.mtautumn.edgequest.window.Renderer;
 public class OptionPane {
 	
 	public static void draw(Renderer r) {
-		for (int i = 0; i < r.dataManager.system.inputText.size(); i++) {
-			drawInput(r, r.dataManager.system.inputText.get(i), i);
+		for (int i = 0; i < DataManager.system.inputText.size(); i++) {
+			drawInput(r, DataManager.system.inputText.get(i), i);
 		}
-		for (int i = 0; i < r.dataManager.system.noticeText.size(); i++) {
-			drawNotice(r, r.dataManager.system.noticeText.get(i), i);
+		for (int i = 0; i < DataManager.system.noticeText.size(); i++) {
+			drawNotice(r, DataManager.system.noticeText.get(i), i);
 		}
 	}
 	private static void drawInput(Renderer r, String text, int count) {
-		if (r.dataManager.settings.screenWidth > 1.6 * r.dataManager.settings.screenHeight) {
-			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), 0, (int)(r.dataManager.settings.screenHeight - r.dataManager.settings.screenWidth / 1.6) / 2, r.dataManager.settings.screenWidth,(int)(r.dataManager.settings.screenWidth / 1.6));
+		if (DataManager.settings.screenWidth > 1.6 * DataManager.settings.screenHeight) {
+			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), 0, (int)(DataManager.settings.screenHeight - DataManager.settings.screenWidth / 1.6) / 2, DataManager.settings.screenWidth,(int)(DataManager.settings.screenWidth / 1.6));
 		} else {
-			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), (int)(r.dataManager.settings.screenWidth - r.dataManager.settings.screenHeight * 1.6)/2, 0, (int)(r.dataManager.settings.screenHeight * 1.6),r.dataManager.settings.screenHeight);
+			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), (int)(DataManager.settings.screenWidth - DataManager.settings.screenHeight * 1.6)/2, 0, (int)(DataManager.settings.screenHeight * 1.6),DataManager.settings.screenHeight);
 
 		}
-		int textX = (r.dataManager.settings.screenWidth - r.font2.getWidth(text)) / 2;
-		int textY = (r.dataManager.settings.screenHeight) / 2 - r.font2.getHeight(text) - (int)(100 * r.dataManager.system.uiZoom);
+		int textX = (DataManager.settings.screenWidth - r.font2.getWidth(text)) / 2;
+		int textY = (DataManager.settings.screenHeight) / 2 - r.font2.getHeight(text) - (int)(100 * DataManager.system.uiZoom);
 		r.font2.drawString(textX, textY, text);
-		int xPos = (r.dataManager.settings.screenWidth - (int)(400 * r.dataManager.system.uiZoom)) / 2;
-		int yPos = (r.dataManager.settings.screenHeight - (int)(60 * r.dataManager.system.uiZoom)) / 2;
-		r.drawTexture(r.textureManager.getTexture("inputField"), xPos, yPos, (int)(400 * r.dataManager.system.uiZoom), (int)(60 * r.dataManager.system.uiZoom));
+		int xPos = (DataManager.settings.screenWidth - (int)(400 * DataManager.system.uiZoom)) / 2;
+		int yPos = (DataManager.settings.screenHeight - (int)(60 * DataManager.system.uiZoom)) / 2;
+		r.drawTexture(r.textureManager.getTexture("inputField"), xPos, yPos, (int)(400 * DataManager.system.uiZoom), (int)(60 * DataManager.system.uiZoom));
 		String inputFieldText = "";
-		if (r.dataManager.system.inputTextResponse.size() > count) {
-			inputFieldText = r.dataManager.system.inputTextResponse.get(count);
+		if (DataManager.system.inputTextResponse.size() > count) {
+			inputFieldText = DataManager.system.inputTextResponse.get(count);
 		} else {
-			r.dataManager.system.inputTextResponse.add("");
+			DataManager.system.inputTextResponse.add("");
 		}
 		if (System.currentTimeMillis() / 500 % 2 == 0) {
 			inputFieldText = inputFieldText + "|";
 		}
-		if (r.dataManager.system.os != 1) { //adjusts font location for macOS
-			r.font2.drawString(xPos + (int)(15 * r.dataManager.system.uiZoom), yPos + (int)(5 * r.dataManager.system.uiZoom), inputFieldText);
+		if (DataManager.system.os != 1) { //adjusts font location for macOS
+			r.font2.drawString(xPos + (int)(15 * DataManager.system.uiZoom), yPos + (int)(5 * DataManager.system.uiZoom), inputFieldText);
 		} else {
-			r.font2.drawString(xPos + (int)(15 * r.dataManager.system.uiZoom), yPos + (int)(15 * r.dataManager.system.uiZoom), inputFieldText);
+			r.font2.drawString(xPos + (int)(15 * DataManager.system.uiZoom), yPos + (int)(15 * DataManager.system.uiZoom), inputFieldText);
 		}
 		
 	}
 	private static void drawNotice(Renderer r, String text, int count) {
-		if (r.dataManager.settings.screenWidth > 1.6 * r.dataManager.settings.screenHeight) {
-			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), 0, (int)(r.dataManager.settings.screenHeight - r.dataManager.settings.screenWidth / 1.6) / 2, r.dataManager.settings.screenWidth,(int)(r.dataManager.settings.screenWidth / 1.6));
+		if (DataManager.settings.screenWidth > 1.6 * DataManager.settings.screenHeight) {
+			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), 0, (int)(DataManager.settings.screenHeight - DataManager.settings.screenWidth / 1.6) / 2, DataManager.settings.screenWidth,(int)(DataManager.settings.screenWidth / 1.6));
 		} else {
-			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), (int)(r.dataManager.settings.screenWidth - r.dataManager.settings.screenHeight * 1.6)/2, 0, (int)(r.dataManager.settings.screenHeight * 1.6),r.dataManager.settings.screenHeight);
+			r.drawTexture(r.textureManager.getTexture("launchScreenBackground"), (int)(DataManager.settings.screenWidth - DataManager.settings.screenHeight * 1.6)/2, 0, (int)(DataManager.settings.screenHeight * 1.6),DataManager.settings.screenHeight);
 
 		}
-		int textX = (r.dataManager.settings.screenWidth - r.font2.getWidth(text)) / 2;
-		int textY = (r.dataManager.settings.screenHeight) / 2 - r.font2.getHeight(text);
+		int textX = (DataManager.settings.screenWidth - r.font2.getWidth(text)) / 2;
+		int textY = (DataManager.settings.screenHeight) / 2 - r.font2.getHeight(text);
 		r.font2.drawString(textX, textY, text);
 	}
-	public static void closeOptionPane(DataManager sceneManager) {
-		if (sceneManager.system.noticeText.size() > 0) {
-			int index = sceneManager.system.noticeText.size() - 1;
-			sceneManager.system.noticeText.remove(index);
+	public static void closeOptionPane() {
+		if (DataManager.system.noticeText.size() > 0) {
+			int index = DataManager.system.noticeText.size() - 1;
+			DataManager.system.noticeText.remove(index);
 		} else {
-			int index = sceneManager.system.inputText.size() - 1;
-			sceneManager.system.inputText.remove(index);
-			sceneManager.system.lastInputMessage = sceneManager.system.inputTextResponse.get(index);
-			sceneManager.system.inputTextResponse.remove(index);
+			int index = DataManager.system.inputText.size() - 1;
+			DataManager.system.inputText.remove(index);
+			DataManager.system.lastInputMessage = DataManager.system.inputTextResponse.get(index);
+			DataManager.system.inputTextResponse.remove(index);
 		}
 	}
 }

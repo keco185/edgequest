@@ -54,8 +54,8 @@ public class TextureManager {
 	public Texture getTexture(String texture) {
 		return textureList.get(texture);
 	}
-	public Texture getAnimatedTexture(String texture, DataManager dataManager) {
-		return textureList.get(texture + textureAnimations.get(texture)[dataManager.system.animationClock % textureAnimations.get(texture).length]);
+	public Texture getAnimatedTexture(String texture) {
+		return textureList.get(texture + textureAnimations.get(texture)[DataManager.system.animationClock % textureAnimations.get(texture).length]);
 	}
 	@SuppressWarnings("unused")
 	private void addTexture(String name, int[] series) {

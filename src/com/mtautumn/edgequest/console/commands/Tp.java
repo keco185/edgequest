@@ -7,23 +7,23 @@ import com.mtautumn.edgequest.data.DataManager;
 public class Tp extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
+	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 2) {
-			dm.characterManager.characterEntity.setPos(Double.parseDouble(args.get(0)),Double.parseDouble(args.get(1)));
-			dm.system.characterMoving = true;
-			dm.system.requestGenUpdate = true;
-			dm.system.requestScreenUpdate = true;
-			addInfoLine("Teleported to: " + args.get(0) + ", " + args.get(1), dm);
+			DataManager.characterManager.characterEntity.setPos(Double.parseDouble(args.get(0)),Double.parseDouble(args.get(1)));
+			DataManager.system.characterMoving = true;
+			DataManager.system.requestGenUpdate = true;
+			DataManager.system.requestScreenUpdate = true;
+			addInfoLine("Teleported to: " + args.get(0) + ", " + args.get(1));
 		} else if (args.size() == 3) {
-			dm.characterManager.characterEntity.setPos(Double.parseDouble(args.get(0)),Double.parseDouble(args.get(1)));
-			dm.system.characterMoving = true;
-			dm.system.requestGenUpdate = true;
-			dm.system.requestScreenUpdate = true;
-			dm.savable.dungeonLevel = Integer.parseInt(args.get(2));
-			dm.characterManager.characterEntity.dungeonLevel = dm.savable.dungeonLevel;
-			addInfoLine("Teleported to: " + args.get(0) + ", " + args.get(1) + ", " + args.get(2), dm);
+			DataManager.characterManager.characterEntity.setPos(Double.parseDouble(args.get(0)),Double.parseDouble(args.get(1)));
+			DataManager.system.characterMoving = true;
+			DataManager.system.requestGenUpdate = true;
+			DataManager.system.requestScreenUpdate = true;
+			DataManager.savable.dungeonLevel = Integer.parseInt(args.get(2));
+			DataManager.characterManager.characterEntity.dungeonLevel = DataManager.savable.dungeonLevel;
+			addInfoLine("Teleported to: " + args.get(0) + ", " + args.get(1) + ", " + args.get(2));
 		} else {
-			addErrorLine("use the format " + usage(), dm);
+			addErrorLine("use the format " + usage());
 		}
 		return true;
 	}

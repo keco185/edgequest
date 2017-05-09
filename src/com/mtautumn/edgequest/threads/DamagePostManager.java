@@ -3,21 +3,17 @@ package com.mtautumn.edgequest.threads;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class DamagePostManager extends Thread{
-	DataManager dm;
-	public DamagePostManager(DataManager dm) {
-		this.dm = dm;
-	}
 	@Override
 	public void run() {
-		while (dm.system.running) {
+		while (DataManager.system.running) {
 			try {
-				for (int i = 0; i < dm.savable.damagePosts.size(); i++) {
-					if (dm.savable.damagePosts.get(i).postTime < System.currentTimeMillis() - 1000) {
-						dm.savable.damagePosts.remove(i);
+				for (int i = 0; i < DataManager.savable.damagePosts.size(); i++) {
+					if (DataManager.savable.damagePosts.get(i).postTime < System.currentTimeMillis() - 1000) {
+						DataManager.savable.damagePosts.remove(i);
 						i--;
 					}
 				}
-				Thread.sleep(dm.settings.tickLength);
+				Thread.sleep(DataManager.settings.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

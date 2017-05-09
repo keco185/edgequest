@@ -1,6 +1,7 @@
 package com.mtautumn.edgequest.window.layers;
 import org.newdawn.slick.opengl.Texture;
 
+import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.Renderer;
 import com.mtautumn.edgequest.window.renderUtils.TerrainVBO;
 public class Terrain extends Thread {
@@ -14,32 +15,32 @@ public class Terrain extends Thread {
 		r.terrainVBO.preWrite();
 	}
 	public void completionTasks(Renderer r) {
-		float blockSize = r.dataManager.settings.blockSize;
-		int minTileX = r.dataManager.system.minTileX;
-		int minTileY = r.dataManager.system.minTileY;
-		int maxTileX = r.dataManager.system.maxTileX;
-		int maxTileY = r.dataManager.system.maxTileY;
-		double charX = r.dataManager.system.screenX;
-		double charY = r.dataManager.system.screenY;
+		float blockSize = DataManager.settings.blockSize;
+		int minTileX = DataManager.system.minTileX;
+		int minTileY = DataManager.system.minTileY;
+		int maxTileX = DataManager.system.maxTileX;
+		int maxTileY = DataManager.system.maxTileY;
+		double charX = DataManager.system.screenX;
+		double charY = DataManager.system.screenY;
 		
-		float xPos = (float)((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
-		float yPos = (float)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
+		float xPos = (float)((minTileX - charX) * blockSize + DataManager.settings.screenWidth/2.0);
+		float yPos = (float)((minTileY - charY) * blockSize + DataManager.settings.screenHeight/2.0);
 		float yPosReset = yPos;
 		r.terrainVBO.write(r.textureManager.getTexture("blocks." + "blockAtlas"));
 		// Structure block outline
-		xPos = (float)((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0) - blockSize / 6;
-		yPosReset = (float)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0) - blockSize / 6;
+		xPos = (float)((minTileX - charX) * blockSize + DataManager.settings.screenWidth/2.0) - blockSize / 6;
+		yPosReset = (float)((minTileY - charY) * blockSize + DataManager.settings.screenHeight/2.0) - blockSize / 6;
 		float block13 = blockSize * 1.33333333f;
 		float block108 = blockSize * 1.0833333333f;
 		float blockd24 = blockSize / 24f;
-		float halfHeight = r.dataManager.settings.screenHeight / 2f;
-		float halfWidth = r.dataManager.settings.screenWidth / 2f;
+		float halfHeight = DataManager.settings.screenHeight / 2f;
+		float halfWidth = DataManager.settings.screenWidth / 2f;
 		
 		for(int x = minTileX; x <= maxTileX; x++) {
 			yPos = yPosReset;
 			for (int y = minTileY; y <= maxTileY; y++) {
-					if (r.dataManager.world.isStructBlock(x, y, r.dataManager.savable.dungeonLevel)) {
-						if (r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlockFast(x, y, r.dataManager.savable.dungeonLevel)).isSolid) {
+					if (DataManager.world.isStructBlock(x, y, DataManager.savable.dungeonLevel)) {
+						if (DataManager.system.blockIDMap.get(DataManager.world.getStructBlockFast(x, y, DataManager.savable.dungeonLevel)).isSolid) {
 							r.drawTexture(getStructureBlockTexture(r, x, y),xPos, yPos, block13, block13);
 							r.fillRect(xPos, yPos, block13, block13, 0.1f, 0.1f, 0.1f, 0.5f);
 						}
@@ -55,7 +56,7 @@ public class Terrain extends Thread {
 			float offsetX = offsetConstant * (xPos - halfWidth) - blockd24;
 			yPos = yPosReset;
 			for (int y = minTileY; y <= maxTileY; y++) {
-					if (r.dataManager.world.isStructBlock(x, y, r.dataManager.savable.dungeonLevel)) {
+					if (DataManager.world.isStructBlock(x, y, DataManager.savable.dungeonLevel)) {
 						float offsetY = offsetConstant * (yPos - halfHeight) - blockd24;
 						r.drawTexture(getStructureBlockTexture(r, x, y),xPos + offsetX, yPos + offsetY, block108, block108);
 					}
@@ -65,21 +66,21 @@ public class Terrain extends Thread {
 		}
 	}
 	public static void draw(Renderer r) {
-		float blockSize = r.dataManager.settings.blockSize;
-		int minTileX = r.dataManager.system.minTileX;
-		int minTileY = r.dataManager.system.minTileY;
-		int maxTileX = r.dataManager.system.maxTileX;
-		int maxTileY = r.dataManager.system.maxTileY;
-		double charX = r.dataManager.system.screenX;
-		double charY = r.dataManager.system.screenY;
-		r.terrainVBO = new TerrainVBO(r.dataManager);
-		float xPos = (float)((minTileX - charX) * blockSize + r.dataManager.settings.screenWidth/2.0);
-		float yPos = (float)((minTileY - charY) * blockSize + r.dataManager.settings.screenHeight/2.0);
+		float blockSize = DataManager.settings.blockSize;
+		int minTileX = DataManager.system.minTileX;
+		int minTileY = DataManager.system.minTileY;
+		int maxTileX = DataManager.system.maxTileX;
+		int maxTileY = DataManager.system.maxTileY;
+		double charX = DataManager.system.screenX;
+		double charY = DataManager.system.screenY;
+		r.terrainVBO = new TerrainVBO();
+		float xPos = (float)((minTileX - charX) * blockSize + DataManager.settings.screenWidth/2.0);
+		float yPos = (float)((minTileY - charY) * blockSize + DataManager.settings.screenHeight/2.0);
 		float yPosReset = yPos;
 		for(int x = minTileX; x < maxTileX; x++) {
 			yPos = yPosReset;
 			for (int y = minTileY; y < maxTileY; y++) {
-				if (!r.dataManager.system.blockIDMap.get(r.dataManager.world.getStructBlock(x, y, r.dataManager.savable.dungeonLevel)).isSolid) {
+				if (!DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(x, y, DataManager.savable.dungeonLevel)).isSolid) {
 					r.terrainVBO.addQuad(xPos, yPos, blockSize, blockSize);
 					r.terrainVBO.addTextureQuad(getTerrainBlockTexture(r,x,y));
 				}
@@ -90,16 +91,16 @@ public class Terrain extends Thread {
 	}
 	private static int[] getTerrainBlockTexture(Renderer r, int x, int y) {
 		short blockValue = getTerrainBlockValue(r, x, y);
-		return r.dataManager.system.blockIDMap.get(blockValue).getAtlasedBlockImg(r.dataManager.system.animationClock);
+		return DataManager.system.blockIDMap.get(blockValue).getAtlasedBlockImg(DataManager.system.animationClock);
 	}
 	private static Texture getStructureBlockTexture(Renderer r, int x, int y) {
 		short blockValue = getStructureBlockValue(r, x, y);
-		return r.textureManager.getTexture(r.dataManager.system.blockIDMap.get(blockValue).getBlockImg(r.dataManager.system.animationClock));
+		return r.textureManager.getTexture(DataManager.system.blockIDMap.get(blockValue).getBlockImg(DataManager.system.animationClock));
 	}
 	private static short getStructureBlockValue(Renderer r, int x, int y) {
-		return r.dataManager.world.getStructBlockFast(x, y, r.dataManager.savable.dungeonLevel);
+		return DataManager.world.getStructBlockFast(x, y, DataManager.savable.dungeonLevel);
 	}
 	private static short getTerrainBlockValue(Renderer r, int x, int y) {
-		return r.dataManager.world.getGroundBlock(x, y, r.dataManager.savable.dungeonLevel);
+		return DataManager.world.getGroundBlock(x, y, DataManager.savable.dungeonLevel);
 	}
 }

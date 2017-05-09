@@ -8,8 +8,8 @@ public class Ant extends Entity {
 	private int lastX = 0;
 	private int lastY = 0;
 
-	public Ant(double posX, double posY, double rotation, DataManager dm, int dungeonLevel, int[] dungeon) {
-		super("ant",EntityType.passiveCreature, posX, posY, rotation, dungeonLevel, dm);
+	public Ant(double posX, double posY, double rotation, int dungeonLevel, int[] dungeon) {
+		super("ant",EntityType.passiveCreature, posX, posY, rotation, dungeonLevel);
 		super.stillAnimation = new int[]{0,0,1,1};
 		super.walkAnimation = new int[]{0,1,2,3,4};
 		super.moveSpeed = 0.025;
@@ -17,7 +17,7 @@ public class Ant extends Entity {
 		super.health = 5;
 	}
 	public Ant(Entity entity) {
-		super("ant",EntityType.passiveCreature, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dm);
+		super("ant",EntityType.passiveCreature, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel);
 		dungeonLevel = entity.dungeonLevel;
 		super.stillAnimation = new int[]{0,0,1,1};
 		super.walkAnimation = new int[]{0,1,2,3,4};
@@ -62,10 +62,10 @@ public class Ant extends Entity {
 			setY(getY() + lastY * moveSpeed);
 		}
 		super.updateRotation(lastX, lastY);
-		if (dm.world.isStructBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
-			if (dm.system.blockIDMap.get(dm.world.getStructBlock(this,(int) Math.floor(posX), (int) Math.floor(posY))).hardness > -1) {
-				dm.world.removeStructBlock(this, (int) Math.floor(posX), (int) Math.floor(posY));
-				dm.blockUpdateManager.updateBlock(new Location(this));
+		if (DataManager.world.isStructBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
+			if (DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(this,(int) Math.floor(posX), (int) Math.floor(posY))).hardness > -1) {
+				DataManager.world.removeStructBlock(this, (int) Math.floor(posX), (int) Math.floor(posY));
+				DataManager.blockUpdateManager.updateBlock(new Location(this));
 			}
 		}
 		super.update();
@@ -78,13 +78,13 @@ public class Ant extends Entity {
 		} else {
 			newY = newVal;
 		}
-		if (dm.world.isStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
-			if (dm.system.blockIDMap.get(dm.world.getStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))).hardness == -1) {
+		if (DataManager.world.isStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
+			if (DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))).hardness == -1) {
 				return false;
 			}
 		}
-		if (dm.world.isGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
-			if (dm.world.getGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY)) == dm.system.blockNameMap.get("water").getID()) {
+		if (DataManager.world.isGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
+			if (DataManager.world.getGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY)) == DataManager.system.blockNameMap.get("water").getID()) {
 				return false;
 			}
 			return true;
@@ -93,7 +93,7 @@ public class Ant extends Entity {
 		
 	}
 	@Override
-	public void initializeClass(DataManager dm) {
-		super.initializeClass(dm);
+	public void initializeClass() {
+		super.initializeClass();
 	}
 }

@@ -3,14 +3,10 @@ package com.mtautumn.edgequest.entities;
 import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
-import java.util.ArrayList;
-
 import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.dataObjects.LightSource;
-import com.mtautumn.edgequest.entities.Entity.EntityType;
-import com.mtautumn.edgequest.utils.PathFinder.IntCoord;
 
 public class Character extends Entity {
 	private static final long serialVersionUID = 1L;
@@ -32,27 +28,27 @@ public class Character extends Entity {
 	private double defaultFactor = 1; // Reset the factor. there's probably a smarter way to do that
 	
 
-	public Character(double posX, double posY, double rotation, int dungeonLevel, DataManager dm) {
-		super("character",EntityType.character, posX, posY, rotation, dungeonLevel, dm);
+	public Character(double posX, double posY, double rotation, int dungeonLevel) {
+		super("character",EntityType.character, posX, posY, rotation, dungeonLevel);
 		lastUpdate = System.currentTimeMillis();
 		super.slide = true;
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 		light = new LightSource(getX(), getY(), 8, -1); //light use to be 8, you can't see enemies until they're already on top of you...
 		light.onEntity = true;
-		dm.savable.lightSources.add(light);
+		DataManager.savable.lightSources.add(light);
 	}
 	public Character(Entity entity) {
-		super("character", EntityType.character, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dm);
+		super("character", EntityType.character, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel);
 		lastUpdate = System.currentTimeMillis();
 		super.slide = true;
 		dungeonLevel = entity.dungeonLevel;
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
-		super.moveSpeed = dm.settings.moveSpeed; // why is move speed not just a var of the player or entity class
+		super.moveSpeed = DataManager.settings.moveSpeed; // why is move speed not just a var of the player or entity class
 		light = new LightSource(getX(), getY(), 8, -1);
 		light.onEntity = true;
-		dm.savable.lightSources.add(light);
+		DataManager.savable.lightSources.add(light);
 	}
 	public Character() {
 		super();
@@ -62,61 +58,61 @@ public class Character extends Entity {
 	}
 	@Override
 	public String getTexture() {
-		if (dm.system.isKeyboardLeft ||
-				dm.system.isKeyboardUp ||
-				dm.system.isKeyboardRight ||
-				dm.system.isKeyboardDown) {
-			return entityTexture + "." + entityTexture + "walk" + walkAnimation[dm.system.animationClock % walkAnimation.length];
+		if (DataManager.system.isKeyboardLeft ||
+				DataManager.system.isKeyboardUp ||
+				DataManager.system.isKeyboardRight ||
+				DataManager.system.isKeyboardDown) {
+			return entityTexture + "." + entityTexture + "walk" + walkAnimation[DataManager.system.animationClock % walkAnimation.length];
 		}
-		return entityTexture + "." + entityTexture + "still" + stillAnimation[dm.system.animationClock % stillAnimation.length];
+		return entityTexture + "." + entityTexture + "still" + stillAnimation[DataManager.system.animationClock % stillAnimation.length];
 	}
 	@Override
 	public void update() {
 		light.posX = getX();
 		light.posY = getY();
 		light.level = dungeonLevel;
-		dungeonLevel = dm.savable.dungeonLevel;
-		if (super.dm.system.isKeyboardSprint) {
-			super.moveSpeed = super.dm.settings.moveSpeed * 2.0;
+		dungeonLevel = DataManager.savable.dungeonLevel;
+		if (DataManager.system.isKeyboardSprint) {
+			super.moveSpeed = DataManager.settings.moveSpeed * 2.0;
 		} else {
-			super.moveSpeed = super.dm.settings.moveSpeed;
+			super.moveSpeed = DataManager.settings.moveSpeed;
 		}
-		if (super.dm.system.isKeyboardLeft ||
-				super.dm.system.isKeyboardUp ||
-				super.dm.system.isKeyboardRight ||
-				super.dm.system.isKeyboardDown) {
+		if (DataManager.system.isKeyboardLeft ||
+				DataManager.system.isKeyboardUp ||
+				DataManager.system.isKeyboardRight ||
+				DataManager.system.isKeyboardDown) {
 			if (super.path != null) {
 				super.path.clear();
 			}
-			double moveInterval = 30 / 1000.0 * dm.settings.moveSpeed;
+			double moveInterval = 30 / 1000.0 * DataManager.settings.moveSpeed;
 			double charYOffset = 0.0;
 			double charXOffset = 0.0;
-			if (dm.system.isKeyboardUp) {
+			if (DataManager.system.isKeyboardUp) {
 				charYOffset -= moveInterval;
 			}
-			if (dm.system.isKeyboardRight) {
+			if (DataManager.system.isKeyboardRight) {
 				charXOffset += moveInterval;
 			}
-			if (dm.system.isKeyboardDown) {
+			if (DataManager.system.isKeyboardDown) {
 				charYOffset += moveInterval;
 			}
-			if (dm.system.isKeyboardLeft) {
+			if (DataManager.system.isKeyboardLeft) {
 				charXOffset -= moveInterval;
 			}
 			if (charXOffset != 0 && charYOffset != 0) {
 				charXOffset *= 0.70710678118;
 				charYOffset *= 0.70710678118;
 			}
-			if (dm.system.isKeyboardSprint && stamina > 0.03) {
+			if (DataManager.system.isKeyboardSprint && stamina > 0.03) {
 				charXOffset *= 1.7;
 				charYOffset *= 1.7;
 			}
-			if (dm.system.blockIDMap.get((short)dm.characterManager.getCharaterBlockInfo()[0]).isLiquid && dm.characterManager.getCharaterBlockInfo()[1] == 0.0) {
+			if (DataManager.system.blockIDMap.get((short)DataManager.characterManager.getCharaterBlockInfo()[0]).isLiquid && DataManager.characterManager.getCharaterBlockInfo()[1] == 0.0) {
 				charXOffset /= 1.7;
 				charYOffset /= 1.7;
 			}
-			if (super.dm.system.isAiming) {
-				updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
+			if (DataManager.system.isAiming) {
+				updateRotation(DataManager.system.mousePosition.getX() - (DataManager.settings.screenWidth / 2.0), DataManager.system.mousePosition.getY() - (DataManager.settings.screenHeight / 2.0));
 				charXOffset /= 1.5;
 				charYOffset /= 1.5;
 			} else {
@@ -136,9 +132,9 @@ public class Character extends Entity {
 			} else {
 				super.move(0, 0);
 			}
-			if (!dm.system.characterMoving) {
-				if (super.dm.system.isAiming) {
-					updateRotation(super.dm.system.mousePosition.getX() - (super.dm.settings.screenWidth / 2.0), super.dm.system.mousePosition.getY() - (super.dm.settings.screenHeight / 2.0));
+			if (!DataManager.system.characterMoving) {
+				if (DataManager.system.isAiming) {
+					updateRotation(DataManager.system.mousePosition.getX() - (DataManager.settings.screenWidth / 2.0), DataManager.system.mousePosition.getY() - (DataManager.settings.screenHeight / 2.0));
 				}
 			}
 		}
@@ -149,20 +145,20 @@ public class Character extends Entity {
 		// -----------------------------------------
 		lastUpdate = System.currentTimeMillis();
 		if (lastX != super.getX() || lastY != super.getY()) {
-			dm.system.characterMoving = true;
+			DataManager.system.characterMoving = true;
 			lastX = super.getX();
 			lastY = super.getY();
 		} else {
-			dm.system.characterMoving = false;
+			DataManager.system.characterMoving = false;
 		}
 		
 		// -----------------------------------------
 		// Stamina Consumption and Regeneration
 		// -----------------------------------------
-		if (dm.system.isKeyboardSprint && dm.system.characterMoving && dm.system.isMoveInput){
+		if (DataManager.system.isKeyboardSprint && DataManager.system.characterMoving && DataManager.system.isMoveInput){
 			stamina -= (staminaConsumeRunning * staminaConsumeFactor);
 			timeToRegen = regenTimerSet;
-		} else if (!dm.system.isKeyboardSprint || !dm.system.characterMoving || !dm.system.isMoveInput) {
+		} else if (!DataManager.system.isKeyboardSprint || !DataManager.system.characterMoving || !DataManager.system.isMoveInput) {
 			if (stamina < maxStamina) {
 				if (timeToRegen <= 0){
 					timeToRegen = 0;
@@ -176,21 +172,21 @@ public class Character extends Entity {
 	
 	
 	@Override
-	public void initializeClass(DataManager dm) {
-		super.initializeClass(dm);
+	public void initializeClass() {
+		super.initializeClass();
 	}
 	
 	
 	public BlockItem getHeldItem(int slot) {
 		switch (slot) {
 		case 0:
-			if (dm.savable.leftEquipt().getItemCount() > 0) {
-				return dm.system.blockIDMap.get(dm.savable.leftEquipt().getItemID());
+			if (DataManager.savable.leftEquipt().getItemCount() > 0) {
+				return DataManager.system.blockIDMap.get(DataManager.savable.leftEquipt().getItemID());
 			}
 			return null;
 		case 1:
-			if (dm.savable.rightEquipt().getItemCount() > 0) {
-				return dm.system.blockIDMap.get(dm.savable.rightEquipt().getItemID());
+			if (DataManager.savable.rightEquipt().getItemCount() > 0) {
+				return DataManager.system.blockIDMap.get(DataManager.savable.rightEquipt().getItemID());
 			}
 			return null;
 		default:
@@ -199,21 +195,21 @@ public class Character extends Entity {
 	}
 	public void removeHeldItem(int slot) {
 		if (slot == 0) {
-			dm.savable.backpackItems[6][0] = new ItemSlot();
+			DataManager.savable.backpackItems[6][0] = new ItemSlot();
 		} else if (slot == 1) {
-			dm.savable.backpackItems[6][1] = new ItemSlot();
+			DataManager.savable.backpackItems[6][1] = new ItemSlot();
 		}
 	}
 	public ItemSlot getHeldItemSlot(int slot) {
 		switch (slot) {
 		case 0:
-			if (dm.savable.leftEquipt().getItemCount() > 0) {
-				return dm.savable.leftEquipt();
+			if (DataManager.savable.leftEquipt().getItemCount() > 0) {
+				return DataManager.savable.leftEquipt();
 			}
 			return null;
 		case 1:
-			if (dm.savable.rightEquipt().getItemCount() > 0) {
-				return dm.savable.rightEquipt();
+			if (DataManager.savable.rightEquipt().getItemCount() > 0) {
+				return DataManager.savable.rightEquipt();
 			}
 			return null;
 		default:
@@ -226,7 +222,6 @@ public class Character extends Entity {
 		super.writeExternal(out);
 		out.writeObject(light);
 	}
-	@SuppressWarnings("unchecked")
 	@Override
 	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 		super.readExternal(in);

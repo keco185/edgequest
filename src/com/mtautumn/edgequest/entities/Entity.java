@@ -40,7 +40,6 @@ public class Entity implements Externalizable {
 	protected double rotation;
 	protected PathFinder aStar;
 	public ArrayList<IntCoord> path;
-	public DataManager dm;
 	protected long lastUpdate;
 	public boolean slide = true;
 	public double lastSpeedX, lastSpeedY;
@@ -62,30 +61,28 @@ public class Entity implements Externalizable {
 		if (lastPosX != posX || lastPosY != posY || walking) {
 			lastPosX = posX;
 			lastPosY = posY;
-			return entityTexture + "." + entityTexture + "walk" + walkAnimation[dm.system.animationClock % walkAnimation.length];
+			return entityTexture + "." + entityTexture + "walk" + walkAnimation[DataManager.system.animationClock % walkAnimation.length];
 		}
-		return entityTexture + "." + entityTexture + "still" + stillAnimation[dm.system.animationClock % stillAnimation.length];
+		return entityTexture + "." + entityTexture + "still" + stillAnimation[DataManager.system.animationClock % stillAnimation.length];
 	}
-	public Entity(String texture, EntityType type, DataManager dm) {
-		this.entityID = dm.savable.entityID++;
+	public Entity(String texture, EntityType type) {
+		this.entityID = DataManager.savable.entityID++;
 		this.entityTexture = texture;
 		this.entityType = type;
-		this.dm = dm;
 		if (type == EntityType.character) {
-			moveSpeed = dm.settings.moveSpeed;
+			moveSpeed = DataManager.settings.moveSpeed;
 		}
 	}
-	public Entity(String texture, EntityType type, double posX, double posY, double rotation, int dungeonLevel, DataManager dm) {
-		this.entityID = dm.savable.entityID++;
+	public Entity(String texture, EntityType type, double posX, double posY, double rotation, int dungeonLevel) {
+		this.entityID = DataManager.savable.entityID++;
 		this.entityTexture = texture;
 		this.entityType = type;
 		this.posX = posX;
 		this.posY = posY;
 		this.rotation = rotation;
-		this.dm = dm;
 		this.dungeonLevel = dungeonLevel;
 		if (type == EntityType.character) {
-			moveSpeed = dm.settings.moveSpeed;
+			moveSpeed = DataManager.settings.moveSpeed;
 		}
 	}
 	public Entity() {
@@ -141,12 +138,12 @@ public class Entity implements Externalizable {
 	public void setDestination(int x, int y) {
 		destinationX = x;
 		destinationY = y;
-		aStar = new PathFinder(dm);
-		path = aStar.findPath((int) Math.floor(posX), (int) Math.floor(posY), destinationX, destinationY, dungeonLevel, dm);
+		aStar = new PathFinder();
+		path = aStar.findPath((int) Math.floor(posX), (int) Math.floor(posY), destinationX, destinationY, dungeonLevel);
 	}
 	public void reCalculatePath() {
 		if (aStar != null) {
-			path = aStar.findPath((int) Math.floor(posX), (int) Math.floor(posY), destinationX, destinationY, dungeonLevel, dm);
+			path = aStar.findPath((int) Math.floor(posX), (int) Math.floor(posY), destinationX, destinationY, dungeonLevel);
 		}
 	}
 	public void update() {
@@ -163,8 +160,8 @@ public class Entity implements Externalizable {
 		lastUpdate = System.currentTimeMillis();
 	}
 	protected boolean isImpassible(IntCoord point) {
-		if (dm.world.isStructBlock(this, point.x, point.y)) {
-			return !dm.system.blockIDMap.get(dm.world.getStructBlock(this, point.x, point.y)).isPassable;
+		if (DataManager.world.isStructBlock(this, point.x, point.y)) {
+			return !DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(this, point.x, point.y)).isPassable;
 		}
 		return false;
 	}
@@ -277,8 +274,8 @@ public class Entity implements Externalizable {
 			entityY = (int) Math.floor(speed + posY);
 			entityX = (int) Math.floor(posX);
 		}
-		if (dm.world.isStructBlock(this,entityX, entityY)) {
-			return (dm.system.blockIDMap.get(dm.world.getStructBlock(this,entityX, entityY)).isPassable);
+		if (DataManager.world.isStructBlock(this,entityX, entityY)) {
+			return (DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(this,entityX, entityY)).isPassable);
 		}
 		return true;
 	}
@@ -340,38 +337,37 @@ public class Entity implements Externalizable {
 		health = in.readInt();
 
 	}
-	public void initializeClass(DataManager dm) {
-		this.dm = dm;
+	public void initializeClass() {
 		if (entityType == EntityType.character) {
-			moveSpeed = dm.settings.moveSpeed;
+			moveSpeed = DataManager.settings.moveSpeed;
 		}
 	}
 	public boolean isOnIce() {
-		if (dm.world.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
-			return dm.system.blockIDMap.get(dm.world.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))).isName("ice");
+		if (DataManager.world.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
+			return DataManager.system.blockIDMap.get(DataManager.world.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))).isName("ice");
 		}
 		return false;
 	}
 	public double distanceToPlayer() {
-		return Math.sqrt(Math.pow(dm.characterManager.characterEntity.getX() - posX, 2) + Math.pow(dm.characterManager.characterEntity.getY() - posY, 2));
+		return Math.sqrt(Math.pow(DataManager.characterManager.characterEntity.getX() - posX, 2) + Math.pow(DataManager.characterManager.characterEntity.getY() - posY, 2));
 	}
 	public BlockItem getBlock() {
-		if (dm.world.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
-			return dm.system.blockIDMap.get(dm.world.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY)));
+		if (DataManager.world.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
+			return DataManager.system.blockIDMap.get(DataManager.world.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY)));
 		}
 		return null;
 	}
 	public BlockItem getRelativeGroundBlock(int deltaX, int deltaY) {
-		return dm.system.blockIDMap.get(getRelativeGroundBlockID(deltaX, deltaY));
+		return DataManager.system.blockIDMap.get(getRelativeGroundBlockID(deltaX, deltaY));
 	}
 	public BlockItem getRelativeStructureBlock(int deltaX, int deltaY) {
-		return dm.system.blockIDMap.get(getRelativeStructureBlockID(deltaX, deltaY));
+		return DataManager.system.blockIDMap.get(getRelativeStructureBlockID(deltaX, deltaY));
 	}
 	public short getRelativeGroundBlockID(int deltaX, int deltaY) {
-		return dm.world.getGroundBlock(this, (int) Math.floor(getX() + deltaX), (int) Math.floor(getY() + deltaY));
+		return DataManager.world.getGroundBlock(this, (int) Math.floor(getX() + deltaX), (int) Math.floor(getY() + deltaY));
 	}
 	public short getRelativeStructureBlockID(int deltaX, int deltaY) {
-		return dm.world.getStructBlock(this, (int) Math.floor(posX + deltaX), (int) Math.floor(posY + deltaY));
+		return DataManager.world.getStructBlock(this, (int) Math.floor(posX + deltaX), (int) Math.floor(posY + deltaY));
 	}
 
 	protected boolean isInFOV(double x, double y, double fov) {
@@ -454,8 +450,8 @@ public class Entity implements Externalizable {
 		Location checkLocation = new Location(this);
 		checkLocation.x = x;
 		checkLocation.y = y;
-		if (dm.world.isStructBlock(checkLocation)) {
-			return !dm.system.blockIDMap.get(dm.world.getStructBlock(checkLocation)).isPassable;
+		if (DataManager.world.isStructBlock(checkLocation)) {
+			return !DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(checkLocation)).isPassable;
 		}
 		return false;
 	}

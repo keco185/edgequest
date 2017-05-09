@@ -1,6 +1,5 @@
 package com.mtautumn.edgequest.blockitems.combat;
 
-import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.entities.Entity;
 import com.mtautumn.edgequest.projectiles.BulletProjectile;
 import com.mtautumn.edgequest.projectiles.Projectile;
@@ -8,8 +7,8 @@ import com.mtautumn.edgequest.projectiles.Projectile;
 public class PistolWeapon extends Weapon{
 	private static final long serialVersionUID = 1L;
 
-	public PistolWeapon(int id, DataManager dm) {
-		super(id, false, true, "pistol", null, new int[]{0}, dm);
+	public PistolWeapon(int id) {
+		super(id, false, true, "pistol", null, new int[]{0});
 		ammoTypes = new String[]{"bullet"};
 		maxHealth = 50;
 	}

@@ -23,34 +23,34 @@ import com.mtautumn.edgequest.utils.WorldUtils;
 import com.mtautumn.edgequest.window.MenuButtonManager;
 
 public class DataManager {
-	public SystemData system = new SystemData();
-	public SavableData savable = new SavableData();
-	public SettingsData settings = new SettingsData();
+	public static SystemData system = new SystemData();
+	public static SavableData savable = new SavableData();
+	public static SettingsData settings = new SettingsData();
 
-	public MenuButtonManager menuButtonManager;
-	public BackpackManager backpackManager = new BackpackManager(this);
-	public BlockUpdateManager blockUpdateManager = new BlockUpdateManager(this);
-	public CharacterManager characterManager = new CharacterManager(this);
-	public RendererManager rendererManager = new RendererManager(this);
-	public TerrainManager terrainManager = new TerrainManager(this);
-	public GameClock gameClock = new GameClock(this);
-	public AnimationClock animationClock = new AnimationClock(this);
-	public ButtonActionManager buttonActionManager = new ButtonActionManager(this);
-	public ConsoleManager consoleManager = new ConsoleManager(this);
-	public AttackManager attackManager = new AttackManager(this);
-	public EntitySpawn entitySpawn = new EntitySpawn(this);
-	public ProjectileManager projectileManager = new ProjectileManager(this);
-	public DamagePostManager damagePostManager = new DamagePostManager(this);
-	public LightingUpdater lightingUpdater = new LightingUpdater(this);
-	public ParticleManager particleManager = new ParticleManager(this);
-	public ItemDropManager itemDropManager = new ItemDropManager(this);
-	public WeatherManager weatherManager = new WeatherManager(this);
+	public static MenuButtonManager menuButtonManager;
+	public static BackpackManager backpackManager = new BackpackManager();
+	public static BlockUpdateManager blockUpdateManager = new BlockUpdateManager();
+	public static CharacterManager characterManager = new CharacterManager();
+	public static RendererManager rendererManager = new RendererManager();
+	public static TerrainManager terrainManager = new TerrainManager();
+	public static GameClock gameClock = new GameClock();
+	public static AnimationClock animationClock = new AnimationClock();
+	public static ButtonActionManager buttonActionManager = new ButtonActionManager();
+	public static ConsoleManager consoleManager = new ConsoleManager();
+	public static AttackManager attackManager = new AttackManager();
+	public static EntitySpawn entitySpawn = new EntitySpawn();
+	public static ProjectileManager projectileManager = new ProjectileManager();
+	public static DamagePostManager damagePostManager = new DamagePostManager();
+	public static LightingUpdater lightingUpdater = new LightingUpdater();
+	public static ParticleManager particleManager = new ParticleManager();
+	public static ItemDropManager itemDropManager = new ItemDropManager();
+	public static WeatherManager weatherManager = new WeatherManager();
 
-	public WorldUtils world = new WorldUtils(this);
-	public EntityUpdater entityUpdater = new EntityUpdater(this);
+	public static WorldUtils world = new WorldUtils();
+	public static EntityUpdater entityUpdater = new EntityUpdater();
 
 	// Initialize a new game
-	public void newGame() {
+	public static void newGame() {
 		resetTerrain();
 		savable.time = 800;
 		for (int i = 0; i< savable.backpackItems.length; i++) {
@@ -67,7 +67,7 @@ public class DataManager {
 	}
 
 	// Reset the terrain
-	public void resetTerrain() {
+	public static void resetTerrain() {
 		terrainManager.terrainGenerator.clearCache();
 		world.wipeMaps();
 		savable.footPrints.clear();
@@ -76,7 +76,7 @@ public class DataManager {
 	}
 
 	// Start the managers
-	public void start() {
+	public static void start() {
 		System.out.println("Starting managers");
 		characterManager.start();
 		terrainManager.start();

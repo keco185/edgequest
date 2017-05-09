@@ -41,7 +41,7 @@ public class BlockItem implements Serializable {
 	public int fuel = 1;
 	public int maxHealth = 1;
 
-	public BlockItem(int id, boolean isBlock, boolean isItem, String name, int[] blockAnimation, int[] itemAnimation, DataManager dm) {
+	public BlockItem(int id, boolean isBlock, boolean isItem, String name, int[] blockAnimation, int[] itemAnimation) {
 		this.isItem = isItem;
 		this.isBlock = isBlock;
 		this.id = (short)id;
@@ -50,7 +50,7 @@ public class BlockItem implements Serializable {
 		if (isBlock) {
 			for (Short i = 0; i < blockAnimation.length; i++) {
 				blockImg.add(name + blockAnimation[i]);
-				blockImgAtlas.add(dm.settings.atlasMap.get(name + blockAnimation[i]));
+				blockImgAtlas.add(DataManager.settings.atlasMap.get(name + blockAnimation[i]));
 			}
 		}
 		if (isItem) {

@@ -10,7 +10,6 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.layers.OptionPane;
 
 public class TextFieldInputUpdater {
-	DataManager dataManager;
 	public boolean wasConsoleUp = false;
 	private enum KeyState {
 
@@ -22,8 +21,7 @@ public class TextFieldInputUpdater {
 
 	private KeyState[] keys = null;
 
-	public TextFieldInputUpdater(DataManager dataManager) {
-		this.dataManager = dataManager;
+	public TextFieldInputUpdater() {
 		keys = new KeyState[ Keyboard.KEYBOARD_SIZE ];
 
 		for( int i = 0; i < Keyboard.KEYBOARD_SIZE; ++i ) {
@@ -42,25 +40,25 @@ public class TextFieldInputUpdater {
 					keys[i] = KeyState.PRESSED;
 				} else if (keys[i] == KeyState.RELEASED) {
 					keys[i] = KeyState.ONCE;
-					if (dataManager.system.inputTextResponse.size() != 0 ) {						
-						String inputResponse = 	dataManager.system.inputTextResponse.get(dataManager.system.inputTextResponse.size() - 1);
+					if (DataManager.system.inputTextResponse.size() != 0 ) {						
+						String inputResponse = 	DataManager.system.inputTextResponse.get(DataManager.system.inputTextResponse.size() - 1);
 						if (Keyboard.getKeyName(i).equals("BACK") || Keyboard.getKeyName(i).equals("DELETE")) {
 							inputResponse = delete(inputResponse);
 						}
-						dataManager.system.inputTextResponse.set(dataManager.system.inputTextResponse.size() - 1, inputResponse + getKeyString(Keyboard.getKeyName(i)));
+						DataManager.system.inputTextResponse.set(DataManager.system.inputTextResponse.size() - 1, inputResponse + getKeyString(Keyboard.getKeyName(i)));
 						if (Keyboard.getKeyName(i).equals("RETURN") || Keyboard.getKeyName(i).equals("ENTER")) {
-							OptionPane.closeOptionPane(dataManager);
+							OptionPane.closeOptionPane();
 						}
 					} else {
 						if (wasConsoleUp) {
-							String inputResponse = dataManager.system.consoleText;
+							String inputResponse = DataManager.system.consoleText;
 							if (Keyboard.getKeyName(i).equals("BACK") || Keyboard.getKeyName(i).equals("DELETE")) {
 								inputResponse = delete(inputResponse);
 							}
-							dataManager.system.consoleText = inputResponse + getKeyString(Keyboard.getKeyName(i));
+							DataManager.system.consoleText = inputResponse + getKeyString(Keyboard.getKeyName(i));
 							if (Keyboard.getKeyName(i).equals("RETURN") || Keyboard.getKeyName(i).equals("ENTER")) {
-								dataManager.consoleManager.addLine(dataManager.system.consoleText);
-								dataManager.system.consoleText = "";
+								DataManager.consoleManager.addLine(DataManager.system.consoleText);
+								DataManager.system.consoleText = "";
 							}
 						}
 					}

@@ -9,45 +9,43 @@ import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.entities.Character;
 
 public class CharacterManager extends Thread{
-	DataManager dataManager;
 	BlockUpdateManager blockUpdateManager;
 	public Character characterEntity;
-	public CharacterManager(DataManager dataManager) {
-		this.dataManager = dataManager;
-		blockUpdateManager = dataManager.blockUpdateManager;
+	public CharacterManager() {
+		blockUpdateManager = DataManager.blockUpdateManager;
 	}
 	public void charPlaceTorch() {
 		Location location = new Location(characterEntity);
-		if (!dataManager.world.isStructBlock(location)) {
+		if (!DataManager.world.isStructBlock(location)) {
 			if (!characterEntity.getRelativeGroundBlock(0, 0).isLiquid) {
-				dataManager.world.setStructBlock(location, dataManager.system.blockNameMap.get("torch").getID());
-				dataManager.world.addLightSource(location);
+				DataManager.world.setStructBlock(location, DataManager.system.blockNameMap.get("torch").getID());
+				DataManager.world.addLightSource(location);
 				blockUpdateManager.updateBlock(location);
 			}
-		} else if (dataManager.world.getStructBlock(location) == dataManager.system.blockNameMap.get("torch").getID()) {
-			dataManager.world.removeStructBlock(location);
-			dataManager.world.removeLightSource(location);
+		} else if (DataManager.world.getStructBlock(location) == DataManager.system.blockNameMap.get("torch").getID()) {
+			DataManager.world.removeStructBlock(location);
+			DataManager.world.removeLightSource(location);
 			blockUpdateManager.updateBlock(location);
 		}
 	}
 	@Override
 	public void run() {
 		createCharacterEntity();
-		while (dataManager.system.running) {
+		while (DataManager.system.running) {
 			try {
-				if (!dataManager.system.characterLocationSet) {
+				if (!DataManager.system.characterLocationSet) {
 					Location location = new Location(characterEntity);
-					if (dataManager.world.isGroundBlock(location)) {
-						BlockItem charBlock = dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock(location));
+					if (DataManager.world.isGroundBlock(location)) {
+						BlockItem charBlock = DataManager.system.blockIDMap.get(DataManager.world.getGroundBlock(location));
 						if (charBlock.isName("water") || charBlock.isName("ice")) {
 							characterEntity.setPos(characterEntity.getX()+1, characterEntity.getY());
 						} else {
-							dataManager.system.characterLocationSet = true;
+							DataManager.system.characterLocationSet = true;
 							characterEntity.move(0.5, 0.5);
 						}
 					}
 				}
-				Thread.sleep(dataManager.settings.tickLength);
+				Thread.sleep(DataManager.settings.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -55,18 +53,18 @@ public class CharacterManager extends Thread{
 	}
 	public double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome
-		int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
-		int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
-			if (dataManager.world.isGroundBlock(dataManager.characterManager.characterEntity, charX, charY)) {
-				blockInfo[0] = dataManager.world.getGroundBlock(dataManager.characterManager.characterEntity, charX, charY);
+		int charX = (int) Math.floor(DataManager.characterManager.characterEntity.getX());
+		int charY = (int) Math.floor(DataManager.characterManager.characterEntity.getY());
+			if (DataManager.world.isGroundBlock(DataManager.characterManager.characterEntity, charX, charY)) {
+				blockInfo[0] = DataManager.world.getGroundBlock(DataManager.characterManager.characterEntity, charX, charY);
 			}
-			if (dataManager.world.isStructBlock(dataManager.characterManager.characterEntity, charX, charY)) {
-				blockInfo[1] = dataManager.world.getStructBlock(dataManager.characterManager.characterEntity, charX, charY);
+			if (DataManager.world.isStructBlock(DataManager.characterManager.characterEntity, charX, charY)) {
+				blockInfo[1] = DataManager.world.getStructBlock(DataManager.characterManager.characterEntity, charX, charY);
 			}
 		return blockInfo;
 	}
 	public void createCharacterEntity() {
-		characterEntity = new Character(0, 0, 0, -1, dataManager);
-		dataManager.savable.entities.add(characterEntity);
+		characterEntity = new Character(0, 0, 0, -1);
+		DataManager.savable.entities.add(characterEntity);
 	}
 }

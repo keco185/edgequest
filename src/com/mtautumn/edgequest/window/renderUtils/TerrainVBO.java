@@ -19,9 +19,9 @@ public class TerrainVBO implements VBO {
 	int vaoHandle;
 	float invAtlasWidth;
 	float invAtlasHeight;
-	public TerrainVBO(DataManager dm) {
-		invAtlasWidth = 1f/dm.settings.atlasMap.get("dimensions")[0];
-		invAtlasHeight = 1f/dm.settings.atlasMap.get("dimensions")[1];
+	public TerrainVBO() {
+		invAtlasWidth = 1f/DataManager.settings.atlasMap.get("dimensions")[0];
+		invAtlasHeight = 1f/DataManager.settings.atlasMap.get("dimensions")[1];
 	}
 	@Override
 	public void addVertex(float x, float y) {

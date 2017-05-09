@@ -7,41 +7,38 @@ import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.projectiles.Projectile;
 
 public class AttackManager extends Thread {
-	DataManager dm;
-	public AttackManager(DataManager dm) {
-		this.dm = dm;
-	}
+
 	@Override
 	public void run() {
 		boolean wasLeftMouseDown = false;
-		while (dm.system.running) {
+		while (DataManager.system.running) {
 			try {
-				if (dm.system.isAiming) { //Is player aiming
-					if (dm.system.leftMouseDown && !wasLeftMouseDown) { //Is player attacking
+				if (DataManager.system.isAiming) { //Is player aiming
+					if (DataManager.system.leftMouseDown && !wasLeftMouseDown) { //Is player attacking
 						performAttack();
 					}
-					wasLeftMouseDown = dm.system.leftMouseDown;
+					wasLeftMouseDown = DataManager.system.leftMouseDown;
 				}
-				Thread.sleep(dm.settings.tickLength);
+				Thread.sleep(DataManager.settings.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	private boolean isWeapon(int slot) {
-		if (dm.characterManager.characterEntity.getHeldItem(slot) != null) {
-			if (dm.characterManager.characterEntity.getHeldItem(slot) instanceof Weapon) {
+	private static boolean isWeapon(int slot) {
+		if (DataManager.characterManager.characterEntity.getHeldItem(slot) != null) {
+			if (DataManager.characterManager.characterEntity.getHeldItem(slot) instanceof Weapon) {
 				return true;
 			}
 		}
 		return false;
 	}
-	private boolean doesBackpackContainAmmo(Weapon weapon) {
-		for (int i = 0; i < dm.savable.backpackItems.length; i++) {
-			for (int j = 0; j < dm.savable.backpackItems[i].length; j++) {
-				ItemSlot slot = dm.savable.backpackItems[i][j];
+	private static boolean doesBackpackContainAmmo(Weapon weapon) {
+		for (int i = 0; i < DataManager.savable.backpackItems.length; i++) {
+			for (int j = 0; j < DataManager.savable.backpackItems[i].length; j++) {
+				ItemSlot slot = DataManager.savable.backpackItems[i][j];
 				for (int k = 0; k < weapon.ammoTypes.length; k++) {
-					if (dm.system.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
+					if (DataManager.system.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
 						return true;
 					}
 				}
@@ -49,13 +46,13 @@ public class AttackManager extends Thread {
 		}
 		return false;
 	}
-	private ItemSlot getAmmoSlot(Weapon weapon) {
+	private static ItemSlot getAmmoSlot(Weapon weapon) {
 		if (doesBackpackContainAmmo(weapon)) {
-			for (int i = 0; i < dm.savable.backpackItems.length; i++) {
-				for (int j = 0; j < dm.savable.backpackItems[i].length; j++) {
-					ItemSlot slot = dm.savable.backpackItems[i][j];
+			for (int i = 0; i < DataManager.savable.backpackItems.length; i++) {
+				for (int j = 0; j < DataManager.savable.backpackItems[i].length; j++) {
+					ItemSlot slot = DataManager.savable.backpackItems[i][j];
 					for (int k = 0; k < weapon.ammoTypes.length; k++) {
-						if (dm.system.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
+						if (DataManager.system.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
 							return slot;
 						}
 					}
@@ -64,16 +61,16 @@ public class AttackManager extends Thread {
 		}
 		return null;
 	}
-	private void removeAmmoFromSlot(Weapon weapon) {
+	private static void removeAmmoFromSlot(Weapon weapon) {
 		if (doesBackpackContainAmmo(weapon)) {
-			for (int i = 0; i < dm.savable.backpackItems.length; i++) {
-				for (int j = 0; j < dm.savable.backpackItems[i].length; j++) {
-					ItemSlot slot = dm.savable.backpackItems[i][j];
+			for (int i = 0; i < DataManager.savable.backpackItems.length; i++) {
+				for (int j = 0; j < DataManager.savable.backpackItems[i].length; j++) {
+					ItemSlot slot = DataManager.savable.backpackItems[i][j];
 					for (int k = 0; k < weapon.ammoTypes.length; k++) {
-						if (dm.system.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
-							dm.savable.backpackItems[i][j].subtractOne();
-							if (dm.savable.backpackItems[i][j].getItemCount() <= 0) {
-								dm.savable.backpackItems[i][j] = new ItemSlot();
+						if (DataManager.system.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
+							DataManager.savable.backpackItems[i][j].subtractOne();
+							if (DataManager.savable.backpackItems[i][j].getItemCount() <= 0) {
+								DataManager.savable.backpackItems[i][j] = new ItemSlot();
 							}
 						}
 					}
@@ -88,21 +85,21 @@ public class AttackManager extends Thread {
 		double offsetY = 0;
 		boolean handUsed = false; //left hand is false;
 		if (isWeapon(0)) {
-			attackWeapon = (Weapon) dm.characterManager.characterEntity.getHeldItem(0);
-			offsetX = Math.cos(-dm.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
-			offsetY = -Math.sin(-dm.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
-			dm.characterManager.characterEntity.getHeldItemSlot(0).itemHealth -= 1;
-			if (dm.characterManager.characterEntity.getHeldItemSlot(0).itemHealth <= 0) {
-				dm.characterManager.characterEntity.removeHeldItem(0);
+			attackWeapon = (Weapon) DataManager.characterManager.characterEntity.getHeldItem(0);
+			offsetX = Math.cos(-DataManager.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+			offsetY = -Math.sin(-DataManager.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+			DataManager.characterManager.characterEntity.getHeldItemSlot(0).itemHealth -= 1;
+			if (DataManager.characterManager.characterEntity.getHeldItemSlot(0).itemHealth <= 0) {
+				DataManager.characterManager.characterEntity.removeHeldItem(0);
 			}
 		} else if (isWeapon(1)) {
-			attackWeapon = (Weapon) dm.characterManager.characterEntity.getHeldItem(1);
-			offsetX = Math.cos(-dm.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
-			offsetY = -Math.sin(-dm.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+			attackWeapon = (Weapon) DataManager.characterManager.characterEntity.getHeldItem(1);
+			offsetX = Math.cos(-DataManager.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+			offsetY = -Math.sin(-DataManager.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
 			handUsed = true;
-			dm.characterManager.characterEntity.getHeldItemSlot(1).itemHealth -= 1;
-			if (dm.characterManager.characterEntity.getHeldItemSlot(1).itemHealth <= 0) {
-				dm.characterManager.characterEntity.removeHeldItem(1);
+			DataManager.characterManager.characterEntity.getHeldItemSlot(1).itemHealth -= 1;
+			if (DataManager.characterManager.characterEntity.getHeldItemSlot(1).itemHealth <= 0) {
+				DataManager.characterManager.characterEntity.removeHeldItem(1);
 			}
 		}
 		Projectile[] projectiles;
@@ -110,27 +107,27 @@ public class AttackManager extends Thread {
 			if (doesBackpackContainAmmo(attackWeapon)) {
 				ItemSlot slot = getAmmoSlot(attackWeapon);
 				removeAmmoFromSlot(attackWeapon);
-				projectiles = attackWeapon.createProjectiles(dm.system.blockIDMap.get(slot.getItemID()).getName(), dm.characterManager.characterEntity, offsetX, offsetY, handUsed);
+				projectiles = attackWeapon.createProjectiles(DataManager.system.blockIDMap.get(slot.getItemID()).getName(), DataManager.characterManager.characterEntity, offsetX, offsetY, handUsed);
 			} else if (attackWeapon.ammoTypes.length == 0) {
-				projectiles = attackWeapon.createProjectiles(null, dm.characterManager.characterEntity, offsetX, offsetY, handUsed);
+				projectiles = attackWeapon.createProjectiles(null, DataManager.characterManager.characterEntity, offsetX, offsetY, handUsed);
 			} else {
 				projectiles = new Projectile[0];
 			}
 		} else {
 			if (lastHand) {
-				offsetX = Math.cos(-dm.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
-				offsetY = -Math.sin(-dm.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+				offsetX = Math.cos(-DataManager.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+				offsetY = -Math.sin(-DataManager.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
 			} else {
-				offsetX = Math.cos(-dm.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
-				offsetY = -Math.sin(-dm.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+				offsetX = Math.cos(-DataManager.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+				offsetY = -Math.sin(-DataManager.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
 			}
 			lastHand = !lastHand;
-			projectiles = Hands.createProjectiles(dm.characterManager.characterEntity, offsetX, offsetY);
+			projectiles = Hands.createProjectiles(DataManager.characterManager.characterEntity, offsetX, offsetY);
 		}
 		for (int i = 0; i < projectiles.length; i++) {
 			projectiles[i].x += offsetX;
 			projectiles[i].y += offsetY;
-			dm.savable.projectiles.add(projectiles[i]);
+			DataManager.savable.projectiles.add(projectiles[i]);
 		}
 	}
 

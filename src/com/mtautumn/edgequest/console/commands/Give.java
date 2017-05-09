@@ -7,17 +7,17 @@ import com.mtautumn.edgequest.data.DataManager;
 public class Give extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
+	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
-			dm.backpackManager.addItem(dm.system.blockNameMap.get(args.get(0)));
-			addInfoLine("Gave you 1 " + dm.system.blockNameMap.get(args.get(0)).getName(), dm);
+			DataManager.backpackManager.addItem(DataManager.system.blockNameMap.get(args.get(0)));
+			addInfoLine("Gave you 1 " + DataManager.system.blockNameMap.get(args.get(0)).getName());
 		} else if (args.size() == 2) {
 			for (int i = 0; i < Integer.parseInt(args.get(1)); i++) {
-				dm.backpackManager.addItem(dm.system.blockNameMap.get(args.get(0)));
+				DataManager.backpackManager.addItem(DataManager.system.blockNameMap.get(args.get(0)));
 			}
-			addInfoLine("Gave you " + Integer.parseInt(args.get(1)) + " " + dm.system.blockNameMap.get(args.get(0)).getName(), dm);
+			addInfoLine("Gave you " + Integer.parseInt(args.get(1)) + " " + DataManager.system.blockNameMap.get(args.get(0)).getName());
 		} else {
-			addErrorLine("use the format " + usage(), dm);
+			addErrorLine("use the format " + usage());
 		}
 		return false;
 	}

@@ -7,7 +7,7 @@ import com.mtautumn.edgequest.data.DataManager;
 public class Help extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
+	public boolean execute(ArrayList<String> args) {
 		boolean description = false;
 		int page = 1;
 		if (args.size() == 1) {
@@ -20,18 +20,18 @@ public class Help extends Command {
 		if (args.size() < 2) {
 			if (description) {
 				boolean commandFound = false;
-				for (Command cmd : dm.consoleManager.commands) {
+				for (Command cmd : DataManager.consoleManager.commands) {
 					if (cmd.name().equalsIgnoreCase(args.get(0)) && !commandFound) {
-						addInfoLine(args.get(0) + " command description:", dm);
+						addInfoLine(args.get(0) + " command description:");
 						for (String line : cmd.description()) {
-							addInfoLine(line, dm);
+							addInfoLine(line);
 						}
 						commandFound = true;
 					}
 				}
 				if (!commandFound) {
 					ArrayList<Command> possibleMatches = new ArrayList<Command>();
-					for (Command cmd : dm.consoleManager.commands) {
+					for (Command cmd : DataManager.consoleManager.commands) {
 						if (cmd.name().contains(args.get(0)) || args.get(0).contains(cmd.name())) {
 							possibleMatches.add(cmd);
 						} else {
@@ -43,28 +43,28 @@ public class Help extends Command {
 						}
 					}
 					if (possibleMatches.size() > 0) {
-						addInfoLine("Command not recognized. Here are some possible matches:", dm);
+						addInfoLine("Command not recognized. Here are some possible matches:");
 						for (Command cmd : possibleMatches) {
-							addInfoLine(cmd.usage(), dm);
+							addInfoLine(cmd.usage());
 						}
 					} else {
-						addInfoLine("Could not find any commands related to your query.", dm);
+						addInfoLine("Could not find any commands related to your query.");
 					}
 				}
 			} else {
 				int startCommand = (page - 1) * 7 + 1;
 				int endCommand = startCommand + 6;
-				if (dm.consoleManager.commands.size() >= startCommand && page > 0) {
-					int pages = (int) Math.ceil(dm.consoleManager.commands.size() / 7.0);
-					addInfoLine("Command List: (Page " + page + " of " + pages + ")", dm);
-					if (endCommand > dm.consoleManager.commands.size()) {
-						endCommand = dm.consoleManager.commands.size();
+				if (DataManager.consoleManager.commands.size() >= startCommand && page > 0) {
+					int pages = (int) Math.ceil(DataManager.consoleManager.commands.size() / 7.0);
+					addInfoLine("Command List: (Page " + page + " of " + pages + ")");
+					if (endCommand > DataManager.consoleManager.commands.size()) {
+						endCommand = DataManager.consoleManager.commands.size();
 					}
 					for (int i = startCommand; i <= endCommand; i++) {
-						addInfoLine("(" + i + ") " + dm.consoleManager.commands.get(i - 1).usage(), dm);
+						addInfoLine("(" + i + ") " + DataManager.consoleManager.commands.get(i - 1).usage());
 					}
 				} else {
-					addErrorLine("Not a page", dm);
+					addErrorLine("Not a page");
 				}
 			}
 		} else {

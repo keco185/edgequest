@@ -9,11 +9,7 @@ import java.util.ArrayList;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class PathFinder {
-	DataManager dm;
-	public PathFinder(DataManager dm) {
-		this.dm = dm;
-	}
-	public ArrayList<IntCoord> findPath(int startX, int startY, int endX, int endY, int level, DataManager dm) {
+	public ArrayList<IntCoord> findPath(int startX, int startY, int endX, int endY, int level) {
 		int iterationCount = 0;
 		IntCoord start = new IntCoord(startX, startY);
 		IntCoord end = new IntCoord(endX, endY);
@@ -71,18 +67,18 @@ public class PathFinder {
 		}
 		return path;
 	}
-	private boolean isNodeClear(int x, int y, int firstX, int firstY, int level) {
+	private static boolean isNodeClear(int x, int y, int firstX, int firstY, int level) {
 		boolean nodeClear = true;
 		boolean diag1Clear = true;
 		boolean diag2Clear = true;
-		if (dm.world.isStructBlock(x, y, level)) {
-			nodeClear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, y, level)).isPassable;
+		if (DataManager.world.isStructBlock(x, y, level)) {
+			nodeClear = DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(x, y, level)).isPassable;
 		}
-		if (dm.world.isStructBlock(firstX, y, level)) {
-			diag1Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(firstX, y, level)).isPassable;
+		if (DataManager.world.isStructBlock(firstX, y, level)) {
+			diag1Clear = DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(firstX, y, level)).isPassable;
 		}
-		if (dm.world.isStructBlock(x, firstY, level)) {
-			diag2Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, firstY, level)).isPassable;
+		if (DataManager.world.isStructBlock(x, firstY, level)) {
+			diag2Clear = DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(x, firstY, level)).isPassable;
 		}
 		return nodeClear && (diag1Clear || diag2Clear);
 		

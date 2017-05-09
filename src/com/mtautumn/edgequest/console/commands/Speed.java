@@ -7,14 +7,14 @@ import com.mtautumn.edgequest.data.DataManager;
 public class Speed extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
+	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
-			dm.settings.moveSpeed = Double.parseDouble(args.get(0));
-			addInfoLine("Speed set to: " + dm.settings.moveSpeed, dm);
+			DataManager.settings.moveSpeed = Double.parseDouble(args.get(0));
+			addInfoLine("Speed set to: " + DataManager.settings.moveSpeed);
 		} else if (args.size() == 0) {
-			addInfoLine("Speed is: " + dm.settings.moveSpeed, dm);
+			addInfoLine("Speed is: " + DataManager.settings.moveSpeed);
 		} else {
-			addErrorLine("use the format " + usage(), dm);
+			addErrorLine("use the format " + usage());
 		}
 		return true;
 	}

@@ -7,28 +7,24 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.dataObjects.FootPrint;
 
 public class UpdateFootprints {
-	DataManager dataManager;
 	double lastFootX = 0.0;
 	double lastFootY = 0.0;
-	public UpdateFootprints(DataManager dataManager) {
-		this.dataManager = dataManager;
-	}
 	public void update() {
-		int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
-		int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
-		if (dataManager.world.isGroundBlock(dataManager.characterManager.characterEntity, charX, charY)) {
-			if (dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock(dataManager.characterManager.characterEntity, charX, charY)).canHavePrints) {
-				if (Math.sqrt(Math.pow(dataManager.characterManager.characterEntity.getX() - lastFootX, 2)+Math.pow(dataManager.characterManager.characterEntity.getY() - lastFootY, 2)) > 0.7) {
-					lastFootX = dataManager.characterManager.characterEntity.getX();
-					lastFootY = dataManager.characterManager.characterEntity.getY();
-					dataManager.savable.footPrints.add(new FootPrint(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), dataManager.characterManager.characterEntity.getMoveRot(), dataManager.characterManager.characterEntity.dungeonLevel));
+		int charX = (int) Math.floor(DataManager.characterManager.characterEntity.getX());
+		int charY = (int) Math.floor(DataManager.characterManager.characterEntity.getY());
+		if (DataManager.world.isGroundBlock(DataManager.characterManager.characterEntity, charX, charY)) {
+			if (DataManager.system.blockIDMap.get(DataManager.world.getGroundBlock(DataManager.characterManager.characterEntity, charX, charY)).canHavePrints) {
+				if (Math.sqrt(Math.pow(DataManager.characterManager.characterEntity.getX() - lastFootX, 2)+Math.pow(DataManager.characterManager.characterEntity.getY() - lastFootY, 2)) > 0.7) {
+					lastFootX = DataManager.characterManager.characterEntity.getX();
+					lastFootY = DataManager.characterManager.characterEntity.getY();
+					DataManager.savable.footPrints.add(new FootPrint(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY(), DataManager.characterManager.characterEntity.getMoveRot(), DataManager.characterManager.characterEntity.dungeonLevel));
 				}
 			}
 		}
-		for (int i = 0; i < dataManager.savable.footPrints.size(); i++) {
-			dataManager.savable.footPrints.get(i).opacity -= 0.001;
-			if (dataManager.savable.footPrints.get(i).opacity <= 0) {
-				dataManager.savable.footPrints.remove(i);
+		for (int i = 0; i < DataManager.savable.footPrints.size(); i++) {
+			DataManager.savable.footPrints.get(i).opacity -= 0.001;
+			if (DataManager.savable.footPrints.get(i).opacity <= 0) {
+				DataManager.savable.footPrints.remove(i);
 			}
 
 		}

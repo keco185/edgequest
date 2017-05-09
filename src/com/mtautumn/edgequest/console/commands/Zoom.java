@@ -7,12 +7,12 @@ import com.mtautumn.edgequest.data.DataManager;
 public class Zoom extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
+	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
-			dm.settings.targetBlockSize = Float.parseFloat(args.get(0));
-			addInfoLine("Zooming out to a zoom level of " + args.get(0), dm);
+			DataManager.settings.targetBlockSize = Float.parseFloat(args.get(0));
+			addInfoLine("Zooming out to a zoom level of " + args.get(0));
 		} else {
-			addErrorLine("use the format " + usage(), dm);
+			addErrorLine("use the format " + usage());
 		}
 		return true;
 	}

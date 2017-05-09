@@ -12,10 +12,8 @@ import com.mtautumn.edgequest.window.layers.OptionPane;
 public class MouseUpdater {
 	private boolean wasLeftMouseDown = false;
 	private boolean wasRightMouseDown = false;
-	private DataManager dm;
 	private Renderer renderer;
-	public MouseUpdater(DataManager dm, Renderer renderer) {
-		this.dm = dm;
+	public MouseUpdater(Renderer renderer) {
 		this.renderer = renderer;
 	}
 	
@@ -25,17 +23,17 @@ public class MouseUpdater {
 		updateMouseButtonStates();
 		if (isTextPaneVisible()) {
 			if (wasLeftMouseJustPressed()) {
-				OptionPane.closeOptionPane(dm);
+				OptionPane.closeOptionPane();
 			}
 		} else {
 			updateMousePosition();
 			if (wasLeftMouseJustPressed()) {
-				dm.system.autoWalk = false; //Disables A* walking
-				if (dm.system.isKeyboardMenu) { //Is in game menu screen
-					dm.menuButtonManager.buttonPressed(dm.system.mousePosition.x, dm.system.mousePosition.y); //Check button press
-				} else if (dm.system.isGameOnLaunchScreen) { //Is on game launch screen
-					renderer.launchScreenManager.buttonPressed(dm.system.mousePosition.x, dm.system.mousePosition.y); //Check button press
-				} else if (dm.system.isKeyboardTravel && !dm.system.hideMouse) {
+				DataManager.system.autoWalk = false; //Disables A* walking
+				if (DataManager.system.isKeyboardMenu) { //Is in game menu screen
+					DataManager.menuButtonManager.buttonPressed(DataManager.system.mousePosition.x, DataManager.system.mousePosition.y); //Check button press
+				} else if (DataManager.system.isGameOnLaunchScreen) { //Is on game launch screen
+					renderer.launchScreenManager.buttonPressed(DataManager.system.mousePosition.x, DataManager.system.mousePosition.y); //Check button press
+				} else if (DataManager.system.isKeyboardTravel && !DataManager.system.hideMouse) {
 					initiateAStarWalking();
 				}
 			}
@@ -44,16 +42,16 @@ public class MouseUpdater {
 		wasRightMouseDown = Mouse.isButtonDown(1);
 	}
 	
-	private void updateMouseHidden() {
+	private static void updateMouseHidden() {
 		try {
-			if (dm.system.hideMouse) {
+			if (DataManager.system.hideMouse) {
 				if (!Mouse.isGrabbed()) {
 					Mouse.setGrabbed(true);
 				}
 			} else {
 				if (Mouse.isGrabbed()) {
 					Mouse.setGrabbed(false);
-					Mouse.setCursorPosition(dm.system.mousePosition.x, dm.system.mousePosition.y);
+					Mouse.setCursorPosition(DataManager.system.mousePosition.x, DataManager.system.mousePosition.y);
 					Mouse.updateCursor();
 				}
 			}
@@ -62,30 +60,30 @@ public class MouseUpdater {
 		}
 	}
 	
-	private void updateMouseButtonStates() {
-		dm.system.leftMouseDown = Mouse.isButtonDown(0);
-		dm.system.rightMouseDown = Mouse.isButtonDown(1);
+	private static void updateMouseButtonStates() {
+		DataManager.system.leftMouseDown = Mouse.isButtonDown(0);
+		DataManager.system.rightMouseDown = Mouse.isButtonDown(1);
 	}
 	
-	private void updateMousePosition() {
-		dm.system.mousePosition = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
-		double offsetX = (dm.system.screenX * Double.valueOf(dm.settings.blockSize) - Double.valueOf(dm.settings.screenWidth) / 2.0);
-		double offsetY = (dm.system.screenY * Double.valueOf(dm.settings.blockSize) - Double.valueOf(dm.settings.screenHeight) / 2.0);
-		dm.system.mouseXExact = (offsetX + dm.system.mousePosition.getX())/Double.valueOf(dm.settings.blockSize);
-		dm.system.mouseYExact = (offsetY + dm.system.mousePosition.getY())/Double.valueOf(dm.settings.blockSize);
-		dm.system.mouseX = (int) Math.floor(dm.system.mouseXExact);
-		dm.system.mouseY = (int) Math.floor(dm.system.mouseYExact);
-		dm.system.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(dm.system.mouseX) - Math.floor(dm.characterManager.characterEntity.getX()), 2.0)+Math.pow(Double.valueOf(dm.system.mouseY) - Math.floor(dm.characterManager.characterEntity.getY()), 2.0)) > 3.0);
+	private static void updateMousePosition() {
+		DataManager.system.mousePosition = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
+		double offsetX = (DataManager.system.screenX * Double.valueOf(DataManager.settings.blockSize) - Double.valueOf(DataManager.settings.screenWidth) / 2.0);
+		double offsetY = (DataManager.system.screenY * Double.valueOf(DataManager.settings.blockSize) - Double.valueOf(DataManager.settings.screenHeight) / 2.0);
+		DataManager.system.mouseXExact = (offsetX + DataManager.system.mousePosition.getX())/Double.valueOf(DataManager.settings.blockSize);
+		DataManager.system.mouseYExact = (offsetY + DataManager.system.mousePosition.getY())/Double.valueOf(DataManager.settings.blockSize);
+		DataManager.system.mouseX = (int) Math.floor(DataManager.system.mouseXExact);
+		DataManager.system.mouseY = (int) Math.floor(DataManager.system.mouseYExact);
+		DataManager.system.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(DataManager.system.mouseX) - Math.floor(DataManager.characterManager.characterEntity.getX()), 2.0)+Math.pow(Double.valueOf(DataManager.system.mouseY) - Math.floor(DataManager.characterManager.characterEntity.getY()), 2.0)) > 3.0);
 	}
 	
-	private void initiateAStarWalking() {
-		dm.system.autoWalkX = dm.system.mouseX;
-		dm.system.autoWalkY = dm.system.mouseY;
-		dm.characterManager.characterEntity.setDestination(dm.system.autoWalkX, dm.system.autoWalkY);
+	private static void initiateAStarWalking() {
+		DataManager.system.autoWalkX = DataManager.system.mouseX;
+		DataManager.system.autoWalkY = DataManager.system.mouseY;
+		DataManager.characterManager.characterEntity.setDestination(DataManager.system.autoWalkX, DataManager.system.autoWalkY);
 	}
 	
-	private boolean isTextPaneVisible() {
-		return dm.system.inputText.size() + dm.system.noticeText.size() > 0;
+	private static boolean isTextPaneVisible() {
+		return DataManager.system.inputText.size() + DataManager.system.noticeText.size() > 0;
 	}
 	
 	private boolean wasLeftMouseJustPressed() {

@@ -7,13 +7,13 @@ import com.mtautumn.edgequest.data.DataManager;
 public class God extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
-		if (dm.characterManager.characterEntity.health <= dm.characterManager.characterEntity.maxHealth) {
-			dm.characterManager.characterEntity.health = 2147483647;
+	public boolean execute(ArrayList<String> args) {
+		if (DataManager.characterManager.characterEntity.health <= DataManager.characterManager.characterEntity.maxHealth) {
+			DataManager.characterManager.characterEntity.health = 2147483647;
 		} else {
-			dm.characterManager.characterEntity.health = dm.characterManager.characterEntity.maxHealth;
+			DataManager.characterManager.characterEntity.health = DataManager.characterManager.characterEntity.maxHealth;
 		}
-		addInfoLine("God Mode toggled", dm);
+		addInfoLine("God Mode toggled");
 		return true;
 	}
 

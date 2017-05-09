@@ -12,10 +12,10 @@ public class PrecipitationParticle extends Particle {
 		this.speedY = speedY;
 	}
 	@Override
-	public boolean update(DataManager dm) {
+	public boolean update() {
 		Location locale = new Location((int)x, (int)y, level);
-		if(dm.world.isGroundBlock(locale)) {
-			BlockItem block = dm.system.blockIDMap.get(dm.world.getGroundBlock(locale));
+		if(DataManager.world.isGroundBlock(locale)) {
+			BlockItem block = DataManager.system.blockIDMap.get(DataManager.world.getGroundBlock(locale));
 			if (block.isName("snow") || block.isName("ice")) {
 				super.texture = "snow";
 				x += speedX / 6.0;
@@ -26,7 +26,7 @@ public class PrecipitationParticle extends Particle {
 				y += speedY;
 			}
 		}
-		return (y > dm.system.maxTileY);
+		return (y > DataManager.system.maxTileY);
 	}
 
 }

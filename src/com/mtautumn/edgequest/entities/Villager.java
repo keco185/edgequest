@@ -26,8 +26,8 @@ public class Villager extends Entity {
 
 	}
 	public VillagerType villagerType = VillagerType.citizen;
-	public Villager(double posX, double posY, double rotation, DataManager dm, int dungeonLevel) {
-		super("villager",EntityType.villager, posX, posY, rotation, dungeonLevel, dm);
+	public Villager(double posX, double posY, double rotation, int dungeonLevel) {
+		super("villager",EntityType.villager, posX, posY, rotation, dungeonLevel);
 		moveSpeed = MOVE_SPEED;
 		maxHealth = MAX_HEALTH;
 		health = MAX_HEALTH;
@@ -37,7 +37,7 @@ public class Villager extends Entity {
 	}
 	
 	public Villager(Entity entity) {
-		super("villager",EntityType.villager, entity.getX(), entity.getY(),entity.getRot(), entity.dungeonLevel, entity.dm);
+		super("villager",EntityType.villager, entity.getX(), entity.getY(),entity.getRot(), entity.dungeonLevel);
 		moveSpeed = MOVE_SPEED;
 		maxHealth = MAX_HEALTH;
 		health = MAX_HEALTH;
@@ -75,7 +75,7 @@ public class Villager extends Entity {
 			double random = Math.random();
 			if (random > 0.995) {
 				//Walk somewhere
-				if (dm.savable.time > 800 && dm.savable.time < 2000) { //If daytime
+				if (DataManager.savable.time > 800 && DataManager.savable.time < 2000) { //If daytime
 					if (workBlocks.size() > 0) {
 						random = (int) (Math.random() * workBlocks.size());
 						setDestination(workBlocks.get((int)random)[0],workBlocks.get((int)random)[1]);

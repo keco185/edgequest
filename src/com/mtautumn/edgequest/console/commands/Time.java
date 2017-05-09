@@ -7,14 +7,14 @@ import com.mtautumn.edgequest.data.DataManager;
 public class Time extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
+	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
-			dm.savable.time = Integer.parseInt(args.get(0));
-			addInfoLine("Time set to: " + dm.savable.time, dm);
+			DataManager.savable.time = Integer.parseInt(args.get(0));
+			addInfoLine("Time set to: " + DataManager.savable.time);
 		} else if (args.size() == 0) {
-			addInfoLine("Time: " + dm.savable.time, dm);
+			addInfoLine("Time: " + DataManager.savable.time);
 		} else {
-			addErrorLine("use the format " + usage(), dm);
+			addErrorLine("use the format " + usage());
 		}
 		return false;
 	}

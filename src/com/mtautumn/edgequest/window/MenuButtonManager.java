@@ -11,9 +11,7 @@ import com.mtautumn.edgequest.data.DataManager;
 public class MenuButtonManager {
 	public ArrayList<MenuPane> menus = new ArrayList<MenuPane>();
 	public ArrayList<MenuButton> buttonIDArray = new ArrayList<MenuButton>();
-	DataManager dataManager;
-	public MenuButtonManager(DataManager dataManager) {
-		this.dataManager = dataManager;
+	public MenuButtonManager() {
 		MenuPane mainMenu = new MenuPane("Main Menu", null);
 		mainMenu.addButton(new MenuButton("game", "Game"));
 		mainMenu.addButton(new MenuButton("graphics", "Graphics"));
@@ -39,7 +37,7 @@ public class MenuButtonManager {
 	}
 	public MenuPane getCurrentMenu() {
 		for (int i = 0; i < menus.size(); i++) {
-			if (menus.get(i).name.equals(dataManager.system.currentMenu)) {
+			if (menus.get(i).name.equals(DataManager.system.currentMenu)) {
 				return menus.get(i);
 			}
 		}
@@ -55,9 +53,9 @@ public class MenuButtonManager {
 		return button;
 	}
 	public void buttonPressed(int posX, int posY) {
-		int adjustedX = posX - dataManager.system.menuX;
-		int adjustedY = posY - dataManager.system.menuY;
-		if (adjustedX < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING_LEFT * dataManager.system.uiZoom && adjustedX > 0 && adjustedY < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING_TOP * dataManager.system.uiZoom && adjustedY > 0) {
+		int adjustedX = posX - DataManager.system.menuX;
+		int adjustedY = posY - DataManager.system.menuY;
+		if (adjustedX < DataManager.settings.BACK_BUTTON_SIZE * DataManager.system.uiZoom + DataManager.settings.BACK_BUTTON_PADDING_LEFT * DataManager.system.uiZoom && adjustedX > 0 && adjustedY < DataManager.settings.BACK_BUTTON_SIZE * DataManager.system.uiZoom + DataManager.settings.BACK_BUTTON_PADDING_TOP * DataManager.system.uiZoom && adjustedY > 0) {
 			runButtonAction("Go To Parent");
 		}
 		for (int i = 0; i < getCurrentMenu().getButtons().size(); i++) {
@@ -69,8 +67,8 @@ public class MenuButtonManager {
 			}
 		}
 	}
-	private void runButtonAction(String name) {
-		dataManager.system.buttonActionQueue.add(name);
+	private static void runButtonAction(String name) {
+		DataManager.system.buttonActionQueue.add(name);
 	}
 	public class MenuPane {
 		private static final int BUTTON_WIDTH = 186;
@@ -134,22 +132,22 @@ public class MenuButtonManager {
 			}
 		}
 		public int getPosX(int menuStartX) {
-			return (int)(posX * dataManager.system.uiZoom)+menuStartX;
+			return (int)(posX * DataManager.system.uiZoom)+menuStartX;
 		}
 		public int getPosY(int menuStartY) {
-			return (int)(posY * dataManager.system.uiZoom)+menuStartY;
+			return (int)(posY * DataManager.system.uiZoom)+menuStartY;
 		}
 		public int getX() {
-			return (int)(posX * dataManager.system.uiZoom);
+			return (int)(posX * DataManager.system.uiZoom);
 		}
 		public int getY() {
-			return (int)(posY * dataManager.system.uiZoom);
+			return (int)(posY * DataManager.system.uiZoom);
 		}
 		public int getWidth() {
-			return (int) (width * dataManager.system.uiZoom);
+			return (int) (width * DataManager.system.uiZoom);
 		}
 		public int getHeight() {
-			return (int) (height * dataManager.system.uiZoom);
+			return (int) (height * DataManager.system.uiZoom);
 		}
 	}
 }

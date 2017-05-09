@@ -6,37 +6,34 @@ import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.entities.Entity;
 
 public class ItemDropManager extends Thread {
-	DataManager dm;
-	public ItemDropManager(DataManager dm) {
-		this.dm = dm;
-	}
+
 	@Override
 	public void run() {
-		while(dm.system.running) {
+		while(DataManager.system.running) {
 			try {
-				for (int i = 0; i < dm.savable.itemDrops.size(); i++) {
-					if (i + 1 < dm.savable.itemDrops.size()) {
-						for (int j = i + 1; j < dm.savable.itemDrops.size(); j++) {
-							if (isNear(dm.savable.itemDrops.get(i), dm.savable.itemDrops.get(j))) {
-								double x = dm.savable.itemDrops.get(i).x + dm.savable.itemDrops.get(j).x;
+				for (int i = 0; i < DataManager.savable.itemDrops.size(); i++) {
+					if (i + 1 < DataManager.savable.itemDrops.size()) {
+						for (int j = i + 1; j < DataManager.savable.itemDrops.size(); j++) {
+							if (isNear(DataManager.savable.itemDrops.get(i), DataManager.savable.itemDrops.get(j))) {
+								double x = DataManager.savable.itemDrops.get(i).x + DataManager.savable.itemDrops.get(j).x;
 								x /= 2;
-								double y = dm.savable.itemDrops.get(i).y + dm.savable.itemDrops.get(j).y;
+								double y = DataManager.savable.itemDrops.get(i).y + DataManager.savable.itemDrops.get(j).y;
 								y /= 2;
-								dm.savable.itemDrops.get(i).x = x;
-								dm.savable.itemDrops.get(i).y = y;
-								dm.savable.itemDrops.get(j).x = x;
-								dm.savable.itemDrops.get(j).y = y;
-								if (dm.savable.itemDrops.get(i).item.getItemCount() + dm.savable.itemDrops.get(j).item.getItemCount() <= ItemSlot.maxItemCount) {
-									dm.savable.itemDrops.get(i).item.addItems(dm.savable.itemDrops.get(j).item.getItemCount());
-									dm.savable.itemDrops.remove(j);
+								DataManager.savable.itemDrops.get(i).x = x;
+								DataManager.savable.itemDrops.get(i).y = y;
+								DataManager.savable.itemDrops.get(j).x = x;
+								DataManager.savable.itemDrops.get(j).y = y;
+								if (DataManager.savable.itemDrops.get(i).item.getItemCount() + DataManager.savable.itemDrops.get(j).item.getItemCount() <= ItemSlot.maxItemCount) {
+									DataManager.savable.itemDrops.get(i).item.addItems(DataManager.savable.itemDrops.get(j).item.getItemCount());
+									DataManager.savable.itemDrops.remove(j);
 									j--;
 								}
 							}
 						}
 					}
-					dm.savable.itemDrops.get(i).update();
-					if (dm.savable.itemDrops.get(i).age > dm.settings.maxItemDropAge || dm.savable.itemDrops.get(i).item.getItemCount() <= 0) {
-						dm.savable.itemDrops.remove(i);
+					DataManager.savable.itemDrops.get(i).update();
+					if (DataManager.savable.itemDrops.get(i).age > DataManager.settings.maxItemDropAge || DataManager.savable.itemDrops.get(i).item.getItemCount() <= 0) {
+						DataManager.savable.itemDrops.remove(i);
 						i--;
 					}
 				}
@@ -51,7 +48,7 @@ public class ItemDropManager extends Thread {
 		return Math.sqrt(Math.pow(drop1.x - drop2.x, 2) + Math.pow(drop1.y - drop2.y, 2)) < 1.0;
 	}
 	public boolean isItemInRange(Entity entity) {
-		for (ItemDrop drop : dm.savable.itemDrops) {
+		for (ItemDrop drop : DataManager.savable.itemDrops) {
 			if (drop.level == entity.dungeonLevel) {
 				if (Math.sqrt(Math.pow(drop.x - entity.getX(), 2) + Math.pow(drop.y - entity.getY(), 2)) < 1) {
 					return true;
@@ -61,12 +58,12 @@ public class ItemDropManager extends Thread {
 		return false;
 	}
 	public void putNearbyItemsInBackpack() {
-		Entity entity = dm.characterManager.characterEntity;
-		for (ItemDrop drop : dm.savable.itemDrops) {
+		Entity entity = DataManager.characterManager.characterEntity;
+		for (ItemDrop drop : DataManager.savable.itemDrops) {
 			if (drop.level == entity.dungeonLevel) {
 				if (Math.sqrt(Math.pow(drop.x - entity.getX(), 2) + Math.pow(drop.y, entity.getY())) < 1) {
 					for(int i = 0; i < drop.item.getItemCount(); i++) {
-						dm.backpackManager.addItem(dm.system.blockIDMap.get(drop.item.getItemID()));
+						DataManager.backpackManager.addItem(DataManager.system.blockIDMap.get(drop.item.getItemID()));
 					}
 					drop.item.setItemCount(0);
 				}

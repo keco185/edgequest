@@ -11,111 +11,109 @@ import com.mtautumn.edgequest.dataObjects.ItemDrop;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 
 public class BackpackManager extends Thread {
-	DataManager dataManager;
-	public BackpackManager(DataManager dataManager) {
-		this.dataManager = dataManager;
-		for(int i = 0; i < dataManager.savable.backpackItems.length; i++) {
-			for(int j = 0; j < dataManager.savable.backpackItems[i].length; j++) {
-				dataManager.savable.backpackItems[i][j] = new ItemSlot();
+	public BackpackManager() {
+		for(int i = 0; i < DataManager.savable.backpackItems.length; i++) {
+			for(int j = 0; j < DataManager.savable.backpackItems[i].length; j++) {
+				DataManager.savable.backpackItems[i][j] = new ItemSlot();
 			}
 		}
 	}
 	@Override
 	public void run() {
-		while(dataManager.system.running) {
+		while(DataManager.system.running) {
 			try {
-				if (!dataManager.system.isGameOnLaunchScreen) {
+				if (!DataManager.system.isGameOnLaunchScreen) {
 					checkMouseSelection();
 				}
-				Thread.sleep(dataManager.settings.tickLength);
+				Thread.sleep(DataManager.settings.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 	public ItemSlot[] getCurrentSelection() {
-		return new ItemSlot[] {dataManager.savable.leftEquipt(), dataManager.savable.rightEquipt()};
+		return new ItemSlot[] {DataManager.savable.leftEquipt(), DataManager.savable.rightEquipt()};
 	}
 	private boolean wasMouseDown = false;
 	private boolean isItemGrabbed = false;
 	private int[] mouseItemLocation = {-1,-1};
 	private void checkMouseSelection() {
-		if (!wasMouseDown && dataManager.system.leftMouseDown) {
+		if (!wasMouseDown && DataManager.system.leftMouseDown) {
 			if (!isItemGrabbed) {
 				if (!(getMouseLocation()[0] == -1)) {
 					mouseItemLocation = getMouseLocation();
-					dataManager.savable.mouseItem = dataManager.savable.backpackItems[mouseItemLocation[0]][mouseItemLocation[1]];
-					dataManager.savable.backpackItems[mouseItemLocation[0]][mouseItemLocation[1]] = new ItemSlot();
+					DataManager.savable.mouseItem = DataManager.savable.backpackItems[mouseItemLocation[0]][mouseItemLocation[1]];
+					DataManager.savable.backpackItems[mouseItemLocation[0]][mouseItemLocation[1]] = new ItemSlot();
 					isItemGrabbed = true;
 				}
 			} else {
 				int[] mouseLocation = getMouseLocation();
 				if (!(mouseLocation[0] == -1)) {
-					if (dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemCount() == 0) {
-						dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]] = dataManager.savable.mouseItem;
-						dataManager.savable.mouseItem = new ItemSlot();
+					if (DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemCount() == 0) {
+						DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]] = DataManager.savable.mouseItem;
+						DataManager.savable.mouseItem = new ItemSlot();
 						isItemGrabbed = false;
 					} else {
-						if (dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemID().equals(dataManager.savable.mouseItem.getItemID()) && dataManager.system.blockIDMap.get(dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemID()).isStackable) {
-							if (dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].isSlotFull()) {
-								int slotCount = dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemCount();
-								dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].setItemCount(dataManager.savable.mouseItem.getItemCount());
-								dataManager.savable.mouseItem.setItemCount(slotCount);
+						if (DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemID().equals(DataManager.savable.mouseItem.getItemID()) && DataManager.system.blockIDMap.get(DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemID()).isStackable) {
+							if (DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].isSlotFull()) {
+								int slotCount = DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemCount();
+								DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].setItemCount(DataManager.savable.mouseItem.getItemCount());
+								DataManager.savable.mouseItem.setItemCount(slotCount);
 							} else {
-								int added = dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].addItems(dataManager.savable.mouseItem.getItemCount());
-								dataManager.savable.mouseItem.removeItems(added);
-								if (dataManager.savable.mouseItem.getItemCount() <= 0) {
+								int added = DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].addItems(DataManager.savable.mouseItem.getItemCount());
+								DataManager.savable.mouseItem.removeItems(added);
+								if (DataManager.savable.mouseItem.getItemCount() <= 0) {
 									isItemGrabbed = false;
 								}
 							}
 						} else {
-							dataManager.savable.backpackItems[mouseItemLocation[0]][mouseItemLocation[1]] = dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]];
-							dataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]] = dataManager.savable.mouseItem;
-							dataManager.savable.mouseItem = new ItemSlot();
+							DataManager.savable.backpackItems[mouseItemLocation[0]][mouseItemLocation[1]] = DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]];
+							DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]] = DataManager.savable.mouseItem;
+							DataManager.savable.mouseItem = new ItemSlot();
 							isItemGrabbed = false;
 						}
 
 					}
 
 				} else {
-					dataManager.savable.itemDrops.add(new ItemDrop(dataManager.characterManager.characterEntity.getX(), dataManager.characterManager.characterEntity.getY(), dataManager.characterManager.characterEntity.dungeonLevel, dataManager.savable.mouseItem, dataManager));
-					dataManager.savable.mouseItem = new ItemSlot();
+					DataManager.savable.itemDrops.add(new ItemDrop(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY(), DataManager.characterManager.characterEntity.dungeonLevel, DataManager.savable.mouseItem));
+					DataManager.savable.mouseItem = new ItemSlot();
 					isItemGrabbed = false;
 				}
 			}
 			wasMouseDown = true;
-		} else if (wasMouseDown && !dataManager.system.leftMouseDown) {
+		} else if (wasMouseDown && !DataManager.system.leftMouseDown) {
 			wasMouseDown = false;
 		}
 	}
-	private int[] getMouseLocation() {
+	private static int[] getMouseLocation() {
 		int maxX = 0;
-		if (dataManager.system.isKeyboardBackpack) {
-			maxX = dataManager.savable.backpackItems.length - 1;
+		if (DataManager.system.isKeyboardBackpack) {
+			maxX = DataManager.savable.backpackItems.length - 1;
 		}
 		for (int x = 0; x < maxX; x++) {
-			for (int y = 0; y < dataManager.savable.backpackItems[x].length; y++) {
+			for (int y = 0; y < DataManager.savable.backpackItems[x].length; y++) {
 				int[] itemCoords = getItemSlotCoords(x, y);
-				if (itemCoords[0] <= dataManager.system.mousePosition.getX() && itemCoords[1] <= dataManager.system.mousePosition.getY() && itemCoords[2] >= dataManager.system.mousePosition.getX() && itemCoords[3] >= dataManager.system.mousePosition.getY()) {
+				if (itemCoords[0] <= DataManager.system.mousePosition.getX() && itemCoords[1] <= DataManager.system.mousePosition.getY() && itemCoords[2] >= DataManager.system.mousePosition.getX() && itemCoords[3] >= DataManager.system.mousePosition.getY()) {
 					return new int[] {x,y};
 				}
 			}
 		}
 		
-		int minY = (int) (14 * dataManager.system.uiZoom);
-		int maxY = (int) (72 * dataManager.system.uiZoom);
-		int minXL = (int) (dataManager.settings.screenWidth / 2 - 256 * dataManager.system.uiZoom);
-		int maxXL = (int) (dataManager.settings.screenWidth / 2 - 196 * dataManager.system.uiZoom);
-		int minXR = (int) (dataManager.settings.screenWidth / 2 + 196 * dataManager.system.uiZoom);
-		int maxXR = (int) (dataManager.settings.screenWidth / 2 + 256 * dataManager.system.uiZoom);
-		int x = (int) dataManager.system.mousePosition.getX();
-		int y = (int) dataManager.system.mousePosition.getY();
+		int minY = (int) (14 * DataManager.system.uiZoom);
+		int maxY = (int) (72 * DataManager.system.uiZoom);
+		int minXL = (int) (DataManager.settings.screenWidth / 2 - 256 * DataManager.system.uiZoom);
+		int maxXL = (int) (DataManager.settings.screenWidth / 2 - 196 * DataManager.system.uiZoom);
+		int minXR = (int) (DataManager.settings.screenWidth / 2 + 196 * DataManager.system.uiZoom);
+		int maxXR = (int) (DataManager.settings.screenWidth / 2 + 256 * DataManager.system.uiZoom);
+		int x = (int) DataManager.system.mousePosition.getX();
+		int y = (int) DataManager.system.mousePosition.getY();
 		if (maxY > y && minY < y) {
 			if ( maxXL > x && minXL < x) {
-				return new int[]{dataManager.savable.backpackItems.length - 1,0};
+				return new int[]{DataManager.savable.backpackItems.length - 1,0};
 
 			} else if (maxXR > x && minXR < x) {
-				return new int[]{dataManager.savable.backpackItems.length - 1,1};
+				return new int[]{DataManager.savable.backpackItems.length - 1,1};
 
 			}
 		}
@@ -123,7 +121,7 @@ public class BackpackManager extends Thread {
 		
 		return new int[] {-1,-1};
 	}
-	private int[] getItemSlotCoords(int x, int y) {
+	private static int[] getItemSlotCoords(int x, int y) {
 		int[] coords = {-1,-1,0,0};
 		//if (x < 2) {
 		//	int xPosMin = (dataManager.settings.screenWidth - (int)(125* dataManager.system.uiZoom)) + (int)((x * 53 + 20)* dataManager.system.uiZoom);
@@ -132,10 +130,10 @@ public class BackpackManager extends Thread {
 		//	int yPosMax = yPosMin + (int)(38 * dataManager.system.uiZoom);
 		//	coords = new int[] {xPosMin, yPosMin, xPosMax, yPosMax};
 		//} else {
-		int xPosMin = dataManager.system.menuX + (int)(((x) * 64 + 37) * dataManager.system.uiZoom);
-		int yPosMin = dataManager.system.menuY + (int)((y * 65 + 94) * dataManager.system.uiZoom);
-		int xPosMax = xPosMin + (int)(48 * dataManager.system.uiZoom);
-		int yPosMax = yPosMin + (int)(48 * dataManager.system.uiZoom);
+		int xPosMin = DataManager.system.menuX + (int)(((x) * 64 + 37) * DataManager.system.uiZoom);
+		int yPosMin = DataManager.system.menuY + (int)((y * 65 + 94) * DataManager.system.uiZoom);
+		int xPosMax = xPosMin + (int)(48 * DataManager.system.uiZoom);
+		int yPosMax = yPosMin + (int)(48 * DataManager.system.uiZoom);
 		coords = new int[] {xPosMin, yPosMin, xPosMax, yPosMax};
 		//}
 		return coords;
@@ -143,10 +141,10 @@ public class BackpackManager extends Thread {
 	public void addItem(BlockItem item) {
 		if (isItemInBackpack(item) && item.isStackable) {
 			boolean foundSpot = false;
-			for(int i = 0; i < dataManager.savable.backpackItems.length && !foundSpot; i++) {
-				for(int j = 0; j < dataManager.savable.backpackItems[i].length && !foundSpot; j++) {
-					if (dataManager.savable.backpackItems[i][j].getItemID().equals(item.getID()) && !dataManager.savable.backpackItems[i][j].isSlotFull()) {
-						ItemSlot slot = dataManager.savable.backpackItems[i][j];
+			for(int i = 0; i < DataManager.savable.backpackItems.length && !foundSpot; i++) {
+				for(int j = 0; j < DataManager.savable.backpackItems[i].length && !foundSpot; j++) {
+					if (DataManager.savable.backpackItems[i][j].getItemID().equals(item.getID()) && !DataManager.savable.backpackItems[i][j].isSlotFull()) {
+						ItemSlot slot = DataManager.savable.backpackItems[i][j];
 						slot.addOne();
 						foundSpot = true;
 					}
@@ -154,10 +152,10 @@ public class BackpackManager extends Thread {
 			}
 		} else {
 			boolean foundSpot = false;
-			for(int i = 0; i < dataManager.savable.backpackItems.length && !foundSpot; i++) {
-				for(int j = 0; j < dataManager.savable.backpackItems[i].length && !foundSpot; j++) {
+			for(int i = 0; i < DataManager.savable.backpackItems.length && !foundSpot; i++) {
+				for(int j = 0; j < DataManager.savable.backpackItems[i].length && !foundSpot; j++) {
 
-					ItemSlot slot = dataManager.savable.backpackItems[i][j];
+					ItemSlot slot = DataManager.savable.backpackItems[i][j];
 					if (slot.getItemCount() == 0) {
 						slot.setItem(item.getID());
 						slot.setItemCount(1);
@@ -173,9 +171,9 @@ public class BackpackManager extends Thread {
 				for (int i = 0; i < 2 && !foundSpot; i++) {
 					ItemSlot slot;
 					if (i == 0) {
-						slot = dataManager.savable.leftEquipt();
+						slot = DataManager.savable.leftEquipt();
 					} else {
-						slot = dataManager.savable.rightEquipt();
+						slot = DataManager.savable.rightEquipt();
 					}
 					if (slot.getItemCount() == 0) {
 						slot.setItem(item.getID());
@@ -190,10 +188,10 @@ public class BackpackManager extends Thread {
 			}
 		}
 	}
-	private boolean isItemInBackpack(BlockItem item) {
-		for(int i = 0; i < dataManager.savable.backpackItems.length; i++) {
-			for(int j = 0; j < dataManager.savable.backpackItems[i].length; j++) {
-				if (dataManager.savable.backpackItems[i][j].getItemID().equals(item.getID()) && !dataManager.savable.backpackItems[i][j].isSlotFull()) {
+	private static boolean isItemInBackpack(BlockItem item) {
+		for(int i = 0; i < DataManager.savable.backpackItems.length; i++) {
+			for(int j = 0; j < DataManager.savable.backpackItems[i].length; j++) {
+				if (DataManager.savable.backpackItems[i][j].getItemID().equals(item.getID()) && !DataManager.savable.backpackItems[i][j].isSlotFull()) {
 					return true;
 				}
 			}
@@ -201,13 +199,13 @@ public class BackpackManager extends Thread {
 		return false;
 	}
 	public boolean removeItemFromBackpack(BlockItem item) {
-		for(int i = 0; i < dataManager.savable.backpackItems.length; i++) {
-			for(int j = 0; j < dataManager.savable.backpackItems[i].length; j++) {
-				if (dataManager.savable.backpackItems[i][j].getItemID().equals(item.getID())) {
-					if (dataManager.savable.backpackItems[i][j].getItemCount() > 0) {
-						dataManager.savable.backpackItems[i][j].subtractOne();
-						if (dataManager.savable.backpackItems[i][j].getItemCount() == 0) {
-							dataManager.savable.backpackItems[i][j] = new ItemSlot();
+		for(int i = 0; i < DataManager.savable.backpackItems.length; i++) {
+			for(int j = 0; j < DataManager.savable.backpackItems[i].length; j++) {
+				if (DataManager.savable.backpackItems[i][j].getItemID().equals(item.getID())) {
+					if (DataManager.savable.backpackItems[i][j].getItemCount() > 0) {
+						DataManager.savable.backpackItems[i][j].subtractOne();
+						if (DataManager.savable.backpackItems[i][j].getItemCount() == 0) {
+							DataManager.savable.backpackItems[i][j] = new ItemSlot();
 						}
 						return true;
 					}

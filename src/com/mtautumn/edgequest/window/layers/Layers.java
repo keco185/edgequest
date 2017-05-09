@@ -6,11 +6,12 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 
+import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Layers {
 	public static void draw(Renderer r) throws InterruptedException {
-		if (r.dataManager.system.isGameOnLaunchScreen) {
+		if (DataManager.system.isGameOnLaunchScreen) {
 			LaunchScreen.draw(r);
 		} else {
 			r.preLightingFBO.enableBuffer();
@@ -33,26 +34,26 @@ public class Layers {
 			BlockDamage.draw(r);
 			DamagePosts.draw(r);
 			PrecipitationParticles.draw(r);
-			if (!r.dataManager.system.hideMouse) {
+			if (!DataManager.system.hideMouse) {
 				MouseSelection.draw(r);
 			}
-			if (r.dataManager.system.isKeyboardBackpack) {
+			if (DataManager.system.isKeyboardBackpack) {
 				Backpack.draw(r);
 			}
 			StatsBar.draw(r);
 			//HotBar.draw(r);
 			MouseItem.draw(r);
-			if (!r.dataManager.system.characterLocationSet || r.dataManager.system.loadingWorld) {
+			if (!DataManager.system.characterLocationSet || DataManager.system.loadingWorld) {
 				LoadingScreen.draw(r);
 			}
-			if (r.dataManager.system.isKeyboardMenu) {
+			if (DataManager.system.isKeyboardMenu) {
 				Menu.draw(r);
 			}
 			MouseTooltips.draw(r);
-			if (r.dataManager.settings.showDiag) {
+			if (DataManager.settings.showDiag) {
 				DiagnosticsWindow.draw(r);
 			}
-			if (r.dataManager.system.showConsole) {
+			if (DataManager.system.showConsole) {
 				Console.draw(r);
 			}
 		}
@@ -74,8 +75,8 @@ public class Layers {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		
 		int ambientColorLocation = GL20.glGetUniformLocation(r.terrainDrawShader.getProgramId(),"ambientLight");
-		float brightness = (float) r.dataManager.world.getBrightness(r.dataManager.characterManager.characterEntity);
-		if (r.dataManager.world.noLighting) {
+		float brightness = (float) DataManager.world.getBrightness(DataManager.characterManager.characterEntity);
+		if (DataManager.world.noLighting) {
 			brightness = 1;
 		}
 		GL20.glUniform3f(ambientColorLocation, (brightness * brightness + brightness)/2f, (brightness * brightness + brightness)/2f, brightness);

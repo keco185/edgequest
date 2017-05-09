@@ -4,6 +4,8 @@ import static org.lwjgl.opengl.GL11.glBindTexture;
 import static org.lwjgl.opengl.GL11.glColor4f;
 import java.util.ArrayList;
 import org.lwjgl.opengl.GL20;
+
+import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.dataObjects.Triangle;
 import com.mtautumn.edgequest.window.Renderer;
@@ -14,20 +16,20 @@ public class Lighting extends Thread {
 	}
 	@Override
 	public void run() {
-		if (r.dataManager.world.getBrightness() < 1 && !r.dataManager.world.noLighting) {
+		if (DataManager.world.getBrightness() < 1 && !DataManager.world.noLighting) {
 			updatePlayerLight(r);
 		}
 	}
 	public static void completionTasks(Renderer r) {
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glColor4f (1.0f,1.0f,1.0f,1.0f);
-		if (r.dataManager.world.getBrightness() < 1 && !r.dataManager.world.noLighting) {
+		if (DataManager.world.getBrightness() < 1 && !DataManager.world.noLighting) {
 			r.lightingFBO.enableBuffer();
 			GL20.glUseProgram(r.lightingShader.getProgramId());
-			float offsetX = (float) (r.dataManager.settings.screenWidth / 2.0 - r.dataManager.system.screenX * r.dataManager.settings.blockSize);
-			float offsetY = (float) (r.dataManager.settings.screenHeight / 2.0 - r.dataManager.system.screenY * r.dataManager.settings.blockSize);
-			for (LightSource light : r.dataManager.savable.lightSources) {
-				if (light.level == r.dataManager.savable.dungeonLevel) {
+			float offsetX = (float) (DataManager.settings.screenWidth / 2.0 - DataManager.system.screenX * DataManager.settings.blockSize);
+			float offsetY = (float) (DataManager.settings.screenHeight / 2.0 - DataManager.system.screenY * DataManager.settings.blockSize);
+			for (LightSource light : DataManager.savable.lightSources) {
+				if (light.level == DataManager.savable.dungeonLevel) {
 					drawLightingTriangles(light.triangles, light.range, offsetX, offsetY, light.brightness, r);
 				}
 			}
@@ -37,8 +39,8 @@ public class Lighting extends Thread {
 			r.lightingColorFBO.enableBuffer();
 			GL20.glUseProgram(r.lightingColorShader.getProgramId());
 			int location = GL20.glGetUniformLocation(r.lightingColorShader.getProgramId(), "color");
-			for (LightSource light : r.dataManager.savable.lightSources) {
-				if (light.level == r.dataManager.savable.dungeonLevel) {
+			for (LightSource light : DataManager.savable.lightSources) {
+				if (light.level == DataManager.savable.dungeonLevel) {
 					GL20.glUniform3f(location, light.r, light.g, light.b);
 					drawColorTriangles(light.triangles, light.range, offsetX, offsetY, light.brightness, r);
 				}
@@ -53,7 +55,7 @@ public class Lighting extends Thread {
 			float brightness1 = brightness;
 			float brightness2 = (float) (1.0 - triangle.radius1 / radius) * brightness;
 			float brightness3 = (float) (1.0 - triangle.radius2 / radius) * brightness;
-			r.fillLightingTriangle((float) triangle.x1 * r.dataManager.settings.blockSize + offsetX, (float) triangle.y1 * r.dataManager.settings.blockSize + offsetY,(float) triangle.x2 * r.dataManager.settings.blockSize + offsetX,(float) triangle.y2 * r.dataManager.settings.blockSize + offsetY,(float) triangle.x3 * r.dataManager.settings.blockSize + offsetX,(float) triangle.y3 * r.dataManager.settings.blockSize + offsetY, brightness1, brightness2, brightness3);
+			r.fillLightingTriangle((float) triangle.x1 * DataManager.settings.blockSize + offsetX, (float) triangle.y1 * DataManager.settings.blockSize + offsetY,(float) triangle.x2 * DataManager.settings.blockSize + offsetX,(float) triangle.y2 * DataManager.settings.blockSize + offsetY,(float) triangle.x3 * DataManager.settings.blockSize + offsetX,(float) triangle.y3 * DataManager.settings.blockSize + offsetY, brightness1, brightness2, brightness3);
 		}
 	}
 	private static void drawColorTriangles(ArrayList<Triangle> triangles, double radius, float offsetX, float offsetY, float brightness, Renderer r) {
@@ -67,13 +69,13 @@ public class Lighting extends Thread {
 			if (brightness3 < 0) {
 				brightness3 = 0;
 			}
-			r.fillLightingColorTriangle((float) triangle.x1 * r.dataManager.settings.blockSize + offsetX, (float) triangle.y1 * r.dataManager.settings.blockSize + offsetY,(float) triangle.x2 * r.dataManager.settings.blockSize + offsetX,(float) triangle.y2 * r.dataManager.settings.blockSize + offsetY,(float) triangle.x3 * r.dataManager.settings.blockSize + offsetX,(float) triangle.y3 * r.dataManager.settings.blockSize + offsetY, brightness1, brightness2, brightness3);
+			r.fillLightingColorTriangle((float) triangle.x1 * DataManager.settings.blockSize + offsetX, (float) triangle.y1 * DataManager.settings.blockSize + offsetY,(float) triangle.x2 * DataManager.settings.blockSize + offsetX,(float) triangle.y2 * DataManager.settings.blockSize + offsetY,(float) triangle.x3 * DataManager.settings.blockSize + offsetX,(float) triangle.y3 * DataManager.settings.blockSize + offsetY, brightness1, brightness2, brightness3);
 		}
 	}
 	private static void updatePlayerLight(Renderer r) {
-		r.dataManager.characterManager.characterEntity.light.posX = r.dataManager.characterManager.characterEntity.frameX;
-		r.dataManager.characterManager.characterEntity.light.posY = r.dataManager.characterManager.characterEntity.frameY;
-		r.dataManager.characterManager.characterEntity.light.level = r.dataManager.characterManager.characterEntity.dungeonLevel;
-		r.dataManager.blockUpdateManager.lighting.urc.update(r.dataManager.characterManager.characterEntity.light);
+		DataManager.characterManager.characterEntity.light.posX = DataManager.characterManager.characterEntity.frameX;
+		DataManager.characterManager.characterEntity.light.posY = DataManager.characterManager.characterEntity.frameY;
+		DataManager.characterManager.characterEntity.light.level = DataManager.characterManager.characterEntity.dungeonLevel;
+		DataManager.blockUpdateManager.lighting.urc.update(DataManager.characterManager.characterEntity.light);
 	}
 }

@@ -24,7 +24,6 @@ import com.mtautumn.edgequest.window.renderUtils.ShaderProgram;
 import com.mtautumn.edgequest.window.renderUtils.TerrainVBO;
 
 public class Renderer {
-	public DataManager dataManager;
 	public TextureManager textureManager;
 	public LaunchScreenManager launchScreenManager;
 	public UnicodeFont font;
@@ -49,9 +48,8 @@ public class Renderer {
 	public FBO lightingFBO;
 	public FBO preLightingFBO;
 	public FBO lightingColorFBO;
-	public Renderer(DataManager dataManager) {
-		this.dataManager = dataManager;
-		lastUIZoom = dataManager.system.uiZoom;
+	public Renderer() {
+		lastUIZoom = DataManager.system.uiZoom;
 	}
 	public void initGL(int width, int height) {
 		try {
@@ -99,7 +97,7 @@ public class Renderer {
 			lightingColorShader.init("shaders/lightingColor.vert", "shaders/lightingColor.frag", TextureManager.getLocal());
 			lightingShader.init("shaders/lighting.vert", "shaders/lighting.frag", TextureManager.getLocal());
 		} catch (URISyntaxException e) {
-			dataManager.system.running = false;
+			DataManager.system.running = false;
 			e.printStackTrace();
 			System.err.println("Fatal Error: Could not load lighting shaders");
 		}
@@ -142,8 +140,8 @@ public class Renderer {
 	}
 	public void loadManagers() {
 		textureManager = new TextureManager();
-		launchScreenManager = new LaunchScreenManager(dataManager);
-		dataManager.menuButtonManager = new MenuButtonManager(dataManager);
+		launchScreenManager = new LaunchScreenManager();
+		DataManager.menuButtonManager = new MenuButtonManager();
 		assignFonts();
 	}
 
@@ -152,19 +150,19 @@ public class Renderer {
 	private boolean wasVSync = true;
 	private DisplayMode oldDisplayMode;
 	public void drawFrame() {
-		if (lastUIZoom != dataManager.system.uiZoom) {
-			lastUIZoom = dataManager.system.uiZoom;
+		if (lastUIZoom != DataManager.system.uiZoom) {
+			lastUIZoom = DataManager.system.uiZoom;
 			assignFonts();
 		}
-		if (dataManager.settings.vSyncOn && !wasVSync) {
+		if (DataManager.settings.vSyncOn && !wasVSync) {
 			wasVSync = true;
 			Display.setVSyncEnabled(true);
-		} else if (!dataManager.settings.vSyncOn && wasVSync) {
+		} else if (!DataManager.settings.vSyncOn && wasVSync) {
 			wasVSync = false;
 			Display.setVSyncEnabled(false);
 		}
 		try {
-			if (dataManager.settings.isFullScreen && !Display.isFullscreen()) {
+			if (DataManager.settings.isFullScreen && !Display.isFullscreen()) {
 				Display.setFullscreen(true);
 				oldDisplayMode = Display.getDisplayMode();
 				int largest = 0;
@@ -176,7 +174,7 @@ public class Renderer {
 					}
 				}
 				Display.setDisplayMode(Display.getAvailableDisplayModes()[largestPos]);
-			} else if (!dataManager.settings.isFullScreen && Display.isFullscreen()) {
+			} else if (!DataManager.settings.isFullScreen && Display.isFullscreen()) {
 				Display.setFullscreen(false);
 				Display.setDisplayMode(oldDisplayMode);
 			}
@@ -321,13 +319,13 @@ public class Renderer {
 
 	public double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome
-		int charX = (int) Math.floor(dataManager.characterManager.characterEntity.getX());
-		int charY = (int) Math.floor(dataManager.characterManager.characterEntity.getY());
-		if (dataManager.world.isGroundBlock(dataManager.characterManager.characterEntity, charX, charY)) {
-			blockInfo[0] = dataManager.world.getGroundBlock(dataManager.characterManager.characterEntity, charX, charY);
+		int charX = (int) Math.floor(DataManager.characterManager.characterEntity.getX());
+		int charY = (int) Math.floor(DataManager.characterManager.characterEntity.getY());
+		if (DataManager.world.isGroundBlock(DataManager.characterManager.characterEntity, charX, charY)) {
+			blockInfo[0] = DataManager.world.getGroundBlock(DataManager.characterManager.characterEntity, charX, charY);
 		}
-		if (dataManager.world.isStructBlock(dataManager.characterManager.characterEntity, charX, charY)) {
-			blockInfo[1] = dataManager.world.getStructBlock(dataManager.characterManager.characterEntity, charX, charY);
+		if (DataManager.world.isStructBlock(DataManager.characterManager.characterEntity, charX, charY)) {
+			blockInfo[1] = DataManager.world.getStructBlock(DataManager.characterManager.characterEntity, charX, charY);
 		}
 		return blockInfo;
 	}

@@ -3,7 +3,6 @@
  */
 package com.mtautumn.edgequest.updates;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
@@ -13,12 +12,10 @@ import com.mtautumn.edgequest.dataObjects.Triangle;
 
 
 public class UpdateRayCast {
-	DataManager dataManager;
 	public ArrayList<LightSource> lightSources;
 	public ArrayList<Line> lines = new ArrayList<Line>();
-	public UpdateRayCast(DataManager dataManager) {
-		this.dataManager = dataManager;
-		lightSources = dataManager.savable.lightSources;
+	public UpdateRayCast() {
+		lightSources = DataManager.savable.lightSources;
 	}
 	public void update() {
 
@@ -275,8 +272,8 @@ public class UpdateRayCast {
 	public boolean doesContainStructure(double x, double y, int level) {
 		int x1 = (int) Math.floor(x);
 		int y1 = (int) Math.floor(y);
-		if (dataManager.world.isStructBlock(x1, y1, level)) {
-			return !dataManager.system.blockIDMap.get(dataManager.world.getStructBlock(x1, y1, level)).isPassable;
+		if (DataManager.world.isStructBlock(x1, y1, level)) {
+			return !DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(x1, y1, level)).isPassable;
 		}
 		return false;
 	}

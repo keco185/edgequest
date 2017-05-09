@@ -6,47 +6,43 @@ import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.dataObjects.Location;
 
 public class UpdateBlockPlace {
-	DataManager dataManager;
-	public UpdateBlockPlace(DataManager dataManager) {
-		this.dataManager = dataManager;
-	}
 	private boolean wasMouseDown = false;
 	private boolean wasStructBlock = false;
 	public void update() {
-		if (dataManager.system.leftMouseDown && !wasMouseDown || dataManager.system.miningX != dataManager.system.mouseX || dataManager.system.miningY != dataManager.system.mouseY) {
-			wasStructBlock = dataManager.world.isStructBlock(dataManager.system.mouseX, dataManager.system.mouseY, dataManager.savable.dungeonLevel);
+		if (DataManager.system.leftMouseDown && !wasMouseDown || DataManager.system.miningX != DataManager.system.mouseX || DataManager.system.miningY != DataManager.system.mouseY) {
+			wasStructBlock = DataManager.world.isStructBlock(DataManager.system.mouseX, DataManager.system.mouseY, DataManager.savable.dungeonLevel);
 		}
-		if (!dataManager.system.isKeyboardBackpack && !dataManager.system.isKeyboardMenu) {
-			if (!dataManager.system.leftMouseDown && wasMouseDown && !dataManager.system.rightMouseDown && !dataManager.system.isMouseFar && !wasStructBlock) {
-				if (dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[0].getItemID()).getIsBlock() && dataManager.backpackManager.getCurrentSelection()[0].getItemID() > 0) {
-					placeBlock(dataManager.system.mouseX, dataManager.system.mouseY, 0);
-				} else if (dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[1].getItemID()).getIsBlock()) {
-					placeBlock(dataManager.system.mouseX, dataManager.system.mouseY, 1);
+		if (!DataManager.system.isKeyboardBackpack && !DataManager.system.isKeyboardMenu) {
+			if (!DataManager.system.leftMouseDown && wasMouseDown && !DataManager.system.rightMouseDown && !DataManager.system.isMouseFar && !wasStructBlock) {
+				if (DataManager.system.blockIDMap.get(DataManager.backpackManager.getCurrentSelection()[0].getItemID()).getIsBlock() && DataManager.backpackManager.getCurrentSelection()[0].getItemID() > 0) {
+					placeBlock(DataManager.system.mouseX, DataManager.system.mouseY, 0);
+				} else if (DataManager.system.blockIDMap.get(DataManager.backpackManager.getCurrentSelection()[1].getItemID()).getIsBlock()) {
+					placeBlock(DataManager.system.mouseX, DataManager.system.mouseY, 1);
 				}
 			}
 		}
-		wasMouseDown = dataManager.system.leftMouseDown;
+		wasMouseDown = DataManager.system.leftMouseDown;
 	}
-	private void placeBlock(int x, int y, int click) {
-		Location checkLocation = new Location(dataManager.characterManager.characterEntity);
+	private static void placeBlock(int x, int y, int click) {
+		Location checkLocation = new Location(DataManager.characterManager.characterEntity);
 		checkLocation.x = x;
 		checkLocation.y = y;
-		if (!dataManager.world.isStructBlock(checkLocation) && dataManager.savable.backpackItems[6][click].getItemCount() > 0) {
-			BlockItem item = dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock(checkLocation));
-			BlockItem slotItem = dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[click].getItemID());
+		if (!DataManager.world.isStructBlock(checkLocation) && DataManager.savable.backpackItems[6][click].getItemCount() > 0) {
+			BlockItem item = DataManager.system.blockIDMap.get(DataManager.world.getGroundBlock(checkLocation));
+			BlockItem slotItem = DataManager.system.blockIDMap.get(DataManager.backpackManager.getCurrentSelection()[click].getItemID());
 			if ((item.isName("water") || item.isName("ground")) && slotItem.isSolid) {
-				dataManager.world.setGroundBlock(checkLocation, slotItem.getID());
-				dataManager.savable.backpackItems[6][click].subtractOne();
+				DataManager.world.setGroundBlock(checkLocation, slotItem.getID());
+				DataManager.savable.backpackItems[6][click].subtractOne();
 			} else if ((item.isName("grass") || item.isName("dirt")) && slotItem.isName("snow")) {
-				dataManager.world.setGroundBlock(checkLocation, slotItem.getID());
-				dataManager.savable.backpackItems[6][click].subtractOne();
+				DataManager.world.setGroundBlock(checkLocation, slotItem.getID());
+				DataManager.savable.backpackItems[6][click].subtractOne();
 			} else {
-				dataManager.world.setStructBlock(checkLocation, slotItem.getID());
-				dataManager.savable.backpackItems[6][click].subtractOne();
+				DataManager.world.setStructBlock(checkLocation, slotItem.getID());
+				DataManager.savable.backpackItems[6][click].subtractOne();
 			}
-			dataManager.blockUpdateManager.updateBlock(checkLocation);
-			if (dataManager.savable.backpackItems[6][click].getItemCount() <= 0) {
-				dataManager.savable.backpackItems[6][click] = new ItemSlot();
+			DataManager.blockUpdateManager.updateBlock(checkLocation);
+			if (DataManager.savable.backpackItems[6][click].getItemCount() <= 0) {
+				DataManager.savable.backpackItems[6][click] = new ItemSlot();
 			}
 		}
 	}

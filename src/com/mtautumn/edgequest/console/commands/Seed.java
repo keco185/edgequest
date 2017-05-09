@@ -7,13 +7,13 @@ import com.mtautumn.edgequest.data.DataManager;
 public class Seed extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
+	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 0) {
-			addInfoLine("seed: " + dm.savable.seed, dm);
+			addInfoLine("seed: " + DataManager.savable.seed);
 		} else {
-			addErrorLine("Usage: " + usage(), dm);
+			addErrorLine("Usage: " + usage());
 		}
-		addErrorLine("To change the current seed, type /reseed <seed>", dm);
+		addErrorLine("To change the current seed, type /reseed <seed>");
 		return true;
 	}
 

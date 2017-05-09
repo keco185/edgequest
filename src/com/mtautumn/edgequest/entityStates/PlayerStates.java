@@ -1,6 +1,5 @@
 package com.mtautumn.edgequest.entityStates;
 
-import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.utils.io.KeyboardUpdater;
 
 /*
@@ -28,8 +27,8 @@ public class PlayerStates {
 	public boolean isMoving = false;
 	public boolean isSprinting = false;
 	
-	public PlayerStates (DataManager dm){
-		keyEvent = new KeyboardUpdater(dm);
+	public PlayerStates (){
+		keyEvent = new KeyboardUpdater();
 	}
 	
 	public void updateState() {

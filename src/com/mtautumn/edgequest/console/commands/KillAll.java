@@ -7,16 +7,16 @@ import com.mtautumn.edgequest.data.DataManager;
 public class KillAll extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
+	public boolean execute(ArrayList<String> args) {
 		int entities = 0;
-		for (int i = 0; i < dm.savable.entities.size(); i++) {
-			if (dm.savable.entities.get(i) != dm.characterManager.characterEntity) {
-				dm.savable.entities.remove(i);
+		for (int i = 0; i < DataManager.savable.entities.size(); i++) {
+			if (DataManager.savable.entities.get(i) != DataManager.characterManager.characterEntity) {
+				DataManager.savable.entities.remove(i);
 				i--;
 				entities++;
 			}
 		}
-		addInfoLine("Killed " + entities + " entities", dm);
+		addInfoLine("Killed " + entities + " entities");
 		return true;
 	}
 

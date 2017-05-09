@@ -12,9 +12,7 @@ public class LaunchScreenManager {
 	public ArrayList<LaunchScreenPane> menus = new ArrayList<LaunchScreenPane>();
 	public ArrayList<MenuButton> buttonIDArray = new ArrayList<MenuButton>();
 	public String currentMenu = "Main Menu";
-	DataManager dataManager;
-	public LaunchScreenManager(DataManager dataManager) {
-		this.dataManager = dataManager;
+	public LaunchScreenManager() {
 		LaunchScreenPane mainMenu = new LaunchScreenPane("Main Menu", null);
 		mainMenu.addButton(new MenuButton("newGame", "New Game"));
 		mainMenu.addButton(new MenuButton("loadGame", "Load Game"));
@@ -27,15 +25,15 @@ public class LaunchScreenManager {
 		menus.add(settingsMenu);
 	}
 	public void buttonPressed(int posX, int posY) {
-		if (posX < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING_LEFT * dataManager.system.uiZoom && posX > 0 && posY < dataManager.settings.BACK_BUTTON_SIZE * dataManager.system.uiZoom + dataManager.settings.BACK_BUTTON_PADDING_TOP * dataManager.system.uiZoom && posY > 0) {
+		if (posX < DataManager.settings.BACK_BUTTON_SIZE * DataManager.system.uiZoom + DataManager.settings.BACK_BUTTON_PADDING_LEFT * DataManager.system.uiZoom && posX > 0 && posY < DataManager.settings.BACK_BUTTON_SIZE * DataManager.system.uiZoom + DataManager.settings.BACK_BUTTON_PADDING_TOP * DataManager.system.uiZoom && posY > 0) {
 			String parent = getCurrentMenu().parent;
 			if (parent != null) {
 				currentMenu = parent;
 			}
 		}
-		double yOffset = 206 * dataManager.system.uiZoom;
-		posX -= dataManager.settings.screenWidth / 2;
-		posY -= (dataManager.settings.screenHeight - yOffset) / 2;
+		double yOffset = 206 * DataManager.system.uiZoom;
+		posX -= DataManager.settings.screenWidth / 2;
+		posY -= (DataManager.settings.screenHeight - yOffset) / 2;
 		
 		for (int i = 0; i < getCurrentMenu().getButtons().size(); i++) {
 			MenuButton button = getCurrentMenu().getButtons().get(i);
@@ -75,7 +73,7 @@ public class LaunchScreenManager {
 		if (name.equals("settings")) {
 			currentMenu = "Settings";
 		} else {
-			dataManager.system.buttonActionQueue.add(name);
+			DataManager.system.buttonActionQueue.add(name);
 		}
 	}
 	public class LaunchScreenPane {
@@ -143,19 +141,19 @@ public class LaunchScreenManager {
 			return -(getWidth() / 2);
 		}
 		public int getPosY() {
-			return (int)(posY * dataManager.system.uiZoom);
+			return (int)(posY * DataManager.system.uiZoom);
 		}
 		public int getX() {
-			return (int)(posX * dataManager.system.uiZoom);
+			return (int)(posX * DataManager.system.uiZoom);
 		}
 		public int getY() {
-			return (int)(posY * dataManager.system.uiZoom);
+			return (int)(posY * DataManager.system.uiZoom);
 		}
 		public int getWidth() {
-			return (int) (width * dataManager.system.uiZoom);
+			return (int) (width * DataManager.system.uiZoom);
 		}
 		public int getHeight() {
-			return (int) (height * dataManager.system.uiZoom);
+			return (int) (height * DataManager.system.uiZoom);
 		}
 	}
 

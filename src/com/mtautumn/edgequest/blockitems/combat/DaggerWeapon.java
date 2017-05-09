@@ -1,6 +1,5 @@
 package com.mtautumn.edgequest.blockitems.combat;
 
-import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.entities.Entity;
 import com.mtautumn.edgequest.projectiles.DaggerProjectile;
 import com.mtautumn.edgequest.projectiles.Projectile;
@@ -8,8 +7,8 @@ import com.mtautumn.edgequest.projectiles.Projectile;
 public class DaggerWeapon extends Weapon{
 	private static final long serialVersionUID = 1L;
 
-	public DaggerWeapon(int id, DataManager dm) {
-		super(id, false, true, "dagger", null, new int[]{0}, dm);
+	public DaggerWeapon(int id) {
+		super(id, false, true, "dagger", null, new int[]{0});
 		ammoTypes = new String[0];
 		maxHealth = 50;
 	}

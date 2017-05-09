@@ -5,33 +5,31 @@ import com.mtautumn.edgequest.particles.Particle;
 import com.mtautumn.edgequest.particles.PrecipitationParticle;
 
 public class WeatherManager extends Thread {
-	DataManager dm;
-	public WeatherManager(DataManager dm) {
-		this.dm = dm;
-		targetDryness = dm.savable.dryness;
+	public WeatherManager() {
+		targetDryness = DataManager.savable.dryness;
 	}
 	public void startRain() {
 		iterator = 0;
 		targetDryness = -1;
 		deltaStep = 0;
-		dm.savable.dryness = -1;
+		DataManager.savable.dryness = -1;
 	}
 	public void endRain() {
 		iterator = 0;
 		targetDryness = 0.8;
 		deltaStep = 0;
-		dm.savable.dryness = 0.8;
+		DataManager.savable.dryness = 0.8;
 	}
 	int iterator = 0;
 	double targetDryness;
 	double deltaStep = 0;
 	@Override
 	public void run() {
-		while(dm.system.running) {
+		while(DataManager.system.running) {
 			try {
 				iterator++;
 				if (iterator > 700) {
-					targetDryness = dm.savable.dryness + (Math.random() - 0.5) / 2.0;
+					targetDryness = DataManager.savable.dryness + (Math.random() - 0.5) / 2.0;
 					iterator = 0;
 					if (targetDryness < -1) {
 						targetDryness = -1;
@@ -39,25 +37,25 @@ public class WeatherManager extends Thread {
 					if (targetDryness > 1) {
 						targetDryness = 1;
 					}
-					deltaStep = (targetDryness - dm.savable.dryness) / 700.0;
+					deltaStep = (targetDryness - DataManager.savable.dryness) / 700.0;
 				} else {
-					dm.savable.dryness += deltaStep;
+					DataManager.savable.dryness += deltaStep;
 				}
-				for (int i = 0; i < dm.savable.precipitationParticles.size(); i++) {
-					if (dm.savable.precipitationParticles.get(i).update(dm)) {
-						dm.savable.precipitationParticles.remove(i);
+				for (int i = 0; i < DataManager.savable.precipitationParticles.size(); i++) {
+					if (DataManager.savable.precipitationParticles.get(i).update()) {
+						DataManager.savable.precipitationParticles.remove(i);
 						i--;
 					}
 				}
-				if (dm.savable.dryness < -0.2) {
+				if (DataManager.savable.dryness < -0.2) {
 					for(int i = 0; i < 5; i++) {
-					if (Math.random() < -dm.savable.dryness) {
-						double range = Double.valueOf(dm.system.maxTileX - dm.system.minTileX) * 1.5;
-						double min = (dm.system.maxTileX + dm.system.minTileX - range) / 2.0;
+					if (Math.random() < -DataManager.savable.dryness) {
+						double range = Double.valueOf(DataManager.system.maxTileX - DataManager.system.minTileX) * 1.5;
+						double min = (DataManager.system.maxTileX + DataManager.system.minTileX - range) / 2.0;
 						double x = Math.random() * range + min;
-						double y = dm.system.minTileY - 4;
+						double y = DataManager.system.minTileY - 4;
 						Particle newRain = new PrecipitationParticle(x, y, -1, 0, Math.random() / 2.0 + 0.5, 0.6, 0.6);
-						dm.savable.precipitationParticles.add(newRain);
+						DataManager.savable.precipitationParticles.add(newRain);
 					}
 					}
 				}

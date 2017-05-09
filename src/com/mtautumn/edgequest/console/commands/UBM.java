@@ -7,13 +7,13 @@ import com.mtautumn.edgequest.data.DataManager;
 public class UBM extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
-		if (dm.characterManager.characterEntity.stamina <= dm.characterManager.characterEntity.maxStamina) {
-			dm.characterManager.characterEntity.stamina = 2147483647;
+	public boolean execute(ArrayList<String> args) {
+		if (DataManager.characterManager.characterEntity.stamina <= DataManager.characterManager.characterEntity.maxStamina) {
+			DataManager.characterManager.characterEntity.stamina = 2147483647;
 		} else {
-			dm.characterManager.characterEntity.stamina = dm.characterManager.characterEntity.maxStamina;
+			DataManager.characterManager.characterEntity.stamina = DataManager.characterManager.characterEntity.maxStamina;
 		}
-		addInfoLine("Usain Bolt Mode toggled", dm);
+		addInfoLine("Usain Bolt Mode toggled");
 		return true;
 	}
 

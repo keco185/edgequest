@@ -65,14 +65,14 @@ public class Projectile implements Serializable {
 		newLocation[1] = startY - Math.sin(angle) * speed * newIncrement;
 		return newLocation;
 	}
-	public boolean advance(DataManager dm) { //Returns true if projectile should be removed
-		double deltaIncrement = new Double(dm.settings.tickLength / 2)/1000.0;
+	public boolean advance() { //Returns true if projectile should be removed
+		double deltaIncrement = new Double(DataManager.settings.tickLength / 2)/1000.0;
 		double newX = increment(increment + deltaIncrement)[0];
 		double newY = increment(increment + deltaIncrement)[1];
 		for (double i = increment; i <= deltaIncrement + increment; i += 0.005) {
 			double temp[] = increment(i);
-			if (isInEntity(dm, temp[0], temp[1])) {
-				addHitEntity(dm, temp[0], temp[1]);
+			if (isInEntity(temp[0], temp[1])) {
+				addHitEntity(temp[0], temp[1]);
 				hitsLeft--;
 				if (hitsLeft < 1) {
 					x = temp[0];
@@ -89,30 +89,30 @@ public class Projectile implements Serializable {
 	public void manipulateHitEntity(Entity entity) { //Run on entities hit by projectile: Should be overwritten
 		
 	}
-	protected boolean isInEntity(DataManager dm, double x, double y) {
-		for (int i = 0; i < dm.savable.entities.size(); i++) {
-			Entity entity = dm.savable.entities.get(i);
+	protected boolean isInEntity(double x, double y) {
+		for (int i = 0; i < DataManager.savable.entities.size(); i++) {
+			Entity entity = DataManager.savable.entities.get(i);
 			if (checkEntity(entity, x, y)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	public boolean inStructure(DataManager dm) {
+	public boolean inStructure() {
 		Location location = new Location((int) x, (int) y, level);
-		if (dm.world.isStructBlock(location)) {
-			return !dm.system.blockIDMap.get(dm.world.getStructBlock(location)).isPassable;
+		if (DataManager.world.isStructBlock(location)) {
+			return !DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(location)).isPassable;
 		}
 		return false;
 	}
-	protected void addHitEntity(DataManager dm, double x, double y) {
-		for (int i = 0; i < dm.savable.entities.size(); i++) {
-			Entity entity = dm.savable.entities.get(i);
+	protected void addHitEntity(double x, double y) {
+		for (int i = 0; i < DataManager.savable.entities.size(); i++) {
+			Entity entity = DataManager.savable.entities.get(i);
 			if (checkEntity(entity, x, y)) {
 				manipulateHitEntity(entity);
 				hitEntities.add(entity);
 				if (firedBy.getType() == Entity.EntityType.character) {
-					for (Entity testEntity : dm.savable.entities) {
+					for (Entity testEntity : DataManager.savable.entities) {
 						if (testEntity.getType() == Entity.EntityType.pet) {
 							((Pet) testEntity).attackEntity(entity);
 						}
@@ -124,15 +124,15 @@ public class Projectile implements Serializable {
 				if (entity.health <= 0) {
 					damageVal += entity.health;
 					entity.health = 0;
-					dm.savable.damagePosts.add(new DamagePost(entity, (int) damageVal));
+					DataManager.savable.damagePosts.add(new DamagePost(entity, (int) damageVal));
 					for (int k = 0; k < 20; k++) {
-						dm.savable.particles.add(new BloodParticle(entity.getX(), entity.getY(), entity.dungeonLevel, speed * Math.cos(angle), speed * -Math.sin(angle), 0.2, 0.2));
+						DataManager.savable.particles.add(new BloodParticle(entity.getX(), entity.getY(), entity.dungeonLevel, speed * Math.cos(angle), speed * -Math.sin(angle), 0.2, 0.2));
 					}
-					dm.savable.entities.get(i).death();
-					dm.savable.entities.remove(i);
+					DataManager.savable.entities.get(i).death();
+					DataManager.savable.entities.remove(i);
 					i--;
 				} else {
-					dm.savable.damagePosts.add(new DamagePost(entity, (int) damageVal));
+					DataManager.savable.damagePosts.add(new DamagePost(entity, (int) damageVal));
 				}
 			}
 		}
@@ -156,15 +156,15 @@ public class Projectile implements Serializable {
 		return minX <= x && minY <= y && maxX >= x && maxY >= y && entity.dungeonLevel == level;
 	}
 	public Entity getEntityIn(DataManager dm) {
-		for (int i = 0; i < dm.savable.entities.size(); i++) {
-			Entity entity = dm.savable.entities.get(i);
+		for (int i = 0; i < DataManager.savable.entities.size(); i++) {
+			Entity entity = DataManager.savable.entities.get(i);
 			if (checkEntity(entity, x, y)) {
 				return entity;
 			}
 		}
 		return null;
 	}
-	public String getTexture(DataManager dm) {
-		return texture[dm.system.animationClock%texture.length];
+	public String getTexture() {
+		return texture[DataManager.system.animationClock%texture.length];
 	}
 }

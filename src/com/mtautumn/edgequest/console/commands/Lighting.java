@@ -7,20 +7,20 @@ import com.mtautumn.edgequest.data.DataManager;
 public class Lighting extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
+	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
 			if (args.get(0).equalsIgnoreCase("on")) {
-				dm.world.noLighting = false;
-				addInfoLine("Turned lighting on", dm);
+				DataManager.world.noLighting = false;
+				addInfoLine("Turned lighting on");
 			} else if (args.get(0).equalsIgnoreCase("off")) {
-				dm.world.noLighting = true;
-				addInfoLine("Turned lighting off", dm);
+				DataManager.world.noLighting = true;
+				addInfoLine("Turned lighting off");
 			}
 		} else {
-			if (dm.world.noLighting) {
-				addInfoLine("Lighting is turned off", dm);
+			if (DataManager.world.noLighting) {
+				addInfoLine("Lighting is turned off");
 			} else {
-				addInfoLine("Lighting is turned on", dm);
+				addInfoLine("Lighting is turned on");
 			}
 		}
 		return true;

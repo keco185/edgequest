@@ -21,12 +21,12 @@ public class Particle {
 		this.height = height;
 		this.texture = texture;
 	}
-	public boolean update(DataManager dm) { //Should be overwritten Returns true if should be deleted
+	public boolean update() { //Should be overwritten Returns true if should be deleted
 		return false;
 	}
-	protected boolean checkMove(double newX, double newY, DataManager dm) { //Returns true if location is free
-		if (dm.world.isStructBlock((int)newX, (int)newY, level)) {
-			if (dm.system.blockIDMap.get(dm.world.getStructBlock((int)newX, (int)newY, level)).isPassable) {
+	protected boolean checkMove(double newX, double newY) { //Returns true if location is free
+		if (DataManager.world.isStructBlock((int)newX, (int)newY, level)) {
+			if (DataManager.system.blockIDMap.get(DataManager.world.getStructBlock((int)newX, (int)newY, level)).isPassable) {
 				return true;
 			}
 			return false;

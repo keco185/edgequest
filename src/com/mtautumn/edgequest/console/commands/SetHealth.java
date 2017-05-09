@@ -7,16 +7,16 @@ import com.mtautumn.edgequest.data.DataManager;
 public class SetHealth extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
+	public boolean execute(ArrayList<String> args) {
 		if (args.size() > 0) {
 			double health = Double.parseDouble(args.get(0));
 			if (health > 100) {
 				health = 100;
 			}
-			dm.characterManager.characterEntity.health = (int)(health/100.0 * dm.characterManager.characterEntity.maxHealth);
-			addInfoLine("set health to: " + dm.characterManager.characterEntity.health, dm);
+			DataManager.characterManager.characterEntity.health = (int)(health/100.0 * DataManager.characterManager.characterEntity.maxHealth);
+			addInfoLine("set health to: " + DataManager.characterManager.characterEntity.health);
 		} else {
-			addErrorLine("use the format " + usage(), dm);
+			addErrorLine("use the format " + usage());
 		}
 		return true;
 	}

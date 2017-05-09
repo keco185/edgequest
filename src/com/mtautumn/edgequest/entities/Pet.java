@@ -9,8 +9,8 @@ public class Pet extends Entity {
 	private double lastPlayerY = 0;
 	private Entity attackEntity;
 
-	public Pet(double posX, double posY, double rotation, DataManager dm, int dungeonLevel, int[] dungeon) {
-		super("pet",EntityType.pet, posX, posY, rotation, dungeonLevel, dm);
+	public Pet(double posX, double posY, double rotation, int dungeonLevel, int[] dungeon) {
+		super("pet",EntityType.pet, posX, posY, rotation, dungeonLevel);
 		super.stillAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7};
 		super.moveSpeed = 1.2;
@@ -18,7 +18,7 @@ public class Pet extends Entity {
 		super.health = 5;
 	}
 	public Pet(Entity entity) {
-		super("pet",EntityType.pet, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel, entity.dm);
+		super("pet",EntityType.pet, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel);
 		dungeonLevel = entity.dungeonLevel;
 		super.stillAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7};
@@ -52,7 +52,7 @@ public class Pet extends Entity {
 				double deltaY = attackEntity.getY() - getY();
 				updateRotation(deltaX, deltaY);
 				if (Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2)) < 1.2 && attackStage == 0) {
-					dm.savable.projectiles.add(new HandProjectile(this, 2));
+					DataManager.savable.projectiles.add(new HandProjectile(this, 2));
 					attackStage = 1;
 				} else if (attackStage == 0){
 					double moveX = Math.cos(rotation) * moveSpeed / 15.0;
@@ -62,7 +62,7 @@ public class Pet extends Entity {
 					double moveX = -Math.cos(rotation) * moveSpeed / 30.0;
 					double moveY = -Math.sin(rotation) * moveSpeed / 30.0;
 					move(moveX, moveY);
-					if (dm.world.isStructBlock(this, (int)(getX() + moveX), (int)(getY() + moveY))) {
+					if (DataManager.world.isStructBlock(this, (int)(getX() + moveX), (int)(getY() + moveY))) {
 						attackEntity = null;
 						attackStage = 0;
 					}
@@ -75,11 +75,11 @@ public class Pet extends Entity {
 				attackStage = 0;
 			}
 		} else {
-			if (isLineOfSight(dm.characterManager.characterEntity.getX(), dm.characterManager.characterEntity.getY())) {
-				double deltaX = dm.characterManager.characterEntity.getX() - getX();
-				double deltaY = dm.characterManager.characterEntity.getY() - getY();
+			if (isLineOfSight(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY())) {
+				double deltaX = DataManager.characterManager.characterEntity.getX() - getX();
+				double deltaY = DataManager.characterManager.characterEntity.getY() - getY();
 				updateRotation(deltaX, deltaY);
-				if (distanceToPlayer() > 2 && dm.characterManager.characterEntity.dungeonLevel == dungeonLevel) {
+				if (distanceToPlayer() > 2 && DataManager.characterManager.characterEntity.dungeonLevel == dungeonLevel) {
 					double moveX = Math.cos(rotation) * moveSpeed / 30.0;
 					double moveY = Math.sin(rotation) * moveSpeed / 30.0;
 					move(moveX, moveY);
@@ -87,11 +87,11 @@ public class Pet extends Entity {
 					move(0,0);
 				}
 				super.path = null;
-			} else if ((distanceToPlayer() > 2 || !isLineOfSight(dm.characterManager.characterEntity.getX(), dm.characterManager.characterEntity.getY())) && dm.characterManager.characterEntity.dungeonLevel == dungeonLevel) {
+			} else if ((distanceToPlayer() > 2 || !isLineOfSight(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY())) && DataManager.characterManager.characterEntity.dungeonLevel == dungeonLevel) {
 				if (Math.abs(lastPlayerPosUpdate - System.currentTimeMillis()) > 2000) {
-					if (lastPlayerX != dm.characterManager.characterEntity.getX() || lastPlayerY != dm.characterManager.characterEntity.getY()) {
-						lastPlayerX = dm.characterManager.characterEntity.getX();
-						lastPlayerY = dm.characterManager.characterEntity.getY();
+					if (lastPlayerX != DataManager.characterManager.characterEntity.getX() || lastPlayerY != DataManager.characterManager.characterEntity.getY()) {
+						lastPlayerX = DataManager.characterManager.characterEntity.getX();
+						lastPlayerY = DataManager.characterManager.characterEntity.getY();
 						super.setDestination((int)lastPlayerX, (int) lastPlayerY);
 						lastPlayerPosUpdate = System.currentTimeMillis();
 					}
@@ -105,7 +105,7 @@ public class Pet extends Entity {
 	}
 
 	@Override
-	public void initializeClass(DataManager dm) {
-		super.initializeClass(dm);
+	public void initializeClass() {
+		super.initializeClass();
 	}
 }

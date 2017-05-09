@@ -13,9 +13,9 @@ import com.mtautumn.edgequest.entities.Character;
 import com.mtautumn.edgequest.entities.Entity;
 
 public class GameSaves {
-	public static void saveGame(String saveFile, DataManager dataManager) throws IOException, URISyntaxException {
+	public static void saveGame(String saveFile) throws IOException, URISyntaxException {
 		try {
-			SavableData saveClass = dataManager.savable;
+			SavableData saveClass = DataManager.savable;
 			FileOutputStream fout = new FileOutputStream(getLocal() + saveFile + ".egqst");
 			@SuppressWarnings("resource")
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
@@ -24,24 +24,24 @@ public class GameSaves {
 			e.printStackTrace();
 		}
 	}
-	public static void loadGame(String saveFile, DataManager dataManager) throws ClassNotFoundException, IOException, URISyntaxException {
+	public static void loadGame(String saveFile) throws ClassNotFoundException, IOException, URISyntaxException {
 		FileInputStream fin = new FileInputStream(getLocal() + saveFile + ".egqst");
 		@SuppressWarnings("resource")
 		ObjectInputStream ois = new ObjectInputStream(fin);
 		SavableData loadedSM = (SavableData) ois.readObject();
-		dataManager.savable = loadedSM;
+		DataManager.savable = loadedSM;
 		
 		// Set everything up
 		Entity characterEntity = null;
-		for (int i = 0; i < dataManager.savable.entities.size(); i++) {
-			dataManager.savable.entities.get(i).initializeClass(dataManager);
-			if (dataManager.savable.entities.get(i).getType() == Entity.EntityType.character) {
-				characterEntity = dataManager.savable.entities.get(i);
+		for (int i = 0; i < DataManager.savable.entities.size(); i++) {
+			DataManager.savable.entities.get(i).initializeClass();
+			if (DataManager.savable.entities.get(i).getType() == Entity.EntityType.character) {
+				characterEntity = DataManager.savable.entities.get(i);
 			}
 		}
-		dataManager.characterManager.characterEntity = (Character) characterEntity;
-		dataManager.system.requestGenUpdate = true;
-		dataManager.system.requestScreenUpdate = true;
+		DataManager.characterManager.characterEntity = (Character) characterEntity;
+		DataManager.system.requestGenUpdate = true;
+		DataManager.system.requestScreenUpdate = true;
 		
 	}
 	public static String getLocal() throws URISyntaxException {

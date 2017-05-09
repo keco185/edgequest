@@ -9,19 +9,19 @@ import com.mtautumn.edgequest.dataObjects.ItemSlot;
 public class Drop extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
+	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
 			ItemSlot item = new ItemSlot();
-			item.setItem(dm.system.blockNameMap.get(args.get(0)).getID());
+			item.setItem(DataManager.system.blockNameMap.get(args.get(0)).getID());
 			item.setItemCount(1);
-			dm.savable.itemDrops.add(new ItemDrop(dm.characterManager.characterEntity.getX(), dm.characterManager.characterEntity.getY(), dm.characterManager.characterEntity.dungeonLevel, item, dm));
+			DataManager.savable.itemDrops.add(new ItemDrop(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY(), DataManager.characterManager.characterEntity.dungeonLevel, item));
 		} else if (args.size() == 2) {
 			ItemSlot item = new ItemSlot();
-			item.setItem(dm.system.blockNameMap.get(args.get(0)).getID());
+			item.setItem(DataManager.system.blockNameMap.get(args.get(0)).getID());
 			item.setItemCount(Integer.parseInt(args.get(1)));
-			dm.savable.itemDrops.add(new ItemDrop(dm.characterManager.characterEntity.getX(), dm.characterManager.characterEntity.getY(), dm.characterManager.characterEntity.dungeonLevel, item, dm));
+			DataManager.savable.itemDrops.add(new ItemDrop(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY(), DataManager.characterManager.characterEntity.dungeonLevel, item));
 		} else {
-			addErrorLine("use the format " + usage(), dm);
+			addErrorLine("use the format " + usage());
 		}
 		return true;
 	}

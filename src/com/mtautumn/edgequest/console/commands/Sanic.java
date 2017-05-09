@@ -7,9 +7,9 @@ import com.mtautumn.edgequest.data.DataManager;
 public class Sanic extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
-		dm.characterManager.characterEntity.stamina = 2147483647;
-		dm.settings.moveSpeed = 15;
+	public boolean execute(ArrayList<String> args) {
+		DataManager.characterManager.characterEntity.stamina = 2147483647;
+		DataManager.settings.moveSpeed = 15;
 		return false;
 	}
 

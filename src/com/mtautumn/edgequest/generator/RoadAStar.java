@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import com.mtautumn.edgequest.data.DataManager;
 
 public class RoadAStar {
-	DataManager dm;
-	public RoadAStar(DataManager dm) {
-		this.dm = dm;
+	public RoadAStar() {
 	}
-	public ArrayList<IntCoord> findPath(int startX, int startY, int endX, int endY, int level, DataManager dm) {
+	public ArrayList<IntCoord> findPath(int startX, int startY, int endX, int endY, int level) {
 		int iterationCount = 0;
 		IntCoord start = new IntCoord(startX, startY);
 		IntCoord end = new IntCoord(endX, endY);
@@ -38,26 +36,26 @@ public class RoadAStar {
 								int gCost = current.gCost;
 								if (current.x - x == 0 || current.y - y == 0) {
 									gCost += 10;
-									if (dm.world.getGroundBlock(x, y, level) == dm.system.blockNameMap.get("water").getID()) {
+									if (DataManager.world.getGroundBlock(x, y, level) == DataManager.system.blockNameMap.get("water").getID()) {
 										gCost += 20;
-									} else if (dm.world.getGroundBlock(x, y, level) == dm.system.blockNameMap.get("ice").getID()) {
+									} else if (DataManager.world.getGroundBlock(x, y, level) == DataManager.system.blockNameMap.get("ice").getID()) {
 										gCost += 10;
 									}
-									if (dm.terrainManager.terrainGenerator.altitudeMapFiltered.containsKey(x+","+y) && dm.terrainManager.terrainGenerator.altitudeMapFiltered.containsKey(current.x+","+current.y)) {
-										gCost += (int)(Math.pow(Math.abs(dm.terrainManager.terrainGenerator.altitudeMapFiltered.get(current.x+","+current.y).doubleValue() - dm.terrainManager.terrainGenerator.altitudeMapFiltered.get(x+","+y).doubleValue()) * 0.10,2));
+									if (DataManager.terrainManager.terrainGenerator.altitudeMapFiltered.containsKey(x+","+y) && DataManager.terrainManager.terrainGenerator.altitudeMapFiltered.containsKey(current.x+","+current.y)) {
+										gCost += (int)(Math.pow(Math.abs(DataManager.terrainManager.terrainGenerator.altitudeMapFiltered.get(current.x+","+current.y).doubleValue() - DataManager.terrainManager.terrainGenerator.altitudeMapFiltered.get(x+","+y).doubleValue()) * 0.10,2));
 									} else {
 										gCost += 1000;
 									}
 
 								} else {
 									gCost += 14;
-									if (dm.world.getGroundBlock(x, y, level) == dm.system.blockNameMap.get("water").getID()) {
+									if (DataManager.world.getGroundBlock(x, y, level) == DataManager.system.blockNameMap.get("water").getID()) {
 										gCost += 28;
-									} else if (dm.world.getGroundBlock(x, y, level) == dm.system.blockNameMap.get("ice").getID()) {
+									} else if (DataManager.world.getGroundBlock(x, y, level) == DataManager.system.blockNameMap.get("ice").getID()) {
 										gCost += 14;
 									}
-									if (dm.terrainManager.terrainGenerator.altitudeMapFiltered.containsKey(x+","+y) && dm.terrainManager.terrainGenerator.altitudeMapFiltered.containsKey(current.x+","+current.y)) {
-										gCost += (int)(Math.pow(Math.abs(dm.terrainManager.terrainGenerator.altitudeMapFiltered.get(current.x+","+current.y).doubleValue() - dm.terrainManager.terrainGenerator.altitudeMapFiltered.get(x+","+y).doubleValue())*0.14,2));
+									if (DataManager.terrainManager.terrainGenerator.altitudeMapFiltered.containsKey(x+","+y) && DataManager.terrainManager.terrainGenerator.altitudeMapFiltered.containsKey(current.x+","+current.y)) {
+										gCost += (int)(Math.pow(Math.abs(DataManager.terrainManager.terrainGenerator.altitudeMapFiltered.get(current.x+","+current.y).doubleValue() - DataManager.terrainManager.terrainGenerator.altitudeMapFiltered.get(x+","+y).doubleValue())*0.14,2));
 									} else {
 										gCost += 1000;
 									}
@@ -93,18 +91,18 @@ public class RoadAStar {
 		}
 		return path;
 	}
-	private boolean isNodeClear(int x, int y, int firstX, int firstY, int level) {
+	private static boolean isNodeClear(int x, int y, int firstX, int firstY, int level) {
 		boolean nodeClear = true;
 		boolean diag1Clear = true;
 		boolean diag2Clear = true;
-		if (dm.world.isStructBlock(x, y, level)) {
-			nodeClear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, y, level)).isPassable;
+		if (DataManager.world.isStructBlock(x, y, level)) {
+			nodeClear = DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(x, y, level)).isPassable;
 		}
-		if (dm.world.isStructBlock(firstX, y, level)) {
-			diag1Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(firstX, y, level)).isPassable;
+		if (DataManager.world.isStructBlock(firstX, y, level)) {
+			diag1Clear = DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(firstX, y, level)).isPassable;
 		}
-		if (dm.world.isStructBlock(x, firstY, level)) {
-			diag2Clear = dm.system.blockIDMap.get(dm.world.getStructBlock(x, firstY, level)).isPassable;
+		if (DataManager.world.isStructBlock(x, firstY, level)) {
+			diag2Clear = DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(x, firstY, level)).isPassable;
 		}
 
 		if (nodeClear) {

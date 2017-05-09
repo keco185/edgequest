@@ -7,20 +7,20 @@ import com.mtautumn.edgequest.data.DataManager;
 public class Weather extends Command {
 
 	@Override
-	public boolean execute(DataManager dm, ArrayList<String> args) {
+	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
 			if (args.get(0).equalsIgnoreCase("rain") || args.get(0).equalsIgnoreCase("snow") || args.get(0).equalsIgnoreCase("storm")) {
-				dm.weatherManager.startRain();
-				addInfoLine("Let it rain!", dm);
+				DataManager.weatherManager.startRain();
+				addInfoLine("Let it rain!");
 			} else if (args.get(0).equalsIgnoreCase("sun") || args.get(0).equalsIgnoreCase("sunny") || args.get(0).equalsIgnoreCase("clear")) {
-				dm.weatherManager.endRain();
-				addInfoLine("Here comes the sun", dm);
+				DataManager.weatherManager.endRain();
+				addInfoLine("Here comes the sun");
 			} else {
-				addErrorLine("Did not recognize your weather type", dm);
-				addErrorLine("Usage: " + usage(), dm);
+				addErrorLine("Did not recognize your weather type");
+				addErrorLine("Usage: " + usage());
 			}
 		} else {
-			addErrorLine("Usage: " + usage(), dm);
+			addErrorLine("Usage: " + usage());
 		}
 		return true;
 	}

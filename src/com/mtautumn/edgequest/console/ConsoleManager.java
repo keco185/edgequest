@@ -8,13 +8,10 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 
 import com.mtautumn.edgequest.console.commands.*;
-import com.mtautumn.edgequest.data.DataManager;
 
 public class ConsoleManager {
-	DataManager dataManager;
 	public ArrayList<Command> commands;
-	public ConsoleManager(DataManager dataManager) {
-		this.dataManager = dataManager;
+	public ConsoleManager() {
 		commands = loadCommands();
 	}
 	public class Line {
@@ -142,7 +139,7 @@ public class ConsoleManager {
 		boolean commandFound = false;
 		for (Command cmd : commands) {
 			if (cmd.name().equalsIgnoreCase(cmdName)) {
-				cmd.execute(dataManager, args);
+				cmd.execute(args);
 				commandFound = true;
 			}
 		}

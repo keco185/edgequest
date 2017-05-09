@@ -13,27 +13,25 @@ import com.mtautumn.edgequest.updates.UpdateLighting;
 import com.mtautumn.edgequest.updates.UpdateMining;
 
 public class BlockUpdateManager extends Thread {
-	DataManager dataManager;
 	public UpdateLighting lighting;
 	public UpdateMining mining;
 	public UpdateFootprints footprints;
 	public UpdateBlockPlace blockPlace;
 	ArrayList<Location> lightingQueue = new ArrayList<Location>();
-	public BlockUpdateManager(DataManager dataManager) {
-		this.dataManager = dataManager;
-		lighting = new UpdateLighting(dataManager);
-		mining = new UpdateMining(dataManager);
-		footprints = new UpdateFootprints(dataManager);
-		blockPlace = new UpdateBlockPlace(dataManager);
+	public BlockUpdateManager() {
+		lighting = new UpdateLighting();
+		mining = new UpdateMining();
+		footprints = new UpdateFootprints();
+		blockPlace = new UpdateBlockPlace();
 	}
 	public void updateLighting(Location location) {
 		lightingQueue.add(location);
 	}
 	public void updateBlock(Location location) {
-		if (dataManager.world.isStructBlock(location)) {
-			if (dataManager.world.getStructBlock(location) == dataManager.system.blockNameMap.get("torch").getID()) {
-				if (dataManager.world.getGroundBlock(location) == dataManager.system.blockNameMap.get("water").getID()) {
-					dataManager.world.removeStructBlock(location);
+		if (DataManager.world.isStructBlock(location)) {
+			if (DataManager.world.getStructBlock(location) == DataManager.system.blockNameMap.get("torch").getID()) {
+				if (DataManager.world.getGroundBlock(location) == DataManager.system.blockNameMap.get("water").getID()) {
+					DataManager.world.removeStructBlock(location);
 				}
 			}
 		}
@@ -42,9 +40,9 @@ public class BlockUpdateManager extends Thread {
 	@Override
 	public void run() {
 		//int i = 0;
-		while (dataManager.system.running) {
+		while (DataManager.system.running) {
 			try {
-				if (!dataManager.system.isGameOnLaunchScreen) {
+				if (!DataManager.system.isGameOnLaunchScreen) {
 					//i++;
 					//if (i % 30 == 0) melt();
 					mining.update();
@@ -52,7 +50,7 @@ public class BlockUpdateManager extends Thread {
 					footprints.update();
 					
 				}
-				Thread.sleep(dataManager.settings.tickLength);
+				Thread.sleep(DataManager.settings.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
