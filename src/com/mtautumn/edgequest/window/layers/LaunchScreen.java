@@ -21,18 +21,19 @@ public class LaunchScreen {
 	}
 
 	private static void drawLogo(Renderer r) {
-		r.drawTexture(r.textureManager.getTexture("launchScreenLogo"), (r.dataManager.settings.screenWidth / 2 - 200), 80, 400, 48);
+		r.drawTexture(r.textureManager.getTexture("launchScreenLogo"), (r.dataManager.settings.screenWidth / 2 - 300 * (float)r.dataManager.system.uiZoom), 40* (float)r.dataManager.system.uiZoom, 600* (float)r.dataManager.system.uiZoom, 166* (float)r.dataManager.system.uiZoom);
 	}
 
 	private static void drawButtons(Renderer r) {
+		float yOffset = 206 * (float)r.dataManager.system.uiZoom;
 		LaunchScreenPane pane = r.launchScreenManager.getCurrentMenu();
 		for (int i = 0; i<pane.getCount(); i++) {
 			MenuButton button = pane.getButtons().get(i);
 			if (button.visible) {
-				r.drawTexture(button.buttonImage, r.dataManager.settings.screenWidth / 2.0f + button.getPosX(), r.dataManager.settings.screenHeight / 2.0f + button.getPosY(), button.getWidth(), button.getHeight());
+				r.drawTexture(button.buttonImage, r.dataManager.settings.screenWidth / 2.0f + button.getPosX(), yOffset + (r.dataManager.settings.screenHeight - yOffset) / 2.0f + button.getPosY(), button.getWidth(), button.getHeight());
 				int height = r.buttonFont.getHeight(button.displayName);
 				int width = r.buttonFont.getWidth(button.displayName);
-				r.buttonFont.drawString(r.dataManager.settings.screenWidth / 2.0f + button.getPosX() + (button.getWidth() - width) / 2, r.dataManager.settings.screenHeight / 2.0f + button.getPosY() + (button.getHeight() * 0.85f - height) / 2, button.displayName);
+				r.buttonFont.drawString(r.dataManager.settings.screenWidth / 2.0f + button.getPosX() + (button.getWidth() - width) / 2, yOffset + (r.dataManager.settings.screenHeight - yOffset) / 2.0f + button.getPosY() + (button.getHeight() * 0.85f - height) / 2, button.displayName);
 			}
 		}
 		if (pane.parent != null) {

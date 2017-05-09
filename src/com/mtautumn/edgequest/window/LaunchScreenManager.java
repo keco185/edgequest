@@ -33,11 +33,13 @@ public class LaunchScreenManager {
 				currentMenu = parent;
 			}
 		}
+		double yOffset = 206 * dataManager.system.uiZoom;
 		posX -= dataManager.settings.screenWidth / 2;
-		posY -= dataManager.settings.screenHeight / 2;
+		posY -= (dataManager.settings.screenHeight - yOffset) / 2;
+		
 		for (int i = 0; i < getCurrentMenu().getButtons().size(); i++) {
 			MenuButton button = getCurrentMenu().getButtons().get(i);
-			if (posX > button.getX() && posX < button.getX() + button.getWidth() && posY > button.getY() && posY < button.getY() + button.getHeight()) {
+			if (posX > button.getX() && posX < button.getX() + button.getWidth() && posY > button.getY() + yOffset && posY < button.getY() + button.getHeight() + yOffset) {
 				if (button.visible) {
 					runButtonAction(button.name);
 				}
@@ -82,7 +84,7 @@ public class LaunchScreenManager {
 		//private static final int SPACING_X = 256;
 		private static final int SPACING_Y = 57;
 		private static final int START_X = -128;
-		private static final int START_Y = -159;
+		private static final int START_Y = -229;
 		private int currentX = START_X;
 		private int currentY = START_Y;
 		private ArrayList<MenuButton> buttons = new ArrayList<MenuButton>();
@@ -138,7 +140,7 @@ public class LaunchScreenManager {
 			}
 		}
 		public int getPosX() {
-			return (int)(posX * dataManager.system.uiZoom);
+			return -(getWidth() / 2);
 		}
 		public int getPosY() {
 			return (int)(posY * dataManager.system.uiZoom);
