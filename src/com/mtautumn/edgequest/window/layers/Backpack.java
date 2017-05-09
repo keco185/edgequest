@@ -23,8 +23,8 @@ public class Backpack {
 		int spaceYMult = (int)(65 * r.dataManager.system.uiZoom);
 		int spaceXAdd = (int)(37 * r.dataManager.system.uiZoom);
 		int spaceYAdd = (int)(94 * r.dataManager.system.uiZoom);
-		for (int i = 2; i < r.dataManager.savable.backpackItems.length; i++) {
-			int posX = r.dataManager.system.menuX + (i - 2) * spaceXMult + spaceXAdd;
+		for (int i = 0; i < r.dataManager.savable.backpackItems.length - 1; i++) {
+			int posX = r.dataManager.system.menuX + (i) * spaceXMult + spaceXAdd;
 			for (int j = 0; j < r.dataManager.savable.backpackItems[i].length; j++) {
 				int posY = r.dataManager.system.menuY + j * spaceYMult + spaceYAdd;
 				try {

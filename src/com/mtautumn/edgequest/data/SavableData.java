@@ -37,8 +37,14 @@ public class SavableData implements Serializable {
 	public int dungeonLevel = -1;
 	public int lastDungeonLevel = -1;
 	public int entityID = 0;
-	public int hotBarSelection = 0;
-	public ItemSlot[][] backpackItems = new ItemSlot[8][6];
+	//public int hotBarSelection = 0;
+	public ItemSlot[][] backpackItems = new ItemSlot[7][6];
+	public ItemSlot leftEquipt() {
+		return backpackItems[6][0];
+	}
+	public ItemSlot rightEquipt() {
+		return backpackItems[6][1];
+	}
 	public ItemSlot mouseItem = new ItemSlot();
 	public String saveName = "";
 }

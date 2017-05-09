@@ -184,13 +184,13 @@ public class Character extends Entity {
 	public BlockItem getHeldItem(int slot) {
 		switch (slot) {
 		case 0:
-			if (dm.savable.backpackItems[0][dm.savable.hotBarSelection].getItemCount() > 0) {
-				return dm.system.blockIDMap.get(dm.savable.backpackItems[0][dm.savable.hotBarSelection].getItemID());
+			if (dm.savable.leftEquipt().getItemCount() > 0) {
+				return dm.system.blockIDMap.get(dm.savable.leftEquipt().getItemID());
 			}
 			return null;
 		case 1:
-			if (dm.savable.backpackItems[1][dm.savable.hotBarSelection].getItemCount() > 0) {
-				return dm.system.blockIDMap.get(dm.savable.backpackItems[1][dm.savable.hotBarSelection].getItemID());
+			if (dm.savable.rightEquipt().getItemCount() > 0) {
+				return dm.system.blockIDMap.get(dm.savable.rightEquipt().getItemID());
 			}
 			return null;
 		default:
@@ -198,18 +198,22 @@ public class Character extends Entity {
 		}
 	}
 	public void removeHeldItem(int slot) {
-		dm.savable.backpackItems[slot][dm.savable.hotBarSelection] = new ItemSlot();
+		if (slot == 0) {
+			dm.savable.backpackItems[6][0] = new ItemSlot();
+		} else if (slot == 1) {
+			dm.savable.backpackItems[6][1] = new ItemSlot();
+		}
 	}
 	public ItemSlot getHeldItemSlot(int slot) {
 		switch (slot) {
 		case 0:
-			if (dm.savable.backpackItems[0][dm.savable.hotBarSelection].getItemCount() > 0) {
-				return dm.savable.backpackItems[0][dm.savable.hotBarSelection];
+			if (dm.savable.leftEquipt().getItemCount() > 0) {
+				return dm.savable.leftEquipt();
 			}
 			return null;
 		case 1:
-			if (dm.savable.backpackItems[1][dm.savable.hotBarSelection].getItemCount() > 0) {
-				return dm.savable.backpackItems[1][dm.savable.hotBarSelection];
+			if (dm.savable.rightEquipt().getItemCount() > 0) {
+				return dm.savable.rightEquipt();
 			}
 			return null;
 		default:

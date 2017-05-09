@@ -10,6 +10,18 @@ public class StatsBar {
 		drawHealth(r);
 		drawStamina(r);
 		drawBackground(r);
+		if (r.dataManager.savable.leftEquipt().getItemCount() > 0) {
+			int posX = (int) (r.dataManager.settings.screenWidth / 2 - 252 * r.dataManager.system.uiZoom);
+			int posY = (int) (16 * r.dataManager.system.uiZoom);
+			int width = (int) (56 * r.dataManager.system.uiZoom);
+			r.drawTexture(r.textureManager.getTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.leftEquipt().getItemID()).getItemImg(r.dataManager.system.animationClock)), posX, posY, width, width);
+		}
+		if (r.dataManager.savable.rightEquipt().getItemCount() > 0) {
+			int posX = (int) (r.dataManager.settings.screenWidth / 2 + 196 * r.dataManager.system.uiZoom);
+			int posY = (int) (16 * r.dataManager.system.uiZoom);
+			int width = (int) (56 * r.dataManager.system.uiZoom);
+			r.drawTexture(r.textureManager.getTexture(r.dataManager.system.blockIDMap.get(r.dataManager.savable.rightEquipt().getItemID()).getItemImg(r.dataManager.system.animationClock)), posX, posY, width, width);
+		}
 	}
 	
 	private static void drawHealth(Renderer r) {

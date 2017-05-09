@@ -31,22 +31,22 @@ public class UpdateBlockPlace {
 		Location checkLocation = new Location(dataManager.characterManager.characterEntity);
 		checkLocation.x = x;
 		checkLocation.y = y;
-		if (!dataManager.world.isStructBlock(checkLocation) && dataManager.savable.backpackItems[click][dataManager.savable.hotBarSelection].getItemCount() > 0) {
+		if (!dataManager.world.isStructBlock(checkLocation) && dataManager.savable.backpackItems[6][click].getItemCount() > 0) {
 			BlockItem item = dataManager.system.blockIDMap.get(dataManager.world.getGroundBlock(checkLocation));
 			BlockItem slotItem = dataManager.system.blockIDMap.get(dataManager.backpackManager.getCurrentSelection()[click].getItemID());
 			if ((item.isName("water") || item.isName("ground")) && slotItem.isSolid) {
 				dataManager.world.setGroundBlock(checkLocation, slotItem.getID());
-				dataManager.savable.backpackItems[click][dataManager.savable.hotBarSelection].subtractOne();
+				dataManager.savable.backpackItems[6][click].subtractOne();
 			} else if ((item.isName("grass") || item.isName("dirt")) && slotItem.isName("snow")) {
 				dataManager.world.setGroundBlock(checkLocation, slotItem.getID());
-				dataManager.savable.backpackItems[click][dataManager.savable.hotBarSelection].subtractOne();
+				dataManager.savable.backpackItems[6][click].subtractOne();
 			} else {
 				dataManager.world.setStructBlock(checkLocation, slotItem.getID());
-				dataManager.savable.backpackItems[click][dataManager.savable.hotBarSelection].subtractOne();
+				dataManager.savable.backpackItems[6][click].subtractOne();
 			}
 			dataManager.blockUpdateManager.updateBlock(checkLocation);
-			if (dataManager.savable.backpackItems[click][dataManager.savable.hotBarSelection].getItemCount() <= 0) {
-				dataManager.savable.backpackItems[click][dataManager.savable.hotBarSelection] = new ItemSlot();
+			if (dataManager.savable.backpackItems[6][click].getItemCount() <= 0) {
+				dataManager.savable.backpackItems[6][click] = new ItemSlot();
 			}
 		}
 	}

@@ -43,12 +43,11 @@ public class EdgeQuest {
 		}
 		//dataManager.system.buttonActionQueue.add("fullScreen"); //Sets the game to full screen
 		Thread.sleep(2000);
-		dataManager.settings.targetBlockSize = (float) (16 * dataManager.system.uiZoom);
-		dataManager.settings.blockSize = (float) (16 * dataManager.system.uiZoom);
+		dataManager.settings.targetBlockSize = (float) (64 * dataManager.system.uiZoom);
+		dataManager.settings.blockSize = (float) (64 * dataManager.system.uiZoom);
 		while(!dataManager.system.characterLocationSet || dataManager.system.loadingWorld) {
 			Thread.sleep(100);
 		}
-		dataManager.settings.targetBlockSize = (float) (32 * dataManager.system.uiZoom);
 		Thread.sleep(3000);
 		dataManager.settings.zoomSpeed = 0.001;
 	}

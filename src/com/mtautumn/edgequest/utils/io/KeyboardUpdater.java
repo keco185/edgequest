@@ -64,7 +64,7 @@ public class KeyboardUpdater {
 					dataManager.system.isKeyboardSprint = keySprint;
 					dataManager.system.isKeyboardTravel = keyTravel;
 					
-					performNumberKeyActions();
+					//performNumberKeyActions();
 					
 					if (isPlayerAiming()) {
 						dataManager.system.isAiming = true;
@@ -167,7 +167,7 @@ public class KeyboardUpdater {
 		}
 	}
 	
-	private void performNumberKeyActions() {
+	/*private void performNumberKeyActions() {
 		if (Keyboard.isKeyDown(Keyboard.KEY_1)) {
 			dataManager.savable.hotBarSelection = 0;
 		}
@@ -186,7 +186,7 @@ public class KeyboardUpdater {
 		if (Keyboard.isKeyDown(Keyboard.KEY_6)) {
 			dataManager.savable.hotBarSelection = 5;
 		}
-	}
+	}*/
 	
 	private void updateMovementKeys(boolean keyUp, boolean keyRight, boolean keyDown, boolean keyLeft) {
 		dataManager.system.isKeyboardUp = keyUp;

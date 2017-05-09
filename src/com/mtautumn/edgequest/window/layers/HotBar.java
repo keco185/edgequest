@@ -5,7 +5,7 @@ import org.newdawn.slick.Color;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class HotBar {
-	public static final int HOTBAR_WIDTH = 125;
+	/*public static final int HOTBAR_WIDTH = 125;
 	public static final int HOTBAR_HEIGHT = 403;
 	public static final int START_X = 20;
 	public static final int START_Y = 66;
@@ -48,6 +48,6 @@ public class HotBar {
 			}
 		}
 		
-	}
+	}*/
 	
 }

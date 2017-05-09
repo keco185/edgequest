@@ -36,11 +36,11 @@ public class Layers {
 			if (!r.dataManager.system.hideMouse) {
 				MouseSelection.draw(r);
 			}
-			StatsBar.draw(r);
 			if (r.dataManager.system.isKeyboardBackpack) {
 				Backpack.draw(r);
 			}
-			HotBar.draw(r);
+			StatsBar.draw(r);
+			//HotBar.draw(r);
 			MouseItem.draw(r);
 			if (!r.dataManager.system.characterLocationSet || r.dataManager.system.loadingWorld) {
 				LoadingScreen.draw(r);
