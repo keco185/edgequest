@@ -35,6 +35,25 @@ public class TextureManager {
 		}
 		return baseLocal;
 	}
+	private void reload() {
+		reloadScheduled = false;
+		for (Texture texture : textureList.values()) {
+			texture.release();
+		}
+		textureList.clear();
+		textureAnimations.put("waterSplash", new int[]{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2});
+		addGameTextures();
+		addBlockTextures();
+		addItemTextures();
+		addEntityTextures();
+		addProjectileTextures();
+		addParticleTextures();
+		addDropTextures();
+	}
+	private boolean reloadScheduled = false;
+	public void scheduleReload() {
+		reloadScheduled = true;
+	}
 	public TextureManager() {
 	try {
 		jarLocal = getLocal();
@@ -52,6 +71,9 @@ public class TextureManager {
 		addDropTextures();
 	}
 	public Texture getTexture(String texture) {
+		if (reloadScheduled) {
+			reload();
+		}
 		return textureList.get(texture);
 	}
 	public Texture getAnimatedTexture(String texture) {

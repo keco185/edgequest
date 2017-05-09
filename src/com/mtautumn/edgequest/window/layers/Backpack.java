@@ -18,7 +18,7 @@ public class Backpack {
 	private static void drawBackground(Renderer r) {
 		SystemData.menuX = SettingsData.screenWidth / 2 - (int) (375 * SystemData.uiZoom);
 		SystemData.menuY = SettingsData.screenHeight/2 - (int) (250 * SystemData.uiZoom);
-		r.drawTexture(r.textureManager.getTexture("backpack"), SystemData.menuX, SystemData.menuY, (int)(750 * SystemData.uiZoom),(int)(500 * SystemData.uiZoom));
+		r.drawTexture(r.textureManager.getTexture("backpackBackground"), SystemData.menuX, SystemData.menuY, (int)(750 * SystemData.uiZoom),(int)(500 * SystemData.uiZoom));
 	}
 	
 	private static void drawSpaces(Renderer r) {
@@ -30,6 +30,7 @@ public class Backpack {
 			int posX = SystemData.menuX + (i) * spaceXMult + spaceXAdd;
 			for (int j = 0; j < DataManager.savable.backpackItems[i].length; j++) {
 				int posY = SystemData.menuY + j * spaceYMult + spaceYAdd;
+				r.drawTexture(r.textureManager.getTexture("backpackSlot"), posX, posY, (int)(48 * SystemData.uiZoom), (int)(48 * SystemData.uiZoom));
 				try {
 					if (DataManager.savable.backpackItems[i][j].getItemCount() > 0) {
 						r.drawTexture(r.textureManager.getTexture(SystemData.blockIDMap.get(DataManager.savable.backpackItems[i][j].getItemID()).getItemImg(SystemData.animationClock)), posX, posY, (int)(48 * SystemData.uiZoom), (int)(48 * SystemData.uiZoom));

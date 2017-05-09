@@ -42,6 +42,7 @@ public class ConsoleManager {
 		commands.add(new Help());
 		commands.add(new KillAll());
 		commands.add(new Lighting());
+		commands.add(new ReloadTextures());
 		commands.add(new Reseed());
 		commands.add(new Sanic());
 		commands.add(new Seed());
