@@ -1,6 +1,8 @@
 package com.mtautumn.edgequest.threads;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.entities.Entity;
 
 public class EntityUpdater extends Thread{
@@ -10,13 +12,13 @@ public class EntityUpdater extends Thread{
 		double deltaY = Math.sin(theta) * r;
 		if (!DataManager.world.isStructBlock((int)(deltaX + x), (int)(deltaY + y), entity.dungeonLevel)) {
 			entity.setPos(deltaX + x, deltaY + y);
-		} else if (!DataManager.system.blockIDMap.get(DataManager.world.getStructBlock((int)(deltaX + x), (int)(deltaY + y), entity.dungeonLevel)).isSolid) {
+		} else if (!SystemData.blockIDMap.get(DataManager.world.getStructBlock((int)(deltaX + x), (int)(deltaY + y), entity.dungeonLevel)).isSolid) {
 			entity.setPos(deltaX + x, deltaY + y);
 		}
 	}
 	@Override
 	public void run() {
-		while(DataManager.system.running) {
+		while(SystemData.running) {
 			try {
 				for (int i = 0; i < DataManager.savable.entities.size(); i++) {
 					if (DataManager.savable.entities.get(i).dungeonLevel == DataManager.characterManager.characterEntity.dungeonLevel) {
@@ -41,7 +43,7 @@ public class EntityUpdater extends Thread{
 									DataManager.savable.entities.remove(i);
 									i--;
 								} else {
-									DataManager.system.noticeText.add("Looks like you died... Oops");
+									SystemData.noticeText.add("Looks like you died... Oops");
 									DataManager.characterManager.characterEntity.health = DataManager.characterManager.characterEntity.maxHealth;
 									for (int j = 0; j < DataManager.savable.entities.size(); j++) {
 										if (DataManager.savable.entities.get(j).entityType != Entity.EntityType.character) {
@@ -54,7 +56,7 @@ public class EntityUpdater extends Thread{
 						}
 					}
 				}
-				Thread.sleep(DataManager.settings.tickLength);
+				Thread.sleep(SettingsData.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

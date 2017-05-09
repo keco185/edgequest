@@ -4,6 +4,8 @@
 package com.mtautumn.edgequest;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 
 /*
  * 
@@ -20,15 +22,15 @@ public class EdgeQuest {
 		switch (os) {
 		case 108:
 			System.out.println("Setting OS to GNU/Linux");
-			DataManager.system.os = 0;
+			SystemData.os = 0;
 			break;
 		case 109:
 			System.out.println("Setting OS to macOS");
-			DataManager.system.os = 1;
+			SystemData.os = 1;
 			break;
 		case 119:
 			System.out.println("Setting OS to Windows");
-			DataManager.system.os = 2;
+			SystemData.os = 2;
 			break;
 		default:
 			break;
@@ -38,17 +40,17 @@ public class EdgeQuest {
 		DataManager.start();
 		
 		//Waits for the game to load
-		while(!DataManager.system.gameLoaded) {
+		while(!SystemData.gameLoaded) {
 			Thread.sleep(100);
 		}
 		//dataManager.system.buttonActionQueue.add("fullScreen"); //Sets the game to full screen
 		Thread.sleep(2000);
-		DataManager.settings.targetBlockSize = (float) (64 * DataManager.system.uiZoom);
-		DataManager.settings.blockSize = (float) (64 * DataManager.system.uiZoom);
-		while(!DataManager.system.characterLocationSet || DataManager.system.loadingWorld) {
+		SettingsData.targetBlockSize = (float) (64 * SystemData.uiZoom);
+		SettingsData.blockSize = (float) (64 * SystemData.uiZoom);
+		while(!SystemData.characterLocationSet || SystemData.loadingWorld) {
 			Thread.sleep(100);
 		}
 		Thread.sleep(3000);
-		DataManager.settings.zoomSpeed = 0.001;
+		SettingsData.zoomSpeed = 0.001;
 	}
 }

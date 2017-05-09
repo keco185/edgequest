@@ -6,6 +6,7 @@ package com.mtautumn.edgequest.updates;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.dataObjects.Triangle;
@@ -273,7 +274,7 @@ public class UpdateRayCast {
 		int x1 = (int) Math.floor(x);
 		int y1 = (int) Math.floor(y);
 		if (DataManager.world.isStructBlock(x1, y1, level)) {
-			return !DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(x1, y1, level)).isPassable;
+			return !SystemData.blockIDMap.get(DataManager.world.getStructBlock(x1, y1, level)).isPassable;
 		}
 		return false;
 	}

@@ -2,14 +2,14 @@ package com.mtautumn.edgequest.console.commands;
 
 import java.util.ArrayList;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
 
 public class Zoom extends Command {
 
 	@Override
 	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
-			DataManager.settings.targetBlockSize = Float.parseFloat(args.get(0));
+			SettingsData.targetBlockSize = Float.parseFloat(args.get(0));
 			addInfoLine("Zooming out to a zoom level of " + args.get(0));
 		} else {
 			addErrorLine("use the format " + usage());

@@ -60,10 +60,10 @@ public class DataManager {
 		}
 		savable.entities.clear();
 		characterManager.createCharacterEntity();
-		system.blockGenerationLastTick = true;
-		system.isGameOnLaunchScreen = false;
-		system.isLaunchScreenLoaded = false;
-		system.requestGenUpdate = true;
+		SystemData.blockGenerationLastTick = true;
+		SystemData.isGameOnLaunchScreen = false;
+		SystemData.isLaunchScreenLoaded = false;
+		SystemData.requestGenUpdate = true;
 	}
 
 	// Reset the terrain
@@ -72,7 +72,7 @@ public class DataManager {
 		world.wipeMaps();
 		savable.footPrints.clear();
 		savable.dungeonLevel = -1;
-		system.requestGenUpdate = true;
+		SystemData.requestGenUpdate = true;
 	}
 
 	// Start the managers
@@ -95,7 +95,7 @@ public class DataManager {
 		particleManager.start();
 		itemDropManager.start();
 		weatherManager.start();
-		system.requestGenUpdate = true;
+		SystemData.requestGenUpdate = true;
 	}
 
 }

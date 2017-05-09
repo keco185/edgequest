@@ -5,6 +5,8 @@ package com.mtautumn.edgequest.threads;
 
 import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.entities.Character;
 
@@ -18,11 +20,11 @@ public class CharacterManager extends Thread{
 		Location location = new Location(characterEntity);
 		if (!DataManager.world.isStructBlock(location)) {
 			if (!characterEntity.getRelativeGroundBlock(0, 0).isLiquid) {
-				DataManager.world.setStructBlock(location, DataManager.system.blockNameMap.get("torch").getID());
+				DataManager.world.setStructBlock(location, SystemData.blockNameMap.get("torch").getID());
 				DataManager.world.addLightSource(location);
 				blockUpdateManager.updateBlock(location);
 			}
-		} else if (DataManager.world.getStructBlock(location) == DataManager.system.blockNameMap.get("torch").getID()) {
+		} else if (DataManager.world.getStructBlock(location) == SystemData.blockNameMap.get("torch").getID()) {
 			DataManager.world.removeStructBlock(location);
 			DataManager.world.removeLightSource(location);
 			blockUpdateManager.updateBlock(location);
@@ -31,21 +33,21 @@ public class CharacterManager extends Thread{
 	@Override
 	public void run() {
 		createCharacterEntity();
-		while (DataManager.system.running) {
+		while (SystemData.running) {
 			try {
-				if (!DataManager.system.characterLocationSet) {
+				if (!SystemData.characterLocationSet) {
 					Location location = new Location(characterEntity);
 					if (DataManager.world.isGroundBlock(location)) {
-						BlockItem charBlock = DataManager.system.blockIDMap.get(DataManager.world.getGroundBlock(location));
+						BlockItem charBlock = SystemData.blockIDMap.get(DataManager.world.getGroundBlock(location));
 						if (charBlock.isName("water") || charBlock.isName("ice")) {
 							characterEntity.setPos(characterEntity.getX()+1, characterEntity.getY());
 						} else {
-							DataManager.system.characterLocationSet = true;
+							SystemData.characterLocationSet = true;
 							characterEntity.move(0.5, 0.5);
 						}
 					}
 				}
-				Thread.sleep(DataManager.settings.tickLength);
+				Thread.sleep(SettingsData.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

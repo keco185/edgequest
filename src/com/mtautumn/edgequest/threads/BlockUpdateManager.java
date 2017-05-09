@@ -6,6 +6,8 @@ package com.mtautumn.edgequest.threads;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.updates.UpdateBlockPlace;
 import com.mtautumn.edgequest.updates.UpdateFootprints;
@@ -29,8 +31,8 @@ public class BlockUpdateManager extends Thread {
 	}
 	public void updateBlock(Location location) {
 		if (DataManager.world.isStructBlock(location)) {
-			if (DataManager.world.getStructBlock(location) == DataManager.system.blockNameMap.get("torch").getID()) {
-				if (DataManager.world.getGroundBlock(location) == DataManager.system.blockNameMap.get("water").getID()) {
+			if (DataManager.world.getStructBlock(location) == SystemData.blockNameMap.get("torch").getID()) {
+				if (DataManager.world.getGroundBlock(location) == SystemData.blockNameMap.get("water").getID()) {
 					DataManager.world.removeStructBlock(location);
 				}
 			}
@@ -40,9 +42,9 @@ public class BlockUpdateManager extends Thread {
 	@Override
 	public void run() {
 		//int i = 0;
-		while (DataManager.system.running) {
+		while (SystemData.running) {
 			try {
-				if (!DataManager.system.isGameOnLaunchScreen) {
+				if (!SystemData.isGameOnLaunchScreen) {
 					//i++;
 					//if (i % 30 == 0) melt();
 					mining.update();
@@ -50,7 +52,7 @@ public class BlockUpdateManager extends Thread {
 					footprints.update();
 					
 				}
-				Thread.sleep(DataManager.settings.tickLength);
+				Thread.sleep(SettingsData.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

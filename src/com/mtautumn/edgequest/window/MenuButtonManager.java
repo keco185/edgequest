@@ -6,7 +6,8 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 
 public class MenuButtonManager {
 	public ArrayList<MenuPane> menus = new ArrayList<MenuPane>();
@@ -37,7 +38,7 @@ public class MenuButtonManager {
 	}
 	public MenuPane getCurrentMenu() {
 		for (int i = 0; i < menus.size(); i++) {
-			if (menus.get(i).name.equals(DataManager.system.currentMenu)) {
+			if (menus.get(i).name.equals(SystemData.currentMenu)) {
 				return menus.get(i);
 			}
 		}
@@ -53,9 +54,9 @@ public class MenuButtonManager {
 		return button;
 	}
 	public void buttonPressed(int posX, int posY) {
-		int adjustedX = posX - DataManager.system.menuX;
-		int adjustedY = posY - DataManager.system.menuY;
-		if (adjustedX < DataManager.settings.BACK_BUTTON_SIZE * DataManager.system.uiZoom + DataManager.settings.BACK_BUTTON_PADDING_LEFT * DataManager.system.uiZoom && adjustedX > 0 && adjustedY < DataManager.settings.BACK_BUTTON_SIZE * DataManager.system.uiZoom + DataManager.settings.BACK_BUTTON_PADDING_TOP * DataManager.system.uiZoom && adjustedY > 0) {
+		int adjustedX = posX - SystemData.menuX;
+		int adjustedY = posY - SystemData.menuY;
+		if (adjustedX < SettingsData.BACK_BUTTON_SIZE * SystemData.uiZoom + SettingsData.BACK_BUTTON_PADDING_LEFT * SystemData.uiZoom && adjustedX > 0 && adjustedY < SettingsData.BACK_BUTTON_SIZE * SystemData.uiZoom + SettingsData.BACK_BUTTON_PADDING_TOP * SystemData.uiZoom && adjustedY > 0) {
 			runButtonAction("Go To Parent");
 		}
 		for (int i = 0; i < getCurrentMenu().getButtons().size(); i++) {
@@ -68,7 +69,7 @@ public class MenuButtonManager {
 		}
 	}
 	private static void runButtonAction(String name) {
-		DataManager.system.buttonActionQueue.add(name);
+		SystemData.buttonActionQueue.add(name);
 	}
 	public class MenuPane {
 		private static final int BUTTON_WIDTH = 186;
@@ -132,22 +133,22 @@ public class MenuButtonManager {
 			}
 		}
 		public int getPosX(int menuStartX) {
-			return (int)(posX * DataManager.system.uiZoom)+menuStartX;
+			return (int)(posX * SystemData.uiZoom)+menuStartX;
 		}
 		public int getPosY(int menuStartY) {
-			return (int)(posY * DataManager.system.uiZoom)+menuStartY;
+			return (int)(posY * SystemData.uiZoom)+menuStartY;
 		}
 		public int getX() {
-			return (int)(posX * DataManager.system.uiZoom);
+			return (int)(posX * SystemData.uiZoom);
 		}
 		public int getY() {
-			return (int)(posY * DataManager.system.uiZoom);
+			return (int)(posY * SystemData.uiZoom);
 		}
 		public int getWidth() {
-			return (int) (width * DataManager.system.uiZoom);
+			return (int) (width * SystemData.uiZoom);
 		}
 		public int getHeight() {
-			return (int) (height * DataManager.system.uiZoom);
+			return (int) (height * SystemData.uiZoom);
 		}
 	}
 }

@@ -2,7 +2,7 @@ package com.mtautumn.edgequest.dataObjects;
 
 import org.newdawn.slick.opengl.Texture;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class ItemDrop {
@@ -17,16 +17,16 @@ public class ItemDrop {
 		this.y = y;
 		this.level = level;
 		this.item = item;
-		creationTime = DataManager.system.animationClock;
+		creationTime = SystemData.animationClock;
 	}
 	public Texture getTexture(Renderer r) {
 		if (item.getItemCount() > 0) {
-			return r.textureManager.getTexture(DataManager.system.blockIDMap.get(item.getItemID()).getDropImg(DataManager.system.animationClock));
+			return r.textureManager.getTexture(SystemData.blockIDMap.get(item.getItemID()).getDropImg(SystemData.animationClock));
 		}
 		return r.textureManager.getTexture("none");
 	}
 	public float getRotation() {
-		return (DataManager.system.animationClock - creationTime) / 30.0f;
+		return (SystemData.animationClock - creationTime) / 30.0f;
 	}
 	public void update() {
 		age++;

@@ -1,6 +1,7 @@
 package com.mtautumn.edgequest.entities;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
 
 public class Ant extends Entity {
@@ -63,7 +64,7 @@ public class Ant extends Entity {
 		}
 		super.updateRotation(lastX, lastY);
 		if (DataManager.world.isStructBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
-			if (DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(this,(int) Math.floor(posX), (int) Math.floor(posY))).hardness > -1) {
+			if (SystemData.blockIDMap.get(DataManager.world.getStructBlock(this,(int) Math.floor(posX), (int) Math.floor(posY))).hardness > -1) {
 				DataManager.world.removeStructBlock(this, (int) Math.floor(posX), (int) Math.floor(posY));
 				DataManager.blockUpdateManager.updateBlock(new Location(this));
 			}
@@ -79,12 +80,12 @@ public class Ant extends Entity {
 			newY = newVal;
 		}
 		if (DataManager.world.isStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
-			if (DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))).hardness == -1) {
+			if (SystemData.blockIDMap.get(DataManager.world.getStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))).hardness == -1) {
 				return false;
 			}
 		}
 		if (DataManager.world.isGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
-			if (DataManager.world.getGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY)) == DataManager.system.blockNameMap.get("water").getID()) {
+			if (DataManager.world.getGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY)) == SystemData.blockNameMap.get("water").getID()) {
 				return false;
 			}
 			return true;

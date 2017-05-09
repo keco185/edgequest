@@ -6,7 +6,7 @@ package com.mtautumn.edgequest.blockitems;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
 
 public class BlockItem implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -50,7 +50,7 @@ public class BlockItem implements Serializable {
 		if (isBlock) {
 			for (Short i = 0; i < blockAnimation.length; i++) {
 				blockImg.add(name + blockAnimation[i]);
-				blockImgAtlas.add(DataManager.settings.atlasMap.get(name + blockAnimation[i]));
+				blockImgAtlas.add(SettingsData.atlasMap.get(name + blockAnimation[i]));
 			}
 		}
 		if (isItem) {

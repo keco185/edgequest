@@ -6,7 +6,8 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 
 public class LaunchScreenManager {
 	public ArrayList<LaunchScreenPane> menus = new ArrayList<LaunchScreenPane>();
@@ -25,15 +26,15 @@ public class LaunchScreenManager {
 		menus.add(settingsMenu);
 	}
 	public void buttonPressed(int posX, int posY) {
-		if (posX < DataManager.settings.BACK_BUTTON_SIZE * DataManager.system.uiZoom + DataManager.settings.BACK_BUTTON_PADDING_LEFT * DataManager.system.uiZoom && posX > 0 && posY < DataManager.settings.BACK_BUTTON_SIZE * DataManager.system.uiZoom + DataManager.settings.BACK_BUTTON_PADDING_TOP * DataManager.system.uiZoom && posY > 0) {
+		if (posX < SettingsData.BACK_BUTTON_SIZE * SystemData.uiZoom + SettingsData.BACK_BUTTON_PADDING_LEFT * SystemData.uiZoom && posX > 0 && posY < SettingsData.BACK_BUTTON_SIZE * SystemData.uiZoom + SettingsData.BACK_BUTTON_PADDING_TOP * SystemData.uiZoom && posY > 0) {
 			String parent = getCurrentMenu().parent;
 			if (parent != null) {
 				currentMenu = parent;
 			}
 		}
-		double yOffset = 206 * DataManager.system.uiZoom;
-		posX -= DataManager.settings.screenWidth / 2;
-		posY -= (DataManager.settings.screenHeight - yOffset) / 2;
+		double yOffset = 206 * SystemData.uiZoom;
+		posX -= SettingsData.screenWidth / 2;
+		posY -= (SettingsData.screenHeight - yOffset) / 2;
 		
 		for (int i = 0; i < getCurrentMenu().getButtons().size(); i++) {
 			MenuButton button = getCurrentMenu().getButtons().get(i);
@@ -73,7 +74,7 @@ public class LaunchScreenManager {
 		if (name.equals("settings")) {
 			currentMenu = "Settings";
 		} else {
-			DataManager.system.buttonActionQueue.add(name);
+			SystemData.buttonActionQueue.add(name);
 		}
 	}
 	public class LaunchScreenPane {
@@ -141,19 +142,19 @@ public class LaunchScreenManager {
 			return -(getWidth() / 2);
 		}
 		public int getPosY() {
-			return (int)(posY * DataManager.system.uiZoom);
+			return (int)(posY * SystemData.uiZoom);
 		}
 		public int getX() {
-			return (int)(posX * DataManager.system.uiZoom);
+			return (int)(posX * SystemData.uiZoom);
 		}
 		public int getY() {
-			return (int)(posY * DataManager.system.uiZoom);
+			return (int)(posY * SystemData.uiZoom);
 		}
 		public int getWidth() {
-			return (int) (width * DataManager.system.uiZoom);
+			return (int) (width * SystemData.uiZoom);
 		}
 		public int getHeight() {
-			return (int) (height * DataManager.system.uiZoom);
+			return (int) (height * SystemData.uiZoom);
 		}
 	}
 

@@ -1,6 +1,8 @@
 package com.mtautumn.edgequest.threads;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.entities.Ant;
 import com.mtautumn.edgequest.entities.Character;
@@ -10,11 +12,11 @@ import com.mtautumn.edgequest.entities.Troll;
 public class EntitySpawn extends Thread {
 	@Override
 	public void run() {
-		while (DataManager.system.running) {
+		while (SystemData.running) {
 			try {
 
 
-				Thread.sleep(DataManager.settings.tickLength);
+				Thread.sleep(SettingsData.tickLength);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

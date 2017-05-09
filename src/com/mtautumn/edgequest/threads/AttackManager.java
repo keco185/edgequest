@@ -3,6 +3,8 @@ package com.mtautumn.edgequest.threads;
 import com.mtautumn.edgequest.blockitems.combat.Hands;
 import com.mtautumn.edgequest.blockitems.combat.Weapon;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.projectiles.Projectile;
 
@@ -11,15 +13,15 @@ public class AttackManager extends Thread {
 	@Override
 	public void run() {
 		boolean wasLeftMouseDown = false;
-		while (DataManager.system.running) {
+		while (SystemData.running) {
 			try {
-				if (DataManager.system.isAiming) { //Is player aiming
-					if (DataManager.system.leftMouseDown && !wasLeftMouseDown) { //Is player attacking
+				if (SystemData.isAiming) { //Is player aiming
+					if (SystemData.leftMouseDown && !wasLeftMouseDown) { //Is player attacking
 						performAttack();
 					}
-					wasLeftMouseDown = DataManager.system.leftMouseDown;
+					wasLeftMouseDown = SystemData.leftMouseDown;
 				}
-				Thread.sleep(DataManager.settings.tickLength);
+				Thread.sleep(SettingsData.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -38,7 +40,7 @@ public class AttackManager extends Thread {
 			for (int j = 0; j < DataManager.savable.backpackItems[i].length; j++) {
 				ItemSlot slot = DataManager.savable.backpackItems[i][j];
 				for (int k = 0; k < weapon.ammoTypes.length; k++) {
-					if (DataManager.system.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
+					if (SystemData.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
 						return true;
 					}
 				}
@@ -52,7 +54,7 @@ public class AttackManager extends Thread {
 				for (int j = 0; j < DataManager.savable.backpackItems[i].length; j++) {
 					ItemSlot slot = DataManager.savable.backpackItems[i][j];
 					for (int k = 0; k < weapon.ammoTypes.length; k++) {
-						if (DataManager.system.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
+						if (SystemData.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
 							return slot;
 						}
 					}
@@ -67,7 +69,7 @@ public class AttackManager extends Thread {
 				for (int j = 0; j < DataManager.savable.backpackItems[i].length; j++) {
 					ItemSlot slot = DataManager.savable.backpackItems[i][j];
 					for (int k = 0; k < weapon.ammoTypes.length; k++) {
-						if (DataManager.system.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
+						if (SystemData.blockIDMap.get(slot.getItemID()).isName(weapon.ammoTypes[k])) {
 							DataManager.savable.backpackItems[i][j].subtractOne();
 							if (DataManager.savable.backpackItems[i][j].getItemCount() <= 0) {
 								DataManager.savable.backpackItems[i][j] = new ItemSlot();
@@ -107,7 +109,7 @@ public class AttackManager extends Thread {
 			if (doesBackpackContainAmmo(attackWeapon)) {
 				ItemSlot slot = getAmmoSlot(attackWeapon);
 				removeAmmoFromSlot(attackWeapon);
-				projectiles = attackWeapon.createProjectiles(DataManager.system.blockIDMap.get(slot.getItemID()).getName(), DataManager.characterManager.characterEntity, offsetX, offsetY, handUsed);
+				projectiles = attackWeapon.createProjectiles(SystemData.blockIDMap.get(slot.getItemID()).getName(), DataManager.characterManager.characterEntity, offsetX, offsetY, handUsed);
 			} else if (attackWeapon.ammoTypes.length == 0) {
 				projectiles = attackWeapon.createProjectiles(null, DataManager.characterManager.characterEntity, offsetX, offsetY, handUsed);
 			} else {

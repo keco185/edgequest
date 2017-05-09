@@ -7,6 +7,7 @@ package com.mtautumn.edgequest.utils.io;
 import org.lwjgl.input.Keyboard;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.window.layers.OptionPane;
 
 public class TextFieldInputUpdater {
@@ -40,25 +41,25 @@ public class TextFieldInputUpdater {
 					keys[i] = KeyState.PRESSED;
 				} else if (keys[i] == KeyState.RELEASED) {
 					keys[i] = KeyState.ONCE;
-					if (DataManager.system.inputTextResponse.size() != 0 ) {						
-						String inputResponse = 	DataManager.system.inputTextResponse.get(DataManager.system.inputTextResponse.size() - 1);
+					if (SystemData.inputTextResponse.size() != 0 ) {						
+						String inputResponse = 	SystemData.inputTextResponse.get(SystemData.inputTextResponse.size() - 1);
 						if (Keyboard.getKeyName(i).equals("BACK") || Keyboard.getKeyName(i).equals("DELETE")) {
 							inputResponse = delete(inputResponse);
 						}
-						DataManager.system.inputTextResponse.set(DataManager.system.inputTextResponse.size() - 1, inputResponse + getKeyString(Keyboard.getKeyName(i)));
+						SystemData.inputTextResponse.set(SystemData.inputTextResponse.size() - 1, inputResponse + getKeyString(Keyboard.getKeyName(i)));
 						if (Keyboard.getKeyName(i).equals("RETURN") || Keyboard.getKeyName(i).equals("ENTER")) {
 							OptionPane.closeOptionPane();
 						}
 					} else {
 						if (wasConsoleUp) {
-							String inputResponse = DataManager.system.consoleText;
+							String inputResponse = SystemData.consoleText;
 							if (Keyboard.getKeyName(i).equals("BACK") || Keyboard.getKeyName(i).equals("DELETE")) {
 								inputResponse = delete(inputResponse);
 							}
-							DataManager.system.consoleText = inputResponse + getKeyString(Keyboard.getKeyName(i));
+							SystemData.consoleText = inputResponse + getKeyString(Keyboard.getKeyName(i));
 							if (Keyboard.getKeyName(i).equals("RETURN") || Keyboard.getKeyName(i).equals("ENTER")) {
-								DataManager.consoleManager.addLine(DataManager.system.consoleText);
-								DataManager.system.consoleText = "";
+								DataManager.consoleManager.addLine(SystemData.consoleText);
+								SystemData.consoleText = "";
 							}
 						}
 					}

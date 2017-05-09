@@ -6,6 +6,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.window.Renderer;
 import com.mtautumn.edgequest.window.layers.OptionPane;
 
@@ -28,12 +30,12 @@ public class MouseUpdater {
 		} else {
 			updateMousePosition();
 			if (wasLeftMouseJustPressed()) {
-				DataManager.system.autoWalk = false; //Disables A* walking
-				if (DataManager.system.isKeyboardMenu) { //Is in game menu screen
-					DataManager.menuButtonManager.buttonPressed(DataManager.system.mousePosition.x, DataManager.system.mousePosition.y); //Check button press
-				} else if (DataManager.system.isGameOnLaunchScreen) { //Is on game launch screen
-					renderer.launchScreenManager.buttonPressed(DataManager.system.mousePosition.x, DataManager.system.mousePosition.y); //Check button press
-				} else if (DataManager.system.isKeyboardTravel && !DataManager.system.hideMouse) {
+				SystemData.autoWalk = false; //Disables A* walking
+				if (SystemData.isKeyboardMenu) { //Is in game menu screen
+					DataManager.menuButtonManager.buttonPressed(SystemData.mousePosition.x, SystemData.mousePosition.y); //Check button press
+				} else if (SystemData.isGameOnLaunchScreen) { //Is on game launch screen
+					renderer.launchScreenManager.buttonPressed(SystemData.mousePosition.x, SystemData.mousePosition.y); //Check button press
+				} else if (SystemData.isKeyboardTravel && !SystemData.hideMouse) {
 					initiateAStarWalking();
 				}
 			}
@@ -44,14 +46,14 @@ public class MouseUpdater {
 	
 	private static void updateMouseHidden() {
 		try {
-			if (DataManager.system.hideMouse) {
+			if (SystemData.hideMouse) {
 				if (!Mouse.isGrabbed()) {
 					Mouse.setGrabbed(true);
 				}
 			} else {
 				if (Mouse.isGrabbed()) {
 					Mouse.setGrabbed(false);
-					Mouse.setCursorPosition(DataManager.system.mousePosition.x, DataManager.system.mousePosition.y);
+					Mouse.setCursorPosition(SystemData.mousePosition.x, SystemData.mousePosition.y);
 					Mouse.updateCursor();
 				}
 			}
@@ -61,29 +63,29 @@ public class MouseUpdater {
 	}
 	
 	private static void updateMouseButtonStates() {
-		DataManager.system.leftMouseDown = Mouse.isButtonDown(0);
-		DataManager.system.rightMouseDown = Mouse.isButtonDown(1);
+		SystemData.leftMouseDown = Mouse.isButtonDown(0);
+		SystemData.rightMouseDown = Mouse.isButtonDown(1);
 	}
 	
 	private static void updateMousePosition() {
-		DataManager.system.mousePosition = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
-		double offsetX = (DataManager.system.screenX * Double.valueOf(DataManager.settings.blockSize) - Double.valueOf(DataManager.settings.screenWidth) / 2.0);
-		double offsetY = (DataManager.system.screenY * Double.valueOf(DataManager.settings.blockSize) - Double.valueOf(DataManager.settings.screenHeight) / 2.0);
-		DataManager.system.mouseXExact = (offsetX + DataManager.system.mousePosition.getX())/Double.valueOf(DataManager.settings.blockSize);
-		DataManager.system.mouseYExact = (offsetY + DataManager.system.mousePosition.getY())/Double.valueOf(DataManager.settings.blockSize);
-		DataManager.system.mouseX = (int) Math.floor(DataManager.system.mouseXExact);
-		DataManager.system.mouseY = (int) Math.floor(DataManager.system.mouseYExact);
-		DataManager.system.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(DataManager.system.mouseX) - Math.floor(DataManager.characterManager.characterEntity.getX()), 2.0)+Math.pow(Double.valueOf(DataManager.system.mouseY) - Math.floor(DataManager.characterManager.characterEntity.getY()), 2.0)) > 3.0);
+		SystemData.mousePosition = new Point(Mouse.getX(), Display.getHeight() - Mouse.getY());
+		double offsetX = (SystemData.screenX * Double.valueOf(SettingsData.blockSize) - Double.valueOf(SettingsData.screenWidth) / 2.0);
+		double offsetY = (SystemData.screenY * Double.valueOf(SettingsData.blockSize) - Double.valueOf(SettingsData.screenHeight) / 2.0);
+		SystemData.mouseXExact = (offsetX + SystemData.mousePosition.getX())/Double.valueOf(SettingsData.blockSize);
+		SystemData.mouseYExact = (offsetY + SystemData.mousePosition.getY())/Double.valueOf(SettingsData.blockSize);
+		SystemData.mouseX = (int) Math.floor(SystemData.mouseXExact);
+		SystemData.mouseY = (int) Math.floor(SystemData.mouseYExact);
+		SystemData.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(SystemData.mouseX) - Math.floor(DataManager.characterManager.characterEntity.getX()), 2.0)+Math.pow(Double.valueOf(SystemData.mouseY) - Math.floor(DataManager.characterManager.characterEntity.getY()), 2.0)) > 3.0);
 	}
 	
 	private static void initiateAStarWalking() {
-		DataManager.system.autoWalkX = DataManager.system.mouseX;
-		DataManager.system.autoWalkY = DataManager.system.mouseY;
-		DataManager.characterManager.characterEntity.setDestination(DataManager.system.autoWalkX, DataManager.system.autoWalkY);
+		SystemData.autoWalkX = SystemData.mouseX;
+		SystemData.autoWalkY = SystemData.mouseY;
+		DataManager.characterManager.characterEntity.setDestination(SystemData.autoWalkX, SystemData.autoWalkY);
 	}
 	
 	private static boolean isTextPaneVisible() {
-		return DataManager.system.inputText.size() + DataManager.system.noticeText.size() > 0;
+		return SystemData.inputText.size() + SystemData.noticeText.size() > 0;
 	}
 	
 	private boolean wasLeftMouseJustPressed() {

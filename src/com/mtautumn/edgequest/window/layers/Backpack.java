@@ -3,34 +3,36 @@ package com.mtautumn.edgequest.window.layers;
 import org.newdawn.slick.Color;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Backpack {
 	
 	public static void draw(Renderer r) {
-		r.fillRect(0, 0, DataManager.settings.screenWidth, DataManager.settings.screenHeight, 0.2f,0.2f,0.2f, 0.7f);
+		r.fillRect(0, 0, SettingsData.screenWidth, SettingsData.screenHeight, 0.2f,0.2f,0.2f, 0.7f);
 		drawBackground(r);
 		drawSpaces(r);	
 	}
 	
 	private static void drawBackground(Renderer r) {
-		DataManager.system.menuX = DataManager.settings.screenWidth / 2 - (int) (375 * DataManager.system.uiZoom);
-		DataManager.system.menuY = DataManager.settings.screenHeight/2 - (int) (250 * DataManager.system.uiZoom);
-		r.drawTexture(r.textureManager.getTexture("backpack"), DataManager.system.menuX, DataManager.system.menuY, (int)(750 * DataManager.system.uiZoom),(int)(500 * DataManager.system.uiZoom));
+		SystemData.menuX = SettingsData.screenWidth / 2 - (int) (375 * SystemData.uiZoom);
+		SystemData.menuY = SettingsData.screenHeight/2 - (int) (250 * SystemData.uiZoom);
+		r.drawTexture(r.textureManager.getTexture("backpack"), SystemData.menuX, SystemData.menuY, (int)(750 * SystemData.uiZoom),(int)(500 * SystemData.uiZoom));
 	}
 	
 	private static void drawSpaces(Renderer r) {
-		int spaceXMult = (int)(64 * DataManager.system.uiZoom);
-		int spaceYMult = (int)(65 * DataManager.system.uiZoom);
-		int spaceXAdd = (int)(37 * DataManager.system.uiZoom);
-		int spaceYAdd = (int)(94 * DataManager.system.uiZoom);
+		int spaceXMult = (int)(64 * SystemData.uiZoom);
+		int spaceYMult = (int)(65 * SystemData.uiZoom);
+		int spaceXAdd = (int)(37 * SystemData.uiZoom);
+		int spaceYAdd = (int)(94 * SystemData.uiZoom);
 		for (int i = 0; i < DataManager.savable.backpackItems.length - 1; i++) {
-			int posX = DataManager.system.menuX + (i) * spaceXMult + spaceXAdd;
+			int posX = SystemData.menuX + (i) * spaceXMult + spaceXAdd;
 			for (int j = 0; j < DataManager.savable.backpackItems[i].length; j++) {
-				int posY = DataManager.system.menuY + j * spaceYMult + spaceYAdd;
+				int posY = SystemData.menuY + j * spaceYMult + spaceYAdd;
 				try {
 					if (DataManager.savable.backpackItems[i][j].getItemCount() > 0) {
-						r.drawTexture(r.textureManager.getTexture(DataManager.system.blockIDMap.get(DataManager.savable.backpackItems[i][j].getItemID()).getItemImg(DataManager.system.animationClock)), posX, posY, (int)(48 * DataManager.system.uiZoom), (int)(48 * DataManager.system.uiZoom));
+						r.drawTexture(r.textureManager.getTexture(SystemData.blockIDMap.get(DataManager.savable.backpackItems[i][j].getItemID()).getItemImg(SystemData.animationClock)), posX, posY, (int)(48 * SystemData.uiZoom), (int)(48 * SystemData.uiZoom));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

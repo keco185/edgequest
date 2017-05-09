@@ -1,22 +1,23 @@
 package com.mtautumn.edgequest.window.layers;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class MouseSelection {
 	public static void draw(Renderer r) {
-		if (!DataManager.system.isAiming) {
+		if (!SystemData.isAiming) {
 			float posX = getMousePosX(r);
 			float posY = getMousePosY(r);
-			float blockSize = DataManager.settings.blockSize;
+			float blockSize = SettingsData.blockSize;
 
-			if (DataManager.system.isMouseFar) {
+			if (SystemData.isMouseFar) {
 				drawFarSelection(r, posX, posY, blockSize);
 			} else {
 				drawNearSelection(r, posX, posY, blockSize);
 			}
 
-			if (DataManager.system.isKeyboardTravel) {
+			if (SystemData.isKeyboardTravel) {
 				drawFlag(r, posX, posY, blockSize);
 			}
 		}
@@ -25,19 +26,19 @@ public class MouseSelection {
 
 	private static float getMousePosX(Renderer r) {
 		double coordsOffsetX = offsetX(r);
-		return (float)((DataManager.system.mouseX - coordsOffsetX)*DataManager.settings.blockSize);
+		return (float)((SystemData.mouseX - coordsOffsetX)*SettingsData.blockSize);
 	}
 	private static float getMousePosY(Renderer r) {
 		double coordsOffsetY = offsetY(r);
-		return (float)((DataManager.system.mouseY - coordsOffsetY)*DataManager.settings.blockSize);
+		return (float)((SystemData.mouseY - coordsOffsetY)*SettingsData.blockSize);
 	}
 
 
 	private static double offsetX(Renderer r) {
-		return DataManager.system.screenX - Double.valueOf(DataManager.settings.screenWidth) / Double.valueOf(2 * DataManager.settings.blockSize);
+		return SystemData.screenX - Double.valueOf(SettingsData.screenWidth) / Double.valueOf(2 * SettingsData.blockSize);
 	}
 	private static double offsetY(Renderer r) {
-		return DataManager.system.screenY - Double.valueOf(DataManager.settings.screenHeight) / Double.valueOf(2 * DataManager.settings.blockSize);
+		return SystemData.screenY - Double.valueOf(SettingsData.screenHeight) / Double.valueOf(2 * SettingsData.blockSize);
 	}
 
 	private static void drawFarSelection(Renderer r, float posX, float posY, float blockSize) {

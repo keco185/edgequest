@@ -40,8 +40,8 @@ public class GameSaves {
 			}
 		}
 		DataManager.characterManager.characterEntity = (Character) characterEntity;
-		DataManager.system.requestGenUpdate = true;
-		DataManager.system.requestScreenUpdate = true;
+		SystemData.requestGenUpdate = true;
+		SystemData.requestScreenUpdate = true;
 		
 	}
 	public static String getLocal() throws URISyntaxException {

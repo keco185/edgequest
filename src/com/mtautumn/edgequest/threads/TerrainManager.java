@@ -6,6 +6,7 @@ package com.mtautumn.edgequest.threads;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.generator.TerrainGenerator;
 import com.mtautumn.edgequest.generator.TerrainGeneratorThread;
 
@@ -16,15 +17,15 @@ public class TerrainManager extends Thread {
 	}
 	@Override
 	public void run() {
-		while (DataManager.system.running) {
+		while (SystemData.running) {
 			try {
-				if (!DataManager.system.isGameOnLaunchScreen) {
+				if (!SystemData.isGameOnLaunchScreen) {
 					ArrayList<int[]> regionsToGen = new ArrayList<int[]>();
 					ArrayList<TerrainGeneratorThread> threads = new ArrayList<TerrainGeneratorThread>();
-					int minX = (DataManager.system.minTileX < DataManager.system.minTileXGen) ? DataManager.system.minTileX : DataManager.system.minTileXGen;
-					int maxX = (DataManager.system.maxTileX > DataManager.system.maxTileXGen) ? DataManager.system.maxTileX : DataManager.system.maxTileXGen;
-					int minY = (DataManager.system.minTileY < DataManager.system.minTileYGen) ? DataManager.system.minTileY : DataManager.system.minTileYGen;
-					int maxY = (DataManager.system.maxTileY > DataManager.system.maxTileYGen) ? DataManager.system.maxTileY : DataManager.system.maxTileYGen;
+					int minX = (SystemData.minTileX < SystemData.minTileXGen) ? SystemData.minTileX : SystemData.minTileXGen;
+					int maxX = (SystemData.maxTileX > SystemData.maxTileXGen) ? SystemData.maxTileX : SystemData.maxTileXGen;
+					int minY = (SystemData.minTileY < SystemData.minTileYGen) ? SystemData.minTileY : SystemData.minTileYGen;
+					int maxY = (SystemData.maxTileY > SystemData.maxTileYGen) ? SystemData.maxTileY : SystemData.maxTileYGen;
 					for (int i = (int) (Math.floor((minX - 20.0) / 100.0)*100); i <=  maxX + 20; i+= 100) {
 						for (int j = (int) (Math.floor((minY - 20.0) / 100.0)*100); j <=  maxY + 20; j+= 100) {
 							regionsToGen.add(new int[]{i,j});
@@ -39,9 +40,9 @@ public class TerrainManager extends Thread {
 					}
 					boolean waiting = threads.size() > 0;
 					if (waiting) {
-						DataManager.system.blockGenerationLastTick = true;
+						SystemData.blockGenerationLastTick = true;
 					} else {
-						DataManager.system.blockGenerationLastTick = false;
+						SystemData.blockGenerationLastTick = false;
 					}
 					while (waiting) {
 						boolean shouldWait = false;
@@ -53,7 +54,7 @@ public class TerrainManager extends Thread {
 						waiting = shouldWait;
 					}
 					if (threads.size() == 0) {
-						DataManager.system.loadingWorld = false;
+						SystemData.loadingWorld = false;
 					}
 					Thread.sleep(1000);
 				} else {

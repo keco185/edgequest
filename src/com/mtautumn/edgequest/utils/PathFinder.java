@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 
 public class PathFinder {
 	public ArrayList<IntCoord> findPath(int startX, int startY, int endX, int endY, int level) {
@@ -72,13 +73,13 @@ public class PathFinder {
 		boolean diag1Clear = true;
 		boolean diag2Clear = true;
 		if (DataManager.world.isStructBlock(x, y, level)) {
-			nodeClear = DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(x, y, level)).isPassable;
+			nodeClear = SystemData.blockIDMap.get(DataManager.world.getStructBlock(x, y, level)).isPassable;
 		}
 		if (DataManager.world.isStructBlock(firstX, y, level)) {
-			diag1Clear = DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(firstX, y, level)).isPassable;
+			diag1Clear = SystemData.blockIDMap.get(DataManager.world.getStructBlock(firstX, y, level)).isPassable;
 		}
 		if (DataManager.world.isStructBlock(x, firstY, level)) {
-			diag2Clear = DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(x, firstY, level)).isPassable;
+			diag2Clear = SystemData.blockIDMap.get(DataManager.world.getStructBlock(x, firstY, level)).isPassable;
 		}
 		return nodeClear && (diag1Clear || diag2Clear);
 		

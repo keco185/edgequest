@@ -8,6 +8,8 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 
 public class TerrainGenerator {
 	Map<String,Double> altNoiseMap = new ConcurrentHashMap<String, Double>();
@@ -84,8 +86,8 @@ public class TerrainGenerator {
 			} catch (Exception e) {
 			}
 		}
-		int chunkX = (int) Math.floor(x / DataManager.settings.chunkSize);
-		int chunkY = (int) Math.floor(y / DataManager.settings.chunkSize);
+		int chunkX = (int) Math.floor(x / SettingsData.chunkSize);
+		int chunkY = (int) Math.floor(y / SettingsData.chunkSize);
 		if (stats[0] == 0) {
 			double chunkRNGSum = 0;
 			for (int i = -2; i <= 2; i++) {
@@ -136,33 +138,33 @@ public class TerrainGenerator {
 		if (alt < 3600) {
 			if (temp < 3550) {
 				if (alt < 3500) {
-					DataManager.world.ou.setGroundBlock(x, y, DataManager.system.blockNameMap.get("water").getID());
+					DataManager.world.ou.setGroundBlock(x, y, SystemData.blockNameMap.get("water").getID());
 				} else {
-					DataManager.world.ou.setGroundBlock(x, y, DataManager.system.blockNameMap.get("ice").getID());
+					DataManager.world.ou.setGroundBlock(x, y, SystemData.blockNameMap.get("ice").getID());
 				}
 			} else {
-				DataManager.world.ou.setGroundBlock(x, y, DataManager.system.blockNameMap.get("water").getID());
+				DataManager.world.ou.setGroundBlock(x, y, SystemData.blockNameMap.get("water").getID());
 				if (getRNG(x, y) > 0.996) {
-					DataManager.world.ou.setStructBlock(x, y, DataManager.system.blockNameMap.get("lilyPad").getID());
+					DataManager.world.ou.setStructBlock(x, y, SystemData.blockNameMap.get("lilyPad").getID());
 				}
 			}
 		} else if (alt < 3650 && temp > 3550){
-			DataManager.world.ou.setGroundBlock(x, y, DataManager.system.blockNameMap.get("sand").getID());
+			DataManager.world.ou.setGroundBlock(x, y, SystemData.blockNameMap.get("sand").getID());
 		} else {
 			if (temp < 3550) {
-				DataManager.world.ou.setGroundBlock(x, y, DataManager.system.blockNameMap.get("snow").getID());
+				DataManager.world.ou.setGroundBlock(x, y, SystemData.blockNameMap.get("snow").getID());
 			} else if (temp > 4180){
-				DataManager.world.ou.setGroundBlock(x, y, DataManager.system.blockNameMap.get("sand").getID());
+				DataManager.world.ou.setGroundBlock(x, y, SystemData.blockNameMap.get("sand").getID());
 			} else  if (alt < 4290 ){
-				DataManager.world.ou.setGroundBlock(x, y, DataManager.system.blockNameMap.get("grass").getID());
+				DataManager.world.ou.setGroundBlock(x, y, SystemData.blockNameMap.get("grass").getID());
 				if (getRNG(x, y) < 0.01) {
-					DataManager.world.ou.setStructBlock(x, y, DataManager.system.blockNameMap.get("tree").getID());
+					DataManager.world.ou.setStructBlock(x, y, SystemData.blockNameMap.get("tree").getID());
 				}
 			} else {
 				if (getRNG(x, y) < 0.9) {
-					DataManager.world.ou.setGroundBlock(x, y, DataManager.system.blockNameMap.get("stone").getID());
+					DataManager.world.ou.setGroundBlock(x, y, SystemData.blockNameMap.get("stone").getID());
 				} else { 
-					DataManager.world.ou.setGroundBlock(x, y, DataManager.system.blockNameMap.get("dirt").getID());
+					DataManager.world.ou.setGroundBlock(x, y, SystemData.blockNameMap.get("dirt").getID());
 				}
 			}
 		}

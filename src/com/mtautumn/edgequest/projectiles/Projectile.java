@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import com.mtautumn.edgequest.DamagePost;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.entities.Entity;
 import com.mtautumn.edgequest.entities.Pet;
@@ -66,7 +68,7 @@ public class Projectile implements Serializable {
 		return newLocation;
 	}
 	public boolean advance() { //Returns true if projectile should be removed
-		double deltaIncrement = new Double(DataManager.settings.tickLength / 2)/1000.0;
+		double deltaIncrement = new Double(SettingsData.tickLength / 2)/1000.0;
 		double newX = increment(increment + deltaIncrement)[0];
 		double newY = increment(increment + deltaIncrement)[1];
 		for (double i = increment; i <= deltaIncrement + increment; i += 0.005) {
@@ -101,7 +103,7 @@ public class Projectile implements Serializable {
 	public boolean inStructure() {
 		Location location = new Location((int) x, (int) y, level);
 		if (DataManager.world.isStructBlock(location)) {
-			return !DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(location)).isPassable;
+			return !SystemData.blockIDMap.get(DataManager.world.getStructBlock(location)).isPassable;
 		}
 		return false;
 	}
@@ -165,6 +167,6 @@ public class Projectile implements Serializable {
 		return null;
 	}
 	public String getTexture() {
-		return texture[DataManager.system.animationClock%texture.length];
+		return texture[SystemData.animationClock%texture.length];
 	}
 }

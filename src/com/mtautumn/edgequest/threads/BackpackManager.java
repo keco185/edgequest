@@ -7,6 +7,8 @@ package com.mtautumn.edgequest.threads;
 
 import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.ItemDrop;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 
@@ -20,12 +22,12 @@ public class BackpackManager extends Thread {
 	}
 	@Override
 	public void run() {
-		while(DataManager.system.running) {
+		while(SystemData.running) {
 			try {
-				if (!DataManager.system.isGameOnLaunchScreen) {
+				if (!SystemData.isGameOnLaunchScreen) {
 					checkMouseSelection();
 				}
-				Thread.sleep(DataManager.settings.tickLength);
+				Thread.sleep(SettingsData.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -38,7 +40,7 @@ public class BackpackManager extends Thread {
 	private boolean isItemGrabbed = false;
 	private int[] mouseItemLocation = {-1,-1};
 	private void checkMouseSelection() {
-		if (!wasMouseDown && DataManager.system.leftMouseDown) {
+		if (!wasMouseDown && SystemData.leftMouseDown) {
 			if (!isItemGrabbed) {
 				if (!(getMouseLocation()[0] == -1)) {
 					mouseItemLocation = getMouseLocation();
@@ -54,7 +56,7 @@ public class BackpackManager extends Thread {
 						DataManager.savable.mouseItem = new ItemSlot();
 						isItemGrabbed = false;
 					} else {
-						if (DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemID().equals(DataManager.savable.mouseItem.getItemID()) && DataManager.system.blockIDMap.get(DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemID()).isStackable) {
+						if (DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemID().equals(DataManager.savable.mouseItem.getItemID()) && SystemData.blockIDMap.get(DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemID()).isStackable) {
 							if (DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].isSlotFull()) {
 								int slotCount = DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].getItemCount();
 								DataManager.savable.backpackItems[mouseLocation[0]][mouseLocation[1]].setItemCount(DataManager.savable.mouseItem.getItemCount());
@@ -82,32 +84,32 @@ public class BackpackManager extends Thread {
 				}
 			}
 			wasMouseDown = true;
-		} else if (wasMouseDown && !DataManager.system.leftMouseDown) {
+		} else if (wasMouseDown && !SystemData.leftMouseDown) {
 			wasMouseDown = false;
 		}
 	}
 	private static int[] getMouseLocation() {
 		int maxX = 0;
-		if (DataManager.system.isKeyboardBackpack) {
+		if (SystemData.isKeyboardBackpack) {
 			maxX = DataManager.savable.backpackItems.length - 1;
 		}
 		for (int x = 0; x < maxX; x++) {
 			for (int y = 0; y < DataManager.savable.backpackItems[x].length; y++) {
 				int[] itemCoords = getItemSlotCoords(x, y);
-				if (itemCoords[0] <= DataManager.system.mousePosition.getX() && itemCoords[1] <= DataManager.system.mousePosition.getY() && itemCoords[2] >= DataManager.system.mousePosition.getX() && itemCoords[3] >= DataManager.system.mousePosition.getY()) {
+				if (itemCoords[0] <= SystemData.mousePosition.getX() && itemCoords[1] <= SystemData.mousePosition.getY() && itemCoords[2] >= SystemData.mousePosition.getX() && itemCoords[3] >= SystemData.mousePosition.getY()) {
 					return new int[] {x,y};
 				}
 			}
 		}
 		
-		int minY = (int) (14 * DataManager.system.uiZoom);
-		int maxY = (int) (72 * DataManager.system.uiZoom);
-		int minXL = (int) (DataManager.settings.screenWidth / 2 - 256 * DataManager.system.uiZoom);
-		int maxXL = (int) (DataManager.settings.screenWidth / 2 - 196 * DataManager.system.uiZoom);
-		int minXR = (int) (DataManager.settings.screenWidth / 2 + 196 * DataManager.system.uiZoom);
-		int maxXR = (int) (DataManager.settings.screenWidth / 2 + 256 * DataManager.system.uiZoom);
-		int x = (int) DataManager.system.mousePosition.getX();
-		int y = (int) DataManager.system.mousePosition.getY();
+		int minY = (int) (14 * SystemData.uiZoom);
+		int maxY = (int) (72 * SystemData.uiZoom);
+		int minXL = (int) (SettingsData.screenWidth / 2 - 256 * SystemData.uiZoom);
+		int maxXL = (int) (SettingsData.screenWidth / 2 - 196 * SystemData.uiZoom);
+		int minXR = (int) (SettingsData.screenWidth / 2 + 196 * SystemData.uiZoom);
+		int maxXR = (int) (SettingsData.screenWidth / 2 + 256 * SystemData.uiZoom);
+		int x = (int) SystemData.mousePosition.getX();
+		int y = (int) SystemData.mousePosition.getY();
 		if (maxY > y && minY < y) {
 			if ( maxXL > x && minXL < x) {
 				return new int[]{DataManager.savable.backpackItems.length - 1,0};
@@ -130,10 +132,10 @@ public class BackpackManager extends Thread {
 		//	int yPosMax = yPosMin + (int)(38 * dataManager.system.uiZoom);
 		//	coords = new int[] {xPosMin, yPosMin, xPosMax, yPosMax};
 		//} else {
-		int xPosMin = DataManager.system.menuX + (int)(((x) * 64 + 37) * DataManager.system.uiZoom);
-		int yPosMin = DataManager.system.menuY + (int)((y * 65 + 94) * DataManager.system.uiZoom);
-		int xPosMax = xPosMin + (int)(48 * DataManager.system.uiZoom);
-		int yPosMax = yPosMin + (int)(48 * DataManager.system.uiZoom);
+		int xPosMin = SystemData.menuX + (int)(((x) * 64 + 37) * SystemData.uiZoom);
+		int yPosMin = SystemData.menuY + (int)((y * 65 + 94) * SystemData.uiZoom);
+		int xPosMax = xPosMin + (int)(48 * SystemData.uiZoom);
+		int yPosMax = yPosMin + (int)(48 * SystemData.uiZoom);
 		coords = new int[] {xPosMin, yPosMin, xPosMax, yPosMax};
 		//}
 		return coords;

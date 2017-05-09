@@ -1,6 +1,8 @@
 package com.mtautumn.edgequest.threads;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.ItemDrop;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.entities.Entity;
@@ -9,7 +11,7 @@ public class ItemDropManager extends Thread {
 
 	@Override
 	public void run() {
-		while(DataManager.system.running) {
+		while(SystemData.running) {
 			try {
 				for (int i = 0; i < DataManager.savable.itemDrops.size(); i++) {
 					if (i + 1 < DataManager.savable.itemDrops.size()) {
@@ -32,7 +34,7 @@ public class ItemDropManager extends Thread {
 						}
 					}
 					DataManager.savable.itemDrops.get(i).update();
-					if (DataManager.savable.itemDrops.get(i).age > DataManager.settings.maxItemDropAge || DataManager.savable.itemDrops.get(i).item.getItemCount() <= 0) {
+					if (DataManager.savable.itemDrops.get(i).age > SettingsData.maxItemDropAge || DataManager.savable.itemDrops.get(i).item.getItemCount() <= 0) {
 						DataManager.savable.itemDrops.remove(i);
 						i--;
 					}
@@ -63,7 +65,7 @@ public class ItemDropManager extends Thread {
 			if (drop.level == entity.dungeonLevel) {
 				if (Math.sqrt(Math.pow(drop.x - entity.getX(), 2) + Math.pow(drop.y, entity.getY())) < 1) {
 					for(int i = 0; i < drop.item.getItemCount(); i++) {
-						DataManager.backpackManager.addItem(DataManager.system.blockIDMap.get(drop.item.getItemID()));
+						DataManager.backpackManager.addItem(SystemData.blockIDMap.get(drop.item.getItemID()));
 					}
 					drop.item.setItemCount(0);
 				}

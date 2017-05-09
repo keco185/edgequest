@@ -6,29 +6,31 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.ItemDrop;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class MouseTooltips {
 	public static void draw(Renderer r) {
-		if (!DataManager.system.isKeyboardMenu) {
-			double mouseX = DataManager.system.mouseXExact;
-			double mouseY = DataManager.system.mouseYExact;
+		if (!SystemData.isKeyboardMenu) {
+			double mouseX = SystemData.mouseXExact;
+			double mouseY = SystemData.mouseYExact;
 			ArrayList<String> inRangeItems = new ArrayList<String>();
 			for( int i = 0; i < DataManager.savable.itemDrops.size(); i++) {
 				ItemDrop itemDrop = DataManager.savable.itemDrops.get(i);
 				if (itemDrop.level == DataManager.savable.dungeonLevel) {
 					if (isInRange(mouseX,mouseY,itemDrop.x,itemDrop.y)) {
 						if (itemDrop.item.getItemCount() > 1) {
-							inRangeItems.add(DataManager.system.blockIDMap.get(itemDrop.item.getItemID()).getName() + " (" + itemDrop.item.getItemCount() + ")");
+							inRangeItems.add(SystemData.blockIDMap.get(itemDrop.item.getItemID()).getName() + " (" + itemDrop.item.getItemCount() + ")");
 						} else if (itemDrop.item.getItemCount() > 0) {
-							inRangeItems.add(DataManager.system.blockIDMap.get(itemDrop.item.getItemID()).getName());
+							inRangeItems.add(SystemData.blockIDMap.get(itemDrop.item.getItemID()).getName());
 						}
 					}
 				}
 			}
 			if (inRangeItems.size() > 0) {
-				drawTooltip(DataManager.system.mousePosition, DataManager.settings.screenWidth, DataManager.settings.screenHeight, inRangeItems, r);
+				drawTooltip(SystemData.mousePosition, SettingsData.screenWidth, SettingsData.screenHeight, inRangeItems, r);
 			}
 		}
 	}
@@ -37,7 +39,7 @@ public class MouseTooltips {
 	}
 	private static void drawTooltip(Point mousePos, int screenWidth, int screenHeight, ArrayList<String> lines, Renderer r) {
 		int tooltipWidth = 0;
-		int padding = (int) (12 * DataManager.system.uiZoom);
+		int padding = (int) (12 * SystemData.uiZoom);
 		for (String string : lines) {
 			int length = r.tooltipFont.getWidth(string);
 			if (length > tooltipWidth) {

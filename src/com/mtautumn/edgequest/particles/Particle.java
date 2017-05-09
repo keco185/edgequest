@@ -3,6 +3,7 @@ package com.mtautumn.edgequest.particles;
 import org.newdawn.slick.opengl.Texture;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Particle {
@@ -26,7 +27,7 @@ public class Particle {
 	}
 	protected boolean checkMove(double newX, double newY) { //Returns true if location is free
 		if (DataManager.world.isStructBlock((int)newX, (int)newY, level)) {
-			if (DataManager.system.blockIDMap.get(DataManager.world.getStructBlock((int)newX, (int)newY, level)).isPassable) {
+			if (SystemData.blockIDMap.get(DataManager.world.getStructBlock((int)newX, (int)newY, level)).isPassable) {
 				return true;
 			}
 			return false;

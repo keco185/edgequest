@@ -7,11 +7,13 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Layers {
 	public static void draw(Renderer r) throws InterruptedException {
-		if (DataManager.system.isGameOnLaunchScreen) {
+		if (SystemData.isGameOnLaunchScreen) {
 			LaunchScreen.draw(r);
 		} else {
 			r.preLightingFBO.enableBuffer();
@@ -34,26 +36,26 @@ public class Layers {
 			BlockDamage.draw(r);
 			DamagePosts.draw(r);
 			PrecipitationParticles.draw(r);
-			if (!DataManager.system.hideMouse) {
+			if (!SystemData.hideMouse) {
 				MouseSelection.draw(r);
 			}
-			if (DataManager.system.isKeyboardBackpack) {
+			if (SystemData.isKeyboardBackpack) {
 				Backpack.draw(r);
 			}
 			StatsBar.draw(r);
 			//HotBar.draw(r);
 			MouseItem.draw(r);
-			if (!DataManager.system.characterLocationSet || DataManager.system.loadingWorld) {
+			if (!SystemData.characterLocationSet || SystemData.loadingWorld) {
 				LoadingScreen.draw(r);
 			}
-			if (DataManager.system.isKeyboardMenu) {
+			if (SystemData.isKeyboardMenu) {
 				Menu.draw(r);
 			}
 			MouseTooltips.draw(r);
-			if (DataManager.settings.showDiag) {
+			if (SettingsData.showDiag) {
 				DiagnosticsWindow.draw(r);
 			}
-			if (DataManager.system.showConsole) {
+			if (SystemData.showConsole) {
 				Console.draw(r);
 			}
 		}

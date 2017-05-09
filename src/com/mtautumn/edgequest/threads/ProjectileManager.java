@@ -1,13 +1,15 @@
 package com.mtautumn.edgequest.threads;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.projectiles.Projectile;
 
 public class ProjectileManager extends Thread {
 
 	@Override
 	public void run() {
-		while(DataManager.system.running) {
+		while(SystemData.running) {
 			try {
 				for(int i = 0; i < DataManager.savable.projectiles.size(); i++) {
 					Projectile projectile = DataManager.savable.projectiles.get(i);
@@ -21,7 +23,7 @@ public class ProjectileManager extends Thread {
 						}
 					}
 				}
-				Thread.sleep(DataManager.settings.tickLength / 2);
+				Thread.sleep(SettingsData.tickLength / 2);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

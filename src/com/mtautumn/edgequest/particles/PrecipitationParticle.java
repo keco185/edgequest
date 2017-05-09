@@ -2,6 +2,7 @@ package com.mtautumn.edgequest.particles;
 
 import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
 
 public class PrecipitationParticle extends Particle {
@@ -15,7 +16,7 @@ public class PrecipitationParticle extends Particle {
 	public boolean update() {
 		Location locale = new Location((int)x, (int)y, level);
 		if(DataManager.world.isGroundBlock(locale)) {
-			BlockItem block = DataManager.system.blockIDMap.get(DataManager.world.getGroundBlock(locale));
+			BlockItem block = SystemData.blockIDMap.get(DataManager.world.getGroundBlock(locale));
 			if (block.isName("snow") || block.isName("ice")) {
 				super.texture = "snow";
 				x += speedX / 6.0;
@@ -26,7 +27,7 @@ public class PrecipitationParticle extends Particle {
 				y += speedY;
 			}
 		}
-		return (y > DataManager.system.maxTileY);
+		return (y > SystemData.maxTileY);
 	}
 
 }

@@ -3,6 +3,7 @@ package com.mtautumn.edgequest.console.commands;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.ItemDrop;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 
@@ -12,12 +13,12 @@ public class Drop extends Command {
 	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
 			ItemSlot item = new ItemSlot();
-			item.setItem(DataManager.system.blockNameMap.get(args.get(0)).getID());
+			item.setItem(SystemData.blockNameMap.get(args.get(0)).getID());
 			item.setItemCount(1);
 			DataManager.savable.itemDrops.add(new ItemDrop(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY(), DataManager.characterManager.characterEntity.dungeonLevel, item));
 		} else if (args.size() == 2) {
 			ItemSlot item = new ItemSlot();
-			item.setItem(DataManager.system.blockNameMap.get(args.get(0)).getID());
+			item.setItem(SystemData.blockNameMap.get(args.get(0)).getID());
 			item.setItemCount(Integer.parseInt(args.get(1)));
 			DataManager.savable.itemDrops.add(new ItemDrop(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY(), DataManager.characterManager.characterEntity.dungeonLevel, item));
 		} else {

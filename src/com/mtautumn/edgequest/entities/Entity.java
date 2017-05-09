@@ -10,6 +10,8 @@ import org.newdawn.slick.geom.Vector2f;
 
 import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.utils.PathFinder;
 import com.mtautumn.edgequest.utils.PathFinder.IntCoord;
@@ -61,16 +63,16 @@ public class Entity implements Externalizable {
 		if (lastPosX != posX || lastPosY != posY || walking) {
 			lastPosX = posX;
 			lastPosY = posY;
-			return entityTexture + "." + entityTexture + "walk" + walkAnimation[DataManager.system.animationClock % walkAnimation.length];
+			return entityTexture + "." + entityTexture + "walk" + walkAnimation[SystemData.animationClock % walkAnimation.length];
 		}
-		return entityTexture + "." + entityTexture + "still" + stillAnimation[DataManager.system.animationClock % stillAnimation.length];
+		return entityTexture + "." + entityTexture + "still" + stillAnimation[SystemData.animationClock % stillAnimation.length];
 	}
 	public Entity(String texture, EntityType type) {
 		this.entityID = DataManager.savable.entityID++;
 		this.entityTexture = texture;
 		this.entityType = type;
 		if (type == EntityType.character) {
-			moveSpeed = DataManager.settings.moveSpeed;
+			moveSpeed = SettingsData.moveSpeed;
 		}
 	}
 	public Entity(String texture, EntityType type, double posX, double posY, double rotation, int dungeonLevel) {
@@ -82,7 +84,7 @@ public class Entity implements Externalizable {
 		this.rotation = rotation;
 		this.dungeonLevel = dungeonLevel;
 		if (type == EntityType.character) {
-			moveSpeed = DataManager.settings.moveSpeed;
+			moveSpeed = SettingsData.moveSpeed;
 		}
 	}
 	public Entity() {
@@ -161,7 +163,7 @@ public class Entity implements Externalizable {
 	}
 	protected boolean isImpassible(IntCoord point) {
 		if (DataManager.world.isStructBlock(this, point.x, point.y)) {
-			return !DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(this, point.x, point.y)).isPassable;
+			return !SystemData.blockIDMap.get(DataManager.world.getStructBlock(this, point.x, point.y)).isPassable;
 		}
 		return false;
 	}
@@ -275,7 +277,7 @@ public class Entity implements Externalizable {
 			entityX = (int) Math.floor(posX);
 		}
 		if (DataManager.world.isStructBlock(this,entityX, entityY)) {
-			return (DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(this,entityX, entityY)).isPassable);
+			return (SystemData.blockIDMap.get(DataManager.world.getStructBlock(this,entityX, entityY)).isPassable);
 		}
 		return true;
 	}
@@ -339,12 +341,12 @@ public class Entity implements Externalizable {
 	}
 	public void initializeClass() {
 		if (entityType == EntityType.character) {
-			moveSpeed = DataManager.settings.moveSpeed;
+			moveSpeed = SettingsData.moveSpeed;
 		}
 	}
 	public boolean isOnIce() {
 		if (DataManager.world.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
-			return DataManager.system.blockIDMap.get(DataManager.world.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))).isName("ice");
+			return SystemData.blockIDMap.get(DataManager.world.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))).isName("ice");
 		}
 		return false;
 	}
@@ -353,15 +355,15 @@ public class Entity implements Externalizable {
 	}
 	public BlockItem getBlock() {
 		if (DataManager.world.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
-			return DataManager.system.blockIDMap.get(DataManager.world.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY)));
+			return SystemData.blockIDMap.get(DataManager.world.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY)));
 		}
 		return null;
 	}
 	public BlockItem getRelativeGroundBlock(int deltaX, int deltaY) {
-		return DataManager.system.blockIDMap.get(getRelativeGroundBlockID(deltaX, deltaY));
+		return SystemData.blockIDMap.get(getRelativeGroundBlockID(deltaX, deltaY));
 	}
 	public BlockItem getRelativeStructureBlock(int deltaX, int deltaY) {
-		return DataManager.system.blockIDMap.get(getRelativeStructureBlockID(deltaX, deltaY));
+		return SystemData.blockIDMap.get(getRelativeStructureBlockID(deltaX, deltaY));
 	}
 	public short getRelativeGroundBlockID(int deltaX, int deltaY) {
 		return DataManager.world.getGroundBlock(this, (int) Math.floor(getX() + deltaX), (int) Math.floor(getY() + deltaY));
@@ -451,7 +453,7 @@ public class Entity implements Externalizable {
 		checkLocation.x = x;
 		checkLocation.y = y;
 		if (DataManager.world.isStructBlock(checkLocation)) {
-			return !DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(checkLocation)).isPassable;
+			return !SystemData.blockIDMap.get(DataManager.world.getStructBlock(checkLocation)).isPassable;
 		}
 		return false;
 	}

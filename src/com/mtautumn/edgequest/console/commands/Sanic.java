@@ -3,13 +3,14 @@ package com.mtautumn.edgequest.console.commands;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
 
 public class Sanic extends Command {
 
 	@Override
 	public boolean execute(ArrayList<String> args) {
 		DataManager.characterManager.characterEntity.stamina = 2147483647;
-		DataManager.settings.moveSpeed = 15;
+		SettingsData.moveSpeed = 15;
 		return false;
 	}
 

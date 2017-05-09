@@ -4,17 +4,18 @@
  */
 package com.mtautumn.edgequest.threads;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 
 public class AnimationClock extends Thread {
 	@Override
 	public void run() {
-		while (DataManager.system.running) {
+		while (SystemData.running) {
 			try {
-				if (!DataManager.system.isGameOnLaunchScreen) {
-					DataManager.system.animationClock++;
+				if (!SystemData.isGameOnLaunchScreen) {
+					SystemData.animationClock++;
 				}
-				Thread.sleep(DataManager.settings.tickLength);
+				Thread.sleep(SettingsData.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

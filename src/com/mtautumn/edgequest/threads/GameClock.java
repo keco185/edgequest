@@ -2,13 +2,14 @@
 package com.mtautumn.edgequest.threads;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 
 public class GameClock extends Thread {
 	@Override
 	public void run() {
-		while(DataManager.system.running) {
+		while(SystemData.running) {
 			try {
-				if (!DataManager.system.isGameOnLaunchScreen) {
+				if (!SystemData.isGameOnLaunchScreen) {
 					if (DataManager.savable.time < 2399) {
 						DataManager.savable.time++;
 					} else {
@@ -21,9 +22,9 @@ public class GameClock extends Thread {
 					}
 
 					if (DataManager.savable.time < 1200) {
-						DataManager.system.timeReadable = "" + hours + ":" + minutes + "0 AM";
+						SystemData.timeReadable = "" + hours + ":" + minutes + "0 AM";
 					} else {
-						DataManager.system.timeReadable = "" + hours + ":" + minutes + "0 PM";
+						SystemData.timeReadable = "" + hours + ":" + minutes + "0 PM";
 					}
 				}
 				Thread.sleep(250);

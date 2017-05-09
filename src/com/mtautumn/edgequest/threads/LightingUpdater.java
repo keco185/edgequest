@@ -1,12 +1,13 @@
 package com.mtautumn.edgequest.threads;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 
 public class LightingUpdater extends Thread {
 	@Override
 	public void run() {
-		while(DataManager.system.running) {
+		while(SystemData.running) {
 			try {
 				for (int i = 0; i < DataManager.blockUpdateManager.lightingQueue.size(); i++) {
 					DataManager.blockUpdateManager.lighting.update(DataManager.blockUpdateManager.lightingQueue.get(i));

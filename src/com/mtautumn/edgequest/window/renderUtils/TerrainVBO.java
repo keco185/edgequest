@@ -9,7 +9,7 @@ import org.lwjgl.opengl.*;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
 
 public class TerrainVBO implements VBO {
 	FloatBuffer verticies;
@@ -20,8 +20,8 @@ public class TerrainVBO implements VBO {
 	float invAtlasWidth;
 	float invAtlasHeight;
 	public TerrainVBO() {
-		invAtlasWidth = 1f/DataManager.settings.atlasMap.get("dimensions")[0];
-		invAtlasHeight = 1f/DataManager.settings.atlasMap.get("dimensions")[1];
+		invAtlasWidth = 1f/SettingsData.atlasMap.get("dimensions")[0];
+		invAtlasHeight = 1f/SettingsData.atlasMap.get("dimensions")[1];
 	}
 	@Override
 	public void addVertex(float x, float y) {

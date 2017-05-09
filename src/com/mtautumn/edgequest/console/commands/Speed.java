@@ -2,17 +2,17 @@ package com.mtautumn.edgequest.console.commands;
 
 import java.util.ArrayList;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
 
 public class Speed extends Command {
 
 	@Override
 	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
-			DataManager.settings.moveSpeed = Double.parseDouble(args.get(0));
-			addInfoLine("Speed set to: " + DataManager.settings.moveSpeed);
+			SettingsData.moveSpeed = Double.parseDouble(args.get(0));
+			addInfoLine("Speed set to: " + SettingsData.moveSpeed);
 		} else if (args.size() == 0) {
-			addInfoLine("Speed is: " + DataManager.settings.moveSpeed);
+			addInfoLine("Speed is: " + SettingsData.moveSpeed);
 		} else {
 			addErrorLine("use the format " + usage());
 		}

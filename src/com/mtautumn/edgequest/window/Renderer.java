@@ -17,6 +17,8 @@ import org.newdawn.slick.opengl.Texture;
 
 import com.mtautumn.edgequest.TextureManager;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.window.layers.Layers;
 import com.mtautumn.edgequest.window.renderUtils.FBO;
 import com.mtautumn.edgequest.window.renderUtils.LightingVBO;
@@ -49,7 +51,7 @@ public class Renderer {
 	public FBO preLightingFBO;
 	public FBO lightingColorFBO;
 	public Renderer() {
-		lastUIZoom = DataManager.system.uiZoom;
+		lastUIZoom = SystemData.uiZoom;
 	}
 	public void initGL(int width, int height) {
 		try {
@@ -97,7 +99,7 @@ public class Renderer {
 			lightingColorShader.init("shaders/lightingColor.vert", "shaders/lightingColor.frag", TextureManager.getLocal());
 			lightingShader.init("shaders/lighting.vert", "shaders/lighting.frag", TextureManager.getLocal());
 		} catch (URISyntaxException e) {
-			DataManager.system.running = false;
+			SystemData.running = false;
 			e.printStackTrace();
 			System.err.println("Fatal Error: Could not load lighting shaders");
 		}
@@ -150,19 +152,19 @@ public class Renderer {
 	private boolean wasVSync = true;
 	private DisplayMode oldDisplayMode;
 	public void drawFrame() {
-		if (lastUIZoom != DataManager.system.uiZoom) {
-			lastUIZoom = DataManager.system.uiZoom;
+		if (lastUIZoom != SystemData.uiZoom) {
+			lastUIZoom = SystemData.uiZoom;
 			assignFonts();
 		}
-		if (DataManager.settings.vSyncOn && !wasVSync) {
+		if (SettingsData.vSyncOn && !wasVSync) {
 			wasVSync = true;
 			Display.setVSyncEnabled(true);
-		} else if (!DataManager.settings.vSyncOn && wasVSync) {
+		} else if (!SettingsData.vSyncOn && wasVSync) {
 			wasVSync = false;
 			Display.setVSyncEnabled(false);
 		}
 		try {
-			if (DataManager.settings.isFullScreen && !Display.isFullscreen()) {
+			if (SettingsData.isFullScreen && !Display.isFullscreen()) {
 				Display.setFullscreen(true);
 				oldDisplayMode = Display.getDisplayMode();
 				int largest = 0;
@@ -174,7 +176,7 @@ public class Renderer {
 					}
 				}
 				Display.setDisplayMode(Display.getAvailableDisplayModes()[largestPos]);
-			} else if (!DataManager.settings.isFullScreen && Display.isFullscreen()) {
+			} else if (!SettingsData.isFullScreen && Display.isFullscreen()) {
 				Display.setFullscreen(false);
 				Display.setDisplayMode(oldDisplayMode);
 			}

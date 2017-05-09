@@ -3,19 +3,20 @@ package com.mtautumn.edgequest.console.commands;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 
 public class Give extends Command {
 
 	@Override
 	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
-			DataManager.backpackManager.addItem(DataManager.system.blockNameMap.get(args.get(0)));
-			addInfoLine("Gave you 1 " + DataManager.system.blockNameMap.get(args.get(0)).getName());
+			DataManager.backpackManager.addItem(SystemData.blockNameMap.get(args.get(0)));
+			addInfoLine("Gave you 1 " + SystemData.blockNameMap.get(args.get(0)).getName());
 		} else if (args.size() == 2) {
 			for (int i = 0; i < Integer.parseInt(args.get(1)); i++) {
-				DataManager.backpackManager.addItem(DataManager.system.blockNameMap.get(args.get(0)));
+				DataManager.backpackManager.addItem(SystemData.blockNameMap.get(args.get(0)));
 			}
-			addInfoLine("Gave you " + Integer.parseInt(args.get(1)) + " " + DataManager.system.blockNameMap.get(args.get(0)).getName());
+			addInfoLine("Gave you " + Integer.parseInt(args.get(1)) + " " + SystemData.blockNameMap.get(args.get(0)).getName());
 		} else {
 			addErrorLine("use the format " + usage());
 		}

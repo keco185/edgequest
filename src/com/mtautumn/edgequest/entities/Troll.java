@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.mtautumn.edgequest.blockitems.combat.Weapon;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.ItemDrop;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.projectiles.DaggerProjectile;
@@ -69,8 +71,8 @@ public class Troll extends Entity {
 				double deltaY = -(lastPlayerLocY - getY());
 				double angle = Math.atan2(deltaY, deltaX);
 
-				setX(getX() + Math.cos(angle) * moveSpeed * new Double(DataManager.settings.tickLength) / 1000.0);
-				setY(getY() + Math.sin(angle) * moveSpeed * new Double(DataManager.settings.tickLength) / 1000.0);
+				setX(getX() + Math.cos(angle) * moveSpeed * new Double(SettingsData.tickLength) / 1000.0);
+				setY(getY() + Math.sin(angle) * moveSpeed * new Double(SettingsData.tickLength) / 1000.0);
 				super.updateRotation(deltaX, deltaY);
 				
 			} else {
@@ -81,7 +83,7 @@ public class Troll extends Entity {
 			}
 		} else {
 			int tries = 0;
-			while ((!checkMove(0, getX() + lastX * moveSpeed * new Double(DataManager.settings.tickLength) / 1000.0) || !checkMove(1, getY() + lastY * moveSpeed * new Double(DataManager.settings.tickLength) / 1000.0) || tries == 0) && tries < 20) {
+			while ((!checkMove(0, getX() + lastX * moveSpeed * new Double(SettingsData.tickLength) / 1000.0) || !checkMove(1, getY() + lastY * moveSpeed * new Double(SettingsData.tickLength) / 1000.0) || tries == 0) && tries < 20) {
 				tries++;
 				if (lastX == 0 && lastY == 0) {
 					if (Math.random() > 0.95) {
@@ -125,8 +127,8 @@ public class Troll extends Entity {
 			}
 
 			if (tries < 20) {
-				setX(getX() + lastX * moveSpeed * new Double(DataManager.settings.tickLength) / 1000.0);
-				setY(getY() + lastY * moveSpeed * new Double(DataManager.settings.tickLength) / 1000.0);
+				setX(getX() + lastX * moveSpeed * new Double(SettingsData.tickLength) / 1000.0);
+				setY(getY() + lastY * moveSpeed * new Double(SettingsData.tickLength) / 1000.0);
 			}
 			super.updateRotation(lastX, lastY);
 		}
@@ -157,7 +159,7 @@ public class Troll extends Entity {
 	public void death() {
 		if (Math.random() > 0.8) {
 			ItemSlot drop = new ItemSlot();
-			drop.setItem(DataManager.system.blockNameMap.get("dagger").getID());
+			drop.setItem(SystemData.blockNameMap.get("dagger").getID());
 			drop.setItemCount(1);
 			DataManager.savable.itemDrops.add(new ItemDrop(posX, posY, dungeonLevel, drop));
 		}
@@ -171,12 +173,12 @@ public class Troll extends Entity {
 			newY = newVal;
 		}
 		if (DataManager.world.isStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
-			if (!DataManager.system.blockIDMap.get(DataManager.world.getStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))).isPassable) {
+			if (!SystemData.blockIDMap.get(DataManager.world.getStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))).isPassable) {
 				return false;
 			}
 		}
 		if (DataManager.world.isGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
-			if (DataManager.world.getGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY)) == DataManager.system.blockNameMap.get("water").getID()) {
+			if (DataManager.world.getGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY)) == SystemData.blockNameMap.get("water").getID()) {
 				return false;
 			}
 			return true;

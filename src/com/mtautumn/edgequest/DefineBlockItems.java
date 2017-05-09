@@ -9,7 +9,8 @@ import java.util.Map;
 import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.blockitems.combat.DaggerWeapon;
 import com.mtautumn.edgequest.blockitems.combat.PistolWeapon;
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 
 public class DefineBlockItems {
 	public static Map<Short, BlockItem> blockIDMap = new HashMap<Short, BlockItem>();
@@ -40,32 +41,32 @@ public class DefineBlockItems {
 
 		dungeonDefinition();
 		dungeonUpDefinition();
-		DataManager.system.blockIDMap = blockIDMap;
-		DataManager.system.blockNameMap = blockNameMap;
+		SystemData.blockIDMap = blockIDMap;
+		SystemData.blockNameMap = blockNameMap;
 	}
 	private static void atlasDefinition() {
-		DataManager.settings.atlasMap.put("dimensions", new int[]{4,8});
-		DataManager.settings.atlasMap.put("dirt0", new int[]{0,0});
-		DataManager.settings.atlasMap.put("dungeon0", new int[]{1,0});
-		DataManager.settings.atlasMap.put("sand0", new int[]{2,0});
-		DataManager.settings.atlasMap.put("stone0", new int[]{3,0});
-		DataManager.settings.atlasMap.put("snow0", new int[]{0,1});
-		DataManager.settings.atlasMap.put("grass0", new int[]{1,1});
-		DataManager.settings.atlasMap.put("dungeonUp0", new int[]{2,1});
-		DataManager.settings.atlasMap.put("torch0", new int[]{3,1});
-		DataManager.settings.atlasMap.put("tree0", new int[]{0,2});
-		DataManager.settings.atlasMap.put("water0", new int[]{1,2});
-		DataManager.settings.atlasMap.put("ground0", new int[]{2,2});
-		DataManager.settings.atlasMap.put("water1", new int[]{3,2});
-		DataManager.settings.atlasMap.put("water2", new int[]{0,3});
-		DataManager.settings.atlasMap.put("water3", new int[]{1,3});
-		DataManager.settings.atlasMap.put("noTexture0", new int[]{2,3});
-		DataManager.settings.atlasMap.put("none0", new int[]{3,3});
-		DataManager.settings.atlasMap.put("lilyPad0", new int[]{0,4});
-		DataManager.settings.atlasMap.put("ice0", new int[]{1,4});
-		DataManager.settings.atlasMap.put("darkWood0", new int[]{2,4});
-		DataManager.settings.atlasMap.put("lightWood0", new int[]{3,4});
-		DataManager.settings.atlasMap.put("asphalt0", new int[]{0,5});
+		SettingsData.atlasMap.put("dimensions", new int[]{4,8});
+		SettingsData.atlasMap.put("dirt0", new int[]{0,0});
+		SettingsData.atlasMap.put("dungeon0", new int[]{1,0});
+		SettingsData.atlasMap.put("sand0", new int[]{2,0});
+		SettingsData.atlasMap.put("stone0", new int[]{3,0});
+		SettingsData.atlasMap.put("snow0", new int[]{0,1});
+		SettingsData.atlasMap.put("grass0", new int[]{1,1});
+		SettingsData.atlasMap.put("dungeonUp0", new int[]{2,1});
+		SettingsData.atlasMap.put("torch0", new int[]{3,1});
+		SettingsData.atlasMap.put("tree0", new int[]{0,2});
+		SettingsData.atlasMap.put("water0", new int[]{1,2});
+		SettingsData.atlasMap.put("ground0", new int[]{2,2});
+		SettingsData.atlasMap.put("water1", new int[]{3,2});
+		SettingsData.atlasMap.put("water2", new int[]{0,3});
+		SettingsData.atlasMap.put("water3", new int[]{1,3});
+		SettingsData.atlasMap.put("noTexture0", new int[]{2,3});
+		SettingsData.atlasMap.put("none0", new int[]{3,3});
+		SettingsData.atlasMap.put("lilyPad0", new int[]{0,4});
+		SettingsData.atlasMap.put("ice0", new int[]{1,4});
+		SettingsData.atlasMap.put("darkWood0", new int[]{2,4});
+		SettingsData.atlasMap.put("lightWood0", new int[]{3,4});
+		SettingsData.atlasMap.put("asphalt0", new int[]{0,5});
 	}
 	private static void noneDefinition() {
 		BlockItem none = new BlockItem(-1, true, true, "none", new int[]{0} , new int[]{0});

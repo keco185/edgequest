@@ -1,6 +1,7 @@
 package com.mtautumn.edgequest.particles;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SystemData;
 
 public class BloodParticle extends Particle {
 	double startX;
@@ -51,7 +52,7 @@ public class BloodParticle extends Particle {
 			y -= verticalSpeed;
 		}
 		if (height < 0) {
-			if (DataManager.world.getGroundBlock((int) x, (int) y, level) == DataManager.system.blockNameMap.get("water").getID()) {
+			if (DataManager.world.getGroundBlock((int) x, (int) y, level) == SystemData.blockNameMap.get("water").getID()) {
 				return true;
 			}
 			if (Math.abs(verticalSpeed) < 0.001) {

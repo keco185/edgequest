@@ -5,6 +5,8 @@ import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import com.mtautumn.edgequest.blockitems.BlockItem;
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
+import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 
@@ -45,7 +47,7 @@ public class Character extends Entity {
 		dungeonLevel = entity.dungeonLevel;
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
-		super.moveSpeed = DataManager.settings.moveSpeed; // why is move speed not just a var of the player or entity class
+		super.moveSpeed = SettingsData.moveSpeed; // why is move speed not just a var of the player or entity class
 		light = new LightSource(getX(), getY(), 8, -1);
 		light.onEntity = true;
 		DataManager.savable.lightSources.add(light);
@@ -58,13 +60,13 @@ public class Character extends Entity {
 	}
 	@Override
 	public String getTexture() {
-		if (DataManager.system.isKeyboardLeft ||
-				DataManager.system.isKeyboardUp ||
-				DataManager.system.isKeyboardRight ||
-				DataManager.system.isKeyboardDown) {
-			return entityTexture + "." + entityTexture + "walk" + walkAnimation[DataManager.system.animationClock % walkAnimation.length];
+		if (SystemData.isKeyboardLeft ||
+				SystemData.isKeyboardUp ||
+				SystemData.isKeyboardRight ||
+				SystemData.isKeyboardDown) {
+			return entityTexture + "." + entityTexture + "walk" + walkAnimation[SystemData.animationClock % walkAnimation.length];
 		}
-		return entityTexture + "." + entityTexture + "still" + stillAnimation[DataManager.system.animationClock % stillAnimation.length];
+		return entityTexture + "." + entityTexture + "still" + stillAnimation[SystemData.animationClock % stillAnimation.length];
 	}
 	@Override
 	public void update() {
@@ -72,47 +74,47 @@ public class Character extends Entity {
 		light.posY = getY();
 		light.level = dungeonLevel;
 		dungeonLevel = DataManager.savable.dungeonLevel;
-		if (DataManager.system.isKeyboardSprint) {
-			super.moveSpeed = DataManager.settings.moveSpeed * 2.0;
+		if (SystemData.isKeyboardSprint) {
+			super.moveSpeed = SettingsData.moveSpeed * 2.0;
 		} else {
-			super.moveSpeed = DataManager.settings.moveSpeed;
+			super.moveSpeed = SettingsData.moveSpeed;
 		}
-		if (DataManager.system.isKeyboardLeft ||
-				DataManager.system.isKeyboardUp ||
-				DataManager.system.isKeyboardRight ||
-				DataManager.system.isKeyboardDown) {
+		if (SystemData.isKeyboardLeft ||
+				SystemData.isKeyboardUp ||
+				SystemData.isKeyboardRight ||
+				SystemData.isKeyboardDown) {
 			if (super.path != null) {
 				super.path.clear();
 			}
-			double moveInterval = 30 / 1000.0 * DataManager.settings.moveSpeed;
+			double moveInterval = 30 / 1000.0 * SettingsData.moveSpeed;
 			double charYOffset = 0.0;
 			double charXOffset = 0.0;
-			if (DataManager.system.isKeyboardUp) {
+			if (SystemData.isKeyboardUp) {
 				charYOffset -= moveInterval;
 			}
-			if (DataManager.system.isKeyboardRight) {
+			if (SystemData.isKeyboardRight) {
 				charXOffset += moveInterval;
 			}
-			if (DataManager.system.isKeyboardDown) {
+			if (SystemData.isKeyboardDown) {
 				charYOffset += moveInterval;
 			}
-			if (DataManager.system.isKeyboardLeft) {
+			if (SystemData.isKeyboardLeft) {
 				charXOffset -= moveInterval;
 			}
 			if (charXOffset != 0 && charYOffset != 0) {
 				charXOffset *= 0.70710678118;
 				charYOffset *= 0.70710678118;
 			}
-			if (DataManager.system.isKeyboardSprint && stamina > 0.03) {
+			if (SystemData.isKeyboardSprint && stamina > 0.03) {
 				charXOffset *= 1.7;
 				charYOffset *= 1.7;
 			}
-			if (DataManager.system.blockIDMap.get((short)DataManager.characterManager.getCharaterBlockInfo()[0]).isLiquid && DataManager.characterManager.getCharaterBlockInfo()[1] == 0.0) {
+			if (SystemData.blockIDMap.get((short)DataManager.characterManager.getCharaterBlockInfo()[0]).isLiquid && DataManager.characterManager.getCharaterBlockInfo()[1] == 0.0) {
 				charXOffset /= 1.7;
 				charYOffset /= 1.7;
 			}
-			if (DataManager.system.isAiming) {
-				updateRotation(DataManager.system.mousePosition.getX() - (DataManager.settings.screenWidth / 2.0), DataManager.system.mousePosition.getY() - (DataManager.settings.screenHeight / 2.0));
+			if (SystemData.isAiming) {
+				updateRotation(SystemData.mousePosition.getX() - (SettingsData.screenWidth / 2.0), SystemData.mousePosition.getY() - (SettingsData.screenHeight / 2.0));
 				charXOffset /= 1.5;
 				charYOffset /= 1.5;
 			} else {
@@ -132,9 +134,9 @@ public class Character extends Entity {
 			} else {
 				super.move(0, 0);
 			}
-			if (!DataManager.system.characterMoving) {
-				if (DataManager.system.isAiming) {
-					updateRotation(DataManager.system.mousePosition.getX() - (DataManager.settings.screenWidth / 2.0), DataManager.system.mousePosition.getY() - (DataManager.settings.screenHeight / 2.0));
+			if (!SystemData.characterMoving) {
+				if (SystemData.isAiming) {
+					updateRotation(SystemData.mousePosition.getX() - (SettingsData.screenWidth / 2.0), SystemData.mousePosition.getY() - (SettingsData.screenHeight / 2.0));
 				}
 			}
 		}
@@ -145,20 +147,20 @@ public class Character extends Entity {
 		// -----------------------------------------
 		lastUpdate = System.currentTimeMillis();
 		if (lastX != super.getX() || lastY != super.getY()) {
-			DataManager.system.characterMoving = true;
+			SystemData.characterMoving = true;
 			lastX = super.getX();
 			lastY = super.getY();
 		} else {
-			DataManager.system.characterMoving = false;
+			SystemData.characterMoving = false;
 		}
 		
 		// -----------------------------------------
 		// Stamina Consumption and Regeneration
 		// -----------------------------------------
-		if (DataManager.system.isKeyboardSprint && DataManager.system.characterMoving && DataManager.system.isMoveInput){
+		if (SystemData.isKeyboardSprint && SystemData.characterMoving && SystemData.isMoveInput){
 			stamina -= (staminaConsumeRunning * staminaConsumeFactor);
 			timeToRegen = regenTimerSet;
-		} else if (!DataManager.system.isKeyboardSprint || !DataManager.system.characterMoving || !DataManager.system.isMoveInput) {
+		} else if (!SystemData.isKeyboardSprint || !SystemData.characterMoving || !SystemData.isMoveInput) {
 			if (stamina < maxStamina) {
 				if (timeToRegen <= 0){
 					timeToRegen = 0;
@@ -181,12 +183,12 @@ public class Character extends Entity {
 		switch (slot) {
 		case 0:
 			if (DataManager.savable.leftEquipt().getItemCount() > 0) {
-				return DataManager.system.blockIDMap.get(DataManager.savable.leftEquipt().getItemID());
+				return SystemData.blockIDMap.get(DataManager.savable.leftEquipt().getItemID());
 			}
 			return null;
 		case 1:
 			if (DataManager.savable.rightEquipt().getItemCount() > 0) {
-				return DataManager.system.blockIDMap.get(DataManager.savable.rightEquipt().getItemID());
+				return SystemData.blockIDMap.get(DataManager.savable.rightEquipt().getItemID());
 			}
 			return null;
 		default:
