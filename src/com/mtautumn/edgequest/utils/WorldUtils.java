@@ -29,7 +29,7 @@ public class WorldUtils {
 			File dir = new File(GameSaves.getLocal() + "world_" + DataManager.savable.saveName);
 
 			if (dir.exists()) {
-				Files.walk(Paths.get(GameSaves.getLocal() + "world_" + DataManager.savable.saveName))
+				Files.walk(Paths.get(dir.getAbsolutePath()))
 				.map(Path::toFile)
 				.sorted((o1, o2) -> -o1.compareTo(o2))
 				.forEach(File::delete);
