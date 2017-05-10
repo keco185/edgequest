@@ -84,7 +84,7 @@ public class ButtonActionManager extends Thread {
 			break;
 		case "saveGame":
 			try {
-				GameSaves.saveGame(DataManager.savable.saveName);
+				GameSaves.saveGame();
 				setNoticeText("Game Saved!");
 			} catch (Exception e) {
 				setNoticeText("Unable to save game");

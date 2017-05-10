@@ -72,6 +72,9 @@ public class RendererManager extends Thread {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			if (Display.isCloseRequested()) {
+				SystemData.running = false;
+			}
 		}
 		Display.destroy();
 		System.exit(0);

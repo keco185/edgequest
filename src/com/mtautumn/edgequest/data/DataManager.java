@@ -8,6 +8,7 @@ import com.mtautumn.edgequest.threads.BackpackManager;
 import com.mtautumn.edgequest.threads.BlockUpdateManager;
 import com.mtautumn.edgequest.threads.ButtonActionManager;
 import com.mtautumn.edgequest.threads.CharacterManager;
+import com.mtautumn.edgequest.threads.ChunkManager;
 import com.mtautumn.edgequest.threads.DamagePostManager;
 import com.mtautumn.edgequest.threads.EntitySpawn;
 import com.mtautumn.edgequest.threads.EntityUpdater;
@@ -45,6 +46,7 @@ public class DataManager {
 	public static ParticleManager particleManager = new ParticleManager();
 	public static ItemDropManager itemDropManager = new ItemDropManager();
 	public static WeatherManager weatherManager = new WeatherManager();
+	public static ChunkManager chunkManager = new ChunkManager();
 
 	public static WorldUtils world = new WorldUtils();
 	public static EntityUpdater entityUpdater = new EntityUpdater();
@@ -95,6 +97,7 @@ public class DataManager {
 		particleManager.start();
 		itemDropManager.start();
 		weatherManager.start();
+		chunkManager.start();
 		SystemData.requestGenUpdate = true;
 	}
 

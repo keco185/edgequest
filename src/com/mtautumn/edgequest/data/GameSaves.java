@@ -11,22 +11,24 @@ import java.net.URISyntaxException;
 import com.mtautumn.edgequest.EdgeQuest;
 import com.mtautumn.edgequest.entities.Character;
 import com.mtautumn.edgequest.entities.Entity;
+import com.mtautumn.edgequest.threads.ChunkManager;
 
 public class GameSaves {
-	public static void saveGame(String saveFile) throws IOException, URISyntaxException {
+	public static void saveGame() throws IOException, URISyntaxException {
 		try {
 			SavableData saveClass = DataManager.savable;
-			FileOutputStream fout = new FileOutputStream(getLocal() + saveFile + ".egqst");
-			@SuppressWarnings("resource")
+			FileOutputStream fout = new FileOutputStream(getLocal() + "world_" + DataManager.savable.saveName + "/world.egqst");
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(saveClass);
+			oos.close();
+			fout.close();
+			ChunkManager.saveChunks();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	public static void loadGame(String saveFile) throws ClassNotFoundException, IOException, URISyntaxException {
-		FileInputStream fin = new FileInputStream(getLocal() + saveFile + ".egqst");
-		@SuppressWarnings("resource")
+		FileInputStream fin = new FileInputStream(getLocal() + "world_" + saveFile + "/world.egqst");
 		ObjectInputStream ois = new ObjectInputStream(fin);
 		SavableData loadedSM = (SavableData) ois.readObject();
 		DataManager.savable = loadedSM;
@@ -42,6 +44,8 @@ public class GameSaves {
 		DataManager.characterManager.characterEntity = (Character) characterEntity;
 		SystemData.requestGenUpdate = true;
 		SystemData.requestScreenUpdate = true;
+		ois.close();
+		fin.close();
 		
 	}
 	public static String getLocal() throws URISyntaxException {

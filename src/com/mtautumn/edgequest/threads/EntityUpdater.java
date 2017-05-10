@@ -20,6 +20,7 @@ public class EntityUpdater extends Thread{
 	public void run() {
 		while(SystemData.running) {
 			try {
+				if (!SystemData.isGameOnLaunchScreen) {
 				for (int i = 0; i < DataManager.savable.entities.size(); i++) {
 					if (DataManager.savable.entities.get(i).dungeonLevel == DataManager.characterManager.characterEntity.dungeonLevel) {
 						if (DataManager.savable.entities.get(i).distanceToPlayer() < 100) {
@@ -54,6 +55,7 @@ public class EntityUpdater extends Thread{
 								}
 							}
 						}
+					}
 					}
 				}
 				Thread.sleep(SettingsData.tickLength);

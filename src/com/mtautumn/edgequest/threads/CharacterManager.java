@@ -35,7 +35,7 @@ public class CharacterManager extends Thread{
 		createCharacterEntity();
 		while (SystemData.running) {
 			try {
-				if (!SystemData.characterLocationSet) {
+				if (!SystemData.characterLocationSet && !SystemData.isGameOnLaunchScreen) {
 					Location location = new Location(characterEntity);
 					if (DataManager.world.isGroundBlock(location)) {
 						BlockItem charBlock = SystemData.blockIDMap.get(DataManager.world.getGroundBlock(location));

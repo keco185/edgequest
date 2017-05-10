@@ -3,10 +3,18 @@
  * level.
  */
 package com.mtautumn.edgequest.utils;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.GameSaves;
+import com.mtautumn.edgequest.dataObjects.ChunkLocation;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.entities.Entity;
+import com.mtautumn.edgequest.threads.ChunkManager;
 
 public class WorldUtils {
 	public OverworldUtils ou;
@@ -15,46 +23,77 @@ public class WorldUtils {
 		ou = new OverworldUtils();
 	}
 	public void wipeMaps() {
-		DataManager.savable.playerStructuresMap.clear();
-		DataManager.savable.map.clear();
+		//DataManager.savable.playerStructuresMap.clear();
+		//DataManager.savable.map.clear();
+		try {
+			File dir = new File(GameSaves.getLocal() + "world_" + DataManager.savable.saveName);
+
+			if (dir.exists()) {
+				Files.walk(Paths.get(GameSaves.getLocal() + "world_" + DataManager.savable.saveName))
+				.map(Path::toFile)
+				.sorted((o1, o2) -> -o1.compareTo(o2))
+				.forEach(File::delete);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		DataManager.savable.loadedChunks.clear();
 		DataManager.savable.lightMap.clear();
 		DataManager.savable.generatedRegions.clear();
 	}
 	public void setStructBlock(int x, int y, int level, short id) {
-		DataManager.savable.playerStructuresMap.put(x+","+y+","+level, id);
+		ChunkLocation location = new ChunkLocation(x, y, level);
+		ChunkManager.getChunk(location).wall[x - (int)(Math.floor(x / 10.0) * 10.0)][y - (int)(Math.floor(y / 10.0) * 10.0)] = id;
+		//DataManager.savable.playerStructuresMap.put(x+","+y+","+level, id);
 	}
 	public short getStructBlock(int x, int y, int level) {
 		if (isStructBlock(x, y, level)) {
-			return DataManager.savable.playerStructuresMap.get(x+","+y+","+level);
+			ChunkLocation location = new ChunkLocation(x, y, level);
+			return ChunkManager.getChunk(location).wall[x - (int)(Math.floor(x / 10.0) * 10.0)][y - (int)(Math.floor(y / 10.0) * 10.0)];
+			//return DataManager.savable.playerStructuresMap.get(x+","+y+","+level);
 		}
 		return 0;
 	}
 	public short getStructBlockFast(int x, int y, int level) {
-		return DataManager.savable.playerStructuresMap.get(x+","+y+","+level);
+		ChunkLocation location = new ChunkLocation(x, y, level);
+		return ChunkManager.getChunk(location).wall[x - (int)(Math.floor(x / 10.0) * 10.0)][y - (int)(Math.floor(y / 10.0) * 10.0)];
+		//return DataManager.savable.playerStructuresMap.get(x+","+y+","+level);
 	}
 	public boolean isStructBlock(int x, int y, int level) {
-		return DataManager.savable.playerStructuresMap.containsKey(x+","+y+","+level);
+		ChunkLocation location = new ChunkLocation(x, y, level);
+		return ChunkManager.getChunk(location).wall[x - (int)(Math.floor(x / 10.0) * 10.0)][y - (int)(Math.floor(y / 10.0) * 10.0)] != 0;
+		//return DataManager.savable.playerStructuresMap.containsKey(x+","+y+","+level);
 	}
 	public void removeStructBlock(int x, int y, int level) {
-		DataManager.savable.playerStructuresMap.remove(x+","+y+","+level);
+		ChunkLocation location = new ChunkLocation(x, y, level);
+		ChunkManager.getChunk(location).wall[x - (int)(Math.floor(x / 10.0) * 10.0)][y - (int)(Math.floor(y / 10.0) * 10.0)] = 0;
+		//DataManager.savable.playerStructuresMap.remove(x+","+y+","+level);
 		if (isLightSource(x, y, level)) {
 			removeLightSource(x, y, level);
 		}
 	}
 	public void setGroundBlock(int x, int y, int level, short id) {
-		DataManager.savable.map.put(x+","+y+","+level, id);
+		ChunkLocation location = new ChunkLocation(x, y, level);
+		ChunkManager.getChunk(location).ground[x - (int)(Math.floor(x / 10.0) * 10.0)][y - (int)(Math.floor(y / 10.0) * 10.0)] = id;
+		//DataManager.savable.map.put(x+","+y+","+level, id);
 	}
 	public short getGroundBlock(int x, int y, int level) {
 		if (isGroundBlock(x, y, level)) {
-			return  DataManager.savable.map.get(x+","+y+","+level);
+			ChunkLocation location = new ChunkLocation(x, y, level);
+			return ChunkManager.getChunk(location).ground[x - (int)(Math.floor(x / 10.0) * 10.0)][y - (int)(Math.floor(y / 10.0) * 10.0)];
+			//return  DataManager.savable.map.get(x+","+y+","+level);
 		}
 		return 0;
 	}
 	public boolean isGroundBlock(int x, int y, int level) {
-		return DataManager.savable.map.containsKey(x+","+y+","+level);
+		ChunkLocation location = new ChunkLocation(x, y, level);
+		return ChunkManager.getChunk(location).ground[x - (int)(Math.floor(x / 10.0) * 10.0)][y - (int)(Math.floor(y / 10.0) * 10.0)] != 0;
+		//return DataManager.savable.map.containsKey(x+","+y+","+level);
 	}
 	public void removeGroundBlock(int x, int y, int level) {
-		DataManager.savable.map.remove(x+","+y+","+level);
+		ChunkLocation location = new ChunkLocation(x, y, level);
+		ChunkManager.getChunk(location).ground[x - (int)(Math.floor(x / 10.0) * 10.0)][y - (int)(Math.floor(y / 10.0) * 10.0)] = 0;
+		//DataManager.savable.map.remove(x+","+y+","+level);
 	}
 	public void addLightSource(int x, int y, int level) {
 		LightSource light = new LightSource(Double.valueOf(x) + 0.5, Double.valueOf(y) + 0.5, 8, level);
@@ -97,9 +136,9 @@ public class WorldUtils {
 		}
 		return brightness;
 	}
-	
+
 	public void setStructBlock(Entity entity, int x, int y, short id) {
-			setStructBlock(x, y, entity.dungeonLevel, id);
+		setStructBlock(x, y, entity.dungeonLevel, id);
 	}
 	public short getStructBlock(Entity entity, int x, int y) {
 		return getStructBlock(x,y,entity.dungeonLevel);
@@ -159,7 +198,7 @@ public class WorldUtils {
 		}
 		return brightness;
 	}
-	
+
 	public void setStructBlock(Location location, short id) {
 		setStructBlock(location.x, location.y, location.level, id);
 	}
