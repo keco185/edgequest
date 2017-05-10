@@ -9,6 +9,7 @@ import org.lwjgl.opengl.GL20;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
+import com.mtautumn.edgequest.threads.CharacterManager;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Layers {
@@ -77,7 +78,7 @@ public class Layers {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0);
 		
 		int ambientColorLocation = GL20.glGetUniformLocation(r.terrainDrawShader.getProgramId(),"ambientLight");
-		float brightness = (float) DataManager.world.getBrightness(DataManager.characterManager.characterEntity);
+		float brightness = (float) DataManager.world.getBrightness(CharacterManager.characterEntity);
 		if (DataManager.world.noLighting) {
 			brightness = 1;
 		}

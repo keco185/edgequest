@@ -3,8 +3,8 @@ package com.mtautumn.edgequest.dataObjects;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SystemData;
+import com.mtautumn.edgequest.threads.CharacterManager;
 
 
 //These are 10x10 block chunks
@@ -29,6 +29,6 @@ public class Chunk implements Serializable {
 		if (SystemData.minTileX < x + 10 && SystemData.maxTileX >= x) inXRange = true;
 		
 		if (SystemData.minTileY < y + 10 && SystemData.maxTileY >= y) inYRange = true;		
-		return inXRange && inYRange && level == DataManager.characterManager.characterEntity.dungeonLevel;
+		return inXRange && inYRange && level == CharacterManager.characterEntity.dungeonLevel;
 	}
 }

@@ -13,6 +13,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
+import com.mtautumn.edgequest.threads.CharacterManager;
 import com.mtautumn.edgequest.utils.PathFinder;
 import com.mtautumn.edgequest.utils.PathFinder.IntCoord;
 
@@ -351,7 +352,7 @@ public class Entity implements Externalizable {
 		return false;
 	}
 	public double distanceToPlayer() {
-		return Math.sqrt(Math.pow(DataManager.characterManager.characterEntity.getX() - posX, 2) + Math.pow(DataManager.characterManager.characterEntity.getY() - posY, 2));
+		return Math.sqrt(Math.pow(CharacterManager.characterEntity.getX() - posX, 2) + Math.pow(CharacterManager.characterEntity.getY() - posY, 2));
 	}
 	public BlockItem getBlock() {
 		if (DataManager.world.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {

@@ -195,8 +195,8 @@ public class RendererManager extends Thread {
 	}
 
 	private static void updateScreenCenter() {
-		SystemData.screenX = DataManager.characterManager.characterEntity.getX();
-		SystemData.screenY = DataManager.characterManager.characterEntity.getY();
+		SystemData.screenX = CharacterManager.characterEntity.getX();
+		SystemData.screenY = CharacterManager.characterEntity.getY();
 	}
 
 	private void setupWindow() {

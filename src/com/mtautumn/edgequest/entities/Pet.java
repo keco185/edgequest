@@ -2,6 +2,7 @@ package com.mtautumn.edgequest.entities;
 
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.projectiles.HandProjectile;
+import com.mtautumn.edgequest.threads.CharacterManager;
 
 public class Pet extends Entity {
 	private static final long serialVersionUID = 1L;
@@ -75,11 +76,11 @@ public class Pet extends Entity {
 				attackStage = 0;
 			}
 		} else {
-			if (isLineOfSight(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY())) {
-				double deltaX = DataManager.characterManager.characterEntity.getX() - getX();
-				double deltaY = DataManager.characterManager.characterEntity.getY() - getY();
+			if (isLineOfSight(CharacterManager.characterEntity.getX(), CharacterManager.characterEntity.getY())) {
+				double deltaX = CharacterManager.characterEntity.getX() - getX();
+				double deltaY = CharacterManager.characterEntity.getY() - getY();
 				updateRotation(deltaX, deltaY);
-				if (distanceToPlayer() > 2 && DataManager.characterManager.characterEntity.dungeonLevel == dungeonLevel) {
+				if (distanceToPlayer() > 2 && CharacterManager.characterEntity.dungeonLevel == dungeonLevel) {
 					double moveX = Math.cos(rotation) * moveSpeed / 30.0;
 					double moveY = Math.sin(rotation) * moveSpeed / 30.0;
 					move(moveX, moveY);
@@ -87,11 +88,11 @@ public class Pet extends Entity {
 					move(0,0);
 				}
 				super.path = null;
-			} else if ((distanceToPlayer() > 2 || !isLineOfSight(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY())) && DataManager.characterManager.characterEntity.dungeonLevel == dungeonLevel) {
+			} else if ((distanceToPlayer() > 2 || !isLineOfSight(CharacterManager.characterEntity.getX(), CharacterManager.characterEntity.getY())) && CharacterManager.characterEntity.dungeonLevel == dungeonLevel) {
 				if (Math.abs(lastPlayerPosUpdate - System.currentTimeMillis()) > 2000) {
-					if (lastPlayerX != DataManager.characterManager.characterEntity.getX() || lastPlayerY != DataManager.characterManager.characterEntity.getY()) {
-						lastPlayerX = DataManager.characterManager.characterEntity.getX();
-						lastPlayerY = DataManager.characterManager.characterEntity.getY();
+					if (lastPlayerX != CharacterManager.characterEntity.getX() || lastPlayerY != CharacterManager.characterEntity.getY()) {
+						lastPlayerX = CharacterManager.characterEntity.getX();
+						lastPlayerY = CharacterManager.characterEntity.getY();
 						super.setDestination((int)lastPlayerX, (int) lastPlayerY);
 						lastPlayerPosUpdate = System.currentTimeMillis();
 					}

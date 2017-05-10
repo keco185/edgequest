@@ -33,39 +33,40 @@ public class BloodParticle extends Particle {
 		time++;
 		if (disappearTime < time) {
 			return true;
-		}
-		speed *= 0.4;
-		speedXInitial *= 0.4;
-		speedYInitial *= 0.4;
-		if (checkMove(x + Math.cos(angle) * speed + speedXInitial, y)) {
-			x += Math.cos(angle) * speed + speedXInitial;
-		} else {
-			x = Math.round(x);
-		}
-		if (checkMove(x, y + Math.sin(angle) * speed + speedYInitial)) {
-			y += Math.sin(angle) * speed + speedYInitial;
-		} else {
-			y = Math.round(y);
-		}
-		if (checkMove(x, y - verticalSpeed) && Math.abs(verticalSpeed) > 0.001) {
-			height += verticalSpeed;
-			y -= verticalSpeed;
-		}
-		if (height < 0) {
-			if (DataManager.world.getGroundBlock((int) x, (int) y, level) == SystemData.blockNameMap.get("water").getID()) {
-				return true;
-			}
-			if (Math.abs(verticalSpeed) < 0.001) {
-				verticalSpeed = 0;
+		} else if (time < 100) {
+			speed *= 0.4;
+			speedXInitial *= 0.4;
+			speedYInitial *= 0.4;
+			if (checkMove(x + Math.cos(angle) * speed + speedXInitial, y)) {
+				x += Math.cos(angle) * speed + speedXInitial;
 			} else {
-				verticalSpeed = -verticalSpeed / 2.0;
-				if (checkMove(x,y + height)) {
-					y += height;
-				}
-				height = 0;
+				x = Math.round(x);
 			}
-		} else if (height > 0){
-			verticalSpeed -= 0.01;
+			if (checkMove(x, y + Math.sin(angle) * speed + speedYInitial)) {
+				y += Math.sin(angle) * speed + speedYInitial;
+			} else {
+				y = Math.round(y);
+			}
+			if (checkMove(x, y - verticalSpeed) && Math.abs(verticalSpeed) > 0.001) {
+				height += verticalSpeed;
+				y -= verticalSpeed;
+			}
+			if (height < 0) {
+				if (DataManager.world.getGroundBlock((int) x, (int) y, level) == SystemData.blockNameMap.get("water").getID()) {
+					return true;
+				}
+				if (Math.abs(verticalSpeed) < 0.001) {
+					verticalSpeed = 0;
+				} else {
+					verticalSpeed = -verticalSpeed / 2.0;
+					if (checkMove(x,y + height)) {
+						y += height;
+					}
+					height = 0;
+				}
+			} else if (height > 0){
+				verticalSpeed -= 0.01;
+			}
 		}
 		return false;
 	}

@@ -12,11 +12,8 @@ import com.mtautumn.edgequest.dataObjects.LightSource;
 
 public class Character extends Entity {
 	private static final long serialVersionUID = 1L;
-	long lastUpdate;
 	private double lastX = 0;
 	private double lastY = 0;
-	public double health = 20;
-	public double maxHealth = 20;
 	public double stamina = 10;
 	public double maxStamina = 10;
 	public LightSource light;
@@ -39,6 +36,10 @@ public class Character extends Entity {
 		light = new LightSource(getX(), getY(), 8, -1); //light use to be 8, you can't see enemies until they're already on top of you...
 		light.onEntity = true;
 		DataManager.savable.lightSources.add(light);
+		super.health = 20;
+		super.maxHealth = 20;
+		super.lastPosX = lastX;
+		super.lastPosY = lastY;
 	}
 	public Character(Entity entity) {
 		super("character", EntityType.character, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel);
@@ -51,12 +52,20 @@ public class Character extends Entity {
 		light = new LightSource(getX(), getY(), 8, -1);
 		light.onEntity = true;
 		DataManager.savable.lightSources.add(light);
+		super.health = 20;
+		super.maxHealth = 20;
+		super.lastPosX = lastX;
+		super.lastPosY = lastY;
 	}
 	public Character() {
 		super();
 		super.slide = true;
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
+		super.health = 20;
+		super.maxHealth = 20;
+		super.lastPosX = lastX;
+		super.lastPosY = lastY;
 	}
 	@Override
 	public String getTexture() {

@@ -8,6 +8,7 @@ import org.lwjgl.opengl.Display;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
+import com.mtautumn.edgequest.threads.CharacterManager;
 import com.mtautumn.edgequest.window.Renderer;
 import com.mtautumn.edgequest.window.layers.OptionPane;
 
@@ -75,13 +76,13 @@ public class MouseUpdater {
 		SystemData.mouseYExact = (offsetY + SystemData.mousePosition.getY())/Double.valueOf(SettingsData.blockSize);
 		SystemData.mouseX = (int) Math.floor(SystemData.mouseXExact);
 		SystemData.mouseY = (int) Math.floor(SystemData.mouseYExact);
-		SystemData.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(SystemData.mouseX) - Math.floor(DataManager.characterManager.characterEntity.getX()), 2.0)+Math.pow(Double.valueOf(SystemData.mouseY) - Math.floor(DataManager.characterManager.characterEntity.getY()), 2.0)) > 3.0);
+		SystemData.isMouseFar =  (Math.sqrt(Math.pow(Double.valueOf(SystemData.mouseX) - Math.floor(CharacterManager.characterEntity.getX()), 2.0)+Math.pow(Double.valueOf(SystemData.mouseY) - Math.floor(CharacterManager.characterEntity.getY()), 2.0)) > 3.0);
 	}
 	
 	private static void initiateAStarWalking() {
 		SystemData.autoWalkX = SystemData.mouseX;
 		SystemData.autoWalkY = SystemData.mouseY;
-		DataManager.characterManager.characterEntity.setDestination(SystemData.autoWalkX, SystemData.autoWalkY);
+		CharacterManager.characterEntity.setDestination(SystemData.autoWalkX, SystemData.autoWalkY);
 	}
 	
 	private static boolean isTextPaneVisible() {

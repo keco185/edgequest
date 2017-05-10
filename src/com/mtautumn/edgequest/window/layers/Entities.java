@@ -4,6 +4,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.entities.Entity;
+import com.mtautumn.edgequest.threads.CharacterManager;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class Entities {
@@ -11,12 +12,12 @@ public class Entities {
 		for( int i = 0; i < DataManager.savable.entities.size(); i++) {
 			Entity entity = DataManager.savable.entities.get(i);
 			if (entity.dungeonLevel == DataManager.savable.dungeonLevel) {
-					if (entity != DataManager.characterManager.characterEntity) {
+					if (entity != CharacterManager.characterEntity) {
 						drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r, Double.valueOf(entity.health)/Double.valueOf(entity.maxHealth));
 					}
 			}
 		}
-		Entity entity = DataManager.characterManager.characterEntity;
+		Entity entity = CharacterManager.characterEntity;
 		drawEntity(entity.getTexture(), entity.frameX, entity.frameY, entity.getRot(), r);
 	}
 	private static void drawEntity(String texture, double posX, double posY, double rotation, Renderer r, double health) {

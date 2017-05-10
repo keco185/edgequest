@@ -8,6 +8,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
+import com.mtautumn.edgequest.threads.CharacterManager;
 
 public class UpdateMining {
 	private boolean wasMouseDown = false;
@@ -31,7 +32,7 @@ public class UpdateMining {
 					if (SystemData.blockDamage >= 10) {
 						SystemData.blockDamage = 0;
 						breakBlock(SystemData.mouseX, SystemData.mouseY, DataManager.savable.dungeonLevel);
-						Location checkLocation = new Location(DataManager.characterManager.characterEntity);
+						Location checkLocation = new Location(CharacterManager.characterEntity);
 						checkLocation.x = SystemData.mouseX;
 						checkLocation.y = SystemData.mouseY;
 						DataManager.blockUpdateManager.lighting.update(checkLocation);

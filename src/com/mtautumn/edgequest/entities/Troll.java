@@ -9,6 +9,7 @@ import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.ItemDrop;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.projectiles.DaggerProjectile;
+import com.mtautumn.edgequest.threads.CharacterManager;
 import com.mtautumn.edgequest.utils.PathFinder.IntCoord;
 
 public class Troll extends Entity {
@@ -48,9 +49,9 @@ public class Troll extends Entity {
 	public void update() {
 		if (checkCount == 10) {
 			checkCount = 0;
-			if (isLineOfSightFOV(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY(), 2.7052603406)) {
-				lastPlayerLocX = DataManager.characterManager.characterEntity.getX();
-				lastPlayerLocY = DataManager.characterManager.characterEntity.getY();
+			if (isLineOfSightFOV(CharacterManager.characterEntity.getX(), CharacterManager.characterEntity.getY(), 2.7052603406)) {
+				lastPlayerLocX = CharacterManager.characterEntity.getX();
+				lastPlayerLocY = CharacterManager.characterEntity.getY();
 			} else if (!Double.isNaN(lastPlayerLocX) && !Double.isNaN(lastPlayerLocY)) {
 				if (Math.sqrt(Math.pow(lastPlayerLocX - getX(), 2)+Math.pow(lastPlayerLocY - getY(), 2)) < 5 && path.size() == 0) {
 					lastPlayerLocX = Double.NaN;
@@ -60,7 +61,7 @@ public class Troll extends Entity {
 		}
 		checkCount++;
 		if (!Double.isNaN(lastPlayerLocX) && !Double.isNaN(lastPlayerLocY)) {
-			if (distanceToPlayer() > 5 || !isLineOfSight(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY())) {
+			if (distanceToPlayer() > 5 || !isLineOfSight(CharacterManager.characterEntity.getX(), CharacterManager.characterEntity.getY())) {
 
 				if (checkCount == 1) {
 					setDestination((int) Math.floor(lastPlayerLocX), (int) Math.floor(lastPlayerLocY));
@@ -134,18 +135,18 @@ public class Troll extends Entity {
 		}
 		super.update();
 
-		if (attackTimer == 60 && distanceToPlayer() <= 5 && isLineOfSightFOV(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY(), 2.7052603406)) {
-			double deltaX = DataManager.characterManager.characterEntity.getX() - getX();
-			double deltaY = DataManager.characterManager.characterEntity.getY() - getY();
+		if (attackTimer == 60 && distanceToPlayer() <= 5 && isLineOfSightFOV(CharacterManager.characterEntity.getX(), CharacterManager.characterEntity.getY(), 2.7052603406)) {
+			double deltaX = CharacterManager.characterEntity.getX() - getX();
+			double deltaY = CharacterManager.characterEntity.getY() - getY();
 			double angle = Math.atan2(-deltaY, deltaX);
 			double offsetX;
 			double offsetY;
 			if (lastHand) {
-				offsetX = Math.cos(-DataManager.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
-				offsetY = -Math.sin(-DataManager.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+				offsetX = Math.cos(-CharacterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+				offsetY = -Math.sin(-CharacterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
 			} else {
-				offsetX = Math.cos(-DataManager.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
-				offsetY = -Math.sin(-DataManager.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+				offsetX = Math.cos(-CharacterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+				offsetY = -Math.sin(-CharacterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
 			}
 			lastHand = !lastHand;
 			DataManager.savable.projectiles.add(new DaggerProjectile(10, 5, this, Weapon.getDamage(3), offsetX, offsetY, false, 1, angle));

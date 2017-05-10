@@ -3,6 +3,7 @@ package com.mtautumn.edgequest.window.layers;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
+import com.mtautumn.edgequest.threads.CharacterManager;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class DiagnosticsWindow {
@@ -15,9 +16,9 @@ public class DiagnosticsWindow {
 		r.font.drawString(x, i+=x, "Time: " + DataManager.savable.time);
 		r.font.drawString(x, i+=x, "Time Human: " + SystemData.timeReadable);
 		r.font.drawString(x, i+=x, "Brightness: " + DataManager.world.getBrightness());
-		r.font.drawString(x, i+=x, "CharX: " + DataManager.characterManager.characterEntity.getX());
-		r.font.drawString(x, i+=x, "CharY: " + DataManager.characterManager.characterEntity.getY());
-		r.font.drawString(x, i+=x, "CharDir: " + DataManager.characterManager.characterEntity.getRot());
+		r.font.drawString(x, i+=x, "CharX: " + CharacterManager.characterEntity.getX());
+		r.font.drawString(x, i+=x, "CharY: " + CharacterManager.characterEntity.getY());
+		r.font.drawString(x, i+=x, "CharDir: " + CharacterManager.characterEntity.getRot());
 		r.font.drawString(x, i+=x, "Dungeon Lvl: " + DataManager.savable.dungeonLevel);
 		r.font.drawString(x, i+=x, "CharMove: " + SystemData.characterMoving);
 		r.font.drawString(x, i+=x, "Terrain Gen: " + SystemData.blockGenerationLastTick);

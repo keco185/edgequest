@@ -60,7 +60,7 @@ public class ItemDropManager extends Thread {
 		return false;
 	}
 	public void putNearbyItemsInBackpack() {
-		Entity entity = DataManager.characterManager.characterEntity;
+		Entity entity = CharacterManager.characterEntity;
 		for (ItemDrop drop : DataManager.savable.itemDrops) {
 			if (drop.level == entity.dungeonLevel) {
 				if (Math.sqrt(Math.pow(drop.x - entity.getX(), 2) + Math.pow(drop.y, entity.getY())) < 1) {

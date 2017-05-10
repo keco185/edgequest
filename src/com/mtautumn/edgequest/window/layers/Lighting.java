@@ -10,6 +10,7 @@ import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.dataObjects.Triangle;
+import com.mtautumn.edgequest.threads.CharacterManager;
 import com.mtautumn.edgequest.window.Renderer;
 public class Lighting extends Thread {
 	Renderer r;
@@ -75,9 +76,9 @@ public class Lighting extends Thread {
 		}
 	}
 	public static void updatePlayerLight() {
-		DataManager.characterManager.characterEntity.light.posX = DataManager.characterManager.characterEntity.frameX;
-		DataManager.characterManager.characterEntity.light.posY = DataManager.characterManager.characterEntity.frameY;
-		DataManager.characterManager.characterEntity.light.level = DataManager.characterManager.characterEntity.dungeonLevel;
-		DataManager.blockUpdateManager.lighting.urc.update(DataManager.characterManager.characterEntity.light);
+		CharacterManager.characterEntity.light.posX = CharacterManager.characterEntity.frameX;
+		CharacterManager.characterEntity.light.posY = CharacterManager.characterEntity.frameY;
+		CharacterManager.characterEntity.light.level = CharacterManager.characterEntity.dungeonLevel;
+		DataManager.blockUpdateManager.lighting.urc.update(CharacterManager.characterEntity.light);
 	}
 }

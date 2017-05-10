@@ -121,13 +121,13 @@ public class KeyboardUpdater {
 						}
 					}
 					if (keyAction && !wasKeyDown[SettingsData.actionKey]) { //If action key was just pressed
-						if (DataManager.itemDropManager.isItemInRange(DataManager.characterManager.characterEntity)) { //Pickup item if available
+						if (DataManager.itemDropManager.isItemInRange(CharacterManager.characterEntity)) { //Pickup item if available
 							DataManager.itemDropManager.putNearbyItemsInBackpack();
-						} else if (DataManager.characterManager.characterEntity.getRelativeStructureBlock(0, 0).isName("dungeonUp")) { //Go up loadder if available
-							DataManager.characterManager.characterEntity.dungeonLevel -= 1;
+						} else if (CharacterManager.characterEntity.getRelativeStructureBlock(0, 0).isName("dungeonUp")) { //Go up loadder if available
+							CharacterManager.characterEntity.dungeonLevel -= 1;
 							DataManager.savable.dungeonLevel -= 1;
-						} else if (DataManager.characterManager.characterEntity.getRelativeStructureBlock(0, 0).isName("dungeon")) { //Go down ladder if available
-							DataManager.characterManager.characterEntity.dungeonLevel += 1;
+						} else if (CharacterManager.characterEntity.getRelativeStructureBlock(0, 0).isName("dungeon")) { //Go down ladder if available
+							CharacterManager.characterEntity.dungeonLevel += 1;
 							DataManager.savable.dungeonLevel += 1;
 						}
 					}

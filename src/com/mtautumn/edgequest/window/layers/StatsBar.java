@@ -3,6 +3,7 @@ package com.mtautumn.edgequest.window.layers;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
+import com.mtautumn.edgequest.threads.CharacterManager;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class StatsBar {
@@ -28,7 +29,7 @@ public class StatsBar {
 	}
 	
 	private static void drawHealth(Renderer r) {
-		double health = Double.valueOf(DataManager.characterManager.characterEntity.health) / Double.valueOf(DataManager.characterManager.characterEntity.maxHealth);
+		double health = Double.valueOf(CharacterManager.characterEntity.health) / Double.valueOf(CharacterManager.characterEntity.maxHealth);
 		if (lastHealth == -1 || Math.abs(lastHealth - health) < 0.01) lastHealth = health;
 		else if (lastHealth < health) lastHealth += 0.01;
 		else if (lastHealth > health) lastHealth -= 0.01;
@@ -53,7 +54,7 @@ public class StatsBar {
 		}
 	}
 	private static void drawStamina(Renderer r) {
-		double stamina = DataManager.characterManager.characterEntity.stamina / DataManager.characterManager.characterEntity.maxStamina;
+		double stamina = CharacterManager.characterEntity.stamina / CharacterManager.characterEntity.maxStamina;
 		if (stamina > 1) {
 			stamina = 1.0;
 		}

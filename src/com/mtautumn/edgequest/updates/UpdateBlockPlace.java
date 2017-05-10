@@ -5,6 +5,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.dataObjects.Location;
+import com.mtautumn.edgequest.threads.CharacterManager;
 
 public class UpdateBlockPlace {
 	private boolean wasMouseDown = false;
@@ -25,7 +26,7 @@ public class UpdateBlockPlace {
 		wasMouseDown = SystemData.leftMouseDown;
 	}
 	private static void placeBlock(int x, int y, int click) {
-		Location checkLocation = new Location(DataManager.characterManager.characterEntity);
+		Location checkLocation = new Location(CharacterManager.characterEntity);
 		checkLocation.x = x;
 		checkLocation.y = y;
 		if (!DataManager.world.isStructBlock(checkLocation) && DataManager.savable.backpackItems[6][click].getItemCount() > 0) {

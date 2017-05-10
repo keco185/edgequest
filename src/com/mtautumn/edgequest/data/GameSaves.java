@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import com.mtautumn.edgequest.EdgeQuest;
 import com.mtautumn.edgequest.entities.Character;
 import com.mtautumn.edgequest.entities.Entity;
+import com.mtautumn.edgequest.threads.CharacterManager;
 import com.mtautumn.edgequest.threads.ChunkManager;
 
 public class GameSaves {
@@ -41,7 +42,7 @@ public class GameSaves {
 				characterEntity = DataManager.savable.entities.get(i);
 			}
 		}
-		DataManager.characterManager.characterEntity = (Character) characterEntity;
+		CharacterManager.characterEntity = (Character) characterEntity;
 		SystemData.requestGenUpdate = true;
 		SystemData.requestScreenUpdate = true;
 		ois.close();

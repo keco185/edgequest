@@ -28,8 +28,8 @@ public class AttackManager extends Thread {
 		}
 	}
 	private static boolean isWeapon(int slot) {
-		if (DataManager.characterManager.characterEntity.getHeldItem(slot) != null) {
-			if (DataManager.characterManager.characterEntity.getHeldItem(slot) instanceof Weapon) {
+		if (CharacterManager.characterEntity.getHeldItem(slot) != null) {
+			if (CharacterManager.characterEntity.getHeldItem(slot) instanceof Weapon) {
 				return true;
 			}
 		}
@@ -87,21 +87,21 @@ public class AttackManager extends Thread {
 		double offsetY = 0;
 		boolean handUsed = false; //left hand is false;
 		if (isWeapon(0)) {
-			attackWeapon = (Weapon) DataManager.characterManager.characterEntity.getHeldItem(0);
-			offsetX = Math.cos(-DataManager.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
-			offsetY = -Math.sin(-DataManager.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
-			DataManager.characterManager.characterEntity.getHeldItemSlot(0).itemHealth -= 1;
-			if (DataManager.characterManager.characterEntity.getHeldItemSlot(0).itemHealth <= 0) {
-				DataManager.characterManager.characterEntity.removeHeldItem(0);
+			attackWeapon = (Weapon) CharacterManager.characterEntity.getHeldItem(0);
+			offsetX = Math.cos(-CharacterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+			offsetY = -Math.sin(-CharacterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+			CharacterManager.characterEntity.getHeldItemSlot(0).itemHealth -= 1;
+			if (CharacterManager.characterEntity.getHeldItemSlot(0).itemHealth <= 0) {
+				CharacterManager.characterEntity.removeHeldItem(0);
 			}
 		} else if (isWeapon(1)) {
-			attackWeapon = (Weapon) DataManager.characterManager.characterEntity.getHeldItem(1);
-			offsetX = Math.cos(-DataManager.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
-			offsetY = -Math.sin(-DataManager.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+			attackWeapon = (Weapon) CharacterManager.characterEntity.getHeldItem(1);
+			offsetX = Math.cos(-CharacterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+			offsetY = -Math.sin(-CharacterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
 			handUsed = true;
-			DataManager.characterManager.characterEntity.getHeldItemSlot(1).itemHealth -= 1;
-			if (DataManager.characterManager.characterEntity.getHeldItemSlot(1).itemHealth <= 0) {
-				DataManager.characterManager.characterEntity.removeHeldItem(1);
+			CharacterManager.characterEntity.getHeldItemSlot(1).itemHealth -= 1;
+			if (CharacterManager.characterEntity.getHeldItemSlot(1).itemHealth <= 0) {
+				CharacterManager.characterEntity.removeHeldItem(1);
 			}
 		}
 		Projectile[] projectiles;
@@ -109,22 +109,22 @@ public class AttackManager extends Thread {
 			if (doesBackpackContainAmmo(attackWeapon)) {
 				ItemSlot slot = getAmmoSlot(attackWeapon);
 				removeAmmoFromSlot(attackWeapon);
-				projectiles = attackWeapon.createProjectiles(SystemData.blockIDMap.get(slot.getItemID()).getName(), DataManager.characterManager.characterEntity, offsetX, offsetY, handUsed);
+				projectiles = attackWeapon.createProjectiles(SystemData.blockIDMap.get(slot.getItemID()).getName(), CharacterManager.characterEntity, offsetX, offsetY, handUsed);
 			} else if (attackWeapon.ammoTypes.length == 0) {
-				projectiles = attackWeapon.createProjectiles(null, DataManager.characterManager.characterEntity, offsetX, offsetY, handUsed);
+				projectiles = attackWeapon.createProjectiles(null, CharacterManager.characterEntity, offsetX, offsetY, handUsed);
 			} else {
 				projectiles = new Projectile[0];
 			}
 		} else {
 			if (lastHand) {
-				offsetX = Math.cos(-DataManager.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
-				offsetY = -Math.sin(-DataManager.characterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+				offsetX = Math.cos(-CharacterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
+				offsetY = -Math.sin(-CharacterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
 			} else {
-				offsetX = Math.cos(-DataManager.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
-				offsetY = -Math.sin(-DataManager.characterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+				offsetX = Math.cos(-CharacterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
+				offsetY = -Math.sin(-CharacterManager.characterEntity.getRot() + Math.PI / 4.0) * 0.4;
 			}
 			lastHand = !lastHand;
-			projectiles = Hands.createProjectiles(DataManager.characterManager.characterEntity, offsetX, offsetY);
+			projectiles = Hands.createProjectiles(CharacterManager.characterEntity, offsetX, offsetY);
 		}
 		for (int i = 0; i < projectiles.length; i++) {
 			projectiles[i].x += offsetX;

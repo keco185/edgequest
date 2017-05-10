@@ -10,9 +10,9 @@ import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.entities.Character;
 
-public class CharacterManager extends Thread{
+public class CharacterManager extends Thread {
 	BlockUpdateManager blockUpdateManager;
-	public Character characterEntity;
+	public static Character characterEntity;
 	public CharacterManager() {
 		blockUpdateManager = DataManager.blockUpdateManager;
 	}
@@ -46,7 +46,7 @@ public class CharacterManager extends Thread{
 							characterEntity.move(0.5, 0.5);
 						}
 					}
-				}
+				} 
 				Thread.sleep(SettingsData.tickLength);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -55,13 +55,13 @@ public class CharacterManager extends Thread{
 	}
 	public double[] getCharaterBlockInfo() {
 		double[] blockInfo = {0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome
-		int charX = (int) Math.floor(DataManager.characterManager.characterEntity.getX());
-		int charY = (int) Math.floor(DataManager.characterManager.characterEntity.getY());
-			if (DataManager.world.isGroundBlock(DataManager.characterManager.characterEntity, charX, charY)) {
-				blockInfo[0] = DataManager.world.getGroundBlock(DataManager.characterManager.characterEntity, charX, charY);
+		int charX = (int) Math.floor(CharacterManager.characterEntity.getX());
+		int charY = (int) Math.floor(CharacterManager.characterEntity.getY());
+			if (DataManager.world.isGroundBlock(CharacterManager.characterEntity, charX, charY)) {
+				blockInfo[0] = DataManager.world.getGroundBlock(CharacterManager.characterEntity, charX, charY);
 			}
-			if (DataManager.world.isStructBlock(DataManager.characterManager.characterEntity, charX, charY)) {
-				blockInfo[1] = DataManager.world.getStructBlock(DataManager.characterManager.characterEntity, charX, charY);
+			if (DataManager.world.isStructBlock(CharacterManager.characterEntity, charX, charY)) {
+				blockInfo[1] = DataManager.world.getStructBlock(CharacterManager.characterEntity, charX, charY);
 			}
 		return blockInfo;
 	}
