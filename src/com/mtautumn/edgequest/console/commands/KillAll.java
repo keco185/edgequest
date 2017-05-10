@@ -3,6 +3,7 @@ package com.mtautumn.edgequest.console.commands;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.threads.CharacterManager;
 
 public class KillAll extends Command {
 
@@ -10,7 +11,7 @@ public class KillAll extends Command {
 	public boolean execute(ArrayList<String> args) {
 		int entities = 0;
 		for (int i = 0; i < DataManager.savable.entities.size(); i++) {
-			if (DataManager.savable.entities.get(i) != DataManager.characterManager.characterEntity) {
+			if (DataManager.savable.entities.get(i) != CharacterManager.characterEntity) {
 				DataManager.savable.entities.remove(i);
 				i--;
 				entities++;

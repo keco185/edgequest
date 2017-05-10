@@ -2,7 +2,7 @@ package com.mtautumn.edgequest.console.commands;
 
 import java.util.ArrayList;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.threads.CharacterManager;
 
 public class SetHealth extends Command {
 
@@ -13,8 +13,8 @@ public class SetHealth extends Command {
 			if (health > 100) {
 				health = 100;
 			}
-			DataManager.characterManager.characterEntity.health = (int)(health/100.0 * DataManager.characterManager.characterEntity.maxHealth);
-			addInfoLine("set health to: " + DataManager.characterManager.characterEntity.health);
+			CharacterManager.characterEntity.health = (int)(health/100.0 * CharacterManager.characterEntity.maxHealth);
+			addInfoLine("set health to: " + CharacterManager.characterEntity.health);
 		} else {
 			addErrorLine("use the format " + usage());
 		}

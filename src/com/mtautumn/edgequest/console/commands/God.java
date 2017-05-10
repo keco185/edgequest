@@ -2,16 +2,16 @@ package com.mtautumn.edgequest.console.commands;
 
 import java.util.ArrayList;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.threads.CharacterManager;
 
 public class God extends Command {
 
 	@Override
 	public boolean execute(ArrayList<String> args) {
-		if (DataManager.characterManager.characterEntity.health <= DataManager.characterManager.characterEntity.maxHealth) {
-			DataManager.characterManager.characterEntity.health = 2147483647;
+		if (CharacterManager.characterEntity.health <= CharacterManager.characterEntity.maxHealth) {
+			CharacterManager.characterEntity.health = 2147483647;
 		} else {
-			DataManager.characterManager.characterEntity.health = DataManager.characterManager.characterEntity.maxHealth;
+			CharacterManager.characterEntity.health = CharacterManager.characterEntity.maxHealth;
 		}
 		addInfoLine("God Mode toggled");
 		return true;

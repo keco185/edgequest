@@ -2,16 +2,16 @@ package com.mtautumn.edgequest.console.commands;
 
 import java.util.ArrayList;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.threads.CharacterManager;
 
 public class UBM extends Command {
 
 	@Override
 	public boolean execute(ArrayList<String> args) {
-		if (DataManager.characterManager.characterEntity.stamina <= DataManager.characterManager.characterEntity.maxStamina) {
-			DataManager.characterManager.characterEntity.stamina = 2147483647;
+		if (CharacterManager.characterEntity.stamina <= CharacterManager.characterEntity.maxStamina) {
+			CharacterManager.characterEntity.stamina = 2147483647;
 		} else {
-			DataManager.characterManager.characterEntity.stamina = DataManager.characterManager.characterEntity.maxStamina;
+			CharacterManager.characterEntity.stamina = CharacterManager.characterEntity.maxStamina;
 		}
 		addInfoLine("Usain Bolt Mode toggled");
 		return true;

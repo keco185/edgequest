@@ -4,24 +4,25 @@ import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SystemData;
+import com.mtautumn.edgequest.threads.CharacterManager;
 
 public class Tp extends Command {
 
 	@Override
 	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 2) {
-			DataManager.characterManager.characterEntity.setPos(Double.parseDouble(args.get(0)),Double.parseDouble(args.get(1)));
+			CharacterManager.characterEntity.setPos(Double.parseDouble(args.get(0)),Double.parseDouble(args.get(1)));
 			SystemData.characterMoving = true;
 			SystemData.requestGenUpdate = true;
 			SystemData.requestScreenUpdate = true;
 			addInfoLine("Teleported to: " + args.get(0) + ", " + args.get(1));
 		} else if (args.size() == 3) {
-			DataManager.characterManager.characterEntity.setPos(Double.parseDouble(args.get(0)),Double.parseDouble(args.get(1)));
+			CharacterManager.characterEntity.setPos(Double.parseDouble(args.get(0)),Double.parseDouble(args.get(1)));
 			SystemData.characterMoving = true;
 			SystemData.requestGenUpdate = true;
 			SystemData.requestScreenUpdate = true;
 			DataManager.savable.dungeonLevel = Integer.parseInt(args.get(2));
-			DataManager.characterManager.characterEntity.dungeonLevel = DataManager.savable.dungeonLevel;
+			CharacterManager.characterEntity.dungeonLevel = DataManager.savable.dungeonLevel;
 			addInfoLine("Teleported to: " + args.get(0) + ", " + args.get(1) + ", " + args.get(2));
 		} else {
 			addErrorLine("use the format " + usage());

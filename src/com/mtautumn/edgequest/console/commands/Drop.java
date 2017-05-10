@@ -6,6 +6,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.ItemDrop;
 import com.mtautumn.edgequest.dataObjects.ItemSlot;
+import com.mtautumn.edgequest.threads.CharacterManager;
 
 public class Drop extends Command {
 
@@ -15,12 +16,12 @@ public class Drop extends Command {
 			ItemSlot item = new ItemSlot();
 			item.setItem(SystemData.blockNameMap.get(args.get(0)).getID());
 			item.setItemCount(1);
-			DataManager.savable.itemDrops.add(new ItemDrop(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY(), DataManager.characterManager.characterEntity.dungeonLevel, item));
+			DataManager.savable.itemDrops.add(new ItemDrop(CharacterManager.characterEntity.getX(), CharacterManager.characterEntity.getY(), CharacterManager.characterEntity.dungeonLevel, item));
 		} else if (args.size() == 2) {
 			ItemSlot item = new ItemSlot();
 			item.setItem(SystemData.blockNameMap.get(args.get(0)).getID());
 			item.setItemCount(Integer.parseInt(args.get(1)));
-			DataManager.savable.itemDrops.add(new ItemDrop(DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY(), DataManager.characterManager.characterEntity.dungeonLevel, item));
+			DataManager.savable.itemDrops.add(new ItemDrop(CharacterManager.characterEntity.getX(), CharacterManager.characterEntity.getY(), CharacterManager.characterEntity.dungeonLevel, item));
 		} else {
 			addErrorLine("use the format " + usage());
 		}

@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.entities.*;
 import com.mtautumn.edgequest.entities.Character;
+import com.mtautumn.edgequest.threads.CharacterManager;
 
 public class Spawn extends Command {
 
 	@Override
 	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
-			Entity entity = new Entity(args.get(0), null, DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY(), 0, DataManager.characterManager.characterEntity.dungeonLevel);
+			Entity entity = new Entity(args.get(0), null, CharacterManager.characterEntity.getX(), CharacterManager.characterEntity.getY(), 0, CharacterManager.characterEntity.dungeonLevel);
 			switch (args.get(0)) {
 			case "ant":
 				DataManager.savable.entities.add(new Ant(entity));
@@ -32,7 +33,7 @@ public class Spawn extends Command {
 				break;
 			}
 		} else if (args.size() == 2) {
-			Entity entity = new Entity(args.get(0), null, DataManager.characterManager.characterEntity.getX(), DataManager.characterManager.characterEntity.getY(), 0, DataManager.characterManager.characterEntity.dungeonLevel);
+			Entity entity = new Entity(args.get(0), null, CharacterManager.characterEntity.getX(), CharacterManager.characterEntity.getY(), 0, CharacterManager.characterEntity.dungeonLevel);
 			for (int i = 0; i < Integer.parseInt(args.get(1)); i++) {
 				switch (args.get(0)) {
 				case "ant":

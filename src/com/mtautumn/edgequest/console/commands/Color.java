@@ -2,7 +2,7 @@ package com.mtautumn.edgequest.console.commands;
 
 import java.util.ArrayList;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.threads.CharacterManager;
 
 public class Color extends Command {
 
@@ -12,20 +12,20 @@ public class Color extends Command {
 			float r = new Float(args.get(0));
 			float g = new Float(args.get(1));
 			float b = new Float(args.get(2));
-			DataManager.characterManager.characterEntity.light.r = r;
-			DataManager.characterManager.characterEntity.light.g = g;
-			DataManager.characterManager.characterEntity.light.b = b;
+			CharacterManager.characterEntity.light.r = r;
+			CharacterManager.characterEntity.light.g = g;
+			CharacterManager.characterEntity.light.b = b;
 			addInfoLine("Set light color to R: " + r + " G: " + g + " B: " + b);
-		} if (args.size() == 4) {
+		} else if (args.size() == 4) {
 			float r = new Float(args.get(0));
 			float g = new Float(args.get(1));
 			float b = new Float(args.get(2));
 			float a = new Float(args.get(3));
-			DataManager.characterManager.characterEntity.light.r = r;
-			DataManager.characterManager.characterEntity.light.g = g;
-			DataManager.characterManager.characterEntity.light.b = b;
-			DataManager.characterManager.characterEntity.light.maxBrightness = a;
-			DataManager.characterManager.characterEntity.light.brightness = a;
+			CharacterManager.characterEntity.light.r = r;
+			CharacterManager.characterEntity.light.g = g;
+			CharacterManager.characterEntity.light.b = b;
+			CharacterManager.characterEntity.light.maxBrightness = a;
+			CharacterManager.characterEntity.light.brightness = a;
 			addInfoLine("Set light color to R: " + r + " G: " + g + " B: " + b);
 		} else {
 			addErrorLine("Usage: " + usage());
