@@ -50,19 +50,25 @@ public class Renderer {
 	public FBO lightingFBO;
 	public FBO preLightingFBO;
 	public FBO lightingColorFBO;
+	private DisplayMode[] modes;
 	public Renderer() {
 		lastUIZoom = SystemData.uiZoom;
 	}
 	public void initGL(int width, int height) {
 		try {
-			DisplayMode displayMode = null;
-			DisplayMode[] modes;
+			DisplayMode displayMode = null;	
 			try {
 				modes = Display.getAvailableDisplayModes();
-
+				boolean modeFound = false;
 				for (int i = 0; i < modes.length; i++)
 				{
-					displayMode = modes[i];
+					if (modes[i].getWidth() == 800 && modes[i].getHeight() == 600) {
+						displayMode = modes[i];
+						modeFound = true;
+					}
+				}
+				if (!modeFound) {
+					displayMode = modes[modes.length - 1];
 				}
 			} catch (LWJGLException e) {
 				e.printStackTrace();
@@ -165,17 +171,17 @@ public class Renderer {
 		}
 		try {
 			if (SettingsData.isFullScreen && !Display.isFullscreen()) {
-				Display.setFullscreen(true);
 				oldDisplayMode = Display.getDisplayMode();
 				int largest = 0;
 				int largestPos = 0;
-				for (int i = 0; i < Display.getAvailableDisplayModes().length; i++) {
-					if (Display.getAvailableDisplayModes()[i].getWidth() > largest) {
+				for (int i = 0; i < modes.length; i++) {
+					if (modes[i].getWidth() > largest) {
 						largestPos = i;
-						largest = Display.getAvailableDisplayModes()[i].getWidth();
+						largest = modes[i].getWidth();
 					}
 				}
-				Display.setDisplayMode(Display.getAvailableDisplayModes()[largestPos]);
+				Display.setDisplayMode(modes[largestPos]);
+				Display.setFullscreen(true);
 			} else if (!SettingsData.isFullScreen && Display.isFullscreen()) {
 				Display.setFullscreen(false);
 				Display.setDisplayMode(oldDisplayMode);
