@@ -8,8 +8,10 @@ import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.dataObjects.RoadState;
 import com.mtautumn.edgequest.generator.RoadAStar.IntCoord;
+import com.mtautumn.edgequest.dataObjects.ChunkLocation;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.threads.BlockUpdateManager;
+import com.mtautumn.edgequest.threads.ChunkManager;
 
 //import com.mtautumn.edgequest.updates.UpdateLighting;
 
@@ -43,14 +45,17 @@ public class TerrainGeneratorThread extends Thread {
 		if (level == -1) {
 
 			genArea(x,y);
+			loadChunks(x,y,level+1);
 			if (doesContainDungeon(x,y)) {
 				genDungeon(x,y,level + 1);
 			} else {
 				genEmptyGround(x,y,level + 1);
 			}
+			unloadChunks(x,y,level+1);
 
 		} else if (level == 0) {
 			genArea(x,y);
+			loadChunks(x,y,level+1);
 			if (doesContainDungeon(x,y)) {
 				genDungeon(x,y, level);
 				genDungeon(x,y,level + 1);
@@ -58,7 +63,10 @@ public class TerrainGeneratorThread extends Thread {
 				genEmptyGround(x, y, level);
 				genEmptyGround(x, y, level + 1);
 			}
+			unloadChunks(x,y,level+1);
 		} else {
+			loadChunks(x,y,level+1);
+			loadChunks(x,y,level-1);
 			if (doesContainDungeon(x,y)) {
 				genDungeon(x,y,level - 1);
 				genDungeon(x,y,level);
@@ -68,11 +76,28 @@ public class TerrainGeneratorThread extends Thread {
 				genEmptyGround(x,y,level);
 				genEmptyGround(x,y,level + 1);
 			}
+			unloadChunks(x,y,level+1);
+			unloadChunks(x,y,level-1);
 		}
 	}
-
+	public void loadChunks(int x, int y, int level) {
+		for (int i = x; i <= x+100; i+=10) {
+			for (int j = y; j <= y + 100; j+=10) {
+				ChunkManager.loadChunk(new ChunkLocation(i, j, level));
+				ChunkManager.getChunk(new ChunkLocation(i,j,level)).inUse = true;
+			}
+		}
+	}
+	public void unloadChunks(int x, int y, int level) {
+		for (int i = x; i <= x+100; i+=10) {
+			for (int j = y; j <= y + 100; j+=10) {
+				ChunkManager.getChunk(new ChunkLocation(i,j,level)).inUse = false;
+			}
+		}
+	}
 	public void genArea(int x, int y) {
 		if (!beenGenerated(x,y,-1)) {
+			loadChunks(x,y,-1);
 			for (int i = x; i < x + 100; i++) {
 				for (int j = y; j < y + 100; j++) {
 					terrainGenerator.generateBlock(i, j);
@@ -80,10 +105,13 @@ public class TerrainGeneratorThread extends Thread {
 				}
 			}
 			generated(x,y,-1);
+			unloadChunks(x,y,-1);
 		}
 		if (doesContainDungeon(x,y)) {
+			loadChunks(x,y,DataManager.savable.dungeonLevel);
 			genDungeon(x,y,DataManager.savable.dungeonLevel);
 		} else {
+			loadChunks(x,y,DataManager.savable.dungeonLevel);
 			genEmptyGround(x,y,DataManager.savable.dungeonLevel);
 			if (doesContainVillage(x,y)) {
 				genVillage(x,y);
@@ -94,6 +122,7 @@ public class TerrainGeneratorThread extends Thread {
 			}
 		}
 		genRoad(x,y);
+		unloadChunks(x,y,DataManager.savable.dungeonLevel);
 
 	}
 	public void genRoad(int x, int y) {

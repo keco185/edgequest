@@ -7,7 +7,7 @@ import com.mtautumn.edgequest.window.Renderer;
 
 public class DiagnosticsWindow {
 	public static void draw(Renderer r) {
-		r.fillRect((int)(10* SystemData.uiZoom),(int)(10* SystemData.uiZoom), (int)(215* SystemData.uiZoom), (int)(240* SystemData.uiZoom), 0.7f, 0.7f, 0.7f, 0.7f);
+		r.fillRect((int)(10* SystemData.uiZoom),(int)(10* SystemData.uiZoom), (int)(215* SystemData.uiZoom), (int)(260* SystemData.uiZoom), 0.7f, 0.7f, 0.7f, 0.7f);
 
 		int i = 0;
 		int x = (int)(20* SystemData.uiZoom);
@@ -22,5 +22,6 @@ public class DiagnosticsWindow {
 		r.font.drawString(x, i+=x, "CharMove: " + SystemData.characterMoving);
 		r.font.drawString(x, i+=x, "Terrain Gen: " + SystemData.blockGenerationLastTick);
 		r.font.drawString(x, i+=x, "Block Size: " + SettingsData.blockSize);
+		r.font.drawString(x, i+=x, "Loaded Chunks: " + DataManager.savable.loadedChunks.size());
 	}
 }
