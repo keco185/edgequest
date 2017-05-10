@@ -19,7 +19,7 @@ public class Lighting extends Thread {
 	@Override
 	public void run() {
 		if (DataManager.world.getBrightness() < 1 && !DataManager.world.noLighting) {
-			updatePlayerLight(r);
+			//updatePlayerLight();
 		}
 	}
 	public static void completionTasks(Renderer r) {
@@ -74,7 +74,7 @@ public class Lighting extends Thread {
 			r.fillLightingColorTriangle((float) triangle.x1 * SettingsData.blockSize + offsetX, (float) triangle.y1 * SettingsData.blockSize + offsetY,(float) triangle.x2 * SettingsData.blockSize + offsetX,(float) triangle.y2 * SettingsData.blockSize + offsetY,(float) triangle.x3 * SettingsData.blockSize + offsetX,(float) triangle.y3 * SettingsData.blockSize + offsetY, brightness1, brightness2, brightness3);
 		}
 	}
-	private static void updatePlayerLight(Renderer r) {
+	public static void updatePlayerLight() {
 		DataManager.characterManager.characterEntity.light.posX = DataManager.characterManager.characterEntity.frameX;
 		DataManager.characterManager.characterEntity.light.posY = DataManager.characterManager.characterEntity.frameY;
 		DataManager.characterManager.characterEntity.light.level = DataManager.characterManager.characterEntity.dungeonLevel;

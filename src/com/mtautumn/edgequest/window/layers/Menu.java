@@ -6,6 +6,7 @@ import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.window.MenuButtonManager.MenuButton;
 import com.mtautumn.edgequest.window.MenuButtonManager.MenuPane;
+import com.mtautumn.edgequest.window.MenuButtonManager.MenuToggleButton;
 
 public class Menu {
 	
@@ -23,7 +24,15 @@ public class Menu {
 		for (int i = 0; i < menu.getCount(); i++) {
 			MenuButton button = menu.getButtons().get(i);
 			if (button.visible) {
-				r.drawTexture(button.buttonImage, button.getPosX(SystemData.menuX), button.getPosY(SystemData.menuY), button.getWidth(), button.getHeight());
+				if (button.getClass() == MenuToggleButton.class) {
+					if (((MenuToggleButton) button).state) {
+						r.drawTexture(r.textureManager.getTexture("menuToggleOn"), button.getPosX(SystemData.menuX), button.getPosY(SystemData.menuY), button.getWidth(), button.getHeight());
+					} else {
+						r.drawTexture(r.textureManager.getTexture("menuToggleOff"), button.getPosX(SystemData.menuX), button.getPosY(SystemData.menuY), button.getWidth(), button.getHeight());
+					}
+				} else {
+					r.drawTexture(r.textureManager.getTexture("menuButton"), button.getPosX(SystemData.menuX), button.getPosY(SystemData.menuY), button.getWidth(), button.getHeight());
+				}
 				int height = r.buttonFont.getHeight(button.displayName);
 				int width = r.buttonFont.getWidth(button.displayName);
 				r.buttonFont.drawString(button.getPosX(SystemData.menuX) + (button.getWidth() - width) / 2, button.getPosY(SystemData.menuY) + (button.getHeight() * 0.85f - height) / 2, button.displayName);

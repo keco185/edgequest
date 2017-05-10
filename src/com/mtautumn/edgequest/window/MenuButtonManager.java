@@ -24,8 +24,9 @@ public class MenuButtonManager {
 		gameMenu.addButton(new MenuButton("loadGame", "Load Game"));
 		menus.add(gameMenu);
 		MenuPane graphicsMenu = new MenuPane("Graphics Menu", "Main Menu");
-		graphicsMenu.addButton(new MenuButton("vSync", "V-Sync Off"));
+		graphicsMenu.addButton(new MenuToggleButton("vSync", "V-Sync", true));
 		graphicsMenu.addButton(new MenuButton("fullScreen", "Full Screen"));
+		graphicsMenu.addButton(new MenuToggleButton("fastGraphics", "Fast Graphics", false));
 		menus.add(graphicsMenu);
 	}
 	public MenuPane getMenu(String name) {
@@ -114,23 +115,24 @@ public class MenuButtonManager {
 			return null;
 		}
 	}
+	public class MenuToggleButton extends MenuButton {
+		public boolean state;
+		public MenuToggleButton(String name, String displayName, boolean startingState) {
+			super(name, displayName);
+			state = startingState;
+		}
+	}
 	public class MenuButton {
 		private int posX = 0;
 		private int posY = 0;
 		private int width = 0;
 		private int height = 0;
-		public Texture buttonImage;
 		public String name = "";
 		public String displayName = "";
 		public boolean visible = true;
 		public MenuButton(String name, String displayName) {
 			this.name = name;
 			this.displayName = displayName;
-			try {
-				this.buttonImage = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/menuButton.png"));
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
 		}
 		public int getPosX(int menuStartX) {
 			return (int)(posX * SystemData.uiZoom)+menuStartX;

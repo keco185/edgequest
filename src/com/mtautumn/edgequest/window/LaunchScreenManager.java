@@ -2,9 +2,6 @@ package com.mtautumn.edgequest.window;
 
 import java.util.ArrayList;
 
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
 
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
@@ -21,8 +18,9 @@ public class LaunchScreenManager {
 		mainMenu.addButton(new MenuButton("quit", "Quit"));
 		menus.add(mainMenu);
 		LaunchScreenPane settingsMenu = new LaunchScreenPane("Settings", "Main Menu");
-		settingsMenu.addButton(new MenuButton("vSync", "V-Sync Off"));
+		settingsMenu.addButton(new MenuToggleButton("vSync", "V-Sync", true));
 		settingsMenu.addButton(new MenuButton("fullScreen", "Full Screen"));
+		settingsMenu.addButton(new MenuToggleButton("fastGraphics", "Fast Graphics", false));
 		menus.add(settingsMenu);
 	}
 	public void buttonPressed(int posX, int posY) {
@@ -120,23 +118,24 @@ public class LaunchScreenManager {
 			return null;
 		}
 	}
+	public class MenuToggleButton extends MenuButton {
+		public boolean state;
+		public MenuToggleButton(String name, String displayName, boolean startingState) {
+			super(name, displayName);
+			state = startingState;
+		}
+	}
 	public class MenuButton {
 		private int posX = 0;
 		private int posY = 0;
 		private int width = 0;
 		private int height = 0;
-		public Texture buttonImage;
 		public String name = "";
 		public String displayName = "";
 		public boolean visible = true;
 		public MenuButton(String name, String displayName) {
 			this.name = name;
 			this.displayName = displayName;
-			try {
-				this.buttonImage = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("textures/menuButton.png"));
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
 		}
 		public int getPosX() {
 			return -(getWidth() / 2);

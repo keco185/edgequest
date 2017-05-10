@@ -6,6 +6,7 @@ package com.mtautumn.edgequest.updates;
 import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.dataObjects.Location;
@@ -211,7 +212,12 @@ public class UpdateRayCast {
 
 		double angle = -Math.PI;
 		double lastRadius = light.range;
-		final double increment = 0.1;
+		final double increment;
+		if (SettingsData.fastGraphics) {
+			increment = 0.25;
+		} else {
+			increment = 0.08;
+		}
 		points.sort((p1,p2) -> (int)((p1.angle - p2.angle)*341782637.788216));
 		ArrayList<Point> pointArray = new ArrayList<Point>();
 		pointArray.add(new Point(angle, lastRadius));

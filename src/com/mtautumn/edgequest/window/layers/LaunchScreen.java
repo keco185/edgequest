@@ -5,6 +5,7 @@ import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.window.LaunchScreenManager.LaunchScreenPane;
 import com.mtautumn.edgequest.window.LaunchScreenManager.MenuButton;
+import com.mtautumn.edgequest.window.LaunchScreenManager.MenuToggleButton;
 
 public class LaunchScreen {
 	public static void draw(Renderer r) {
@@ -32,7 +33,15 @@ public class LaunchScreen {
 		for (int i = 0; i<pane.getCount(); i++) {
 			MenuButton button = pane.getButtons().get(i);
 			if (button.visible) {
-				r.drawTexture(button.buttonImage, SettingsData.screenWidth / 2.0f + button.getPosX(), yOffset + (SettingsData.screenHeight - yOffset) / 2.0f + button.getPosY(), button.getWidth(), button.getHeight());
+				if (button.getClass() == MenuToggleButton.class) {
+					if (((MenuToggleButton) button).state) {
+						r.drawTexture(r.textureManager.getTexture("menuToggleOn"), SettingsData.screenWidth / 2.0f + button.getPosX(), yOffset + (SettingsData.screenHeight - yOffset) / 2.0f + button.getPosY(), button.getWidth(), button.getHeight());
+					} else {
+						r.drawTexture(r.textureManager.getTexture("menuToggleOff"), SettingsData.screenWidth / 2.0f + button.getPosX(), yOffset + (SettingsData.screenHeight - yOffset) / 2.0f + button.getPosY(), button.getWidth(), button.getHeight());
+					}
+				} else {
+					r.drawTexture(r.textureManager.getTexture("menuButton"), SettingsData.screenWidth / 2.0f + button.getPosX(), yOffset + (SettingsData.screenHeight - yOffset) / 2.0f + button.getPosY(), button.getWidth(), button.getHeight());
+				}
 				int height = r.buttonFont.getHeight(button.displayName);
 				int width = r.buttonFont.getWidth(button.displayName);
 				r.buttonFont.drawString(SettingsData.screenWidth / 2.0f + button.getPosX() + (button.getWidth() - width) / 2, yOffset + (SettingsData.screenHeight - yOffset) / 2.0f + button.getPosY() + (button.getHeight() * 0.85f - height) / 2, button.displayName);

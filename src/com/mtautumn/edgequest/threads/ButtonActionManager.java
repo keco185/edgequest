@@ -8,6 +8,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.GameSaves;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
+import com.mtautumn.edgequest.window.MenuButtonManager.MenuToggleButton;
 
 public class ButtonActionManager extends Thread {
 
@@ -107,15 +108,18 @@ public class ButtonActionManager extends Thread {
 			}
 			break;
 		case "vSync":
-			SettingsData.vSyncOn = !SettingsData.vSyncOn;
-			if (SettingsData.vSyncOn) {
-				DataManager.menuButtonManager.getMenu("Graphics Menu").getButton("vSync").displayName = "V-Sync Off";
-				DataManager.rendererManager.renderer.launchScreenManager.getMenu("Settings").getButton("vSync").displayName = "V-Sync Off";
-
-			} else {
-				DataManager.menuButtonManager.getMenu("Graphics Menu").getButton("vSync").displayName = "V-Sync On";
-				DataManager.rendererManager.renderer.launchScreenManager.getMenu("Settings").getButton("vSync").displayName = "V-Sync On";
-			}
+			MenuToggleButton button = (MenuToggleButton) DataManager.menuButtonManager.getMenu("Graphics Menu").getButton("vSync");
+			com.mtautumn.edgequest.window.LaunchScreenManager.MenuToggleButton button2 = (com.mtautumn.edgequest.window.LaunchScreenManager.MenuToggleButton) DataManager.rendererManager.renderer.launchScreenManager.getMenu("Settings").getButton("vSync");
+			button.state = !button.state;
+			button2.state = button.state;
+			SettingsData.vSyncOn = button.state;
+			break;
+		case "fastGraphics":
+			MenuToggleButton button3 = (MenuToggleButton) DataManager.menuButtonManager.getMenu("Graphics Menu").getButton("fastGraphics");
+			com.mtautumn.edgequest.window.LaunchScreenManager.MenuToggleButton button4 = (com.mtautumn.edgequest.window.LaunchScreenManager.MenuToggleButton) DataManager.rendererManager.renderer.launchScreenManager.getMenu("Settings").getButton("fastGraphics");
+			button3.state = !button3.state;
+			button4.state = button3.state;
+			SettingsData.fastGraphics = button3.state;
 			break;
 		case "quit":
 			SystemData.running = false;
