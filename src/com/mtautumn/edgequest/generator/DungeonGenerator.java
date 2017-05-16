@@ -2,6 +2,15 @@ package com.mtautumn.edgequest.generator;
 
 import java.util.Random;
 
+import com.mtautumn.edgequest.generator.automata.DrunkardsWalk;
+import com.mtautumn.edgequest.generator.overlay.Cave;
+import com.mtautumn.edgequest.generator.overlay.Temperature;
+import com.mtautumn.edgequest.generator.room.Center;
+import com.mtautumn.edgequest.generator.room.Room;
+import com.mtautumn.edgequest.generator.structure.DungeonFeature;
+import com.mtautumn.edgequest.generator.structure.DungeonFormations;
+import com.mtautumn.edgequest.generator.tile.Tiles;
+
 /**
  * This class is used to make a 2D Array of 'Tiles' as a representation
  * of dungeons that will be converted into actual blocks in the game world.

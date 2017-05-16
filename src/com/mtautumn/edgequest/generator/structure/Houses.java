@@ -1,4 +1,4 @@
-package com.mtautumn.edgequest.generator;
+package com.mtautumn.edgequest.generator.structure;
 
 /**
  * This is an immutable singleton class meant to create and store houses as data.

@@ -1,5 +1,8 @@
 package com.mtautumn.edgequest.generator;
 
+import com.mtautumn.edgequest.generator.room.Center;
+import com.mtautumn.edgequest.generator.room.Room;
+
 /**
  * Interface for feature generators such as dungeons and villages
  * 

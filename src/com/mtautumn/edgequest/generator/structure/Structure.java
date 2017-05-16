@@ -1,9 +1,9 @@
-package com.mtautumn.edgequest.generator;
+package com.mtautumn.edgequest.generator.structure;
 
 // TODO Javadoc
 public abstract class Structure {
 	// Holds the structure tile data
-	int[][] struct;
+	public int[][] struct;
 		
 	/**
 	 * Structure constructor. Takes a 2D array of ints
@@ -25,8 +25,8 @@ public abstract class Structure {
 	private void rotate90() {
 			
 		// Swap length and width
-		final int M = this.struct.length;
-		final int N = this.struct[0].length;
+		final int M = struct.length;
+		final int N = struct[0].length;
 			
 		// Create new array with new length and width
 		int[][] ret = new int[N][M];
@@ -34,12 +34,12 @@ public abstract class Structure {
 		// Fill new array
 		for (int r = 0; r < M; r++) {
 			for (int c = 0; c < N; c++) {
-				ret[c][M-1-r] = this.struct[r][c];
+				ret[c][M-1-r] = struct[r][c];
 			}
 		}
 			
 		// Set
-		this.struct = ret;
+		struct = ret;
 			
 	}
 		

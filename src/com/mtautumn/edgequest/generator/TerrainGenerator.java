@@ -19,7 +19,7 @@ public class TerrainGenerator {
 	Map<String,Double> altitudeMap = new ConcurrentHashMap<String, Double>();
 	Map<String,Double> temperatureMap = new ConcurrentHashMap<String, Double>();
 
-	Map<String,Double> altitudeMapFiltered = new ConcurrentHashMap<String, Double>();
+	public Map<String,Double> altitudeMapFiltered = new ConcurrentHashMap<String, Double>();
 	Map<String,Double> temperatureMapFiltered = new ConcurrentHashMap<String, Double>();
 	public TerrainGenerator() {
 		altSeedBase = generateSeed(DataManager.savable.seed,1);

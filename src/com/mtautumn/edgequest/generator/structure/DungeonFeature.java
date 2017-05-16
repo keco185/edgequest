@@ -1,4 +1,4 @@
-package com.mtautumn.edgequest.generator;
+package com.mtautumn.edgequest.generator.structure;
 
 // TODO Javadoc
 public class DungeonFeature extends Structure {

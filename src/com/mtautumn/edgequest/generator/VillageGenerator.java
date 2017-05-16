@@ -5,6 +5,11 @@ import java.util.Random;
 
 import org.json.*;
 
+import com.mtautumn.edgequest.generator.room.Center;
+import com.mtautumn.edgequest.generator.room.Room;
+import com.mtautumn.edgequest.generator.structure.Houses;
+import com.mtautumn.edgequest.generator.structure.VillageFeature;
+
 /**
  * This class is used to make a 2D Array of 'Tiles' as a representation
  * of villages that will be converted into actual blocks in the game world.
@@ -28,7 +33,7 @@ public class VillageGenerator implements Generator {
 	// 2D Array to store the map
 	int[][] map;
 	
-	//2D array with false blocks being areas that cannot be built on
+	// 2D array with false blocks being areas that cannot be built on
 	boolean[][] avoidanceArray;
 
 	// RNG
@@ -255,7 +260,12 @@ public class VillageGenerator implements Generator {
 			
 			for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2 + 1; j++) {
 				
-				avoidanceArray[i][j] = false;
+				// :thinking:
+				try {
+					avoidanceArray[i][j] = false;
+				} catch (ArrayIndexOutOfBoundsException e) {
+					
+				}
 				
 			}
 			

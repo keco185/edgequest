@@ -1,4 +1,4 @@
-package com.mtautumn.edgequest.generator;
+package com.mtautumn.edgequest.generator.structure;
 
 /**
  * This class essentially wraps a 2D array of ints for express use of 

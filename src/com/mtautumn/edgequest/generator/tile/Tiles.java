@@ -1,4 +1,4 @@
-package com.mtautumn.edgequest.generator;
+package com.mtautumn.edgequest.generator.tile;
 
 /**
  * This class holds all the tile data as integers for 
@@ -8,17 +8,17 @@ package com.mtautumn.edgequest.generator;
  */
 public enum Tiles {
 	
-	EMPTY (-1),
-	DIRT (0),
-	FLOOR (1),
-	UP_STAIR (2),
-	DOWN_STAIR (3),
-	WATER (4),
-	SNOW (5),
-	SAND (6),
-	GRASS (7),
-	DARK_WOOD (8),
-	LIGHT_WOOD (9);
+	EMPTY(-1),
+	DIRT(0),
+	FLOOR(1),
+	UP_STAIR(2),
+	DOWN_STAIR(3),
+	WATER(4),
+	SNOW(5),
+	SAND(6),
+	GRASS(7),
+	DARK_WOOD(8),
+	LIGHT_WOOD(9);
 	
 	private final int value;
 

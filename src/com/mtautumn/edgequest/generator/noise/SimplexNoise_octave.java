@@ -1,4 +1,4 @@
-package com.mtautumn.edgequest.generator;
+package com.mtautumn.edgequest.generator.noise;
 import java.util.Random;
 
 // Simplex noise in 2D, 3D and 4D

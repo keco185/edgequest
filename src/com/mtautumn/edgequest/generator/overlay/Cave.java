@@ -1,6 +1,9 @@
-package com.mtautumn.edgequest.generator;
+package com.mtautumn.edgequest.generator.overlay;
 
 import java.util.Random;
+
+import com.mtautumn.edgequest.generator.noise.SimplexNoise;
+import com.mtautumn.edgequest.generator.tile.Tiles;
 
 /**
  * This class provides a suite of utilities for generating caves from Simplex Noise maps for
@@ -28,7 +31,7 @@ public class Cave implements Overlay {
 	 * @param  height the height of the desired map
 	 * @param  seed   the long that is currently being used as the seed
 	 */
-	Cave(int width, int height, long seed) {
+	public Cave(int width, int height, long seed) {
 		
 		this.width = width;
 		this.height = height;
@@ -75,9 +78,9 @@ public class Cave implements Overlay {
 	 * @see         Cave
 	 */
 	private double[][] makeSimplexNoise() {
-		SimplexNoise smplxNoise = new SimplexNoise(this.width/4, 0.5, this.seed + this.rng.nextInt());
+		SimplexNoise smplxNoise = new SimplexNoise(width/4, 0.5, seed + rng.nextInt());
 		
-		double[][] simplexMap = new double[this.width][this.height];
+		double[][] simplexMap = new double[width][height];
 		
 		for (int x = 0; x < simplexMap.length; x++) {
 			

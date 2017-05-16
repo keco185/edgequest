@@ -1,4 +1,6 @@
-package com.mtautumn.edgequest.generator;
+package com.mtautumn.edgequest.generator.overlay;
+
+import com.mtautumn.edgequest.generator.tile.Tiles;
 
 /*
  * Class to manage dungeon temperature and return tiles based on such temperatures

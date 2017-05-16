@@ -1,4 +1,4 @@
-package com.mtautumn.edgequest.generator;
+package com.mtautumn.edgequest.generator.room;
 
 /**
  * This class is essentially a coordinate class to maintain the position

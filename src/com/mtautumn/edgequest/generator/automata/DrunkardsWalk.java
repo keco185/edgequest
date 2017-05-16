@@ -1,6 +1,8 @@
-package com.mtautumn.edgequest.generator;
+package com.mtautumn.edgequest.generator.automata;
 
 import java.util.Random;
+
+import com.mtautumn.edgequest.generator.tile.Tiles;
 
 /*
  * Cellular automata that goes through a 2D array of ints and replaces tiles 
@@ -20,32 +22,6 @@ public class DrunkardsWalk implements Automata {
 		
 		this.rng = new Random(seed);
 		
-	}
-	
-	// Random walk types
-	
-	public int[][] shortRandomWalk(int[][] map) {
-		return randomWalk(map, shortWalkPasses, chaosFull);
-	}
-	
-	public int[][] longRandomWalk(int[][] map) {
-		return randomWalk(map, longWalkPasses, chaosFull);
-	}
-	
-	public int[][] shortSemiDrunkWalk(int[][] map) {
-		return randomWalk(map, shortWalkPasses, chaosHalf);
-	}
-	
-	public int[][] longSemiDrunkWalk(int[][] map) {
-		return randomWalk(map, longWalkPasses, chaosHalf);
-	}
-	
-	public int[][] shortAntWalk(int[][] map) {
-		return randomWalk(map, shortWalkPasses, chaosQuarter);
-	}
-	
-	public int[][] longAntWalk(int[][] map) {
-		return randomWalk(map, longWalkPasses, chaosQuarter);
 	}
 	
 	// Wrap walk method to randomize inputs
@@ -126,11 +102,11 @@ public class DrunkardsWalk implements Automata {
 		int[] i = new int[2];
 		
 		// Direction
-		int r = this.rng.nextInt(4);
+		int r = rng.nextInt(4);
 		
 		// If the rng can't overcome the user set chaosChance,
 		// the direction is the same as the last direction
-		if (this.rng.nextFloat() > chaosChance) {
+		if (rng.nextFloat() > chaosChance) {
 			i[0] = 0;
 			i[1] = 0;
 		// Otherwise we just change direction based on the r value

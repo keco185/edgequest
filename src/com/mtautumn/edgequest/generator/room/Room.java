@@ -1,4 +1,7 @@
-package com.mtautumn.edgequest.generator;
+package com.mtautumn.edgequest.generator.room;
+
+import com.mtautumn.edgequest.generator.structure.Structure;
+import com.mtautumn.edgequest.generator.tile.Tiles;
 
 /**
  * This class manages rooms by defining their center coordinates and width and lengths.
@@ -8,15 +11,15 @@ package com.mtautumn.edgequest.generator;
  */
 public class Room {
 	
-	int width;
-	int height;
+	public int width;
+	public int height;
 	
-	int xLoc;
-	int yLoc;
+	public int xLoc;
+	public int yLoc;
 	
-	int[][] room;
+	public int[][] room;
 	
-	Center center;
+	public Center center;
 	
 	/**
 	 * This constructor takes basic area and coordinate location to create a room
@@ -99,7 +102,7 @@ public class Room {
 	 * @see    Center
 	 * @see    Room
 	 */
-	Room(Structure struct, Center center) {
+	public Room(Structure struct, Center center) {
 		
 		// Dimensions of the room
 		this.width = struct.struct[0].length;

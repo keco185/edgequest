@@ -1,4 +1,4 @@
-package com.mtautumn.edgequest.generator;
+package com.mtautumn.edgequest.generator.overlay;
 
 /**
  * This interface is for overlays, or classes that add two maps together
