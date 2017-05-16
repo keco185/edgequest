@@ -11,6 +11,7 @@ import com.mtautumn.edgequest.dataObjects.ItemSlot;
 import com.mtautumn.edgequest.projectiles.DaggerProjectile;
 import com.mtautumn.edgequest.threads.CharacterManager;
 import com.mtautumn.edgequest.utils.PathFinder.IntCoord;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class Troll extends Entity {
 	private static final long serialVersionUID = 1L;
@@ -173,13 +174,13 @@ public class Troll extends Entity {
 		} else {
 			newY = newVal;
 		}
-		if (DataManager.world.isStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
-			if (!SystemData.blockIDMap.get(DataManager.world.getStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))).isPassable) {
+		if (WorldUtils.isStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
+			if (!SystemData.blockIDMap.get(WorldUtils.getStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))).isPassable) {
 				return false;
 			}
 		}
-		if (DataManager.world.isGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
-			if (DataManager.world.getGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY)) == SystemData.blockNameMap.get("water").getID()) {
+		if (WorldUtils.isGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
+			if (WorldUtils.getGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY)) == SystemData.blockNameMap.get("water").getID()) {
 				return false;
 			}
 			return true;

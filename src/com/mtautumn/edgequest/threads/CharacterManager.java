@@ -9,6 +9,7 @@ import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.entities.Character;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class CharacterManager extends Thread {
 	BlockUpdateManager blockUpdateManager;
@@ -18,15 +19,15 @@ public class CharacterManager extends Thread {
 	}
 	public void charPlaceTorch() {
 		Location location = new Location(characterEntity);
-		if (!DataManager.world.isStructBlock(location)) {
+		if (!WorldUtils.isStructBlock(location)) {
 			if (!characterEntity.getRelativeGroundBlock(0, 0).isLiquid) {
-				DataManager.world.setStructBlock(location, SystemData.blockNameMap.get("torch").getID());
-				DataManager.world.addLightSource(location);
+				WorldUtils.setStructBlock(location, SystemData.blockNameMap.get("torch").getID());
+				WorldUtils.addLightSource(location);
 				blockUpdateManager.updateBlock(location);
 			}
-		} else if (DataManager.world.getStructBlock(location) == SystemData.blockNameMap.get("torch").getID()) {
-			DataManager.world.removeStructBlock(location);
-			DataManager.world.removeLightSource(location);
+		} else if (WorldUtils.getStructBlock(location) == SystemData.blockNameMap.get("torch").getID()) {
+			WorldUtils.removeStructBlock(location);
+			WorldUtils.removeLightSource(location);
 			blockUpdateManager.updateBlock(location);
 		}
 	}
@@ -37,8 +38,8 @@ public class CharacterManager extends Thread {
 			try {
 				if (!SystemData.characterLocationSet && !SystemData.isGameOnLaunchScreen) {
 					Location location = new Location(characterEntity);
-					if (DataManager.world.isGroundBlock(location)) {
-						BlockItem charBlock = SystemData.blockIDMap.get(DataManager.world.getGroundBlock(location));
+					if (WorldUtils.isGroundBlock(location)) {
+						BlockItem charBlock = SystemData.blockIDMap.get(WorldUtils.getGroundBlock(location));
 						if (charBlock.isName("water") || charBlock.isName("ice")) {
 							characterEntity.setPos(characterEntity.getX()+1, characterEntity.getY());
 						} else {
@@ -57,11 +58,11 @@ public class CharacterManager extends Thread {
 		double[] blockInfo = {0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome
 		int charX = (int) Math.floor(CharacterManager.characterEntity.getX());
 		int charY = (int) Math.floor(CharacterManager.characterEntity.getY());
-			if (DataManager.world.isGroundBlock(CharacterManager.characterEntity, charX, charY)) {
-				blockInfo[0] = DataManager.world.getGroundBlock(CharacterManager.characterEntity, charX, charY);
+			if (WorldUtils.isGroundBlock(CharacterManager.characterEntity, charX, charY)) {
+				blockInfo[0] = WorldUtils.getGroundBlock(CharacterManager.characterEntity, charX, charY);
 			}
-			if (DataManager.world.isStructBlock(CharacterManager.characterEntity, charX, charY)) {
-				blockInfo[1] = DataManager.world.getStructBlock(CharacterManager.characterEntity, charX, charY);
+			if (WorldUtils.isStructBlock(CharacterManager.characterEntity, charX, charY)) {
+				blockInfo[1] = WorldUtils.getStructBlock(CharacterManager.characterEntity, charX, charY);
 			}
 		return blockInfo;
 	}

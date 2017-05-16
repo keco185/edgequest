@@ -5,7 +5,6 @@ package com.mtautumn.edgequest.threads;
 
 import java.util.ArrayList;
 
-import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
@@ -13,6 +12,7 @@ import com.mtautumn.edgequest.updates.UpdateBlockPlace;
 import com.mtautumn.edgequest.updates.UpdateFootprints;
 import com.mtautumn.edgequest.updates.UpdateLighting;
 import com.mtautumn.edgequest.updates.UpdateMining;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class BlockUpdateManager extends Thread {
 	public UpdateLighting lighting;
@@ -30,10 +30,10 @@ public class BlockUpdateManager extends Thread {
 		lightingQueue.add(location);
 	}
 	public void updateBlock(Location location) {
-		if (DataManager.world.isStructBlock(location)) {
-			if (DataManager.world.getStructBlock(location) == SystemData.blockNameMap.get("torch").getID()) {
-				if (DataManager.world.getGroundBlock(location) == SystemData.blockNameMap.get("water").getID()) {
-					DataManager.world.removeStructBlock(location);
+		if (WorldUtils.isStructBlock(location)) {
+			if (WorldUtils.getStructBlock(location) == SystemData.blockNameMap.get("torch").getID()) {
+				if (WorldUtils.getGroundBlock(location) == SystemData.blockNameMap.get("water").getID()) {
+					WorldUtils.removeStructBlock(location);
 				}
 			}
 		}

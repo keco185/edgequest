@@ -9,13 +9,14 @@ import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.threads.CharacterManager;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class UpdateMining {
 	private boolean wasMouseDown = false;
 	private boolean wasStructBlock = false;
 	public void update() {
 		if (SystemData.leftMouseDown && !wasMouseDown || SystemData.miningX != SystemData.mouseX || SystemData.miningY != SystemData.mouseY) {
-			wasStructBlock = DataManager.world.isStructBlock(SystemData.mouseX, SystemData.mouseY, DataManager.savable.dungeonLevel);
+			wasStructBlock = WorldUtils.isStructBlock(SystemData.mouseX, SystemData.mouseY, DataManager.savable.dungeonLevel);
 		}
 		if (!SystemData.isKeyboardBackpack && !SystemData.isKeyboardMenu) {
 			if (SystemData.leftMouseDown && wasMouseDown && !SystemData.rightMouseDown && !SystemData.isMouseFar) {
@@ -24,7 +25,7 @@ public class UpdateMining {
 					SystemData.miningY = SystemData.mouseY;
 					SystemData.blockDamage = 0;
 				}
-				if (getBlockAt(SystemData.mouseX, SystemData.mouseY,DataManager.savable.dungeonLevel) != null && (wasStructBlock || (!wasStructBlock && DataManager.world.isStructBlock(SystemData.mouseX, SystemData.mouseY, DataManager.savable.dungeonLevel)))) {
+				if (getBlockAt(SystemData.mouseX, SystemData.mouseY,DataManager.savable.dungeonLevel) != null && (wasStructBlock || (!wasStructBlock && WorldUtils.isStructBlock(SystemData.mouseX, SystemData.mouseY, DataManager.savable.dungeonLevel)))) {
 					SystemData.blockDamage += 1.0/getBlockAt(SystemData.mouseX, SystemData.mouseY, DataManager.savable.dungeonLevel).hardness/SettingsData.tickLength;
 					if (SystemData.blockDamage < 0) {
 						SystemData.blockDamage = 0;
@@ -47,17 +48,17 @@ public class UpdateMining {
 		wasMouseDown = SystemData.leftMouseDown;
 	}
 	private static BlockItem getBlockAt(int x, int y, int level) {
-		if (DataManager.world.isStructBlock(x, y, level)) {
-			return SystemData.blockIDMap.get(DataManager.world.getStructBlock(x, y, level));
+		if (WorldUtils.isStructBlock(x, y, level)) {
+			return SystemData.blockIDMap.get(WorldUtils.getStructBlock(x, y, level));
 		}
 		return null;
 
 	}
 	private static void breakBlock(int x, int y, int level) {
 		BlockItem item = null;
-		if (DataManager.world.isStructBlock(x, y, level)) {
-			item = SystemData.blockIDMap.get(DataManager.world.getStructBlock(x, y, level));
-			DataManager.world.removeStructBlock(x, y, level);
+		if (WorldUtils.isStructBlock(x, y, level)) {
+			item = SystemData.blockIDMap.get(WorldUtils.getStructBlock(x, y, level));
+			WorldUtils.removeStructBlock(x, y, level);
 
 		}
 		if (item != null) {

@@ -20,6 +20,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.threads.CharacterManager;
+import com.mtautumn.edgequest.utils.WorldUtils;
 import com.mtautumn.edgequest.window.layers.Layers;
 import com.mtautumn.edgequest.window.renderUtils.FBO;
 import com.mtautumn.edgequest.window.renderUtils.LightingVBO;
@@ -330,11 +331,11 @@ public class Renderer {
 		double[] blockInfo = {0.0,0.0,0.0}; //0 - terrain block 1 - structure block 2 - biome
 		int charX = (int) Math.floor(CharacterManager.characterEntity.getX());
 		int charY = (int) Math.floor(CharacterManager.characterEntity.getY());
-		if (DataManager.world.isGroundBlock(CharacterManager.characterEntity, charX, charY)) {
-			blockInfo[0] = DataManager.world.getGroundBlock(CharacterManager.characterEntity, charX, charY);
+		if (WorldUtils.isGroundBlock(CharacterManager.characterEntity, charX, charY)) {
+			blockInfo[0] = WorldUtils.getGroundBlock(CharacterManager.characterEntity, charX, charY);
 		}
-		if (DataManager.world.isStructBlock(CharacterManager.characterEntity, charX, charY)) {
-			blockInfo[1] = DataManager.world.getStructBlock(CharacterManager.characterEntity, charX, charY);
+		if (WorldUtils.isStructBlock(CharacterManager.characterEntity, charX, charY)) {
+			blockInfo[1] = WorldUtils.getStructBlock(CharacterManager.characterEntity, charX, charY);
 		}
 		return blockInfo;
 	}

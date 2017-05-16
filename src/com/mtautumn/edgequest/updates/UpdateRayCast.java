@@ -11,6 +11,7 @@ import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.dataObjects.Triangle;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 
 public class UpdateRayCast {
@@ -279,8 +280,8 @@ public class UpdateRayCast {
 	public boolean doesContainStructure(double x, double y, int level) {
 		int x1 = (int) Math.floor(x);
 		int y1 = (int) Math.floor(y);
-		if (DataManager.world.isStructBlock(x1, y1, level)) {
-			return !SystemData.blockIDMap.get(DataManager.world.getStructBlock(x1, y1, level)).isPassable;
+		if (WorldUtils.isStructBlock(x1, y1, level)) {
+			return !SystemData.blockIDMap.get(WorldUtils.getStructBlock(x1, y1, level)).isPassable;
 		}
 		return false;
 	}

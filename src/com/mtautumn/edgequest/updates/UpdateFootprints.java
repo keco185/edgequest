@@ -7,6 +7,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.FootPrint;
 import com.mtautumn.edgequest.threads.CharacterManager;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class UpdateFootprints {
 	double lastFootX = 0.0;
@@ -14,8 +15,8 @@ public class UpdateFootprints {
 	public void update() {
 		int charX = (int) Math.floor(CharacterManager.characterEntity.getX());
 		int charY = (int) Math.floor(CharacterManager.characterEntity.getY());
-		if (DataManager.world.isGroundBlock(CharacterManager.characterEntity, charX, charY)) {
-			if (SystemData.blockIDMap.get(DataManager.world.getGroundBlock(CharacterManager.characterEntity, charX, charY)).canHavePrints) {
+		if (WorldUtils.isGroundBlock(CharacterManager.characterEntity, charX, charY)) {
+			if (SystemData.blockIDMap.get(WorldUtils.getGroundBlock(CharacterManager.characterEntity, charX, charY)).canHavePrints) {
 				if (Math.sqrt(Math.pow(CharacterManager.characterEntity.getX() - lastFootX, 2)+Math.pow(CharacterManager.characterEntity.getY() - lastFootY, 2)) > 0.7) {
 					lastFootX = CharacterManager.characterEntity.getX();
 					lastFootY = CharacterManager.characterEntity.getY();

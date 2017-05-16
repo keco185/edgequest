@@ -3,6 +3,7 @@ package com.mtautumn.edgequest.entities;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.projectiles.HandProjectile;
 import com.mtautumn.edgequest.threads.CharacterManager;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class Pet extends Entity {
 	private static final long serialVersionUID = 1L;
@@ -63,7 +64,7 @@ public class Pet extends Entity {
 					double moveX = -Math.cos(rotation) * moveSpeed / 30.0;
 					double moveY = -Math.sin(rotation) * moveSpeed / 30.0;
 					move(moveX, moveY);
-					if (DataManager.world.isStructBlock(this, (int)(getX() + moveX), (int)(getY() + moveY))) {
+					if (WorldUtils.isStructBlock(this, (int)(getX() + moveX), (int)(getY() + moveY))) {
 						attackEntity = null;
 						attackStage = 0;
 					}

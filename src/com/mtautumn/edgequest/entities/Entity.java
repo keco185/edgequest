@@ -16,6 +16,7 @@ import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.threads.CharacterManager;
 import com.mtautumn.edgequest.utils.PathFinder;
 import com.mtautumn.edgequest.utils.PathFinder.IntCoord;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class Entity implements Externalizable {
 	private static final long serialVersionUID = 1L;
@@ -163,8 +164,8 @@ public class Entity implements Externalizable {
 		lastUpdate = System.currentTimeMillis();
 	}
 	protected boolean isImpassible(IntCoord point) {
-		if (DataManager.world.isStructBlock(this, point.x, point.y)) {
-			return !SystemData.blockIDMap.get(DataManager.world.getStructBlock(this, point.x, point.y)).isPassable;
+		if (WorldUtils.isStructBlock(this, point.x, point.y)) {
+			return !SystemData.blockIDMap.get(WorldUtils.getStructBlock(this, point.x, point.y)).isPassable;
 		}
 		return false;
 	}
@@ -277,8 +278,8 @@ public class Entity implements Externalizable {
 			entityY = (int) Math.floor(speed + posY);
 			entityX = (int) Math.floor(posX);
 		}
-		if (DataManager.world.isStructBlock(this,entityX, entityY)) {
-			return (SystemData.blockIDMap.get(DataManager.world.getStructBlock(this,entityX, entityY)).isPassable);
+		if (WorldUtils.isStructBlock(this,entityX, entityY)) {
+			return (SystemData.blockIDMap.get(WorldUtils.getStructBlock(this,entityX, entityY)).isPassable);
 		}
 		return true;
 	}
@@ -346,8 +347,8 @@ public class Entity implements Externalizable {
 		}
 	}
 	public boolean isOnIce() {
-		if (DataManager.world.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
-			return SystemData.blockIDMap.get(DataManager.world.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))).isName("ice");
+		if (WorldUtils.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
+			return SystemData.blockIDMap.get(WorldUtils.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))).isName("ice");
 		}
 		return false;
 	}
@@ -355,8 +356,8 @@ public class Entity implements Externalizable {
 		return Math.sqrt(Math.pow(CharacterManager.characterEntity.getX() - posX, 2) + Math.pow(CharacterManager.characterEntity.getY() - posY, 2));
 	}
 	public BlockItem getBlock() {
-		if (DataManager.world.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
-			return SystemData.blockIDMap.get(DataManager.world.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY)));
+		if (WorldUtils.isGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
+			return SystemData.blockIDMap.get(WorldUtils.getGroundBlock(this, (int) Math.floor(posX), (int) Math.floor(posY)));
 		}
 		return null;
 	}
@@ -367,10 +368,10 @@ public class Entity implements Externalizable {
 		return SystemData.blockIDMap.get(getRelativeStructureBlockID(deltaX, deltaY));
 	}
 	public short getRelativeGroundBlockID(int deltaX, int deltaY) {
-		return DataManager.world.getGroundBlock(this, (int) Math.floor(getX() + deltaX), (int) Math.floor(getY() + deltaY));
+		return WorldUtils.getGroundBlock(this, (int) Math.floor(getX() + deltaX), (int) Math.floor(getY() + deltaY));
 	}
 	public short getRelativeStructureBlockID(int deltaX, int deltaY) {
-		return DataManager.world.getStructBlock(this, (int) Math.floor(posX + deltaX), (int) Math.floor(posY + deltaY));
+		return WorldUtils.getStructBlock(this, (int) Math.floor(posX + deltaX), (int) Math.floor(posY + deltaY));
 	}
 
 	protected boolean isInFOV(double x, double y, double fov) {
@@ -453,8 +454,8 @@ public class Entity implements Externalizable {
 		Location checkLocation = new Location(this);
 		checkLocation.x = x;
 		checkLocation.y = y;
-		if (DataManager.world.isStructBlock(checkLocation)) {
-			return !SystemData.blockIDMap.get(DataManager.world.getStructBlock(checkLocation)).isPassable;
+		if (WorldUtils.isStructBlock(checkLocation)) {
+			return !SystemData.blockIDMap.get(WorldUtils.getStructBlock(checkLocation)).isPassable;
 		}
 		return false;
 	}

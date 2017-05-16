@@ -4,6 +4,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.threads.CharacterManager;
+import com.mtautumn.edgequest.utils.WorldUtils;
 import com.mtautumn.edgequest.window.Renderer;
 
 public class DiagnosticsWindow {
@@ -15,7 +16,7 @@ public class DiagnosticsWindow {
 		r.font.drawString(x, i+=x, "FPS: " + SystemData.averagedFPS);
 		r.font.drawString(x, i+=x, "Time: " + DataManager.savable.time);
 		r.font.drawString(x, i+=x, "Time Human: " + SystemData.timeReadable);
-		r.font.drawString(x, i+=x, "Brightness: " + DataManager.world.getBrightness());
+		r.font.drawString(x, i+=x, "Brightness: " + WorldUtils.getBrightness());
 		r.font.drawString(x, i+=x, "CharX: " + CharacterManager.characterEntity.getX());
 		r.font.drawString(x, i+=x, "CharY: " + CharacterManager.characterEntity.getY());
 		r.font.drawString(x, i+=x, "CharDir: " + CharacterManager.characterEntity.getRot());

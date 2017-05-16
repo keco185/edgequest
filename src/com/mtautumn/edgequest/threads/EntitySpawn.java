@@ -8,6 +8,7 @@ import com.mtautumn.edgequest.entities.Ant;
 import com.mtautumn.edgequest.entities.Character;
 import com.mtautumn.edgequest.entities.Entity;
 import com.mtautumn.edgequest.entities.Troll;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class EntitySpawn extends Thread {
 	@Override
@@ -24,7 +25,7 @@ public class EntitySpawn extends Thread {
 	}
 	public void considerEntity(Location location) {
 		if (location.level > -1) { //in dungeon
-			if (!DataManager.world.isStructBlock(location)) {
+			if (!WorldUtils.isStructBlock(location)) {
 				if (Math.random() > 0.9995) {
 					spawn("ant", location);
 				} 

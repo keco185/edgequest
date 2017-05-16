@@ -6,7 +6,6 @@ package com.mtautumn.edgequest.utils;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SystemData;
 
 public class PathFinder {
@@ -72,14 +71,14 @@ public class PathFinder {
 		boolean nodeClear = true;
 		boolean diag1Clear = true;
 		boolean diag2Clear = true;
-		if (DataManager.world.isStructBlock(x, y, level)) {
-			nodeClear = SystemData.blockIDMap.get(DataManager.world.getStructBlock(x, y, level)).isPassable;
+		if (WorldUtils.isStructBlock(x, y, level)) {
+			nodeClear = SystemData.blockIDMap.get(WorldUtils.getStructBlock(x, y, level)).isPassable;
 		}
-		if (DataManager.world.isStructBlock(firstX, y, level)) {
-			diag1Clear = SystemData.blockIDMap.get(DataManager.world.getStructBlock(firstX, y, level)).isPassable;
+		if (WorldUtils.isStructBlock(firstX, y, level)) {
+			diag1Clear = SystemData.blockIDMap.get(WorldUtils.getStructBlock(firstX, y, level)).isPassable;
 		}
-		if (DataManager.world.isStructBlock(x, firstY, level)) {
-			diag2Clear = SystemData.blockIDMap.get(DataManager.world.getStructBlock(x, firstY, level)).isPassable;
+		if (WorldUtils.isStructBlock(x, firstY, level)) {
+			diag2Clear = SystemData.blockIDMap.get(WorldUtils.getStructBlock(x, firstY, level)).isPassable;
 		}
 		return nodeClear && (diag1Clear || diag2Clear);
 		

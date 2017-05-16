@@ -4,6 +4,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Chunk;
+import com.mtautumn.edgequest.utils.WorldUtils;
 import com.mtautumn.edgequest.window.Renderer;
 import com.mtautumn.edgequest.window.renderUtils.TerrainVBO;
 public class Terrain extends Thread {
@@ -51,7 +52,7 @@ public class Terrain extends Thread {
 		}
 
 		float offsetConstant = blockSize / 6f / halfWidth;
-		boolean renderSolid = DataManager.world.getBrightness() > 0;
+		boolean renderSolid = WorldUtils.getBrightness() > 0;
 		for (Chunk chunk : DataManager.savable.loadedChunks.values()) {
 			if (chunk.isOnScreen()) {
 				xPos = (float)((chunk.x - charX) * blockSize + halfWidth);
@@ -82,7 +83,7 @@ public class Terrain extends Thread {
 		double charY = SystemData.screenY;
 		r.terrainVBO = new TerrainVBO();
 
-		boolean renderSolid = DataManager.world.getBrightness() > 0;
+		boolean renderSolid = WorldUtils.getBrightness() > 0;
 		for (Chunk chunk : DataManager.savable.loadedChunks.values()) {
 			if (chunk.isOnScreen()) {
 				float xPos = (float)((chunk.x - charX) * blockSize + SettingsData.screenWidth/2.0);

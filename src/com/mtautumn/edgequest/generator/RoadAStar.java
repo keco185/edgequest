@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SystemData;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class RoadAStar {
 	public RoadAStar() {
@@ -37,9 +38,9 @@ public class RoadAStar {
 								int gCost = current.gCost;
 								if (current.x - x == 0 || current.y - y == 0) {
 									gCost += 10;
-									if (DataManager.world.getGroundBlock(x, y, level) == SystemData.blockNameMap.get("water").getID()) {
+									if (WorldUtils.getGroundBlock(x, y, level) == SystemData.blockNameMap.get("water").getID()) {
 										gCost += 20;
-									} else if (DataManager.world.getGroundBlock(x, y, level) == SystemData.blockNameMap.get("ice").getID()) {
+									} else if (WorldUtils.getGroundBlock(x, y, level) == SystemData.blockNameMap.get("ice").getID()) {
 										gCost += 10;
 									}
 									if (DataManager.terrainManager.terrainGenerator.altitudeMapFiltered.containsKey(x+","+y) && DataManager.terrainManager.terrainGenerator.altitudeMapFiltered.containsKey(current.x+","+current.y)) {
@@ -50,9 +51,9 @@ public class RoadAStar {
 
 								} else {
 									gCost += 14;
-									if (DataManager.world.getGroundBlock(x, y, level) == SystemData.blockNameMap.get("water").getID()) {
+									if (WorldUtils.getGroundBlock(x, y, level) == SystemData.blockNameMap.get("water").getID()) {
 										gCost += 28;
-									} else if (DataManager.world.getGroundBlock(x, y, level) == SystemData.blockNameMap.get("ice").getID()) {
+									} else if (WorldUtils.getGroundBlock(x, y, level) == SystemData.blockNameMap.get("ice").getID()) {
 										gCost += 14;
 									}
 									if (DataManager.terrainManager.terrainGenerator.altitudeMapFiltered.containsKey(x+","+y) && DataManager.terrainManager.terrainGenerator.altitudeMapFiltered.containsKey(current.x+","+current.y)) {
@@ -96,14 +97,14 @@ public class RoadAStar {
 		boolean nodeClear = true;
 		boolean diag1Clear = true;
 		boolean diag2Clear = true;
-		if (DataManager.world.isStructBlock(x, y, level)) {
-			nodeClear = SystemData.blockIDMap.get(DataManager.world.getStructBlock(x, y, level)).isPassable;
+		if (WorldUtils.isStructBlock(x, y, level)) {
+			nodeClear = SystemData.blockIDMap.get(WorldUtils.getStructBlock(x, y, level)).isPassable;
 		}
-		if (DataManager.world.isStructBlock(firstX, y, level)) {
-			diag1Clear = SystemData.blockIDMap.get(DataManager.world.getStructBlock(firstX, y, level)).isPassable;
+		if (WorldUtils.isStructBlock(firstX, y, level)) {
+			diag1Clear = SystemData.blockIDMap.get(WorldUtils.getStructBlock(firstX, y, level)).isPassable;
 		}
-		if (DataManager.world.isStructBlock(x, firstY, level)) {
-			diag2Clear = SystemData.blockIDMap.get(DataManager.world.getStructBlock(x, firstY, level)).isPassable;
+		if (WorldUtils.isStructBlock(x, firstY, level)) {
+			diag2Clear = SystemData.blockIDMap.get(WorldUtils.getStructBlock(x, firstY, level)).isPassable;
 		}
 
 		if (nodeClear) {

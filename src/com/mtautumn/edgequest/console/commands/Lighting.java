@@ -2,7 +2,7 @@ package com.mtautumn.edgequest.console.commands;
 
 import java.util.ArrayList;
 
-import com.mtautumn.edgequest.data.DataManager;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class Lighting extends Command {
 
@@ -10,14 +10,14 @@ public class Lighting extends Command {
 	public boolean execute(ArrayList<String> args) {
 		if (args.size() == 1) {
 			if (args.get(0).equalsIgnoreCase("on")) {
-				DataManager.world.noLighting = false;
+				WorldUtils.noLighting = false;
 				addInfoLine("Turned lighting on");
 			} else if (args.get(0).equalsIgnoreCase("off")) {
-				DataManager.world.noLighting = true;
+				WorldUtils.noLighting = true;
 				addInfoLine("Turned lighting off");
 			}
 		} else {
-			if (DataManager.world.noLighting) {
+			if (WorldUtils.noLighting) {
 				addInfoLine("Lighting is turned off");
 			} else {
 				addInfoLine("Lighting is turned on");

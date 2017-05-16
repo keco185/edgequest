@@ -4,15 +4,16 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.entities.Entity;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class EntityUpdater extends Thread{
 
 	private static void moveEntity(Entity entity, double r, double theta, double x, double y) {
 		double deltaX = Math.cos(theta) * r;
 		double deltaY = Math.sin(theta) * r;
-		if (!DataManager.world.isStructBlock((int)(deltaX + x), (int)(deltaY + y), entity.dungeonLevel)) {
+		if (!WorldUtils.isStructBlock((int)(deltaX + x), (int)(deltaY + y), entity.dungeonLevel)) {
 			entity.setPos(deltaX + x, deltaY + y);
-		} else if (!SystemData.blockIDMap.get(DataManager.world.getStructBlock((int)(deltaX + x), (int)(deltaY + y), entity.dungeonLevel)).isSolid) {
+		} else if (!SystemData.blockIDMap.get(WorldUtils.getStructBlock((int)(deltaX + x), (int)(deltaY + y), entity.dungeonLevel)).isSolid) {
 			entity.setPos(deltaX + x, deltaY + y);
 		}
 	}

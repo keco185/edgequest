@@ -17,6 +17,7 @@ import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.entities.Entity;
 import com.mtautumn.edgequest.entities.Pet;
 import com.mtautumn.edgequest.particles.BloodParticle;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class Projectile implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -102,8 +103,8 @@ public class Projectile implements Serializable {
 	}
 	public boolean inStructure() {
 		Location location = new Location((int) x, (int) y, level);
-		if (DataManager.world.isStructBlock(location)) {
-			return !SystemData.blockIDMap.get(DataManager.world.getStructBlock(location)).isPassable;
+		if (WorldUtils.isStructBlock(location)) {
+			return !SystemData.blockIDMap.get(WorldUtils.getStructBlock(location)).isPassable;
 		}
 		return false;
 	}

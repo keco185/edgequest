@@ -12,6 +12,7 @@ import com.mtautumn.edgequest.dataObjects.ChunkLocation;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.threads.BlockUpdateManager;
 import com.mtautumn.edgequest.threads.ChunkManager;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 //import com.mtautumn.edgequest.updates.UpdateLighting;
 
@@ -161,13 +162,13 @@ public class TerrainGeneratorThread extends Thread {
 				int offset = 0;
 				while(!groundFound && offset < 50) {
 					for (int x2 = 50 - offset; x2 <= 50 + offset; x2++) {
-						short id = DataManager.world.getGroundBlock(x2 + x, y + 50 + range, -1);
+						short id = WorldUtils.getGroundBlock(x2 + x, y + 50 + range, -1);
 						if (id != water && id != ice) {
 							groundFound = true;
 							centerX = x2;
 							centerY = 50 + range;
 						}
-						id = DataManager.world.getGroundBlock(x2 + x, y + 50 - range, -1);
+						id = WorldUtils.getGroundBlock(x2 + x, y + 50 - range, -1);
 						if (id != water && id != ice) {
 							groundFound = true;
 							centerX = x2;
@@ -175,13 +176,13 @@ public class TerrainGeneratorThread extends Thread {
 						}
 					}
 					for (int y2 = 50 - offset; y2 <= 50 + offset; y2++) {
-						short id = DataManager.world.getGroundBlock(x + 50 + range, y2 + y, -1);
+						short id = WorldUtils.getGroundBlock(x + 50 + range, y2 + y, -1);
 						if (id != water && id != ice) {
 							groundFound = true;
 							centerX = 50 + range;
 							centerY = y2;
 						}
-						id = DataManager.world.getGroundBlock(x + 50 - range, y2 + y, -1);
+						id = WorldUtils.getGroundBlock(x + 50 - range, y2 + y, -1);
 						if (id != water && id != ice) {
 							groundFound = true;
 							centerX = 50 - range;
@@ -198,7 +199,7 @@ public class TerrainGeneratorThread extends Thread {
 					firstRoad = true;
 					startX = 0;
 					startY = 50;
-					DataManager.world.setGroundBlock(x, y + 50, -1, SystemData.blockNameMap.get("asphalt").getID());
+					WorldUtils.setGroundBlock(x, y + 50, -1, SystemData.blockNameMap.get("asphalt").getID());
 					genRoadBlockPerimeter(x,y + 50);
 				}
 
@@ -206,12 +207,12 @@ public class TerrainGeneratorThread extends Thread {
 					firstRoad = true;
 					startX = 100;
 					startY = 50;
-					DataManager.world.setGroundBlock(x + 100, y + 50, -1, SystemData.blockNameMap.get("asphalt").getID());
+					WorldUtils.setGroundBlock(x + 100, y + 50, -1, SystemData.blockNameMap.get("asphalt").getID());
 					genRoadBlockPerimeter(x + 100,y + 50);
 				} else if (roadState.roadRight) {
 					endX = 99;
 					endY = 50;
-					DataManager.world.setGroundBlock(x + 100, y + 50, -1, SystemData.blockNameMap.get("asphalt").getID());
+					WorldUtils.setGroundBlock(x + 100, y + 50, -1, SystemData.blockNameMap.get("asphalt").getID());
 					genRoadBlockPerimeter(x + 100,y + 50);
 				}
 
@@ -219,12 +220,12 @@ public class TerrainGeneratorThread extends Thread {
 					firstRoad = true;
 					startX = 50;
 					startY = 0;
-					DataManager.world.setGroundBlock(x + 50, y, -1, SystemData.blockNameMap.get("asphalt").getID());
+					WorldUtils.setGroundBlock(x + 50, y, -1, SystemData.blockNameMap.get("asphalt").getID());
 					genRoadBlockPerimeter(x + 50,y);
 				} else if (roadState.roadTop) {
 					endX = 50;
 					endY = 1;
-					DataManager.world.setGroundBlock(x + 50, y, -1, SystemData.blockNameMap.get("asphalt").getID());
+					WorldUtils.setGroundBlock(x + 50, y, -1, SystemData.blockNameMap.get("asphalt").getID());
 					genRoadBlockPerimeter(x + 50,y);
 				}
 
@@ -232,12 +233,12 @@ public class TerrainGeneratorThread extends Thread {
 					firstRoad = true;
 					startX = 50;
 					startY = 100;
-					DataManager.world.setGroundBlock(x + 50, y + 100, -1, SystemData.blockNameMap.get("asphalt").getID());
+					WorldUtils.setGroundBlock(x + 50, y + 100, -1, SystemData.blockNameMap.get("asphalt").getID());
 					genRoadBlockPerimeter(x + 50,y + 100);
 				} else if (roadState.roadBottom) {
 					endX = 50;
 					endY = 99;
-					DataManager.world.setGroundBlock(x + 50, y + 100, -1, SystemData.blockNameMap.get("asphalt").getID());
+					WorldUtils.setGroundBlock(x + 50, y + 100, -1, SystemData.blockNameMap.get("asphalt").getID());
 					genRoadBlockPerimeter(x + 50,y + 100);
 				}
 
@@ -248,25 +249,25 @@ public class TerrainGeneratorThread extends Thread {
 				}
 			} else {
 				if (roadState.roadLeft) {
-					DataManager.world.setGroundBlock(x, y + 50, -1, SystemData.blockNameMap.get("asphalt").getID());
+					WorldUtils.setGroundBlock(x, y + 50, -1, SystemData.blockNameMap.get("asphalt").getID());
 					genRoadBlockPerimeter(x,y + 50);
 					generateRoad(x,y+50,x+centerX,y+centerY,DataManager.savable.seed);
 				}
 
 				if (roadState.roadRight) {
-					DataManager.world.setGroundBlock(x + 100, y + 50, -1, SystemData.blockNameMap.get("asphalt").getID());
+					WorldUtils.setGroundBlock(x + 100, y + 50, -1, SystemData.blockNameMap.get("asphalt").getID());
 					genRoadBlockPerimeter(x + 100,y + 50);
 					generateRoad(x+100,y+50,x+centerX,y+centerY,DataManager.savable.seed);
 				}
 
 				if (roadState.roadTop) {
-					DataManager.world.setGroundBlock(x + 50, y, -1, SystemData.blockNameMap.get("asphalt").getID());
+					WorldUtils.setGroundBlock(x + 50, y, -1, SystemData.blockNameMap.get("asphalt").getID());
 					genRoadBlockPerimeter(x + 50,y);
 					generateRoad(x+50,y,x+centerX,y+centerY,DataManager.savable.seed);
 				}
 
 				if (roadState.roadBottom) {
-					DataManager.world.setGroundBlock(x + 50, y + 100, -1, SystemData.blockNameMap.get("asphalt").getID());
+					WorldUtils.setGroundBlock(x + 50, y + 100, -1, SystemData.blockNameMap.get("asphalt").getID());
 					genRoadBlockPerimeter(x + 50,y + 100);
 					generateRoad(x+50,y+100,x+centerX,y+centerY,DataManager.savable.seed);
 				}
@@ -283,7 +284,7 @@ public class TerrainGeneratorThread extends Thread {
 			int[] stairs = getDungeonStairs(x,y,level-1);
 
 			if (level == 0) {
-				DataManager.world.setStructBlock(stairs[0] + x, stairs[1] + y, -1, SystemData.blockNameMap.get("dungeon").getID());
+				WorldUtils.setStructBlock(stairs[0] + x, stairs[1] + y, -1, SystemData.blockNameMap.get("dungeon").getID());
 			}
 
 			// Get Temperature map
@@ -305,10 +306,10 @@ public class TerrainGeneratorThread extends Thread {
 				for (int j = 0; j < dungeonMap[1].length; j++) {
 					int pX = i + x;
 					int pY = j + y;
-					DataManager.world.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("stone").getID());
+					WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("stone").getID());
 					switch (dungeonMap[i][j]) {
 					case Tiles.DIRT:
-						DataManager.world.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dirt").getID());
+						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dirt").getID());
 						break;
 					case Tiles.FLOOR:
 						DataManager.entitySpawn.considerEntity(new Location(pX, pY, level));
@@ -322,14 +323,14 @@ public class TerrainGeneratorThread extends Thread {
 						light.posY += 0.5;
 						DataManager.blockUpdateManager.lighting.urc.update(light);
 
-						DataManager.world.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeonUp").getID());
+						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeonUp").getID());
 						break;
 					case Tiles.DOWN_STAIR:
-						DataManager.world.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeon").getID());
+						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeon").getID());
 						DataManager.savable.dungeonStairs.put(x+","+y+","+level,new int[]{i,j});
 						break;
 					case Tiles.WATER:
-						DataManager.world.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("water").getID());
+						WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("water").getID());
 						break;
 					default:
 						break;
@@ -367,17 +368,17 @@ public class TerrainGeneratorThread extends Thread {
 					stairsY = (int) (rng.nextDouble() * 100);
 
 					do {
-						if (!SystemData.blockIDMap.get(DataManager.world.getGroundBlock(stairsX + x, stairsY + y, level)).isName("water") && !SystemData.blockIDMap.get(DataManager.world.getGroundBlock(stairsX + x, stairsY + y, level)).isName("ice")) {
+						if (!SystemData.blockIDMap.get(WorldUtils.getGroundBlock(stairsX + x, stairsY + y, level)).isName("water") && !SystemData.blockIDMap.get(WorldUtils.getGroundBlock(stairsX + x, stairsY + y, level)).isName("ice")) {
 							stairsOk = true;
 						}
-						if (!DataManager.world.isGroundBlock(stairsX + x, stairsY + y, -1)) {
+						if (!WorldUtils.isGroundBlock(stairsX + x, stairsY + y, -1)) {
 							try {
 								Thread.sleep(50);
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 						}
-					} while (!DataManager.world.isGroundBlock(stairsX + x, stairsY + y, -1));
+					} while (!WorldUtils.isGroundBlock(stairsX + x, stairsY + y, -1));
 
 				}
 
@@ -414,7 +415,7 @@ public class TerrainGeneratorThread extends Thread {
 					island.add(new int[]{-2,1});
 
 					for (int i = 0; i < island.size(); i++) {
-						DataManager.world.setGroundBlock(stairsX + x + island.get(i)[0],stairsY + y + island.get(i)[1], level, SystemData.blockNameMap.get("grass").getID());
+						WorldUtils.setGroundBlock(stairsX + x + island.get(i)[0],stairsY + y + island.get(i)[1], level, SystemData.blockNameMap.get("grass").getID());
 					}
 
 				}
@@ -442,10 +443,10 @@ public class TerrainGeneratorThread extends Thread {
 			for (int i = 0; i < caves.length; i++) {
 				for (int j = 0; j < caves[i].length; j++) {
 
-					DataManager.world.setGroundBlock(x + i,y + j, level, SystemData.blockNameMap.get("stone").getID());
+					WorldUtils.setGroundBlock(x + i,y + j, level, SystemData.blockNameMap.get("stone").getID());
 
 					if (caves[i][j] == 0) {
-						DataManager.world.setStructBlock(x + i,y + j, level, SystemData.blockNameMap.get("dirt").getID());
+						WorldUtils.setStructBlock(x + i,y + j, level, SystemData.blockNameMap.get("dirt").getID());
 					}
 
 				}
@@ -470,7 +471,7 @@ public class TerrainGeneratorThread extends Thread {
 			boolean[][] avoidanceMap = new boolean[villageWidth][villageHeight];
 			for (int i = x + offsetX; i < x+villageWidth+offsetX; i++) {
 				for (int j = y + offsetY; j < y+villageHeight+offsetY; j++) {
-					String name = SystemData.blockIDMap.get(DataManager.world.ou.getGroundBlock(i, j)).getName();
+					String name = SystemData.blockIDMap.get(WorldUtils.getGroundBlock(i, j, -1)).getName();
 					avoidanceMap[i-x-offsetX][j-y-offsetY] = (!name.equals("water") && !name.equals("ice"));
 				}
 			}
@@ -482,17 +483,17 @@ public class TerrainGeneratorThread extends Thread {
 					String name = "";
 					switch (villageMap[i][j]) {
 					case (Tiles.DARK_WOOD):
-						name = SystemData.blockIDMap.get(DataManager.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
+						name = SystemData.blockIDMap.get(WorldUtils.getGroundBlock(i+x+offsetX, j+y+offsetY, -1)).getName();
 					if (!name.equals("water") && !name.equals("ice")) {
-						DataManager.world.ou.setStructBlock(i+x+offsetX, j+y+offsetY, SystemData.blockNameMap.get("darkWood").getID());
+						WorldUtils.setStructBlock(i+x+offsetX, j+y+offsetY, -1, SystemData.blockNameMap.get("darkWood").getID());
 					}
 					break;
 					case (Tiles.LIGHT_WOOD):
-						name = SystemData.blockIDMap.get(DataManager.world.ou.getGroundBlock(i+x+offsetX, j+y+offsetY)).getName();
+						name = SystemData.blockIDMap.get(WorldUtils.getGroundBlock(i+x+offsetX, j+y+offsetY, -1)).getName();
 					if (!name.equals("water") && !name.equals("ice")) {
-						DataManager.world.ou.setGroundBlock(i+x+offsetX, j+y+offsetY, SystemData.blockNameMap.get("lightWood").getID());
-						if (DataManager.world.ou.isStructBlock(i+x+offsetX, j+y+offsetY)) {
-							DataManager.world.ou.removeStructBlock(i+x+offsetX, j+y+offsetY);
+						WorldUtils.setGroundBlock(i+x+offsetX, j+y+offsetY, -1, SystemData.blockNameMap.get("lightWood").getID());
+						if (WorldUtils.isStructBlock(i+x+offsetX, j+y+offsetY, -1)) {
+							WorldUtils.removeStructBlock(i+x+offsetX, j+y+offsetY, -1);
 						}
 					}
 					break;
@@ -548,23 +549,23 @@ public class TerrainGeneratorThread extends Thread {
 
 
 	public void genRoadBlockPerimeter(int x, int y) {
-		DataManager.world.setGroundBlock(x - 1, y, -1, SystemData.blockNameMap.get("asphalt").getID());
-		DataManager.world.setGroundBlock(x + 1, y, -1, SystemData.blockNameMap.get("asphalt").getID());
-		DataManager.world.setGroundBlock(x - 1, y - 1, -1, SystemData.blockNameMap.get("asphalt").getID());
-		DataManager.world.setGroundBlock(x, y - 1, -1, SystemData.blockNameMap.get("asphalt").getID());
-		DataManager.world.setGroundBlock(x + 1, y - 1, -1, SystemData.blockNameMap.get("asphalt").getID());
-		DataManager.world.setGroundBlock(x - 1, y + 1, -1, SystemData.blockNameMap.get("asphalt").getID());
-		DataManager.world.setGroundBlock(x + 1, y + 1, -1, SystemData.blockNameMap.get("asphalt").getID());
-		DataManager.world.setGroundBlock(x, y + 1, -1, SystemData.blockNameMap.get("asphalt").getID());
+		WorldUtils.setGroundBlock(x - 1, y, -1, SystemData.blockNameMap.get("asphalt").getID());
+		WorldUtils.setGroundBlock(x + 1, y, -1, SystemData.blockNameMap.get("asphalt").getID());
+		WorldUtils.setGroundBlock(x - 1, y - 1, -1, SystemData.blockNameMap.get("asphalt").getID());
+		WorldUtils.setGroundBlock(x, y - 1, -1, SystemData.blockNameMap.get("asphalt").getID());
+		WorldUtils.setGroundBlock(x + 1, y - 1, -1, SystemData.blockNameMap.get("asphalt").getID());
+		WorldUtils.setGroundBlock(x - 1, y + 1, -1, SystemData.blockNameMap.get("asphalt").getID());
+		WorldUtils.setGroundBlock(x + 1, y + 1, -1, SystemData.blockNameMap.get("asphalt").getID());
+		WorldUtils.setGroundBlock(x, y + 1, -1, SystemData.blockNameMap.get("asphalt").getID());
 
-		DataManager.world.removeStructBlock(x - 1, y, -1);
-		DataManager.world.removeStructBlock(x + 1, y, -1);
-		DataManager.world.removeStructBlock(x - 1, y - 1, -1);
-		DataManager.world.removeStructBlock(x, y - 1, -1);
-		DataManager.world.removeStructBlock(x + 1, y - 1, -1);
-		DataManager.world.removeStructBlock(x - 1, y + 1, -1);
-		DataManager.world.removeStructBlock(x + 1, y + 1, -1);
-		DataManager.world.removeStructBlock(x, y + 1, -1);
+		WorldUtils.removeStructBlock(x - 1, y, -1);
+		WorldUtils.removeStructBlock(x + 1, y, -1);
+		WorldUtils.removeStructBlock(x - 1, y - 1, -1);
+		WorldUtils.removeStructBlock(x, y - 1, -1);
+		WorldUtils.removeStructBlock(x + 1, y - 1, -1);
+		WorldUtils.removeStructBlock(x - 1, y + 1, -1);
+		WorldUtils.removeStructBlock(x + 1, y + 1, -1);
+		WorldUtils.removeStructBlock(x, y + 1, -1);
 	}
 	public void generateRoad(int startX, int startY, int endX, int endY, long seed) {
 		RoadAStar aStar = new RoadAStar();
@@ -574,7 +575,7 @@ public class TerrainGeneratorThread extends Thread {
 
 		}
 		for (IntCoord coord : path) {
-			DataManager.world.setGroundBlock(coord.x, coord.y, -1, SystemData.blockNameMap.get("asphalt").getID());
+			WorldUtils.setGroundBlock(coord.x, coord.y, -1, SystemData.blockNameMap.get("asphalt").getID());
 		}
 	}
 }

@@ -11,6 +11,7 @@ import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.LightSource;
 import com.mtautumn.edgequest.dataObjects.Triangle;
 import com.mtautumn.edgequest.threads.CharacterManager;
+import com.mtautumn.edgequest.utils.WorldUtils;
 import com.mtautumn.edgequest.window.Renderer;
 public class Lighting extends Thread {
 	Renderer r;
@@ -19,14 +20,14 @@ public class Lighting extends Thread {
 	}
 	@Override
 	public void run() {
-		if (DataManager.world.getBrightness() < 1 && !DataManager.world.noLighting) {
+		if (WorldUtils.getBrightness() < 1 && !WorldUtils.noLighting) {
 			//updatePlayerLight();
 		}
 	}
 	public static void completionTasks(Renderer r) {
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glColor4f (1.0f,1.0f,1.0f,1.0f);
-		if (DataManager.world.getBrightness() < 1 && !DataManager.world.noLighting) {
+		if (WorldUtils.getBrightness() < 1 && !WorldUtils.noLighting) {
 			r.lightingFBO.enableBuffer();
 			GL20.glUseProgram(r.lightingShader.getProgramId());
 			float offsetX = (float) (SettingsData.screenWidth / 2.0 - SystemData.screenX * SettingsData.blockSize);

@@ -11,6 +11,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.entities.Entity;
+import com.mtautumn.edgequest.utils.WorldUtils;
 import com.mtautumn.edgequest.utils.io.KeyboardUpdater;
 import com.mtautumn.edgequest.utils.io.MouseUpdater;
 import com.mtautumn.edgequest.window.Renderer;
@@ -68,7 +69,7 @@ public class RendererManager extends Thread {
 						entity.frameX = entity.getX();
 						entity.frameY = entity.getY();
 					}
-					if (DataManager.world.getBrightness() < 1 && !DataManager.world.noLighting) {
+					if (WorldUtils.getBrightness() < 1 && !WorldUtils.noLighting) {
 						if (SettingsData.fastGraphics) {
 							if (!playerLighting.isAlive()) {
 								playerLighting = new UpdatePlayerLighting();

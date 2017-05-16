@@ -3,6 +3,7 @@ package com.mtautumn.edgequest.entities;
 import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
+import com.mtautumn.edgequest.utils.WorldUtils;
 
 public class Ant extends Entity {
 	private static final long serialVersionUID = 1L;
@@ -63,9 +64,9 @@ public class Ant extends Entity {
 			setY(getY() + lastY * moveSpeed);
 		}
 		super.updateRotation(lastX, lastY);
-		if (DataManager.world.isStructBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
-			if (SystemData.blockIDMap.get(DataManager.world.getStructBlock(this,(int) Math.floor(posX), (int) Math.floor(posY))).hardness > -1) {
-				DataManager.world.removeStructBlock(this, (int) Math.floor(posX), (int) Math.floor(posY));
+		if (WorldUtils.isStructBlock(this, (int) Math.floor(posX), (int) Math.floor(posY))) {
+			if (SystemData.blockIDMap.get(WorldUtils.getStructBlock(this,(int) Math.floor(posX), (int) Math.floor(posY))).hardness > -1) {
+				WorldUtils.removeStructBlock(this, (int) Math.floor(posX), (int) Math.floor(posY));
 				DataManager.blockUpdateManager.updateBlock(new Location(this));
 			}
 		}
@@ -79,13 +80,13 @@ public class Ant extends Entity {
 		} else {
 			newY = newVal;
 		}
-		if (DataManager.world.isStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
-			if (SystemData.blockIDMap.get(DataManager.world.getStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))).hardness == -1) {
+		if (WorldUtils.isStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
+			if (SystemData.blockIDMap.get(WorldUtils.getStructBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))).hardness == -1) {
 				return false;
 			}
 		}
-		if (DataManager.world.isGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
-			if (DataManager.world.getGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY)) == SystemData.blockNameMap.get("water").getID()) {
+		if (WorldUtils.isGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY))) {
+			if (WorldUtils.getGroundBlock(this, (int) Math.floor(newX), (int) Math.floor(newY)) == SystemData.blockNameMap.get("water").getID()) {
 				return false;
 			}
 			return true;

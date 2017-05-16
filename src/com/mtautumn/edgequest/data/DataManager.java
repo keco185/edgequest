@@ -71,7 +71,7 @@ public class DataManager {
 	// Reset the terrain
 	public static void resetTerrain() {
 		terrainManager.terrainGenerator.clearCache();
-		world.wipeMaps();
+		WorldUtils.wipeMaps();
 		savable.footPrints.clear();
 		savable.dungeonLevel = -1;
 		SystemData.requestGenUpdate = true;
