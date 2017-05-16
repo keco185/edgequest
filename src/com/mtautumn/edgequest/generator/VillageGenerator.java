@@ -64,13 +64,14 @@ public class VillageGenerator implements Generator {
 		this.start = start;
 
 		// Get a current number of houses based on a random value
-		this.currentMaxRooms = rng.nextInt(maxHouses) + (int) Math.floor(maxHouses / 2);
+		this.currentMaxRooms = rng.nextInt(maxHouses) + (int) Math.floor(maxHouses / 2) + 2;
 
 		// Initialize the array of houses as rooms (Temporary)
 		this.rooms = new Room[currentMaxRooms];
 		
 		// Init start house (Temp)
 		this.rooms[0] = new Room(Houses.townhall, start);
+		addRoomAvoid(this.rooms[0]);
 
 	}
 	
@@ -110,30 +111,27 @@ public class VillageGenerator implements Generator {
 	 * @see VillageGenerator
 	 */
 	private void prepareTestHouses() {
+		
+		int failed = 0;
+		
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
 		for (int i = 1; i < currentMaxRooms; i++ ) {
 			
 			int tries = 0;
+			int k = i - failed;
 			
 			do {
 				VillageFeature h = this.getRandomHouse();
 				h.rotate(this.rng.nextInt(4));
-				this.rooms[i] = new Room(h, this.rng.nextInt(width), this.rng.nextInt(height));
+				this.rooms[k] = new Room(h, this.rng.nextInt(this.width), this.rng.nextInt(height));
 				tries++;
-			} while(!roomOk(this.rooms[i]) && tries < 1000);
-			
-			if (roomOk(this.rooms[i])) {
-				addRoomAvoid(this.rooms[i]);
-			}
+			} while(!roomOk(this.rooms[k]) && tries < 1000);
 			
 			if (tries >= 1000) {
 				currentMaxRooms--;
-				Room[] roomsTemp = new Room[currentMaxRooms];
-				for (int j = 0; j < i; j++) {
-					roomsTemp[j] = this.rooms[i];
-				}
-				this.rooms = roomsTemp;
-				i--;
+				failed++;
+			} else {
+				addRoomAvoid(this.rooms[k]);
 			}
 		}
 	}
@@ -177,13 +175,13 @@ public class VillageGenerator implements Generator {
 	 */
 	@Override
 	public boolean roomOk(Room room) {
-		if (room.width > 3 && room.height > 3 && room.center.x + (int) room.width / 2 + 1 < this.width && room.center.y + (int) room.height/2 + 1 < height && room.center.x - (int) room.width/2 + 1> 0 && room.center.y - (int) room.height/2 + 1 > 0) {
+		if (room.center.x + (int) room.width / 2 + 1 < this.width && room.center.y + (int) room.height/2 + 1 < height && room.center.x - (int) room.width/2 + 1> 0 && room.center.y - (int) room.height/2 + 1 > 0) {
 			
 			for (int i = room.center.x - room.width / 2; i < room.center.x + room.width/2; i++) {
 				
 				for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2; j++) {
 					
-					if (avoidanceArray[i][j]) {
+					if (!avoidanceArray[i][j]) {
 						return false;
 					}
 					
@@ -237,6 +235,10 @@ public class VillageGenerator implements Generator {
 		
 		this.prepareTestHouses();
 		this.buildTestHouses();
+		
+		for (int i = 0; i < this.rooms.length ; i++ ) {
+			System.out.println(this.rooms[i]);
+		}
 		// this.jsonTest();
 		
 		return this.map;
