@@ -1,9 +1,9 @@
 package com.mtautumn.edgequest.window.layers;
 
 import com.mtautumn.edgequest.window.Renderer;
-import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
+import com.mtautumn.edgequest.window.MenuButtonManager;
 import com.mtautumn.edgequest.window.MenuButtonManager.MenuButton;
 import com.mtautumn.edgequest.window.MenuButtonManager.MenuPane;
 import com.mtautumn.edgequest.window.MenuButtonManager.MenuToggleButton;
@@ -20,7 +20,7 @@ public class Menu {
 	}
 
 	private static void drawButtons(Renderer r) {
-		MenuPane menu = DataManager.menuButtonManager.getCurrentMenu();
+		MenuPane menu = MenuButtonManager.getCurrentMenu();
 		for (int i = 0; i < menu.getCount(); i++) {
 			MenuButton button = menu.getButtons().get(i);
 			if (button.visible) {

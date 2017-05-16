@@ -6,9 +6,9 @@ import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
 
 public class MenuButtonManager {
-	public ArrayList<MenuPane> menus = new ArrayList<MenuPane>();
-	public ArrayList<MenuButton> buttonIDArray = new ArrayList<MenuButton>();
-	public MenuButtonManager() {
+	public static ArrayList<MenuPane> menus = new ArrayList<MenuPane>();
+	public static ArrayList<MenuButton> buttonIDArray = new ArrayList<MenuButton>();
+	public  MenuButtonManager() {
 		MenuPane mainMenu = new MenuPane("Main Menu", null);
 		mainMenu.addButton(new MenuButton("game", "Game"));
 		mainMenu.addButton(new MenuButton("graphics", "Graphics"));
@@ -25,7 +25,7 @@ public class MenuButtonManager {
 		graphicsMenu.addButton(new MenuToggleButton("fastGraphics", "Fast Graphics", false));
 		menus.add(graphicsMenu);
 	}
-	public MenuPane getMenu(String name) {
+	public static MenuPane getMenu(String name) {
 		for (int i = 0; i < menus.size(); i++) {
 			if (menus.get(i).name.equals(name)) {
 				return menus.get(i);
@@ -33,7 +33,7 @@ public class MenuButtonManager {
 		}
 		return null;
 	}
-	public MenuPane getCurrentMenu() {
+	public static MenuPane getCurrentMenu() {
 		for (int i = 0; i < menus.size(); i++) {
 			if (menus.get(i).name.equals(SystemData.currentMenu)) {
 				return menus.get(i);
@@ -41,7 +41,7 @@ public class MenuButtonManager {
 		}
 		return null;
 	}
-	public MenuButton getButtonFromName(String name) {
+	public static MenuButton getButtonFromName(String name) {
 		MenuButton button = null;
 		for (int i = 0; i < buttonIDArray.size(); i++) {
 			if (buttonIDArray.get(i).name.equals(name)) {
@@ -50,7 +50,7 @@ public class MenuButtonManager {
 		}
 		return button;
 	}
-	public void buttonPressed(int posX, int posY) {
+	public static void buttonPressed(int posX, int posY) {
 		int adjustedX = posX - SystemData.menuX;
 		int adjustedY = posY - SystemData.menuY;
 		if (adjustedX < SettingsData.BACK_BUTTON_SIZE * SystemData.uiZoom + SettingsData.BACK_BUTTON_PADDING_LEFT * SystemData.uiZoom && adjustedX > 0 && adjustedY < SettingsData.BACK_BUTTON_SIZE * SystemData.uiZoom + SettingsData.BACK_BUTTON_PADDING_TOP * SystemData.uiZoom && adjustedY > 0) {

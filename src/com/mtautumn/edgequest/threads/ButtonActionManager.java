@@ -8,6 +8,7 @@ import com.mtautumn.edgequest.data.DataManager;
 import com.mtautumn.edgequest.data.GameSaves;
 import com.mtautumn.edgequest.data.SettingsData;
 import com.mtautumn.edgequest.data.SystemData;
+import com.mtautumn.edgequest.window.MenuButtonManager;
 import com.mtautumn.edgequest.window.MenuButtonManager.MenuToggleButton;
 
 public class ButtonActionManager extends Thread {
@@ -100,22 +101,22 @@ public class ButtonActionManager extends Thread {
 		case "fullScreen":
 			SettingsData.isFullScreen = !SettingsData.isFullScreen;
 			if (SettingsData.isFullScreen) {
-				DataManager.menuButtonManager.getMenu("Graphics Menu").getButton("fullScreen").displayName = "Windowed";
+				MenuButtonManager.getMenu("Graphics Menu").getButton("fullScreen").displayName = "Windowed";
 				DataManager.rendererManager.renderer.launchScreenManager.getMenu("Settings").getButton("fullScreen").displayName = "Windowed";
 			} else {
-				DataManager.menuButtonManager.getMenu("Graphics Menu").getButton("fullScreen").displayName = "Full Screen";
+				MenuButtonManager.getMenu("Graphics Menu").getButton("fullScreen").displayName = "Full Screen";
 				DataManager.rendererManager.renderer.launchScreenManager.getMenu("Settings").getButton("fullScreen").displayName = "Full Screen";
 			}
 			break;
 		case "vSync":
-			MenuToggleButton button = (MenuToggleButton) DataManager.menuButtonManager.getMenu("Graphics Menu").getButton("vSync");
+			MenuToggleButton button = (MenuToggleButton) MenuButtonManager.getMenu("Graphics Menu").getButton("vSync");
 			com.mtautumn.edgequest.window.LaunchScreenManager.MenuToggleButton button2 = (com.mtautumn.edgequest.window.LaunchScreenManager.MenuToggleButton) DataManager.rendererManager.renderer.launchScreenManager.getMenu("Settings").getButton("vSync");
 			button.state = !button.state;
 			button2.state = button.state;
 			SettingsData.vSyncOn = button.state;
 			break;
 		case "fastGraphics":
-			MenuToggleButton button3 = (MenuToggleButton) DataManager.menuButtonManager.getMenu("Graphics Menu").getButton("fastGraphics");
+			MenuToggleButton button3 = (MenuToggleButton) MenuButtonManager.getMenu("Graphics Menu").getButton("fastGraphics");
 			com.mtautumn.edgequest.window.LaunchScreenManager.MenuToggleButton button4 = (com.mtautumn.edgequest.window.LaunchScreenManager.MenuToggleButton) DataManager.rendererManager.renderer.launchScreenManager.getMenu("Settings").getButton("fastGraphics");
 			button3.state = !button3.state;
 			button4.state = button3.state;
@@ -125,8 +126,8 @@ public class ButtonActionManager extends Thread {
 			SystemData.running = false;
 			break;
 		case "Go To Parent":
-			if (DataManager.menuButtonManager.getCurrentMenu().parent != null) {
-				SystemData.currentMenu = DataManager.menuButtonManager.getCurrentMenu().parent;
+			if (MenuButtonManager.getCurrentMenu().parent != null) {
+				SystemData.currentMenu = MenuButtonManager.getCurrentMenu().parent;
 			} else {
 				SystemData.isKeyboardMenu = false;
 			}
