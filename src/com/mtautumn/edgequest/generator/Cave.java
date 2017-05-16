@@ -168,8 +168,8 @@ public class Cave implements Overlay {
 			for (int j = 0; j < threshMap[0].length; j++) {
 				
 				// Only knock down walls
-				if (threshMap[i][j] != 0 && dunMap[i][j] != Tiles.FLOOR) {
-					dunMap[i][j] = Tiles.FLOOR;
+				if (threshMap[i][j] != 0 && dunMap[i][j] != Tiles.FLOOR.getTile()) {
+					dunMap[i][j] = Tiles.FLOOR.getTile();
 				}
 				
 			}

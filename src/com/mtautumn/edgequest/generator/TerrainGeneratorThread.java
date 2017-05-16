@@ -307,14 +307,12 @@ public class TerrainGeneratorThread extends Thread {
 					int pX = i + x;
 					int pY = j + y;
 					WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("stone").getID());
-					switch (dungeonMap[i][j]) {
-					case Tiles.DIRT:
+					// Shit.
+					if (dungeonMap[i][j] == Tiles.DIRT.getTile()) {
 						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dirt").getID());
-						break;
-					case Tiles.FLOOR:
+					} else if (dungeonMap[i][j] == Tiles.FLOOR.getTile()) {
 						DataManager.entitySpawn.considerEntity(new Location(pX, pY, level));
-						break;
-					case Tiles.UP_STAIR:
+					} else if (dungeonMap[i][j] == Tiles.UP_STAIR.getTile()) {
 						//make ladders into small light sources
 						light = new LightSource(pX, pY, 4, level);
 						light.onEntity = true;
@@ -322,18 +320,13 @@ public class TerrainGeneratorThread extends Thread {
 						light.posX += 0.5;
 						light.posY += 0.5;
 						DataManager.blockUpdateManager.lighting.urc.update(light);
-
 						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeonUp").getID());
-						break;
-					case Tiles.DOWN_STAIR:
+					} else if (dungeonMap[i][j] == Tiles.DOWN_STAIR.getTile()) {
 						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeon").getID());
 						DataManager.savable.dungeonStairs.put(x+","+y+","+level,new int[]{i,j});
-						break;
-					case Tiles.WATER:
+					} else if (dungeonMap[i][j] == Tiles.WATER.getTile()) {
 						WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("water").getID());
-						break;
-					default:
-						break;
+					} else {
 					}
 
 				}
@@ -481,24 +474,20 @@ public class TerrainGeneratorThread extends Thread {
 			for(int i = 0; i < villageMap.length; i++) {
 				for(int j = 0; j < villageMap[i].length; j++) {
 					String name = "";
-					switch (villageMap[i][j]) {
-					case (Tiles.DARK_WOOD):
+					if (villageMap[i][j] == (Tiles.DARK_WOOD.getTile())) {
 						name = SystemData.blockIDMap.get(WorldUtils.getGroundBlock(i+x+offsetX, j+y+offsetY, -1)).getName();
-					if (!name.equals("water") && !name.equals("ice")) {
-						WorldUtils.setStructBlock(i+x+offsetX, j+y+offsetY, -1, SystemData.blockNameMap.get("darkWood").getID());
-					}
-					break;
-					case (Tiles.LIGHT_WOOD):
-						name = SystemData.blockIDMap.get(WorldUtils.getGroundBlock(i+x+offsetX, j+y+offsetY, -1)).getName();
-					if (!name.equals("water") && !name.equals("ice")) {
-						WorldUtils.setGroundBlock(i+x+offsetX, j+y+offsetY, -1, SystemData.blockNameMap.get("lightWood").getID());
-						if (WorldUtils.isStructBlock(i+x+offsetX, j+y+offsetY, -1)) {
-							WorldUtils.removeStructBlock(i+x+offsetX, j+y+offsetY, -1);
+						if (!name.equals("water") && !name.equals("ice")) {
+							WorldUtils.setStructBlock(i+x+offsetX, j+y+offsetY, -1, SystemData.blockNameMap.get("darkWood").getID());
 						}
-					}
-					break;
-					default:
-						break;
+					} else if (villageMap[i][j] == (Tiles.LIGHT_WOOD.getTile())) {
+						name = SystemData.blockIDMap.get(WorldUtils.getGroundBlock(i+x+offsetX, j+y+offsetY, -1)).getName();
+						if (!name.equals("water") && !name.equals("ice")) {
+							WorldUtils.setGroundBlock(i+x+offsetX, j+y+offsetY, -1, SystemData.blockNameMap.get("lightWood").getID());
+							if (WorldUtils.isStructBlock(i+x+offsetX, j+y+offsetY, -1)) {
+								WorldUtils.removeStructBlock(i+x+offsetX, j+y+offsetY, -1);
+							}
+						}
+					} else {
 					}
 
 				}

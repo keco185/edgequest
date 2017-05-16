@@ -125,7 +125,7 @@ public class VillageGenerator implements Generator {
 				h.rotate(this.rng.nextInt(4));
 				this.rooms[k] = new Room(h, this.rng.nextInt(this.width), this.rng.nextInt(height));
 				tries++;
-			} while(!roomOk(this.rooms[k]) && tries < 1000);
+			} while(!roomOk(this.rooms[k]) && tries < 100);
 			
 			if (tries >= 1000) {
 				currentMaxRooms--;
@@ -236,9 +236,6 @@ public class VillageGenerator implements Generator {
 		this.prepareTestHouses();
 		this.buildTestHouses();
 		
-		for (int i = 0; i < this.rooms.length ; i++ ) {
-			System.out.println(this.rooms[i]);
-		}
 		// this.jsonTest();
 		
 		return this.map;

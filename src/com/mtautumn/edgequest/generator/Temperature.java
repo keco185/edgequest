@@ -25,7 +25,7 @@ public class Temperature implements Overlay {
 	 * @see    Temperature
 	 */
 	public int getWall(double tempMap) {
-		return Tiles.DIRT;
+		return Tiles.DIRT.getTile();
 	}
 	
 	/**
@@ -39,7 +39,7 @@ public class Temperature implements Overlay {
 	 * @see    Temperature
 	 */
 	public int getFloor(double temp) {
-		return Tiles.FLOOR;
+		return Tiles.FLOOR.getTile();
 	}
 	
 	/**
@@ -53,7 +53,7 @@ public class Temperature implements Overlay {
 	 * @see    Temperature
 	 */
 	public int getLiquid(double temp) {
-		return Tiles.WATER;
+		return Tiles.WATER.getTile();
 	}
 	
 	@Override
@@ -62,20 +62,13 @@ public class Temperature implements Overlay {
 			
 			for (int j = 0; j < dunMap.length; j++) {
 				
-				switch (dunMap[i][j]) {
-				
-					case Tiles.FLOOR:
-						dunMap[i][j] = getWall(tempMap[i][j]);
-						break;
-					case Tiles.DIRT:
-						dunMap[i][j] = getFloor(tempMap[i][j]);
-						break;
-					case Tiles.WATER:
-						dunMap[i][j] = getLiquid(tempMap[i][j]);
-						break;
-					default:
-						break;
-						
+				if (dunMap[i][j] == Tiles.FLOOR.getTile()) {
+					dunMap[i][j] = getWall(tempMap[i][j]);
+				} else if (i == Tiles.DIRT.getTile()) {
+					dunMap[i][j] = getFloor(tempMap[i][j]);
+				} else if (i == Tiles.WATER.getTile()) {
+					dunMap[i][j] = getLiquid(tempMap[i][j]);
+				} else {
 				}
 					
 			}
