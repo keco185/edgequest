@@ -76,6 +76,20 @@ public class Terrain extends Thread {
 				}
 			}
 		}
+		if (SettingsData.showDiag) {
+			final float lineWidth = 1;
+			for (Chunk chunk : DataManager.savable.loadedChunks.values()) {
+				if (chunk.isOnScreen()) {
+					xPos = (float)((chunk.x - charX) * blockSize + halfWidth);
+					yPos = (float)((chunk.y - charY) * blockSize + halfHeight);
+					float width = (float) (10.0 * blockSize);
+					r.fillRect(xPos - lineWidth / 2, yPos - lineWidth / 2, lineWidth, width, 1.0f,0.0f,0.0f,1.0f);
+					r.fillRect(xPos - lineWidth / 2, yPos - lineWidth / 2, width, lineWidth, 1.0f,0.0f,0.0f,1.0f);
+					r.fillRect(xPos - lineWidth/2 + width, yPos - lineWidth/2 + width, -lineWidth, -width, 1.0f,0.0f,0.0f,1.0f);
+					r.fillRect(xPos - lineWidth/2 + width , yPos - lineWidth/2 + width, -width, -lineWidth, 1.0f,0.0f,0.0f,1.0f);
+				}
+			}
+		}
 	}
 	public static void draw(Renderer r) {
 		float blockSize = SettingsData.blockSize;
