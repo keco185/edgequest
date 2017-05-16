@@ -8,7 +8,7 @@ import java.util.Map;
 import com.mtautumn.edgequest.blockitems.BlockItem;
 
 public class SystemData {
-	public static boolean loadingWorld = true;
+	public static boolean loadingWorld = false;
 	public static boolean characterLocationSet = false;
 	public static boolean requestScreenUpdate = false;
 	public static boolean requestGenUpdate = false;

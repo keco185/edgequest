@@ -16,6 +16,9 @@ public class Layers {
 	public static void draw(Renderer r) throws InterruptedException {
 		if (SystemData.isGameOnLaunchScreen) {
 			LaunchScreen.draw(r);
+			if (SystemData.loadingWorld) {
+				LoadingScreen.draw(r);
+			}
 		} else {
 			r.preLightingFBO.enableBuffer();
 			Terrain terrainThread = new Terrain(r);

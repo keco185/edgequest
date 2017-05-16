@@ -41,6 +41,7 @@ public class ButtonActionManager extends Thread {
 		String ans;
 		switch (name) {
 		case "newGame": //New Game
+			SystemData.loadingWorld = true;
 			ans = getInputText("Enter Your World Name:");
 			if (ans != null) {
 				try {
@@ -48,9 +49,9 @@ public class ButtonActionManager extends Thread {
 					DataManager.savable.seed = DataManager.savable.saveName.hashCode();
 					DataManager.newGame();
 					SystemData.characterLocationSet = false;
-					SystemData.loadingWorld = true;
 				} catch (Exception e) {
 					setNoticeText("An Error Has Occured");
+					SystemData.loadingWorld = false;
 				}
 			}
 			break;

@@ -5,7 +5,14 @@ import com.mtautumn.edgequest.window.Renderer;
 
 public class LoadingScreen {
 	public static void draw(Renderer r) {
+		long time = System.currentTimeMillis() / 500;
+		if (time % 3 == 0) {
+			drawLoading(r, "Loading.");
+		} else if (time % 3 == 1) {
+			drawLoading(r, "Loading..");
+		} else {
 			drawLoading(r, "Loading...");
+		}
 	}
 	private static void drawLoading(Renderer r, String text) {
 		if (SettingsData.screenWidth > 1.6 * SettingsData.screenHeight) {
