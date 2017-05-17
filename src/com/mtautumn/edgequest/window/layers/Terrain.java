@@ -32,21 +32,39 @@ public class Terrain extends Thread {
 		float blockd24 = blockSize / 24f;
 		float halfHeight = SettingsData.screenHeight / 2f;
 		float halfWidth = SettingsData.screenWidth / 2f;
-
-		for (Chunk chunk : DataManager.savable.loadedChunks.values()) {
-			if (chunk.isOnScreen()) {
-				xPos = (float)(( chunk.x - charX) * blockSize + SettingsData.screenWidth/2.0) - blockSize / 6;
-				yPosReset = (float)((chunk.y - charY) * blockSize + SettingsData.screenHeight/2.0) - blockSize / 6;
-				for (int x = 0; x < 10; x++) {
-					yPos = yPosReset;
-					for (int y = 0; y < 10; y++) {
-						if (SystemData.blockIDMap.get(chunk.wall[x][y]).isSolid) {
-							r.drawTexture(r.textureManager.getTexture(SystemData.blockIDMap.get(chunk.wall[x][y]).getBlockImg(SystemData.animationClock)),xPos, yPos, block13, block13);
-							r.fillRect(xPos, yPos, block13, block13, 0.1f, 0.1f, 0.1f, 0.5f);
+		if (DataManager.savable.dungeonLevel > -1) {
+			for (Chunk chunk : DataManager.savable.loadedChunks.values()) {
+				if (chunk.isOnScreen()) {
+					xPos = (float)(( chunk.x - charX) * blockSize + SettingsData.screenWidth/2.0) - blockSize / 6;
+					yPosReset = (float)((chunk.y - charY) * blockSize + SettingsData.screenHeight/2.0) - blockSize / 6;
+					for (int x = 0; x < 10; x++) {
+						yPos = yPosReset;
+						for (int y = 0; y < 10; y++) {
+							if (SystemData.blockIDMap.get(chunk.wall[x][y]).isSolid) {
+								r.drawTexture(r.textureManager.getTexture(SystemData.blockIDMap.get(chunk.wall[x][y]).getBlockImg(SystemData.animationClock)),xPos, yPos, block13, block13);
+							}
+							yPos += blockSize;
 						}
-						yPos += blockSize;
+						xPos += blockSize;
 					}
-					xPos += blockSize;
+				}
+			}
+		} else {
+			for (Chunk chunk : DataManager.savable.loadedChunks.values()) {
+				if (chunk.isOnScreen()) {
+					xPos = (float)(( chunk.x - charX) * blockSize + SettingsData.screenWidth/2.0) - blockSize / 6;
+					yPosReset = (float)((chunk.y - charY) * blockSize + SettingsData.screenHeight/2.0) - blockSize / 6;
+					for (int x = 0; x < 10; x++) {
+						yPos = yPosReset;
+						for (int y = 0; y < 10; y++) {
+							if (SystemData.blockIDMap.get(chunk.wall[x][y]).isSolid) {
+								r.drawTexture(r.textureManager.getTexture(SystemData.blockIDMap.get(chunk.wall[x][y]).getBlockImg(SystemData.animationClock)),xPos, yPos, block13, block13);
+								r.fillRect(xPos, yPos, block13, block13, 0.1f, 0.1f, 0.1f, 0.5f);
+							}
+							yPos += blockSize;
+						}
+						xPos += blockSize;
+					}
 				}
 			}
 		}
