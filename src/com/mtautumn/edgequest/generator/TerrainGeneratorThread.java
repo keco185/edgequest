@@ -296,9 +296,9 @@ public class TerrainGeneratorThread extends Thread {
 			double[][] tempMap = new double[100][100];
 			for (int i = 0 ; i < 100; i++) {
 				for (int j = 0; j < 100; j++) {
-					try {
+					if (terrainGenerator.temperatureMapFiltered.containsKey(x+i+","+y+j)) {
 						tempMap[i][j] = terrainGenerator.temperatureMapFiltered.get(x+i+","+y+j);
-					} catch (NullPointerException e) {
+					} else {
 						tempMap[i][j] = 0;
 					}
 
