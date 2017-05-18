@@ -22,7 +22,7 @@ public class MenuButtonManager {
 		MenuPane graphicsMenu = new MenuPane("Graphics Menu", "Main Menu");
 		graphicsMenu.addButton(new MenuToggleButton("vSync", "V-Sync", true));
 		graphicsMenu.addButton(new MenuButton("fullScreen", "Full Screen"));
-		graphicsMenu.addButton(new MenuToggleButton("fastGraphics", "Fast Graphics", false));
+		graphicsMenu.addButton(new MenuToggleButton("fastGraphics", "Fast Graphics", true));
 		menus.add(graphicsMenu);
 	}
 	public static MenuPane getMenu(String name) {

@@ -22,7 +22,7 @@ public class SettingsData {
 	public static boolean vSyncOn = true;
 	public static double moveSpeed = 3;
 	public static int maxItemDropAge = 300; //Age of item drops in seconds before they are removed
-	public static boolean fastGraphics = false;
+	public static boolean fastGraphics = true;
 
 
 	public static int upKey = Keyboard.KEY_W;
