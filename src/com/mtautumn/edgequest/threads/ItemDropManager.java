@@ -63,7 +63,7 @@ public class ItemDropManager extends Thread {
 		Entity entity = CharacterManager.characterEntity;
 		for (ItemDrop drop : DataManager.savable.itemDrops) {
 			if (drop.level == entity.dungeonLevel) {
-				if (Math.sqrt(Math.pow(drop.x - entity.getX(), 2) + Math.pow(drop.y, entity.getY())) < 1) {
+				if (Math.sqrt(Math.pow(drop.x - entity.getX(), 2) + Math.pow(drop.y - entity.getY(), 2)) < 1) {
 					for(int i = 0; i < drop.item.getItemCount(); i++) {
 						DataManager.backpackManager.addItem(SystemData.blockIDMap.get(drop.item.getItemID()));
 					}
