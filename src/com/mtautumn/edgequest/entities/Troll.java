@@ -28,8 +28,8 @@ public class Troll extends Entity {
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 		super.moveSpeed = 0.83;
-		super.maxHealth = 10;
-		super.health = 10;
+		super.maxHealth = 25;
+		super.health = 25;
 	}
 	public Troll(Entity entity) {
 		super("troll",EntityType.hostileCreature, entity.getX(), entity.getY(), entity.getRot(), entity.dungeonLevel);
@@ -37,8 +37,8 @@ public class Troll extends Entity {
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
 		super.moveSpeed = 0.83;
-		super.maxHealth = 10;
-		super.health = 10;
+		super.maxHealth = 25;
+		super.health = 25;
 	}
 	public Troll() {
 		super();
@@ -150,7 +150,7 @@ public class Troll extends Entity {
 				offsetY = -Math.sin(-CharacterManager.characterEntity.getRot() - Math.PI / 4.0) * 0.4;
 			}
 			lastHand = !lastHand;
-			DataManager.savable.projectiles.add(new DaggerProjectile(10, 5, this, Weapon.getDamage(3), offsetX, offsetY, false, 1, angle));
+			DataManager.savable.projectiles.add(new DaggerProjectile(10, 5, this, Weapon.getDamage(15), offsetX, offsetY, false, 1, angle));
 		}
 		if (attackTimer == 60) {
 			attackTimer = 0;
