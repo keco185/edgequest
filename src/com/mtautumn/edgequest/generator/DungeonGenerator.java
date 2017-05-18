@@ -4,12 +4,9 @@ import java.util.Random;
 
 import com.mtautumn.edgequest.generator.automata.DrunkardsWalk;
 import com.mtautumn.edgequest.generator.overlay.Cave;
+import com.mtautumn.edgequest.generator.overlay.ClassicDungeon;
 import com.mtautumn.edgequest.generator.overlay.Temperature;
 import com.mtautumn.edgequest.generator.room.Center;
-import com.mtautumn.edgequest.generator.room.Room;
-import com.mtautumn.edgequest.generator.structure.DungeonFeature;
-import com.mtautumn.edgequest.generator.structure.DungeonFormations;
-import com.mtautumn.edgequest.generator.tile.Tiles;
 
 /**
  * This class is used to make a 2D Array of 'Tiles' as a representation
@@ -28,12 +25,6 @@ public class DungeonGenerator implements Generator {
 	int width;
 	int height;
 	int maxRooms;
-
-	// Actual amount of rooms being used
-	int currentMaxRooms;
-
-	// Array of all rooms being used
-	Room[] rooms;
 	
 	// Dungeon temperature and manager
 	Temperature dunTemp = new Temperature();
@@ -52,6 +43,8 @@ public class DungeonGenerator implements Generator {
 	// Temperature hash map
 	double[][] temperatureMap;
 	
+	// classicDungeon object
+	ClassicDungeon classicDungeon;
 	// Cave object to be created
 	Cave cave;
 	// DrukardsWalk object to be created
@@ -83,25 +76,9 @@ public class DungeonGenerator implements Generator {
 		
 		// Init start
 		this.start = start;
-
-		// Get a current number of rooms based on a random value
-		this.currentMaxRooms = this.rng.nextInt(maxRooms) + (int) Math.floor(maxRooms / 2);
-
-		// Initialize the array of rooms
-		this.rooms = new Room[currentMaxRooms];
 		
-		// Init start room
-		this.rooms[0] = new Room(10, 10, start);
-
-		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
-		// TODO: This should really be simplified
-		for (int i = 1; i < currentMaxRooms; i++ ) {
-			this.rooms[i] = new Room(getValueAround(10), getValueAround(10), this.rng.nextInt(width), this.rng.nextInt(height));
-			while (this.rooms[i].center.x > this.width || this.rooms[i].center.y > this.height) {
-				this.rooms[i] = new Room(getValueAround(10), getValueAround(10), this.rng.nextInt(width), this.rng.nextInt(height));
-			}
-		}
-		
+		// Init classic dungeon overlay
+		this.classicDungeon = new ClassicDungeon(width, height, maxRooms, seed, start, avoidanceArray);
 		// Initialize cave
 		this.cave = new Cave(width, height, seed);
 		// Initialize Drunkard's Walk
@@ -121,120 +98,19 @@ public class DungeonGenerator implements Generator {
 	 */
 	private void addPonds() {
 		// NOTE: Lower value when not testing
-		int ponds = this.rng.nextInt(3) - 1;
+		int ponds = rng.nextInt(3) - 1;
 		
 		while (ponds > 0) {
 			
-			int x = this.rng.nextInt(this.map.length);
-			int y = this.rng.nextInt(this.map[0].length);
+			int x = rng.nextInt(map.length);
+			int y = rng.nextInt(map[0].length);
 			
-			this.map = this.drunkWalk.pondWalk(this.map, x, y);
+			map = drunkWalk.pondWalk(map, x, y);
 			
 			ponds -= 1;
 			
 		}
 		
-	}
-	
-	/**
-	 * Create staircase to go up and down, centered in a room
-	 * 
-	 * @see Room
-	 * @see Center
-	 * @see DungeonGenerator
-	 */
-	private void addStairs() {
-		
-		int roomDown = this.rng.nextInt(rooms.length);
-		
-		
-		while (roomDown == 0 || rooms[roomDown].center.x + 1 > this.width || rooms[roomDown].center.y + 1 > this.height) {
-			roomDown = this.rng.nextInt(rooms.length);
-		}
-		
-		map[rooms[0].center.x][rooms[0].center.y] = Tiles.UP_STAIR.getTile();
-		map[rooms[roomDown].center.x][rooms[roomDown].center.y] = Tiles.DOWN_STAIR.getTile();
-	
-	}
-	
-	@Override
-	public void addRoomAvoid(Room room) {
-		for (int i = room.center.x - room.width / 2; i < room.center.x + room.width/2 + 1; i++) {
-			
-			for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2 + 1; j++) {
-				
-				this.avoidanceArray[i][j] = false;
-				
-			}
-			
-		}
-		
-	}
-	
-	/**
-	 * Add structures to the dungeon map
-	 * 
-	 * @see DungeonGenerator
-	 */
-	private void addStructures() {
-		int numStructures = getValueAround(10);
-		Room structs[] = new Room[numStructures];
-		
-		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
-		for (int i = 0; i < numStructures; i++ ) {
-					
-			int tries = 0;
-					
-				do {
-					DungeonFeature h = new DungeonFeature(DungeonFormations.struct1arr);
-					h.rotate(this.rng.nextInt(4));
-					structs[i] = new Room(h, this.rng.nextInt(width), this.rng.nextInt(height));
-					tries++;
-				} while(!roomOk(this.rooms[i]) && tries < 1000);
-					
-				if (roomOk(this.rooms[i])) {
-					addRoomAvoid(this.rooms[i]);
-				}
-					
-				if (tries >= 1000) {
-					numStructures--;
-					Room[] roomsTemp = new Room[numStructures];
-					for (int j = 0; j < i; j++) {
-						roomsTemp[j] = structs[i];
-					}
-					structs = roomsTemp;
-					i--;
-				}
-			}
-		
-		for (int i = 0; i < numStructures; i++ ) {
-			
-			// Get current room
-			Room room = structs[i];
-			
-			for (int w = 0; w < room.width; w++) {
-				for (int h = 0; h < room.height; h++) {
-					boolean bounds = (w + room.xLoc < this.width-1) && (h + room.yLoc < height-1) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0);
-					if (bounds) {
-						this.map[w + room.xLoc][h + room.yLoc] = room.room[h][w];
-					}
-				}
-			}
-				
-		}
-		
-	}
-	
-	/**
-	 * Apply caves to the dungeon
-	 * 
-	 * @see Cave
-	 * @see DungeonGenerator
-	 */
-	private void applyCave() {	
-		
-		this.map = this.cave.makeAndApplyCave(this.map, 0.1f);	
-	
 	}
 	
 	/**
@@ -246,214 +122,11 @@ public class DungeonGenerator implements Generator {
 	private void applyTemperature() {
 		dunTemp.overlay(this.temperatureMap, this.map);
 	}
-	
-	/** 
-	 * Connect all the rooms by making corridors between them
-	 * 
-	 * @see Room
-	 * @See Center
-	 * @see DungeonGenerator
-	 */
-	private void connectRooms() {
 
-		for (int i = 0; i < currentMaxRooms; i++ ) {
-			// Initialize rooms
-			Room room1;
-			Room room2;
-
-			// Get current room and link it to the next room
-			// Also wrap around if possible
-			if (i == currentMaxRooms - 1) {
-				room1 = this.rooms[i];
-				room2 = this.rooms[0];
-			} else {
-				room1 = this.rooms[i];
-				room2 = this.rooms[i+1];
-			}
-
-			// Get our centers
-			Center center1 = room1.getCenter();
-			Center center2 = room2.getCenter();
-
-			// Link them by making corridors
-			makeHCorridor(center1, center2);
-			makeVCorridor(center1, center2);
-
-		}
-
-	}
-	
-	/**
-	 * Get a random value around some value n
-	 * <p>
-	 * Used to be n * 4 / 3... If this doesn't work, think about using that
-	 * 
-	 * @param n number to get a value around
-	 * @see     Random
-	 * @see     DungeonGenerator
-	 */
-	private int getValueAround(int n) {
-		return (int) (this.rng.nextInt(n) * (4/3));
-	}
-	
-	/**
-	 * Make a basic dungeon with rooms, corridors, and features
-	 */
-	private void makeDungeon() {
-		
-		this.makeRooms();
-		this.connectRooms();
-		this.addStructures();
-
-	}
-
-	/**
-	 * Make rooms in the dungeon
-	 * 
-	 * @see Room
-	 * @see DungeonGenerator
-	 */
-	private void makeRooms() {
-
-		for (int i = 0; i < currentMaxRooms; i++ ) {
-			
-			// Get current room
-			Room room = this.rooms[i];
-
-			// Draw it to the map as a 1 (floor)
-			for (int w = 0; w < room.width; w++) {
-
-				for (int h = 0; h < room.height; h++) {
-
-					// Check bounds
-					if ((w + room.xLoc < this.width) && (h + room.yLoc < this.height) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0)) {
-
-						this.map[w + room.xLoc][h + room.yLoc] = Tiles.FLOOR.getTile();
-
-					}
-					
-				}
-				
-			}
-			
-		}
-		
-	}
-
-	/**
-	 * Make horizontal corridor between two coordinates
-	 * 
-	 * @param center1  coordinate of first room
-	 * @param center2  coordinate of second room
-	 * @see   DungeonGenerator
-	 */
-	private void makeHCorridor(Center center1, Center center2) {
-
-		// Different formulas based on which center is at a larger location
-		// Both accomplish the same thing, drawing a horizontal corridor from one location
-		// to another
-		
-		if (center1.x < center2.x) {
-
-			for (int i = 1; i < center2.x - center1.x + 1; i++) {
-				if (center1.x + i < this.width && center1.y < this.height) {
-					this.map[center1.x + i][center1.y] = Tiles.FLOOR.getTile();
-				}
-
-			}
-
-		} else if (center2.x < center1.x) {
-
-			for (int i = 1; i < center1.x - center2.x + 1; i++) {
-				if (center2.x + i < this.width && center2.y < this.height) {
-					this.map[center2.x + i][center2.y] = Tiles.FLOOR.getTile();
-				}
-			}
-
-		}
-
-
-	}
-
-	/**
-	 * Make vertical corridor between two coordinates
-	 * 
-	 * @param center1  coordinate of first room
-	 * @param center2  coordinate of second room
-	 * @see   DungeonGenerator
-	 */
-	private void makeVCorridor(Center center1, Center center2) {
-
-		// Different formulas based on which center is at a larger location
-		// Both accomplish the same thing, drawing a vertical corridor from one location
-		// to another
-		
-		if (center1.y < center2.y) {
-
-			for (int i = 1; i < center2.y - center1.y + 1; i++) {
-				
-				if (center1.x < this.width && center1.y + i < this.height) {
-					this.map[center1.x][center1.y + i] = Tiles.FLOOR.getTile();
-				}
-				
-			}
-
-		} else if (center2.y < center1.y) {
-
-			for (int i = 1; i < center1.y - center2.y + 1; i++) {
-				
-				if (center2.x < this.width && center2.y + i < this.height) {
-					this.map[center2.x][center2.y + i] = Tiles.FLOOR.getTile();
-				}
-
-			}
-			
-		}
-		
-	}
 	
 	/*
 	 * Interface methods
 	 */
-	
-	/**
-	 * Check to see if the house is in a good location
-	 * <p>
-	 * This may or may not be removed, haven't decided
-	 * @param room  Room object to check
-	 * @return      true if the room is in a good postion, false if not
-	 * @see         Room
-	 * @see         Center
-	 * @see         VillageGenerator
-	 */
-	@Override
-	public boolean roomOk(Room room) {
-		if (room.width > 3 && room.height > 3 && room.center.x + (int) room.width / 2 + 1 < this.width && room.center.y + (int) room.height/2 + 1 < height && room.center.x - (int) room.width/2 + 1> 0 && room.center.y - (int) room.height/2 + 1 > 0) {
-			
-			for (int i = room.center.x - room.width / 2; i < room.center.x + room.width/2; i++) {
-				
-				for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2; j++) {
-					
-					// TODO can prob get rid of this
-					try {
-						if (this.avoidanceArray[i][j]) {
-							return false;
-						}
-					} catch ( NullPointerException e ) {
-					    return true;
-					}
-					
-				}
-				
-			}
-			
-			return true;
-			
-		}
-		
-		return false;
-		
-	}
 
 	/**
 	 * Clears the map object that the feature stores tile data to
@@ -494,15 +167,21 @@ public class DungeonGenerator implements Generator {
 	@Override
 	public int[][] build() {
 		
-		this.clearMap();
-		this.makeDungeon();
-		this.applyCave();
-		this.addPonds();
-		this.addStairs();
+		clearMap();
+		// Make dungeon
+		map = classicDungeon.overlay(map);
+		// Add structures
+		map = classicDungeon.addStructures(map);
+		// Apply cave
+		map = cave.makeAndApplyCave(map, 0.1f);	
+		// Add ponds
+		addPonds();
+		// Add stairs last, to avoid problems where stairs can be overwritten
+		map = classicDungeon.addStairs(map);
 		
 		// this.debugPrintMap();
 		
-		return this.map;
+		return map;
 
 	}
 
