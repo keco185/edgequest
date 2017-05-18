@@ -244,7 +244,7 @@ public class UpdateRayCast {
 				}
 			}
 		}
-		
+
 		ArrayList<Point> finalizedPoints = new ArrayList<Point>();
 		for (int i = 0; i < pointArray.size(); i++) {
 			addVertex(pointArray.get(i).angle, pointArray.get(i).radius, light.range, finalizedPoints, lines, light);
@@ -257,6 +257,13 @@ public class UpdateRayCast {
 			Point pt2 = finalizedPoints.get(i + 1);
 			Triangle triangle = new Triangle(light.posX, light.posY, pt1.angle, pt1.radius, pt2.angle, pt2.radius);
 			triangles.add(triangle);
+		}
+		while (light.inUse) {
+			try {
+				Thread.sleep(0, 10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		light.triangles = triangles;
 

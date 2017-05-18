@@ -8,10 +8,13 @@ import java.util.ArrayList;
 
 public class LightSource implements Serializable {
 	private static final long serialVersionUID = 1L;
+	public double renderedX;
+	public double renderedY;
 	public double posX;
 	public double posY;
 	public int level;
 	public final double range;
+	public boolean inUse = false;
 	public ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 	public float r = 1.0f;
 	public float g = 0.95f;
@@ -23,7 +26,7 @@ public class LightSource implements Serializable {
 	private float brightnessMultiplier = 0.0f;
 	public float warmUpSpeed = 0.01f;
 	public float flickerMultiplier = 1.0f;
-	
+
 	public int flickerLowPassTimeLeft = 0;
 	public int flickerHighPassTimeLeft = 0;
 	public float flickerLowPassIntensity = 0.0f;
@@ -76,16 +79,16 @@ public class LightSource implements Serializable {
 			flickerMultiplier = (float) Math.sqrt(flickerMultiplier);
 			flickerMultiplier = 0.9f * oldFlickerMultiplier + 0.1f * flickerMultiplier;
 		}
-		
-		
+
+
 		if (brightnessMultiplier < 1.0f) {
 			brightnessMultiplier += warmUpSpeed;
 			if (brightnessMultiplier > 1.0f) {
 				brightnessMultiplier = 1.0f;
 			}
 		}
-		
+
 		brightness = maxBrightness * flickerMultiplier * brightnessMultiplier;
 	}
-	
+
 }
