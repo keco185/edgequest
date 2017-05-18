@@ -10,6 +10,7 @@ public class StatsBar {
 	public static final int BAR_WIDTH = 536;
 	public static final int BAR_HEIGHT = 88;
 	public static double lastHealth = -1;
+	public static double lastOldHealth = -1;
 	public static void draw(Renderer r) {
 		drawHealth(r);
 		drawStamina(r);
@@ -30,6 +31,18 @@ public class StatsBar {
 	
 	private static void drawHealth(Renderer r) {
 		double health = Double.valueOf(CharacterManager.characterEntity.health) / Double.valueOf(CharacterManager.characterEntity.maxHealth);
+		double oldHealth = Double.valueOf(CharacterManager.characterEntity.oldHealth) / Double.valueOf(CharacterManager.characterEntity.maxHealth);
+		if (lastOldHealth == -1 || Math.abs(lastOldHealth - oldHealth) <= 0.01) lastOldHealth = oldHealth;
+		else if (lastOldHealth < oldHealth) lastOldHealth += 0.01;
+		else if (lastOldHealth > oldHealth) lastOldHealth -= 0.01;
+		
+		if (lastOldHealth > 1) {
+			lastOldHealth = 1.0;
+		}
+		if (lastOldHealth < 0) {
+			lastOldHealth = 0;
+		}
+		
 		if (lastHealth == -1 || Math.abs(lastHealth - health) < 0.01) lastHealth = health;
 		else if (lastHealth < health) lastHealth += 0.01;
 		else if (lastHealth > health) lastHealth -= 0.01;
@@ -42,15 +55,18 @@ public class StatsBar {
 		}
 		int xPos = (SettingsData.screenWidth - (int)(BAR_WIDTH * SystemData.uiZoom))/2 + (int)(76 * SystemData.uiZoom);
 		int yPos = (int)(16 * SystemData.uiZoom);
-		int width = (int) (384.0 * lastHealth * SystemData.uiZoom);
+		int oldHealthWidth = (int) (384.0 * lastOldHealth * SystemData.uiZoom);
+		int healthWidth = (int) (384.0 * lastHealth * SystemData.uiZoom);
 		int height = (int)(25 * SystemData.uiZoom);
 		r.fillRect(xPos, yPos , (int)(384.0 * SystemData.uiZoom), height, 0.745f, 0.651f, 0.584f, 1.0f);
+		r.fillRect(xPos, yPos , oldHealthWidth, height, 1.0f, 1.0f, 1.0f, 0.5f);
+		r.fillRect(xPos + oldHealthWidth - 1, yPos, 2, height, 1.0f, 1.0f, 1.0f, 1.0f);
 		if (lastHealth > 0.66667) {
-			r.fillRect(xPos, yPos , width, height, 0.0f, 1.0f, 0.0f, 1.0f);
+			r.fillRect(xPos, yPos , healthWidth, height, 0.0f, 1.0f, 0.0f, 1.0f);
 		} else if (lastHealth > 0.33334) {
-			r.fillRect(xPos, yPos , width, height, 1.0f, 1.0f, 0.0f, 1.0f);
+			r.fillRect(xPos, yPos , healthWidth, height, 1.0f, 1.0f, 0.0f, 1.0f);
 		} else {
-			r.fillRect(xPos, yPos , width, height, 1.0f, 0.0f, 0.0f, 1.0f);
+			r.fillRect(xPos, yPos , healthWidth, height, 1.0f, 0.0f, 0.0f, 1.0f);
 		}
 	}
 	private static void drawStamina(Renderer r) {

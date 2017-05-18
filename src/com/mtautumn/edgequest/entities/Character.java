@@ -17,7 +17,7 @@ public class Character extends Entity {
 	public double stamina = 10;
 	public double maxStamina = 10;
 	public LightSource light;
-	
+	public int oldHealth;
 	private double regenTimerSet = 60; // 1 second if 60 fps; need to change this if we don't have a frame cap.
 	private double timeToRegen = 60;
 	private double staminaRegenBase = 0.2;
@@ -25,7 +25,7 @@ public class Character extends Entity {
 	private double staminaConsumeRunning = 0.03;
 	private double staminaConsumeFactor = 1;
 	private double defaultFactor = 1; // Reset the factor. there's probably a smarter way to do that
-	
+	private double healthRegenRate = 0.001;
 
 	public Character(double posX, double posY, double rotation, int dungeonLevel) {
 		super("character",EntityType.character, posX, posY, rotation, dungeonLevel);
@@ -36,8 +36,9 @@ public class Character extends Entity {
 		light = new LightSource(getX(), getY(), 8, -1); //light use to be 8, you can't see enemies until they're already on top of you...
 		light.onEntity = true;
 		DataManager.savable.lightSources.add(light);
-		super.health = 20;
-		super.maxHealth = 20;
+		health = 50;
+		maxHealth = 50;
+		oldHealth = maxHealth;
 		super.lastPosX = lastX;
 		super.lastPosY = lastY;
 	}
@@ -52,8 +53,9 @@ public class Character extends Entity {
 		light = new LightSource(getX(), getY(), 8, -1);
 		light.onEntity = true;
 		DataManager.savable.lightSources.add(light);
-		super.health = 20;
-		super.maxHealth = 20;
+		health = 50;
+		maxHealth = 50;
+		oldHealth = maxHealth;
 		super.lastPosX = lastX;
 		super.lastPosY = lastY;
 	}
@@ -62,8 +64,9 @@ public class Character extends Entity {
 		super.slide = true;
 		super.stillAnimation = new int[]{0};
 		super.walkAnimation = new int[]{0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11};
-		super.health = 20;
-		super.maxHealth = 20;
+		health = 50;
+		maxHealth = 50;
+		oldHealth = maxHealth;
 		super.lastPosX = lastX;
 		super.lastPosY = lastY;
 	}
@@ -77,8 +80,28 @@ public class Character extends Entity {
 		}
 		return entityTexture + "." + entityTexture + "still" + stillAnimation[SystemData.animationClock % stillAnimation.length];
 	}
+	
+	private long lastHealthIncrease = 0;
+	private int lastHealth = 50;
 	@Override
 	public void update() {
+		if (lastHealth > health) {
+			oldHealth = (lastHealth * 5 + health) / 6;
+			lastHealth = health;
+		} else if (lastHealth < health) {
+			lastHealth = health;
+			if (oldHealth < health) {
+				oldHealth = health;
+			}
+		}
+		if (System.currentTimeMillis() - lastHealthIncrease > 1.0 / healthRegenRate) {
+			lastHealthIncrease = System.currentTimeMillis();
+			if (health < oldHealth) {
+				health += 1;
+			} else {
+				oldHealth = health;
+			}
+		}
 		light.posX = getX();
 		light.posY = getY();
 		light.level = dungeonLevel;
