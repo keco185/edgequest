@@ -13,63 +13,65 @@ public final class Houses {
 	
 	public final static int W = Tiles.DARK_WOOD_WALL.getTile();
 	public final static int F = Tiles.LIGHT_WOOD_FLOOR.getTile();
+	// Cause of errors?
+	public final static int E = -1;
 	
 	// House 1
 	public final static int[][] house1Arr = new int[][]{
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, W, W, W, W, W, W, W, W, W, W, 0 },
-	  	{ 0, W, F, F, F, F, F, F, F, F, W, 0 },
-	  	{ 0, W, F, F, F, F, F, F, F, F, W, 0 },
-	  	{ 0, W, F, F, F, F, F, F, F, F, W, 0 },
-	  	{ 0, W, F, F, F, F, F, F, F, F, W, 0 },
-	  	{ 0, W, W, F, W, W, W, W, W, W, W, 0 },
-	  	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+		{ E, E, E, E, E, E, E, E, E, E, E, E },
+		{ E, W, W, W, W, W, W, W, W, W, W, E },
+	  	{ E, W, F, F, F, F, F, F, F, F, W, E },
+	  	{ E, W, F, F, F, F, F, F, F, F, W, E },
+	  	{ E, W, F, F, F, F, F, F, F, F, W, E },
+	  	{ E, W, F, F, F, F, F, F, F, F, W, E },
+	  	{ E, W, W, F, W, W, W, W, W, W, W, E },
+	  	{ E, E, E, E, E, E, E, E, E, E, E, E }
 	};
 	
 	public static VillageFeature house1 = new VillageFeature(house1Arr);
 	
 	// House 2
 	public final static int[][] house2Arr = new int[][]{
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, W, W, W, W, W, W, W, W, W, W, 0 },
-	  	{ 0, W, F, F, F, F, F, F, F, F, W, 0 },
-	  	{ 0, W, F, F, F, F, F, F, F, F, W, 0 },
-	  	{ 0, W, F, F, F, F, W, W, F, W, W, 0 },
-	  	{ 0, W, F, F, F, F, W, 0, 0, 0, 0, 0 },
-	  	{ 0, W, W, F, W, W, W, 0, 0, 0, 0, 0 },
-	  	{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+		{ E, E, E, E, E, E, E, E, E, E, E, E },
+		{ E, W, W, W, W, W, W, W, W, W, W, E },
+	  	{ E, W, F, F, F, F, F, F, F, F, W, E },
+	  	{ E, W, F, F, F, F, F, F, F, F, W, E },
+	  	{ E, W, F, F, F, F, W, W, F, W, W, E },
+	  	{ E, W, F, F, F, F, W, E, E, E, E, E },
+	  	{ E, W, W, F, W, W, W, E, E, E, E, E },
+	  	{ E, E, E, E, E, E, E, E, E, E, E, E }
 	};
 	
 	public static VillageFeature house2 = new VillageFeature(house2Arr);
 	
 	// House 3
 	public final static int[][] house3Arr = new int[][]{
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, W, W, W, W, W, W, W, W, W, W, 0 },
-		{ 0, W, F, F, F, F, F, F, F, F, W, 0 },
-		{ 0, W, F, F, F, F, F, F, F, F, W, 0 },
-		{ 0, W, F, F, F, F, W, W, F, W, W, 0 },
-		{ 0, W, F, F, F, F, W, 0, 0, 0, 0, 0 },
-		{ 0, W, W, F, W, W, W, 0, 0, 0, 0, 0 },
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
+		{ E, E, E, E, E, E, E, E, E, E, E, E },
+		{ E, W, W, W, W, W, W, W, W, W, W, E },
+		{ E, W, F, F, F, F, F, F, F, F, W, E },
+		{ E, W, F, F, F, F, F, F, F, F, W, E },
+		{ E, W, F, F, F, F, W, W, F, W, W, E },
+		{ E, W, F, F, F, F, W, E, E, E, E, E },
+		{ E, W, W, F, W, W, W, E, E, E, E, E },
+		{ E, E, E, E, E, E, E, E, E, E, E, E }
 	};
 	
 	public static VillageFeature house3 = new VillageFeature(house3Arr);
 	
 	// Town Hall
 	public final static int[][] townhallArr = new int[][] {
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, W, W, W, W, W, W, W, W, W, W, 0, 0, 0},
-		{0, 0, W, F, W, F, F, W, W, W, W, W, W, W, 0, 0},
-		{0, W, W, F, W, F, F, W, W, W, W, W, W, W, W, 0},
-		{0, W, F, F, W, F, F, F, F, F, F, F, F, F, W, 0},
-		{0, W, F, F, W, F, F, F, F, F, F, F, F, F, W, 0},
-		{0, W, F, F, F, F, F, F, F, F, F, F, F, F, W, 0},
-		{0, W, F, F, W, W, W, F, F, W, W, F, F, F, W, 0},
-		{0, W, F, F, W, 0, 0, 0, 0, 0, W, W, W, W, W, 0},
-		{0, W, F, F, W, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, W, W, W, W, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-		{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+		{E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E},
+		{E, E, E, W, W, W, W, W, W, W, W, W, W, E, E, E},
+		{E, E, W, F, W, F, F, W, W, W, W, W, W, W, E, E},
+		{E, W, W, F, W, F, F, W, W, W, W, W, W, W, W, E},
+		{E, W, F, F, W, F, F, F, F, F, F, F, F, F, W, E},
+		{E, W, F, F, W, F, F, F, F, F, F, F, F, F, W, E},
+		{E, W, F, F, F, F, F, F, F, F, F, F, F, F, W, E},
+		{E, W, F, F, W, W, W, F, F, W, W, F, F, F, W, E},
+		{E, W, F, F, W, E, E, E, E, E, W, W, W, W, W, E},
+		{E, W, F, F, W, E, E, E, E, E, E, E, E, E, E, E},
+		{E, W, W, W, W, E, E, E, E, E, E, E, E, E, E, E},
+		{E, E, E, E, E, E, E, E, E, E, E, E, E, E, E, E}
 	};
 	
 	public static VillageFeature townhall = new VillageFeature(townhallArr);
