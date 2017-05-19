@@ -47,7 +47,13 @@ public class Temperature implements Overlay {
 	 * @see    Temperature
 	 */
 	public int getFloor(double temp) {
-		return Tiles.FLOOR.getTile();
+		if (temp < 3550) {
+			return Tiles.SNOWFLOOR.getTile();
+		} else if (temp > 4180) {
+			return Tiles.SANDFLOOR.getTile();
+		} else {
+			return Tiles.DIRT.getTile();
+		}
 	}
 	
 	/**
@@ -79,6 +85,8 @@ public class Temperature implements Overlay {
 					dunMap[i][j] = getWall(tempMap[i][j]);
 				} else if (dunMap[i][j] == Tiles.WATER.getTile()) {
 					dunMap[i][j] = getLiquid(tempMap[i][j]);
+				} else if (dunMap[i][j] == Tiles.FLOOR.getTile()) {
+					dunMap[i][j] = getFloor(tempMap[i][j]);
 				} else {
 				}
 					

@@ -41,6 +41,10 @@ public class DefineBlockItems {
 
 		dungeonDefinition();
 		dungeonUpDefinition();
+		
+		snowyStoneDefinition();
+		sandyStoneDefinition();
+		
 		SystemData.blockIDMap = blockIDMap;
 		SystemData.blockNameMap = blockNameMap;
 	}
@@ -67,6 +71,8 @@ public class DefineBlockItems {
 		SettingsData.atlasMap.put("darkWood0", new int[]{2,4});
 		SettingsData.atlasMap.put("lightWood0", new int[]{3,4});
 		SettingsData.atlasMap.put("asphalt0", new int[]{0,5});
+		SettingsData.atlasMap.put("snowyStone0", new int[]{1,5});
+		SettingsData.atlasMap.put("sandyStone0", new int[]{2,5});
 	}
 	private static void noneDefinition() {
 		BlockItem none = new BlockItem(-1, true, true, "none", new int[]{0} , new int[]{0});
@@ -189,6 +195,18 @@ public class DefineBlockItems {
 		dungeonUp.isPassable = true;
 		dungeonUp.isSolid = false;
 		addToMaps(dungeonUp);
+	}
+	private static void snowyStoneDefinition() {
+		BlockItem snowyStone = new BlockItem(202, true, false, "snowyStone", new int[]{0} , new int[]{0});
+		snowyStone.canHavePrints = true;
+		snowyStone.melts = true;
+		snowyStone.meltsInto = "stone";
+		snowyStone.replacedBy = "stone";
+		addToMaps(snowyStone);
+	}
+	private static void sandyStoneDefinition() {
+		BlockItem sandyStone = new BlockItem(203, true, false, "sandyStone", new int[]{0} , new int[]{0});
+		addToMaps(sandyStone);
 	}
 
 	private static void addToMaps(BlockItem blockItem) {

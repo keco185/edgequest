@@ -19,7 +19,10 @@ public enum Tiles {
 	GRASS(7),
 	DARK_WOOD(8),
 	LIGHT_WOOD(9),
-	ICE(10);
+	ICE(10),
+	
+	SNOWFLOOR(11),
+	SANDFLOOR(12);
 	
 	private final int value;
 

@@ -339,6 +339,10 @@ public class TerrainGeneratorThread extends Thread {
 						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("sand").getID());
 					} else if (dungeonMap[i][j] == Tiles.SNOW.getTile()) {
 						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("snow").getID());
+					} else if (dungeonMap[i][j] == Tiles.SANDFLOOR.getTile()) {
+						WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("sandyStone").getID());
+					} else if (dungeonMap[i][j] == Tiles.SNOWFLOOR.getTile()) {
+						WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("snowyStone").getID());
 					}
 						
 					else {
