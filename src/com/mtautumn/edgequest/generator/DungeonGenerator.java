@@ -1,5 +1,6 @@
 package com.mtautumn.edgequest.generator;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import com.mtautumn.edgequest.generator.automata.DrunkardsWalk;
@@ -7,6 +8,7 @@ import com.mtautumn.edgequest.generator.overlay.Cave;
 import com.mtautumn.edgequest.generator.overlay.ClassicDungeon;
 import com.mtautumn.edgequest.generator.overlay.Temperature;
 import com.mtautumn.edgequest.generator.room.Center;
+import com.mtautumn.edgequest.generator.tile.Tiles;
 
 /**
  * This class is used to make a 2D Array of 'Tiles' as a representation
@@ -136,8 +138,10 @@ public class DungeonGenerator implements Generator {
 	@Override
 	public void clearMap() {
 		
-		this.map = new int[this.width][this.height];
-		// Arrays.fill(this.map, dunTemp.getWall(this.tempurature));
+		map = new int[width][height];
+		
+		for (int[] row : map)
+		    Arrays.fill(row, Tiles.DIRT_WALL.getTile());
 		
 	}
 	
@@ -175,8 +179,9 @@ public class DungeonGenerator implements Generator {
 		// Add ponds
 		addPonds();
 		// Add structures
-		map = classicDungeon.addStructures(map);
+		// map = classicDungeon.addStructures(map);
 		
+		// Apply temperatures
 		applyTemperature();
 		
 		// Add stairs last, to avoid problems where stairs can be overwritten

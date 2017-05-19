@@ -28,11 +28,11 @@ public class Temperature implements Overlay {
 	 */
 	public int getWall(double temp) {
 		if (temp < 3550) {
-			return Tiles.SNOW.getTile();
+			return Tiles.SNOW_WALL.getTile();
 		} else if (temp > 4180) {
-			return Tiles.SAND.getTile();
+			return Tiles.SAND_WALL.getTile();
 		} else {
-			return Tiles.DIRT.getTile();
+			return Tiles.DIRT_WALL.getTile();
 		}
 	}
 	
@@ -48,11 +48,11 @@ public class Temperature implements Overlay {
 	 */
 	public int getFloor(double temp) {
 		if (temp < 3550) {
-			return Tiles.SNOWFLOOR.getTile();
+			return Tiles.SNOW_FLOOR.getTile();
 		} else if (temp > 4180) {
-			return Tiles.SANDFLOOR.getTile();
+			return Tiles.SAND_FLOOR.getTile();
 		} else {
-			return Tiles.FLOOR.getTile();
+			return Tiles.STONE_FLOOR.getTile();
 		}
 	}
 	
@@ -81,11 +81,11 @@ public class Temperature implements Overlay {
 			
 			for (int j = 0; j < dunMap.length; j++) {
 				
-				if (dunMap[i][j] == Tiles.DIRT.getTile()) {
+				if (dunMap[i][j] == Tiles.DIRT_WALL.getTile()) {
 					dunMap[i][j] = getWall(tempMap[i][j]);
 				} else if (dunMap[i][j] == Tiles.WATER.getTile()) {
 					dunMap[i][j] = getLiquid(tempMap[i][j]);
-				} else if (dunMap[i][j] == Tiles.FLOOR.getTile()) {
+				} else if (dunMap[i][j] == Tiles.STONE_FLOOR.getTile()) {
 					dunMap[i][j] = getFloor(tempMap[i][j]);
 				} else {
 				}

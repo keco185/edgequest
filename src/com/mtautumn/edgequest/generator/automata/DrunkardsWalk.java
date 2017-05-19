@@ -27,7 +27,7 @@ public class DrunkardsWalk implements Automata {
 	// Wrap walk method to randomize inputs
 	public int[][] randomWalk(int[][] map, int passes, float chaosChance) {
 		
-		return walk(map, passes, chaosChance, Tiles.DIRT.getTile(), Tiles.FLOOR.getTile(), rng.nextInt(map.length), rng.nextInt(map[0].length));
+		return walk(map, passes, chaosChance, Tiles.DIRT_WALL.getTile(), Tiles.STONE_FLOOR.getTile(), rng.nextInt(map.length), rng.nextInt(map[0].length));
 	
 	}
 	

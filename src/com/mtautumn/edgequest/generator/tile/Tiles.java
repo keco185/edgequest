@@ -9,20 +9,28 @@ package com.mtautumn.edgequest.generator.tile;
 public enum Tiles {
 	
 	EMPTY(-1),
-	DIRT(0),
-	FLOOR(1),
-	UP_STAIR(2),
-	DOWN_STAIR(3),
-	WATER(4),
-	SNOW(5),
-	SAND(6),
-	GRASS(7),
-	DARK_WOOD(8),
-	LIGHT_WOOD(9),
-	ICE(10),
 	
-	SNOWFLOOR(11),
-	SANDFLOOR(12);
+	UP_STAIR(10),
+	DOWN_STAIR(11),
+	
+	DIRT_WALL(20),
+	GRASS_WALL(21),
+	STONE_WALL(22),
+	SNOW_WALL(23),
+	SAND_WALL(24),
+	DARK_WOOD_WALL(25),
+	LIGHT_WOOD_WALL(26),
+	
+	DIRT_FLOOR(30),
+	GRASS_FLOOR(31),
+	STONE_FLOOR(32),
+	SNOW_FLOOR(33),
+	SAND_FLOOR(34),
+	DARK_WOOD_FLOOR(35),
+	LIGHT_WOOD_FLOOR(36),
+	
+	WATER(100),
+	ICE(101);
 	
 	private final int value;
 

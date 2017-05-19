@@ -301,6 +301,54 @@ public class TerrainGeneratorThread extends Thread {
 		}
 		return tempMap;
 	}
+	
+	public void placeTiles(int x, int y, int level, int[][] map) {
+		
+		for (int i = 0; i < map.length; i++) {
+			for (int j = 0; j < map[1].length; j++) {
+				int pX = i + x;
+				int pY = j + y;
+				WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("stone").getID());
+				// Shit.
+				if (map[i][j] == Tiles.DIRT_WALL.getTile()) {
+					WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dirt").getID());
+				} else if (map[i][j] == Tiles.STONE_FLOOR.getTile()) {
+					DataManager.entitySpawn.considerEntity(new Location(pX, pY, level));
+				} else if (map[i][j] == Tiles.UP_STAIR.getTile()) {
+					//make ladders into small light sources
+					light = new LightSource(pX, pY, 4, level);
+					light.onEntity = true;
+					DataManager.savable.lightSources.add(light);
+					light.posX += 0.5;
+					light.posY += 0.5;
+					DataManager.blockUpdateManager.lighting.urc.update(light);
+					WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeonUp").getID());
+				} else if (map[i][j] == Tiles.DOWN_STAIR.getTile()) {
+					WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeon").getID());
+					DataManager.savable.dungeonStairs.put(x+","+y+","+level,new int[]{i,j});
+				} else if (map[i][j] == Tiles.WATER.getTile()) {
+					WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("water").getID());
+				} else if (map[i][j] == Tiles.ICE.getTile()) {
+					WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("ice").getID());
+				} else if (map[i][j] == Tiles.SAND_WALL.getTile()) {
+					WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("sand").getID());
+				} else if (map[i][j] == Tiles.SNOW_WALL.getTile()) {
+					WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("snow").getID());
+				} else if (map[i][j] == Tiles.SAND_FLOOR.getTile()) {
+					WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("sandyStone").getID());
+				} else if (map[i][j] == Tiles.SNOW_FLOOR.getTile()) {
+					WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("snowyStone").getID());
+				}
+					
+				else {
+				}
+
+			}
+
+		}
+
+		
+	}
 
 	public void genDungeon(int x, int y, int level) {
 		if (!beenGenerated(x,y,level)) {
@@ -314,50 +362,8 @@ public class TerrainGeneratorThread extends Thread {
 			double[][] tempMap = getTempMap(x, y);
 			int[][] dungeonMap = new DungeonGenerator(100, 100, 10, generateSeed(dungeonSeedBase,x,y,level), new Center(stairs[0], stairs[1]), tempMap).build();
 			
+			placeTiles(x, y, level, dungeonMap);
 			
-			for (int i = 0; i < dungeonMap.length; i++) {
-				for (int j = 0; j < dungeonMap[1].length; j++) {
-					int pX = i + x;
-					int pY = j + y;
-					WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("stone").getID());
-					// Shit.
-					if (dungeonMap[i][j] == Tiles.DIRT.getTile()) {
-						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dirt").getID());
-					} else if (dungeonMap[i][j] == Tiles.FLOOR.getTile()) {
-						DataManager.entitySpawn.considerEntity(new Location(pX, pY, level));
-					} else if (dungeonMap[i][j] == Tiles.UP_STAIR.getTile()) {
-						//make ladders into small light sources
-						light = new LightSource(pX, pY, 4, level);
-						light.onEntity = true;
-						DataManager.savable.lightSources.add(light);
-						light.posX += 0.5;
-						light.posY += 0.5;
-						DataManager.blockUpdateManager.lighting.urc.update(light);
-						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeonUp").getID());
-					} else if (dungeonMap[i][j] == Tiles.DOWN_STAIR.getTile()) {
-						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeon").getID());
-						DataManager.savable.dungeonStairs.put(x+","+y+","+level,new int[]{i,j});
-					} else if (dungeonMap[i][j] == Tiles.WATER.getTile()) {
-						WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("water").getID());
-					} else if (dungeonMap[i][j] == Tiles.ICE.getTile()) {
-						WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("ice").getID());
-					} else if (dungeonMap[i][j] == Tiles.SAND.getTile()) {
-						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("sand").getID());
-					} else if (dungeonMap[i][j] == Tiles.SNOW.getTile()) {
-						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("snow").getID());
-					} else if (dungeonMap[i][j] == Tiles.SANDFLOOR.getTile()) {
-						WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("sandyStone").getID());
-					} else if (dungeonMap[i][j] == Tiles.SNOWFLOOR.getTile()) {
-						WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("snowyStone").getID());
-					}
-						
-					else {
-					}
-
-				}
-
-			}
-
 			generated(x,y,level);
 
 		}
@@ -461,48 +467,8 @@ public class TerrainGeneratorThread extends Thread {
 			double[][] tempMap = getTempMap(x, y);
 			t.overlay(tempMap, caves);
 
-			for (int i = 0; i < caves.length; i++) {
-				for (int j = 0; j < caves[i].length; j++) {
-					
-					int pX = i + x;
-					int pY = j + y;
-					WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("stone").getID());
-
-					if (caves[i][j] == Tiles.DIRT.getTile()) {
-						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dirt").getID());
-					} else if (caves[i][j] == Tiles.UP_STAIR.getTile()) {
-						//make ladders into small light sources
-						light = new LightSource(pX, pY, 4, level);
-						light.onEntity = true;
-						DataManager.savable.lightSources.add(light);
-						light.posX += 0.5;
-						light.posY += 0.5;
-						DataManager.blockUpdateManager.lighting.urc.update(light);
-						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeonUp").getID());
-					} else if (caves[i][j] == Tiles.DOWN_STAIR.getTile()) {
-						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeon").getID());
-						DataManager.savable.dungeonStairs.put(x+","+y+","+level,new int[]{i,j});
-					} else if (caves[i][j] == Tiles.WATER.getTile()) {
-						WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("water").getID());
-					} else if (caves[i][j] == Tiles.ICE.getTile()) {
-						WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("ice").getID());
-					} else if (caves[i][j] == Tiles.SAND.getTile()) {
-						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("sand").getID());
-					} else if (caves[i][j] == Tiles.SNOW.getTile()) {
-						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("snow").getID());
-					} else if (caves[i][j] == Tiles.SANDFLOOR.getTile()) {
-						WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("sandyStone").getID());
-					} else if (caves[i][j] == Tiles.SNOWFLOOR.getTile()) {
-						WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("snowyStone").getID());
-					}
-						
-					else {
-					}
-
-				}
-
-			}
-
+			placeTiles(x, y, level, caves);
+			
 			generated(x,y,level);
 
 		}
@@ -531,12 +497,12 @@ public class TerrainGeneratorThread extends Thread {
 			for(int i = 0; i < villageMap.length; i++) {
 				for(int j = 0; j < villageMap[i].length; j++) {
 					String name = "";
-					if (villageMap[i][j] == (Tiles.DARK_WOOD.getTile())) {
+					if (villageMap[i][j] == (Tiles.DARK_WOOD_WALL.getTile())) {
 						name = SystemData.blockIDMap.get(WorldUtils.getGroundBlock(i+x+offsetX, j+y+offsetY, -1)).getName();
 						if (!name.equals("water") && !name.equals("ice")) {
 							WorldUtils.setStructBlock(i+x+offsetX, j+y+offsetY, -1, SystemData.blockNameMap.get("darkWood").getID());
 						}
-					} else if (villageMap[i][j] == (Tiles.LIGHT_WOOD.getTile())) {
+					} else if (villageMap[i][j] == (Tiles.LIGHT_WOOD_FLOOR.getTile())) {
 						name = SystemData.blockIDMap.get(WorldUtils.getGroundBlock(i+x+offsetX, j+y+offsetY, -1)).getName();
 						if (!name.equals("water") && !name.equals("ice")) {
 							WorldUtils.setGroundBlock(i+x+offsetX, j+y+offsetY, -1, SystemData.blockNameMap.get("lightWood").getID());

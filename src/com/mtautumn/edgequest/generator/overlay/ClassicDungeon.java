@@ -109,7 +109,7 @@ public class ClassicDungeon implements RoomOverlay {
 			for (int i = 1; i < center2.y - center1.y + 1; i++) {
 				
 				if (center1.x < width && center1.y + i < height) {
-					map[center1.x][center1.y + i] = Tiles.FLOOR.getTile();
+					map[center1.x][center1.y + i] = Tiles.STONE_FLOOR.getTile();
 				}
 				
 			}
@@ -119,7 +119,7 @@ public class ClassicDungeon implements RoomOverlay {
 			for (int i = 1; i < center1.y - center2.y + 1; i++) {
 				
 				if (center2.x < width && center2.y + i < height) {
-					map[center2.x][center2.y + i] = Tiles.FLOOR.getTile();
+					map[center2.x][center2.y + i] = Tiles.STONE_FLOOR.getTile();
 				}
 
 			}
@@ -147,7 +147,7 @@ public class ClassicDungeon implements RoomOverlay {
 
 			for (int i = 1; i < center2.x - center1.x + 1; i++) {
 				if (center1.x + i < width && center1.y < height) {
-					map[center1.x + i][center1.y] = Tiles.FLOOR.getTile();
+					map[center1.x + i][center1.y] = Tiles.STONE_FLOOR.getTile();
 				}
 
 			}
@@ -156,7 +156,7 @@ public class ClassicDungeon implements RoomOverlay {
 
 			for (int i = 1; i < center1.x - center2.x + 1; i++) {
 				if (center2.x + i < width && center2.y < height) {
-					map[center2.x + i][center2.y] = Tiles.FLOOR.getTile();
+					map[center2.x + i][center2.y] = Tiles.STONE_FLOOR.getTile();
 				}
 			}
 
@@ -224,7 +224,7 @@ public class ClassicDungeon implements RoomOverlay {
 					// Check bounds
 					if ((w + room.xLoc < this.width) && (h + room.yLoc < this.height) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0)) {
 
-						map[w + room.xLoc][h + room.yLoc] = Tiles.FLOOR.getTile();
+						map[w + room.xLoc][h + room.yLoc] = Tiles.STONE_FLOOR.getTile();
 
 					}
 					
