@@ -25,6 +25,17 @@ public interface Automata {
 	// No randomness
 	float chaosEmpty = 0.0f;
 
+	/**
+	 * Main walk method to apply cellular automata to maps
+	 * @param map			map object to overlay onto
+	 * @param passes	    number of times to execute automata
+	 * @param chaosChance   randomness chance
+	 * @param find          blocks to replace
+	 * @param replace       block to replace with
+	 * @param x			    starting x location
+	 * @param y			    starting y location
+	 * @return				map with cellular automata overlaid
+	 */
 	public int[][] walk(int[][] map, int passes, float chaosChance, int find, int replace, int x, int y);
 	
 	// Wrap walk method to randomize inputs

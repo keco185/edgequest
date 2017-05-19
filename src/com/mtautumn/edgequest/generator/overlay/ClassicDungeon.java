@@ -9,6 +9,11 @@ import com.mtautumn.edgequest.generator.structure.DungeonFeature;
 import com.mtautumn.edgequest.generator.structure.DungeonFormations;
 import com.mtautumn.edgequest.generator.tile.Tiles;
 
+/**
+ * ClassicDungeon overlays a classic roguelike dungeon onto a map
+ * @author Gray
+ *
+ */
 public class ClassicDungeon implements RoomOverlay {
 	
 	/*
@@ -67,10 +72,12 @@ public class ClassicDungeon implements RoomOverlay {
 		
 	}
 	
-	/** TODO: Remove this
+	/*
+	 * Private methods
+	 */
+	
+	/**
 	 * Get a random value around some value n
-	 * <p>
-	 * Used to be n * 4 / 3... If this doesn't work, think about using that
 	 * 
 	 * @param n number to get a value around
 	 * @see     Random
@@ -79,6 +86,10 @@ public class ClassicDungeon implements RoomOverlay {
 	private int getValueAround(int n) {
 		return (int) (rng.nextInt(n) * (4/3));
 	}
+	
+	/*
+	 * TODO: can V and H corridors be combined?
+	 */
 
 	/**
 	 * Make vertical corridor between two coordinates
@@ -87,7 +98,7 @@ public class ClassicDungeon implements RoomOverlay {
 	 * @param center2  coordinate of second room
 	 * @see   ClassicDungeon
 	 */
-	public int[][] makeVCorridor(Center center1, Center center2, int[][] map) {
+	private int[][] makeVCorridor(Center center1, Center center2, int[][] map) {
 
 		// Different formulas based on which center is at a larger location
 		// Both accomplish the same thing, drawing a vertical corridor from one location
@@ -119,12 +130,117 @@ public class ClassicDungeon implements RoomOverlay {
 		
 	}
 	
-	@Override
-	public int[][] overlay(int[][] map) {
-		map = makeRooms(map);
-		map = connectRooms(map);
+	/**
+	 * Make horizontal corridor between two coordinates
+	 * 
+	 * @param center1  coordinate of first room
+	 * @param center2  coordinate of second room
+	 * @see   ClassicDungeon
+	 */
+	private int[][] makeHCorridor(Center center1, Center center2, int[][] map) {
+
+		// Different formulas based on which center is at a larger location
+		// Both accomplish the same thing, drawing a horizontal corridor from one location
+		// to another
+		
+		if (center1.x < center2.x) {
+
+			for (int i = 1; i < center2.x - center1.x + 1; i++) {
+				if (center1.x + i < width && center1.y < height) {
+					map[center1.x + i][center1.y] = Tiles.FLOOR.getTile();
+				}
+
+			}
+
+		} else if (center2.x < center1.x) {
+
+			for (int i = 1; i < center1.x - center2.x + 1; i++) {
+				if (center2.x + i < width && center2.y < height) {
+					map[center2.x + i][center2.y] = Tiles.FLOOR.getTile();
+				}
+			}
+
+		}
+		
 		return map;
+
 	}
+	
+	/** 
+	 * Connect all the rooms by making corridors between them
+	 * 
+	 * @see Room
+	 * @See Center
+	 * @see ClassicDungeon
+	 */
+	private int[][] connectRooms(int[][] map) {
+
+		for (int i = 0; i < currentMaxRooms; i++ ) {
+			// Initialize rooms
+			Room room1;
+			Room room2;
+
+			// Get current room and link it to the next room
+			// Also wrap around if possible
+			if (i == currentMaxRooms - 1) {
+				room1 = this.rooms[i];
+				room2 = this.rooms[0];
+			} else {
+				room1 = this.rooms[i];
+				room2 = this.rooms[i+1];
+			}
+
+			// Get our centers
+			Center center1 = room1.getCenter();
+			Center center2 = room2.getCenter();
+
+			// Link them by making corridors
+			map = makeVCorridor(center1, center2, makeHCorridor(center1, center2, map));
+
+		}
+		
+		return map;
+
+	}
+	
+	/**
+	 * Make rooms in the dungeon
+	 * 
+	 * @see Room
+	 * @see ClassicDungeon
+	 */
+	private int[][] makeRooms(int[][] map) {
+
+		for (int i = 0; i < currentMaxRooms; i++ ) {
+			
+			// Get current room
+			Room room = this.rooms[i];
+
+			// Draw it to the map as a 1 (floor)
+			for (int w = 0; w < room.width; w++) {
+
+				for (int h = 0; h < room.height; h++) {
+
+					// Check bounds
+					if ((w + room.xLoc < this.width) && (h + room.yLoc < this.height) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0)) {
+
+						map[w + room.xLoc][h + room.yLoc] = Tiles.FLOOR.getTile();
+
+					}
+					
+				}
+				
+			}
+			
+		}
+		
+		return map;
+		
+	}
+	
+	/*
+	 * Public methods
+	 */
 	
 	/**
 	 * Add structures to the dungeon map
@@ -183,43 +299,6 @@ public class ClassicDungeon implements RoomOverlay {
 		
 	}
 	
-
-	/**
-	 * Make horizontal corridor between two coordinates
-	 * 
-	 * @param center1  coordinate of first room
-	 * @param center2  coordinate of second room
-	 * @see   ClassicDungeon
-	 */
-	public int[][] makeHCorridor(Center center1, Center center2, int[][] map) {
-
-		// Different formulas based on which center is at a larger location
-		// Both accomplish the same thing, drawing a horizontal corridor from one location
-		// to another
-		
-		if (center1.x < center2.x) {
-
-			for (int i = 1; i < center2.x - center1.x + 1; i++) {
-				if (center1.x + i < width && center1.y < height) {
-					map[center1.x + i][center1.y] = Tiles.FLOOR.getTile();
-				}
-
-			}
-
-		} else if (center2.x < center1.x) {
-
-			for (int i = 1; i < center1.x - center2.x + 1; i++) {
-				if (center2.x + i < width && center2.y < height) {
-					map[center2.x + i][center2.y] = Tiles.FLOOR.getTile();
-				}
-			}
-
-		}
-		
-		return map;
-
-	}
-	
 	/**
 	 * Create staircase to go up and down, centered in a room
 	 * 
@@ -243,76 +322,18 @@ public class ClassicDungeon implements RoomOverlay {
 	
 	}
 	
-	/** 
-	 * Connect all the rooms by making corridors between them
-	 * 
-	 * @see Room
-	 * @See Center
-	 * @see DungeonGenerator
-	 */
-	public int[][] connectRooms(int[][] map) {
-
-		for (int i = 0; i < currentMaxRooms; i++ ) {
-			// Initialize rooms
-			Room room1;
-			Room room2;
-
-			// Get current room and link it to the next room
-			// Also wrap around if possible
-			if (i == currentMaxRooms - 1) {
-				room1 = this.rooms[i];
-				room2 = this.rooms[0];
-			} else {
-				room1 = this.rooms[i];
-				room2 = this.rooms[i+1];
-			}
-
-			// Get our centers
-			Center center1 = room1.getCenter();
-			Center center2 = room2.getCenter();
-
-			// Link them by making corridors
-			map = makeVCorridor(center1, center2, makeHCorridor(center1, center2, map));
-
-		}
-		
-		return map;
-
-	}
-	
 	/**
-	 * Make rooms in the dungeon
+	 * Overlay a classic roguelike dungeon onto a map
 	 * 
-	 * @see Room
-	 * @see DungeonGenerator
+	 * @param map  map to be overlaid onto
+	 * @return     resulting map with dungeon
+	 * @see RoomOverlay
 	 */
-	public int[][] makeRooms(int[][] map) {
-
-		for (int i = 0; i < currentMaxRooms; i++ ) {
-			
-			// Get current room
-			Room room = this.rooms[i];
-
-			// Draw it to the map as a 1 (floor)
-			for (int w = 0; w < room.width; w++) {
-
-				for (int h = 0; h < room.height; h++) {
-
-					// Check bounds
-					if ((w + room.xLoc < this.width) && (h + room.yLoc < this.height) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0)) {
-
-						map[w + room.xLoc][h + room.yLoc] = Tiles.FLOOR.getTile();
-
-					}
-					
-				}
-				
-			}
-			
-		}
-		
+	@Override
+	public int[][] overlay(int[][] map) {
+		map = makeRooms(map);
+		map = connectRooms(map);
 		return map;
-		
 	}
 
 
