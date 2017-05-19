@@ -296,8 +296,10 @@ public class TerrainGeneratorThread extends Thread {
 			double[][] tempMap = new double[100][100];
 			for (int i = 0 ; i < 100; i++) {
 				for (int j = 0; j < 100; j++) {
-					if (terrainGenerator.temperatureMapFiltered.containsKey(x+i+","+y+j)) {
-						tempMap[i][j] = terrainGenerator.temperatureMapFiltered.get(x+i+","+y+j);
+					int nx = x+i;
+					int ny = y+j;
+					if (terrainGenerator.temperatureMapFiltered.containsKey(nx+","+ny)) {
+						tempMap[i][j] = terrainGenerator.temperatureMapFiltered.get(nx+","+ny);
 					} else {
 						tempMap[i][j] = 0;
 					}
@@ -330,8 +332,16 @@ public class TerrainGeneratorThread extends Thread {
 						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeon").getID());
 						DataManager.savable.dungeonStairs.put(x+","+y+","+level,new int[]{i,j});
 					} else if (dungeonMap[i][j] == Tiles.WATER.getTile()) {
-						WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("water").getID());
-					} else {
+						WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("water").getID());
+					} else if (dungeonMap[i][j] == Tiles.ICE.getTile()) {
+						WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("ice").getID());
+					} else if (dungeonMap[i][j] == Tiles.SAND.getTile()) {
+						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("sand").getID());
+					} else if (dungeonMap[i][j] == Tiles.SNOW.getTile()) {
+						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("snow").getID());
+					}
+						
+					else {
 					}
 
 				}

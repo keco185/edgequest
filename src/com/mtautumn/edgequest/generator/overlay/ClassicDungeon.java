@@ -259,13 +259,13 @@ public class ClassicDungeon implements RoomOverlay {
 					
 				do {
 					DungeonFeature h = new DungeonFeature(DungeonFormations.struct1arr);
-					h.rotate(this.rng.nextInt(4));
-					structs[i] = new Room(h, this.rng.nextInt(width), this.rng.nextInt(height));
+					h.rotate(rng.nextInt(4));
+					structs[i] = new Room(h, rng.nextInt(width), rng.nextInt(height));
 					tries++;
-				} while(!roomOk(rooms[i], width, height, avoidanceArray) && tries < 1000);
+				} while(!roomOk(structs[i], width, height, avoidanceArray) && tries < 1000);
 					
-				if (roomOk(rooms[i], width, height, avoidanceArray)) {
-					avoidanceArray = addRoomAvoid(rooms[i], avoidanceArray);
+				if (roomOk(structs[i], width, height, avoidanceArray)) {
+					avoidanceArray = addRoomAvoid(structs[i], avoidanceArray);
 				}
 					
 				if (tries >= 1000) {
@@ -286,13 +286,10 @@ public class ClassicDungeon implements RoomOverlay {
 			
 			for (int w = 0; w < room.width; w++) {
 				for (int h = 0; h < room.height; h++) {
-					boolean bounds = (w + room.xLoc < width-1) && (h + room.yLoc < height-1) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0);
-					if (bounds) {
-						map[w + room.xLoc][h + room.yLoc] = room.room[h][w];
-					}
+					map[w + room.xLoc][h + room.yLoc] = room.room[h][w];
 				}
 			}
-				
+			
 		}
 		
 		return map;
