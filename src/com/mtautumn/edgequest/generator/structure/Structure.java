@@ -1,6 +1,10 @@
 package com.mtautumn.edgequest.generator.structure;
 
-// TODO Javadoc
+/**
+ * Structures are objects to be gotten from data files and then parsed into real game objects
+ * @author Gray
+ *
+ */
 public abstract class Structure {
 	// Holds the structure tile data
 	public int[][] struct;

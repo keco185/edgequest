@@ -42,6 +42,7 @@ public class Cave implements Overlay {
 	}
 	
 	/**
+	 * TODO: can this be in overlay()?
 	 * Returns a 2D Cave map over a given dungeon map. This is all you
 	 * need to really make a cave.
 	 *
@@ -160,7 +161,7 @@ public class Cave implements Overlay {
 	 * @param  threshMap  2D array of ints as a threshold map
 	 * @param  dunMap     2D array of ints, like the dungeon map from DungeonGenerator for example
 	 * @return            2D array of ints after the threshold map is 'subtracted' from the dungeon map
-	 * @see               Cave
+	 * @see               Overlay
 	 */
 
 	@Override

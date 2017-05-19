@@ -9,6 +9,11 @@ import com.mtautumn.edgequest.generator.structure.DungeonFeature;
 import com.mtautumn.edgequest.generator.structure.DungeonFormations;
 import com.mtautumn.edgequest.generator.tile.Tiles;
 
+/**
+ * ClassicDungeon overlays a classic roguelike dungeon onto a map
+ * @author Gray
+ *
+ */
 public class ClassicDungeon implements RoomOverlay {
 	
 	/*
@@ -67,10 +72,12 @@ public class ClassicDungeon implements RoomOverlay {
 		
 	}
 	
-	/** TODO: Remove this
+	/*
+	 * Private methods
+	 */
+	
+	/**
 	 * Get a random value around some value n
-	 * <p>
-	 * Used to be n * 4 / 3... If this doesn't work, think about using that
 	 * 
 	 * @param n number to get a value around
 	 * @see     Random
@@ -79,6 +86,10 @@ public class ClassicDungeon implements RoomOverlay {
 	private int getValueAround(int n) {
 		return (int) (rng.nextInt(n) * (4/3));
 	}
+	
+	/*
+	 * TODO: can V and H corridors be combined?
+	 */
 
 	/**
 	 * Make vertical corridor between two coordinates
@@ -87,7 +98,7 @@ public class ClassicDungeon implements RoomOverlay {
 	 * @param center2  coordinate of second room
 	 * @see   ClassicDungeon
 	 */
-	public int[][] makeVCorridor(Center center1, Center center2, int[][] map) {
+	private int[][] makeVCorridor(Center center1, Center center2, int[][] map) {
 
 		// Different formulas based on which center is at a larger location
 		// Both accomplish the same thing, drawing a vertical corridor from one location
@@ -119,71 +130,6 @@ public class ClassicDungeon implements RoomOverlay {
 		
 	}
 	
-	@Override
-	public int[][] overlay(int[][] map) {
-		map = makeRooms(map);
-		map = connectRooms(map);
-		return map;
-	}
-	
-	/**
-	 * Add structures to the dungeon map
-	 * @return 
-	 * 
-	 * @see DungeonGenerator
-	 */
-	public int[][] addStructures(int[][] map) {
-		int numStructures = getValueAround(10);
-		Room structs[] = new Room[numStructures];
-		
-		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
-		for (int i = 0; i < numStructures; i++ ) {
-					
-			int tries = 0;
-					
-				do {
-					DungeonFeature h = new DungeonFeature(DungeonFormations.struct1arr);
-					h.rotate(this.rng.nextInt(4));
-					structs[i] = new Room(h, this.rng.nextInt(width), this.rng.nextInt(height));
-					tries++;
-				} while(!roomOk(rooms[i], width, height, avoidanceArray) && tries < 1000);
-					
-				if (roomOk(rooms[i], width, height, avoidanceArray)) {
-					avoidanceArray = addRoomAvoid(rooms[i], avoidanceArray);
-				}
-					
-				if (tries >= 1000) {
-					numStructures--;
-					Room[] roomsTemp = new Room[numStructures];
-					for (int j = 0; j < i; j++) {
-						roomsTemp[j] = structs[i];
-					}
-					structs = roomsTemp;
-					i--;
-				}
-			}
-		
-		for (int i = 0; i < numStructures; i++ ) {
-			
-			// Get current room
-			Room room = structs[i];
-			
-			for (int w = 0; w < room.width; w++) {
-				for (int h = 0; h < room.height; h++) {
-					boolean bounds = (w + room.xLoc < width-1) && (h + room.yLoc < height-1) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0);
-					if (bounds) {
-						map[w + room.xLoc][h + room.yLoc] = room.room[h][w];
-					}
-				}
-			}
-				
-		}
-		
-		return map;
-		
-	}
-	
-
 	/**
 	 * Make horizontal corridor between two coordinates
 	 * 
@@ -191,7 +137,7 @@ public class ClassicDungeon implements RoomOverlay {
 	 * @param center2  coordinate of second room
 	 * @see   ClassicDungeon
 	 */
-	public int[][] makeHCorridor(Center center1, Center center2, int[][] map) {
+	private int[][] makeHCorridor(Center center1, Center center2, int[][] map) {
 
 		// Different formulas based on which center is at a larger location
 		// Both accomplish the same thing, drawing a horizontal corridor from one location
@@ -220,37 +166,14 @@ public class ClassicDungeon implements RoomOverlay {
 
 	}
 	
-	/**
-	 * Create staircase to go up and down, centered in a room
-	 * 
-	 * @see Room
-	 * @see Center
-	 * @see ClassicDungeon
-	 */
-	public int[][] addStairs(int[][] map) {
-		
-		int roomDown = this.rng.nextInt(rooms.length);
-		
-		
-		while (roomDown == 0 || rooms[roomDown].center.x + 1 > this.width || rooms[roomDown].center.y + 1 > this.height) {
-			roomDown = this.rng.nextInt(rooms.length);
-		}
-		
-		map[rooms[0].center.x][rooms[0].center.y] = Tiles.UP_STAIR.getTile();
-		map[rooms[roomDown].center.x][rooms[roomDown].center.y] = Tiles.DOWN_STAIR.getTile();
-		
-		return map;
-	
-	}
-	
 	/** 
 	 * Connect all the rooms by making corridors between them
 	 * 
 	 * @see Room
 	 * @See Center
-	 * @see DungeonGenerator
+	 * @see ClassicDungeon
 	 */
-	public int[][] connectRooms(int[][] map) {
+	private int[][] connectRooms(int[][] map) {
 
 		for (int i = 0; i < currentMaxRooms; i++ ) {
 			// Initialize rooms
@@ -284,9 +207,9 @@ public class ClassicDungeon implements RoomOverlay {
 	 * Make rooms in the dungeon
 	 * 
 	 * @see Room
-	 * @see DungeonGenerator
+	 * @see ClassicDungeon
 	 */
-	public int[][] makeRooms(int[][] map) {
+	private int[][] makeRooms(int[][] map) {
 
 		for (int i = 0; i < currentMaxRooms; i++ ) {
 			
@@ -313,6 +236,101 @@ public class ClassicDungeon implements RoomOverlay {
 		
 		return map;
 		
+	}
+	
+	/*
+	 * Public methods
+	 */
+	
+	/**
+	 * Add structures to the dungeon map
+	 * @return 
+	 * 
+	 * @see DungeonGenerator
+	 */
+	public int[][] addStructures(int[][] map) {
+		int numStructures = getValueAround(10);
+		Room structs[] = new Room[numStructures];
+		
+		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
+		for (int i = 0; i < numStructures; i++ ) {
+					
+			int tries = 0;
+					
+				do {
+					DungeonFeature h = new DungeonFeature(DungeonFormations.struct1arr);
+					h.rotate(rng.nextInt(4));
+					structs[i] = new Room(h, rng.nextInt(width), rng.nextInt(height));
+					tries++;
+				} while(!roomOk(structs[i], width, height, avoidanceArray) && tries < 1000);
+					
+				if (roomOk(structs[i], width, height, avoidanceArray)) {
+					avoidanceArray = addRoomAvoid(structs[i], avoidanceArray);
+				}
+					
+				if (tries >= 1000) {
+					numStructures--;
+					Room[] roomsTemp = new Room[numStructures];
+					for (int j = 0; j < i; j++) {
+						roomsTemp[j] = structs[i];
+					}
+					structs = roomsTemp;
+					i--;
+				}
+			}
+		
+		for (int i = 0; i < numStructures; i++ ) {
+			
+			// Get current room
+			Room room = structs[i];
+			
+			for (int w = 0; w < room.width; w++) {
+				for (int h = 0; h < room.height; h++) {
+					map[w + room.xLoc][h + room.yLoc] = room.room[h][w];
+				}
+			}
+			
+		}
+		
+		return map;
+		
+	}
+	
+	/**
+	 * Create staircase to go up and down, centered in a room
+	 * 
+	 * @see Room
+	 * @see Center
+	 * @see ClassicDungeon
+	 */
+	public int[][] addStairs(int[][] map) {
+		
+		int roomDown = this.rng.nextInt(rooms.length);
+		
+		
+		while (roomDown == 0 || rooms[roomDown].center.x + 1 > this.width || rooms[roomDown].center.y + 1 > this.height) {
+			roomDown = this.rng.nextInt(rooms.length);
+		}
+		
+		map[rooms[0].center.x][rooms[0].center.y] = Tiles.UP_STAIR.getTile();
+		map[rooms[roomDown].center.x][rooms[roomDown].center.y] = Tiles.DOWN_STAIR.getTile();
+		
+		return map;
+	
+	}
+	
+	/**
+	 * Overlay a classic roguelike dungeon onto a map
+	 * 
+	 * @param map  map to be overlaid onto
+	 * @return     resulting map with dungeon
+	 * @see RoomOverlay
+	 */
+	@Override
+	public int[][] overlay(int[][] map) {
+		map = makeRooms(map);
+		map = connectRooms(map);
+		return map;
 	}
 
 

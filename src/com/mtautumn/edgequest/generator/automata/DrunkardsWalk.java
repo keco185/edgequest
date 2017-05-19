@@ -53,7 +53,7 @@ public class DrunkardsWalk implements Automata {
 	 * @param  x            starting x location
 	 * @param  y            starting y location
 	 * @return              a 2D int array of the dungeon map with the walk applied
-	 * @see                 DrunkardsWalk
+	 * @see                 Automata
 	 */
 	@Override
 	public int[][] walk(int[][] dunMap, int passes, float chaosChance, int find, int replace, int x, int y) {

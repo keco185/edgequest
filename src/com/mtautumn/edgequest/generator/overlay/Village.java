@@ -2,12 +2,16 @@ package com.mtautumn.edgequest.generator.overlay;
 
 import java.util.Random;
 
-import com.mtautumn.edgequest.generator.VillageGenerator;
 import com.mtautumn.edgequest.generator.room.Center;
 import com.mtautumn.edgequest.generator.room.Room;
 import com.mtautumn.edgequest.generator.structure.Houses;
 import com.mtautumn.edgequest.generator.structure.VillageFeature;
 
+/**
+ * Overlay a village onto a map
+ * @author Gray
+ *
+ */
 public class Village implements RoomOverlay {
 	
 	/*
@@ -18,7 +22,6 @@ public class Village implements RoomOverlay {
 	int height;
 	int maxHouses;
 	long seed;
-	Center start;
 	Random rng;
 	boolean[][] avoidanceMap;
 	
@@ -26,7 +29,7 @@ public class Village implements RoomOverlay {
 	 * Derived in constructor
 	 */
 	
-	int currentMaxRooms;
+	int currentMaxHouses;
 	public Room[] houses;
 	
 	
@@ -36,17 +39,13 @@ public class Village implements RoomOverlay {
 		this.height = height;
 		this.maxHouses = maxHouses;
 		this.seed = seed;
-		this.start = start;
 		this.rng = new Random(seed);
-		
-		// Init start
-		this.start = start;
 
 		// Get a current number of houses based on a random value
-		this.currentMaxRooms = rng.nextInt(maxHouses) + (int) Math.floor(maxHouses / 2) + 2;
+		this.currentMaxHouses = rng.nextInt(maxHouses) + (int) Math.floor(maxHouses / 2) + 2;
 
 		// Initialize the array of houses as rooms (Temporary)
-		this.houses = new Room[currentMaxRooms];
+		this.houses = new Room[currentMaxHouses];
 		
 		// Init start house (Temp)
 		this.houses[0] = new Room(Houses.townhall, start);
@@ -54,20 +53,34 @@ public class Village implements RoomOverlay {
 		
 	}
 	
+	/*
+	 * Private
+	 */
+	
 	/**
-	 * Prepare a set of test houses
-	 * <p>
-	 * This will be removed
+	 * Get a random house from the list of houses to use
+	 * @return a random house object
+	 * @see VillageFeature
+	 * @see Houses
+	 * @see Village
+	 */
+	private VillageFeature getRandomHouse() {
+		int h = rng.nextInt(Houses.HouseList.length);
+	    return Houses.HouseList[h];
+	}
+	
+	/**
+	 * Prepare a set of houses
 	 * 
 	 * @see Room
-	 * @see VillageGenerator
+	 * @see Village
 	 */
-	private void prepareTestHouses() {
+	private void prepareHouses() {
 		
 		int failed = 0;
 		
 		// Fill the array of rooms with rooms of a random location and size (reasonably based on map size)
-		for (int i = 1; i < currentMaxRooms; i++ ) {
+		for (int i = 1; i < currentMaxHouses; i++ ) {
 			
 			int tries = 0;
 			int k = i - failed;
@@ -80,7 +93,7 @@ public class Village implements RoomOverlay {
 			} while(!roomOk(houses[k], width, height, avoidanceMap) && tries < 100);
 			
 			if (tries >= 1000) {
-				currentMaxRooms--;
+				currentMaxHouses--;
 				failed++;
 			} else {
 				avoidanceMap = addRoomAvoid(houses[k], avoidanceMap);
@@ -89,28 +102,21 @@ public class Village implements RoomOverlay {
 	}
 	
 	/**
-	 * Get a random house from the list of houses to use
-	 * @return a random house object
-	 * @see VillageFeature
-	 * @see Houses
-	 * @see VillageGenerator
+	 * Build houses on a map
+	 * 
+	 * @param map  map to be built on
+	 * @return     map with village
+	 * @see Village
 	 */
-	private VillageFeature getRandomHouse() {
-		int h = rng.nextInt(Houses.HouseList.length);
-	    return Houses.HouseList[h];
-	}
-
-	@Override
-	public int[][] overlay(int[][] map) {
-		prepareTestHouses();
-		for (int i = 0; i < currentMaxRooms; i++ ) {
+	private int[][] buildHouses(int[][] map) {
+		for (int i = 0; i < currentMaxHouses; i++ ) {
 			
 			// Get current room
 			Room room = houses[i];
 			
 			for (int w = 0; w < room.width; w++) {
 				for (int h = 0; h < room.height; h++) {
-					boolean bounds = (w + room.xLoc < this.width) && (h + room.yLoc < height) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0);
+					boolean bounds = (w + room.xLoc < width) && (h + room.yLoc < height) && (w + room.xLoc >= 0) && (h + room.yLoc >= 0);
 					if (bounds) {
 						map[w + room.xLoc][h + room.yLoc] = room.room[h][w];
 					}
@@ -120,6 +126,22 @@ public class Village implements RoomOverlay {
 		}
 		
 		return map;
+	}
+	
+	/*
+	 * Public
+	 */
+	
+	/**
+	 * Overlay a village on a map
+	 * 
+	 * @param map  map to be overlaid onto
+	 * @see RoomOverlay
+	 */
+	@Override
+	public int[][] overlay(int[][] map) {
+		prepareHouses();
+		return buildHouses(map);
 	}
 
 }

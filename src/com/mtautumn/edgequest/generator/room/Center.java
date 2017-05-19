@@ -25,7 +25,7 @@ public class Center {
 	}
 	
 	/**
-	 * This constructor takes no inputs, and initalizes itself to (0, 0)
+	 * This constructor takes no inputs, and initializes itself to (0, 0)
 	 *
 	 * @see       Center
 	 */

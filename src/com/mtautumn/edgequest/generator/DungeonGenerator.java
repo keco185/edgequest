@@ -120,7 +120,7 @@ public class DungeonGenerator implements Generator {
 	 * @see DungeonGenerator
 	 */
 	private void applyTemperature() {
-		dunTemp.overlay(this.temperatureMap, this.map);
+		dunTemp.overlay(temperatureMap, map);
 	}
 
 	
@@ -170,12 +170,15 @@ public class DungeonGenerator implements Generator {
 		clearMap();
 		// Make dungeon
 		map = classicDungeon.overlay(map);
-		// Add structures
-		map = classicDungeon.addStructures(map);
 		// Apply cave
 		map = cave.makeAndApplyCave(map, 0.1f);	
 		// Add ponds
 		addPonds();
+		// Add structures
+		map = classicDungeon.addStructures(map);
+		
+		applyTemperature();
+		
 		// Add stairs last, to avoid problems where stairs can be overwritten
 		map = classicDungeon.addStairs(map);
 		
