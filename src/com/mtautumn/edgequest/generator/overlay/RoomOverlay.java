@@ -62,7 +62,11 @@ public interface RoomOverlay {
 			
 			for (int j = room.center.y - room.height / 2; j < room.center.y + room.height/2 + 1; j++) {
 				
-				avoidanceMap[i][j] = false;
+				try {
+					avoidanceMap[i][j] = false;
+				} catch (ArrayIndexOutOfBoundsException e) {
+					
+				}
 				
 			}
 			

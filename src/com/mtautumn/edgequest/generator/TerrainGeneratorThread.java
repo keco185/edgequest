@@ -8,6 +8,7 @@ import com.mtautumn.edgequest.data.SystemData;
 import com.mtautumn.edgequest.dataObjects.Location;
 import com.mtautumn.edgequest.dataObjects.RoadState;
 import com.mtautumn.edgequest.generator.overlay.Cave;
+import com.mtautumn.edgequest.generator.overlay.Temperature;
 import com.mtautumn.edgequest.generator.road.RoadAStar;
 import com.mtautumn.edgequest.generator.road.RoadGenerator;
 import com.mtautumn.edgequest.generator.road.RoadAStar.IntCoord;
@@ -282,6 +283,24 @@ public class TerrainGeneratorThread extends Thread {
 		}
 
 	}
+	
+	public double[][] getTempMap(int x, int y) {
+		// Get Temperature map
+		double[][] tempMap = new double[100][100];
+		for (int i = 0 ; i < 100; i++) {
+			for (int j = 0; j < 100; j++) {
+				int nx = x+i;
+				int ny = y+j;
+				if (terrainGenerator.temperatureMapFiltered.containsKey(nx+","+ny)) {
+					tempMap[i][j] = terrainGenerator.temperatureMapFiltered.get(nx+","+ny);
+				} else {
+					tempMap[i][j] = 0;
+				}
+
+			}
+		}
+		return tempMap;
+	}
 
 	public void genDungeon(int x, int y, int level) {
 		if (!beenGenerated(x,y,level)) {
@@ -292,23 +311,10 @@ public class TerrainGeneratorThread extends Thread {
 				WorldUtils.setStructBlock(stairs[0] + x, stairs[1] + y, -1, SystemData.blockNameMap.get("dungeon").getID());
 			}
 
-			// Get Temperature map
-			double[][] tempMap = new double[100][100];
-			for (int i = 0 ; i < 100; i++) {
-				for (int j = 0; j < 100; j++) {
-					int nx = x+i;
-					int ny = y+j;
-					if (terrainGenerator.temperatureMapFiltered.containsKey(nx+","+ny)) {
-						tempMap[i][j] = terrainGenerator.temperatureMapFiltered.get(nx+","+ny);
-					} else {
-						tempMap[i][j] = 0;
-					}
-
-				}
-			}
-
+			double[][] tempMap = getTempMap(x, y);
 			int[][] dungeonMap = new DungeonGenerator(100, 100, 10, generateSeed(dungeonSeedBase,x,y,level), new Center(stairs[0], stairs[1]), tempMap).build();
-
+			
+			
 			for (int i = 0; i < dungeonMap.length; i++) {
 				for (int j = 0; j < dungeonMap[1].length; j++) {
 					int pX = i + x;
@@ -451,14 +457,46 @@ public class TerrainGeneratorThread extends Thread {
 
 			Cave c = new Cave(100, 100, generateSeed(dungeonSeedBase,x,y,level));
 			int[][] caves = c.generateCave(0.1f);
+			Temperature t = new Temperature();
+			double[][] tempMap = getTempMap(x, y);
+			t.overlay(tempMap, caves);
 
 			for (int i = 0; i < caves.length; i++) {
 				for (int j = 0; j < caves[i].length; j++) {
+					
+					int pX = i + x;
+					int pY = j + y;
+					WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("stone").getID());
 
-					WorldUtils.setGroundBlock(x + i,y + j, level, SystemData.blockNameMap.get("stone").getID());
-
-					if (caves[i][j] == 0) {
-						WorldUtils.setStructBlock(x + i,y + j, level, SystemData.blockNameMap.get("dirt").getID());
+					if (caves[i][j] == Tiles.DIRT.getTile()) {
+						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dirt").getID());
+					} else if (caves[i][j] == Tiles.UP_STAIR.getTile()) {
+						//make ladders into small light sources
+						light = new LightSource(pX, pY, 4, level);
+						light.onEntity = true;
+						DataManager.savable.lightSources.add(light);
+						light.posX += 0.5;
+						light.posY += 0.5;
+						DataManager.blockUpdateManager.lighting.urc.update(light);
+						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeonUp").getID());
+					} else if (caves[i][j] == Tiles.DOWN_STAIR.getTile()) {
+						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("dungeon").getID());
+						DataManager.savable.dungeonStairs.put(x+","+y+","+level,new int[]{i,j});
+					} else if (caves[i][j] == Tiles.WATER.getTile()) {
+						WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("water").getID());
+					} else if (caves[i][j] == Tiles.ICE.getTile()) {
+						WorldUtils.setGroundBlock(pX,pY, level, SystemData.blockNameMap.get("ice").getID());
+					} else if (caves[i][j] == Tiles.SAND.getTile()) {
+						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("sand").getID());
+					} else if (caves[i][j] == Tiles.SNOW.getTile()) {
+						WorldUtils.setStructBlock(pX,pY,level, SystemData.blockNameMap.get("snow").getID());
+					} else if (caves[i][j] == Tiles.SANDFLOOR.getTile()) {
+						WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("sandyStone").getID());
+					} else if (caves[i][j] == Tiles.SNOWFLOOR.getTile()) {
+						WorldUtils.setGroundBlock(pX,pY,level, SystemData.blockNameMap.get("snowyStone").getID());
+					}
+						
+					else {
 					}
 
 				}

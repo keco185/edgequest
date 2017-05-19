@@ -52,7 +52,7 @@ public class Temperature implements Overlay {
 		} else if (temp > 4180) {
 			return Tiles.SANDFLOOR.getTile();
 		} else {
-			return Tiles.DIRT.getTile();
+			return Tiles.FLOOR.getTile();
 		}
 	}
 	
