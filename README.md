@@ -1,10 +1,9 @@
-# Edgequest Pre-Alpha Java Demo
+# Edgequest
 
 Edgequest is a rougelike inspired, top down game. The game takes place in a infinite sandbox that contains an above ground and multiple levels of underground dungeons. This demo has been written in Java and OpenGL to help illustrate the above ground mechanics of the game. Due to its pre-alpha state, many features have yet to be added and optimizations still need to be made.
 
 ## Playing Edgequest
-In order to play Edgequest, you'll need Java 8, which can be downloaded from Oracle's website [here](http://www.oracle.com/technetwork/java/javase/overview/java8-2100321.html).
-
+In order to play Edgequest, you'll need Java 8 or newer. 
 From there, download the Edgequest launcher [here](https://github.com/keco185/EdgeQuestLauncher/releases/download/v0.1/edgequest.jar) ([source code](https://github.com/keco185/EdgeQuestLauncher))
 
 From there, run the .jar file!
